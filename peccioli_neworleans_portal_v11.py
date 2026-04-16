@@ -356,7 +356,7 @@ with st.sidebar:
 
     pagina = st.radio(
         label="",
-        options=["Home", "Briefing", "Approfondimenti", "Temi del viaggio", "Mappe", "Programma"],
+        options=["Home", "Briefing", "Approfondimenti", "Temi del viaggio", "Mappe", "Programma", "Documenti"],
         label_visibility="collapsed"
     )
 
@@ -815,47 +815,33 @@ elif pagina == "Programma":
     st.markdown('<div class="page-title">Programma del viaggio</div><div class="gold-line"></div>', unsafe_allow_html=True)
 
     st.markdown("""
-    <div style="background:#fff8ee;border:2px dashed #d08c38;border-radius:20px;padding:1.4rem 1.6rem;margin-bottom:1.6rem;text-align:center;">
-        <div style="font-size:1.8rem;margin-bottom:0.4rem;">🗓</div>
-        <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.3rem;font-weight:700;color:#14213d;margin-bottom:0.4rem;">Programma in definizione</div>
-        <div style="font-size:0.97rem;color:#5b6472;line-height:1.7;max-width:540px;margin:0 auto;">
+    <div style="background:#fff8ee;border:2px dashed #d08c38;border-radius:24px;padding:2.5rem 2rem;text-align:center;max-width:580px;margin:2rem auto;">
+        <div style="font-size:2.5rem;margin-bottom:0.6rem;">🗓</div>
+        <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.4rem;font-weight:700;color:#14213d;margin-bottom:0.6rem;">Programma in definizione</div>
+        <div style="font-size:0.97rem;color:#5b6472;line-height:1.75;">
             Il programma dettagliato del viaggio è ancora in fase di costruzione.<br>
-            Questa sezione verrà aggiornata con tutte le tappe, gli appuntamenti e le attività
-            non appena il percorso sarà definito.
+            Questa sezione verrà aggiornata con tutte le tappe, gli appuntamenti
+            e le attività non appena il percorso sarà definito.
         </div>
     </div>
     """, unsafe_allow_html=True)
 
-    # Struttura indicativa giorni
-    st.markdown("### Struttura indicativa — 21/28 settembre 2026")
-    giorni = [
-        ("Giorno 1", "21 sett.", "✈️", "Partenza", "Volo dall'Italia verso New Orleans. Arrivo e sistemazione."),
-        ("Giorno 2", "22 sett.", "🗺", "Orientamento", "Prima esplorazione della città: French Quarter, Jackson Square, prima immersione nel contesto urbano."),
-        ("Giorno 3", "23 sett.", "🏛", "Radici storiche", "Approfondimento storico: Congo Square, eredità afroamericana, architettura coloniale."),
-        ("Giorno 4", "24 sett.", "🌊", "Memoria e resilienza", "Lower Ninth Ward, luoghi legati all'uragano Katrina e alla ricostruzione."),
-        ("Giorno 5", "25 sett.", "🎷", "Musica e cultura", "Frenchmen Street, incontri con la scena musicale locale, Warehouse District."),
-        ("Giorno 6", "26 sett.", "⚖️", "Contrasti urbani", "Approfondimento sociale: quartieri a confronto, gentrificazione, vita quotidiana."),
-        ("Giorno 7", "27 sett.", "🔭", "Sguardi e restituzioni", "Lavoro dei gruppi tematici, documentazione, riflessioni condivise."),
-        ("Giorno 8", "28 sett.", "✈️", "Rientro", "Partenza da New Orleans verso l'Italia."),
-    ]
-
-    col1, col2 = st.columns(2)
-    for i, (giorno, data, emoji, titolo, desc) in enumerate(giorni):
-        with (col1 if i % 2 == 0 else col2):
-            st.markdown(f"""
-            <div style="background:white;border-radius:18px;padding:1rem 1.1rem;border:1px solid rgba(20,33,61,0.08);
-                        box-shadow:0 6px 18px rgba(0,0,0,0.05);margin-bottom:0.85rem;display:flex;gap:0.9rem;align-items:flex-start;">
-                <div style="font-size:1.6rem;flex-shrink:0;margin-top:0.1rem;">{emoji}</div>
-                <div>
-                    <div style="font-size:0.72rem;font-weight:700;color:#d08c38;text-transform:uppercase;letter-spacing:0.08em;">{giorno} · {data}</div>
-                    <div style="font-family:'Playfair Display',Georgia,serif;font-size:1rem;font-weight:700;color:#14213d;margin:0.1rem 0 0.3rem;">{titolo}</div>
-                    <div style="font-size:0.88rem;color:#5b6472;line-height:1.55;">{desc}</div>
-                </div>
-            </div>""", unsafe_allow_html=True)
+# ----------------------------
+# DOCUMENTI
+# ----------------------------
+elif pagina == "Documenti":
+    st.markdown('<div class="page-title">Materiali e documenti</div><div class="gold-line"></div>', unsafe_allow_html=True)
+    st.write("Qui troverete i documenti da consultare, compilare e consegnare in vista del viaggio, con relative scadenze.")
 
     st.markdown("""
-    <div style="background:#f0f4fb;border-radius:16px;padding:1rem 1.2rem;margin-top:0.5rem;font-size:0.9rem;color:#5b6472;text-align:center;">
-        ⚠️ Questo è uno schema indicativo. Date, attività e ordine delle giornate potrebbero cambiare.
+    <div style="background:#f0f4fb;border:2px dashed rgba(20,33,61,0.2);border-radius:24px;padding:2.5rem 2rem;text-align:center;max-width:580px;margin:2rem auto;">
+        <div style="font-size:2.5rem;margin-bottom:0.6rem;">📂</div>
+        <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.4rem;font-weight:700;color:#14213d;margin-bottom:0.6rem;">Documenti in arrivo</div>
+        <div style="font-size:0.97rem;color:#5b6472;line-height:1.75;">
+            I documenti, le schede e le scadenze non sono ancora stati definiti.<br>
+            Questa sezione verrà aggiornata non appena i materiali saranno pronti<br>
+            e le date di consegna stabilite.
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
