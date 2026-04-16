@@ -552,26 +552,26 @@ elif pagina == "Approfondimenti":
                 {
                     "titolo": "Una banda di idioti — John Kennedy Toole",
                     "desc": "Capolavoro della letteratura americana ambientato nella New Orleans degli anni '60. Satira sociale geniale, vincitore postumo del Pulitzer. Il modo più divertente per entrare nell'anima della città.",
-                    "link": "https://www.amazon.it/banda-idioti-John-Kennedy-Toole/dp/8875218765",
-                    "label": "Scopri il libro"
+                    "link": "https://it.wikipedia.org/wiki/Una_banda_di_idioti",
+                    "label": "Leggi su Wikipedia"
                 },
                 {
                     "titolo": "Intervista col vampiro — Anne Rice",
                     "desc": "Il romanzo che ha reso New Orleans capitale mondiale del gotico americano. Ambientato tra il French Quarter e le piantagioni della Louisiana, mescola storia, atmosfera e questioni razziali in modo unico.",
-                    "link": "https://www.amazon.it/Intervista-col-vampiro-Anne-Rice/dp/8854138959",
-                    "label": "Scopri il libro"
+                    "link": "https://it.wikipedia.org/wiki/Intervista_col_vampiro_(romanzo)",
+                    "label": "Leggi su Wikipedia"
                 },
                 {
                     "titolo": "Blues Highway — Rob Siebert",
                     "desc": "Viaggio narrativo da Chicago a New Orleans sulle tracce delle origini della musica americana: blues, jazz, gospel. Perfetto per capire il legame tra musica, storia e territorio.",
-                    "link": "https://www.amazon.it/Blues-highway-Chicago-New-Orleans/dp/8868262452",
-                    "label": "Scopri il libro"
+                    "link": "https://marcosymarcos.com/libri/gli-alianti/blues-highway/",
+                    "label": "Scheda editoriale"
                 },
                 {
                     "titolo": "Un tram che si chiama Desiderio — Tennessee Williams",
                     "desc": "Il capolavoro teatrale ambientato a New Orleans, scritto da Williams proprio nel French Quarter. Punto di riferimento assoluto per capire il Sud americano, la tensione sociale e l'immaginario della città.",
-                    "link": "https://www.amazon.it/tram-chiama-desiderio-Tennessee-Williams/dp/8845292878",
-                    "label": "Scopri il libro"
+                    "link": "https://it.wikipedia.org/wiki/Un_tram_che_si_chiama_Desiderio",
+                    "label": "Leggi su Wikipedia"
                 },
             ]
         },
