@@ -378,25 +378,27 @@ with st.sidebar:
     <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:0.6rem;">Naviga</div>
     """, unsafe_allow_html=True)
 
-    if "pagina" not in st.session_state:
-        st.session_state.pagina = "Home"
-    if "nav_target" not in st.session_state:
-        st.session_state.nav_target = None
-
-    # Se c'è una destinazione richiesta dalle card, applicala
-    radio_index = 0
     options = ["Home", "Briefing", "Approfondimenti", "Temi del viaggio", "Mappe", "Programma", "Documenti"]
-    if st.session_state.nav_target and st.session_state.nav_target in options:
-        radio_index = options.index(st.session_state.nav_target)
-        st.session_state.nav_target = None
 
-    pagina = st.radio(
+    if "nav_target" not in st.session_state:
+        st.session_state.nav_target = "Home"
+
+    # Calcola indice corrente
+    cur_index = options.index(st.session_state.nav_target) if st.session_state.nav_target in options else 0
+
+    pagina_radio = st.radio(
         label="",
         options=options,
         label_visibility="collapsed",
-        index=radio_index,
+        index=cur_index,
         key="pagina_radio"
     )
+
+    # Il radio aggiorna sempre nav_target quando l'utente clicca manualmente
+    if pagina_radio != st.session_state.nav_target:
+        st.session_state.nav_target = pagina_radio
+
+    pagina = st.session_state.nav_target
 
     st.markdown("""
     <div style="height:1px;background:rgba(255,255,255,0.1);margin:1.2rem 0;"></div>
@@ -640,6 +642,7 @@ if pagina == "Home":
             </div>""", unsafe_allow_html=True)
             if st.button(f"Vai a {title}", key=f"nav_{dest}", use_container_width=True):
                 st.session_state.nav_target = dest
+                st.session_state.pagina_radio = dest
                 st.rerun()
 
 # ----------------------------
