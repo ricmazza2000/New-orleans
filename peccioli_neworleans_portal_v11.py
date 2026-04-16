@@ -378,10 +378,14 @@ with st.sidebar:
     <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:0.6rem;">Naviga</div>
     """, unsafe_allow_html=True)
 
+    if "pagina" not in st.session_state:
+        st.session_state.pagina = "Home"
+
     pagina = st.radio(
         label="",
         options=["Home", "Briefing", "Approfondimenti", "Temi del viaggio", "Mappe", "Programma", "Documenti"],
-        label_visibility="collapsed"
+        label_visibility="collapsed",
+        key="pagina"
     )
 
     st.markdown("""
@@ -605,21 +609,28 @@ if pagina == "Home":
     dots_html += '</div>'
     st.markdown(dots_html, unsafe_allow_html=True)
 
-    # Card sezioni
+    # Card sezioni cliccabili
     st.markdown("## ")
+    sezioni_home = [
+        ("📅", "Briefing",          "Tre incontri con esperti di storia, geopolitica e giornalismo.",       "Briefing"),
+        ("📚", "Approfondimenti",   "Libri, film, documentari e risorse su New Orleans.",                   "Approfondimenti"),
+        ("🎷", "Temi del viaggio",  "Quattro chiavi di lettura per osservare la città.",                    "Temi del viaggio"),
+        ("🗓", "Programma",         "Il programma del viaggio — in costruzione.",                           "Programma"),
+        ("📂", "Documenti",         "Documenti e scadenze per la preparazione al viaggio.",                 "Documenti"),
+    ]
     c1, c2, c3 = st.columns(3)
-    for col, icon, title, desc in [
-        (c1, "📅", "Briefing",        "Tre incontri con esperti di storia, geopolitica e giornalismo per prepararsi al viaggio."),
-        (c2, "📚", "Approfondimenti", "Libri, film, documentari e risorse per orientarsi tra i temi chiave di New Orleans."),
-        (c3, "🎷", "Temi del viaggio", "Quattro chiavi di lettura per osservare New Orleans con più profondità e consapevolezza."),
-    ]:
-        with col:
+    cols_cycle = [c1, c2, c3, c1, c2]
+    for i, (icon, title, desc, dest) in enumerate(sezioni_home):
+        with cols_cycle[i]:
             st.markdown(f"""
-            <div class="home-card">
+            <div class="home-card" style="margin-bottom:0.8rem;">
                 <div class="home-card-icon">{icon}</div>
                 <div class="home-card-title">{title}</div>
                 <div class="home-card-text">{desc}</div>
             </div>""", unsafe_allow_html=True)
+            if st.button(f"Vai a {title}", key=f"nav_{dest}", use_container_width=True):
+                st.session_state.pagina = dest
+                st.rerun()
 
 # ----------------------------
 # BRIEFING
