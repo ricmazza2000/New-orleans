@@ -433,18 +433,20 @@ if pagina == "Home":
 
     countdown_html = ("""
     <style>
-    .cd-wrap { display:flex; gap:0.75rem; margin-bottom:1rem; font-family:'Inter',sans-serif; }
-    .cd-main { flex:1.4; background:linear-gradient(135deg,#0d1f3c,#17305a); border-radius:18px; padding:1.2rem 1.4rem; color:white; display:flex; flex-direction:column; justify-content:center; }
-    .cd-label { font-size:0.68rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:#d08c38; margin-bottom:0.4rem; }
-    .cd-num { font-size:2.2rem; font-weight:800; color:white; line-height:1.1; }
-    .cd-box { flex:1; background:white; border-radius:18px; padding:1rem 0.8rem; text-align:center; border:1px solid rgba(20,33,61,0.08); box-shadow:0 4px 14px rgba(0,0,0,0.05); display:flex; flex-direction:column; justify-content:center; }
-    .cd-box-num { font-size:2rem; font-weight:800; color:#d08c38; line-height:1; font-family:Georgia,serif; }
-    .cd-box-label { font-size:0.75rem; color:#5b6472; margin-top:0.25rem; font-weight:500; }
-    @media (max-width:500px) {
-        .cd-wrap { flex-direction:column; }
-        .cd-num { font-size:1.8rem; }
-        .cd-box { flex-direction:row; align-items:center; justify-content:space-between; padding:0.8rem 1rem; }
-        .cd-box-num { font-size:1.4rem; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html, body { overflow:hidden; }
+    .cd-wrap { display:flex; gap:0.75rem; font-family:'Inter',sans-serif; height:100%; align-items:stretch; }
+    .cd-main { flex:1.4; background:linear-gradient(135deg,#0d1f3c,#17305a); border-radius:18px; padding:1rem 1.4rem; color:white; display:flex; flex-direction:column; justify-content:center; }
+    .cd-label { font-size:0.65rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:#d08c38; margin-bottom:0.3rem; }
+    .cd-num { font-size:2rem; font-weight:800; color:white; line-height:1.1; }
+    .cd-box { flex:1; background:white; border-radius:18px; padding:0.8rem; text-align:center; border:1px solid rgba(20,33,61,0.08); box-shadow:0 4px 14px rgba(0,0,0,0.05); display:flex; flex-direction:column; justify-content:center; }
+    .cd-box-num { font-size:1.8rem; font-weight:800; color:#d08c38; line-height:1; font-family:Georgia,serif; }
+    .cd-box-label { font-size:0.72rem; color:#5b6472; margin-top:0.2rem; font-weight:500; }
+    @media (max-width:600px) {
+        html, body { overflow:auto; }
+        .cd-wrap { flex-direction:column; height:auto; gap:0.5rem; }
+        .cd-box { flex-direction:row; align-items:center; justify-content:space-between; padding:0.7rem 1rem; }
+        .cd-box-num { font-size:1.3rem; }
         .cd-box-label { margin-top:0; margin-left:0.5rem; text-align:left; }
     }
     </style>
@@ -457,13 +459,13 @@ if pagina == "Home":
             <div class="cd-box-num">21&#8211;28</div>
             <div class="cd-box-label">Settembre 2026</div>
         </div>
-        <div class="cd-box" style="text-align:left;padding:0.9rem 1rem;">
-            <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#d08c38;margin-bottom:0.5rem;">&#128197; Prossimo incontro</div>
-            <div style="display:flex;align-items:center;gap:0.6rem;">
+        <div class="cd-box" style="text-align:left;padding:0.8rem 1rem;">
+            <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#d08c38;margin-bottom:0.4rem;">&#128197; Prossimo incontro</div>
+            <div style="display:flex;align-items:center;gap:0.5rem;">
     """ + prossimo_foto + """
                 <div>
-                    <div style="font-size:0.82rem;font-weight:700;color:#14213d;line-height:1.2;">Elia Morelli</div>
-                    <div style="font-size:0.75rem;color:#5b6472;margin-top:0.1rem;">7 maggio 2026</div>
+                    <div style="font-size:0.8rem;font-weight:700;color:#14213d;line-height:1.2;">Elia Morelli</div>
+                    <div style="font-size:0.72rem;color:#5b6472;margin-top:0.1rem;">7 maggio 2026</div>
                 </div>
             </div>
         </div>
@@ -475,12 +477,12 @@ if pagina == "Home":
             if (t <= 0) { el.textContent = "Ci siamo!"; }
             else {
                 var d = Math.floor(t / 86400000);
-                el.innerHTML = d + "<span style='font-size:1rem;font-weight:400;opacity:0.65;margin-left:0.3rem;'>giorni</span>";
+                el.innerHTML = d + "<span style='font-size:0.95rem;font-weight:400;opacity:0.65;margin-left:0.3rem;'>giorni</span>";
             }
         }
     </script>
     """)
-    components.html(countdown_html, height=280)
+    components.html(countdown_html, height=120, scrolling=False)
 
     # Descrizione
     st.markdown("""
