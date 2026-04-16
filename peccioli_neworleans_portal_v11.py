@@ -47,7 +47,7 @@ gallery_items = [
     {"key": "simbolica", "title": "La città e il fiume","desc": "Veduta simbolica di New Orleans affacciata sul Mississippi.",                 "path": find_image(["home_simbolica.jpg", "home_simbolica.jpeg"])},
     {"key": "sociale",   "title": "Cinema e immaginario","desc": "Scena del film Il tram chiamato Desiderio, ambientato a New Orleans.",       "path": find_image(["home_sociale.jpg"])},
     {"key": "umana",     "title": "Volti della città",  "desc": "Un ritratto che richiama il lato umano e quotidiano di New Orleans.",         "path": find_image(["home_umana.jpg"])},
-    {"key": "urbana",    "title": "Atmosfera urbana",   "desc": "Una composizione visiva che restituisce l'energia e i contrasti della città.", "path": find_image(["home_urbana.jpeg", "home_urbana.jpg"])},
+    {"key": "urbana",    "title": "Atmosfera urbana",   "desc": "Una composizione visiva che restituisce l'energia e i contrasti della città.", "path": find_image(["home_urbana.jpeg", "home_urbana.jpg", "home_urbana.png"])},
 ]
 
 skyline_b64, skyline_mime = img_to_base64(skyline_path)
@@ -446,8 +446,9 @@ if pagina == "Home":
         .cd-wrap { flex-direction: column; }
         .cd-main { padding: 1rem 1.2rem; }
         .cd-num { font-size: 1.8rem; }
-        .cd-box { padding: 0.8rem; }
-        .cd-box-num { font-size: 1.6rem; }
+        .cd-box { padding: 0.8rem; flex-direction: row; justify-content: space-between; align-items: center; }
+        .cd-box-num { font-size: 1.4rem; }
+        .cd-box-label { font-size: 0.72rem; margin-top: 0; margin-left: 0.5rem; text-align: left; }
     }
     </style>
     <div class="cd-wrap">
@@ -477,7 +478,7 @@ if pagina == "Home":
         }
     </script>
     """
-    components.html(countdown_html, height=130)
+    components.html(countdown_html, height=220)
 
     # Descrizione
     st.markdown("""
