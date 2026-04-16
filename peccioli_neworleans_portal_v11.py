@@ -356,7 +356,7 @@ with st.sidebar:
 
     pagina = st.radio(
         label="",
-        options=["Home", "Briefing", "Approfondimenti", "Gruppi tematici", "Mappe", "Programma"],
+        options=["Home", "Briefing", "Approfondimenti", "Temi del viaggio", "Mappe", "Programma"],
         label_visibility="collapsed"
     )
 
@@ -480,7 +480,7 @@ if pagina == "Home":
         }
     </script>
     """)
-    components.html(countdown_html, height=220)
+    components.html(countdown_html, height=280)
 
     # Descrizione
     st.markdown("""
@@ -532,7 +532,7 @@ if pagina == "Home":
     for col, icon, title, desc in [
         (c1, "📅", "Briefing",        "Tre incontri con esperti di storia, geopolitica e giornalismo per prepararsi al viaggio."),
         (c2, "📚", "Approfondimenti", "Libri, film, documentari e risorse per orientarsi tra i temi chiave di New Orleans."),
-        (c3, "🎭", "Gruppi tematici", "Otto lenti diverse per leggere la città con più profondità e consapevolezza."),
+        (c3, "🎷", "Temi del viaggio", "Quattro chiavi di lettura per osservare New Orleans con più profondità e consapevolezza."),
     ]:
         with col:
             st.markdown(f"""
@@ -715,27 +715,66 @@ elif pagina == "Approfondimenti":
             """, unsafe_allow_html=True)
 
 # ----------------------------
-# GRUPPI TEMATICI
+# TEMI DEL VIAGGIO
 # ----------------------------
-elif pagina == "Gruppi tematici":
-    st.markdown('<div class="page-title">Gruppi tematici</div><div class="gold-line"></div>', unsafe_allow_html=True)
-    left, right = st.columns([3, 2])
-    with left:
-        st.write("Ogni gruppo osserverà New Orleans da una prospettiva diversa, costruendo insieme uno sguardo più ricco e articolato sull'esperienza.")
-    with right:
-        if gruppi_img:
-            st.image(gruppi_img, use_container_width=True)
+elif pagina == "Temi del viaggio":
+    st.markdown('<div class="page-title">Temi del viaggio</div><div class="gold-line"></div>', unsafe_allow_html=True)
+    st.write("Quattro chiavi di lettura per osservare New Orleans durante il viaggio. Non sono gruppi separati, ma prospettive da tenere sempre attive.")
+
     st.markdown("## ")
-    col1, col2 = st.columns(2)
-    for i, s in enumerate(squadre):
-        with (col1 if i % 2 == 0 else col2):
-            st.markdown(f"""
-            <div class="card" style="margin-bottom:0.85rem;">
-                <div class="card-title">{s['titolo']}</div>
-                <div style="margin-bottom:0.3rem;"><strong>Focus:</strong> {s['focus']}</div>
-                <div style="margin-bottom:0.3rem;"><strong>Missione:</strong> {s['missione']}</div>
-                <div class="note">📌 {s['esperto']}</div>
-            </div>""", unsafe_allow_html=True)
+
+    temi = [
+        {
+            "emoji": "🎷",
+            "titolo": "Musica",
+            "colore": "#d08c38",
+            "sottotitolo": "Jazz, blues e il ritmo della città",
+            "desc": "New Orleans è la culla del jazz e del blues americano. La musica qui non è solo intrattenimento: è linguaggio sociale, memoria collettiva, forma di resistenza. Dalle second line nei funerali di strada a Frenchmen Street la sera, la città vive e comunica attraverso il suono.",
+            "parole": ["Jazz", "Blues", "Second line", "Frenchmen Street", "Louis Armstrong", "Brass band"],
+        },
+        {
+            "emoji": "🌊",
+            "titolo": "Resilienza",
+            "colore": "#17305a",
+            "sottotitolo": "Katrina, ricostruzione e cambiamento climatico",
+            "desc": "L'uragano Katrina del 2005 ha devastato New Orleans e messo a nudo le fragilità strutturali della città: infrastrutture, disuguaglianze razziali, risposta istituzionale. Vent'anni dopo, la città è ancora in cammino. Il Lower Ninth Ward è il luogo dove questo tema si tocca con mano.",
+            "parole": ["Katrina 2005", "Lower Ninth Ward", "Argini e dighe", "Rigenerazione urbana", "Cambiamento climatico"],
+        },
+        {
+            "emoji": "⚖️",
+            "titolo": "Società",
+            "colore": "#2e7d5e",
+            "sottotitolo": "Diversità culturale, questioni razziali, parte umana",
+            "desc": "New Orleans è una delle città più multiculturali e diseguali degli Stati Uniti. L'eredità della schiavitù, la comunità creola, le contraddizioni tra turismo e vita reale, la povertà accanto all'opulenza: osservare la città attraverso le persone che la abitano è il modo più onesto di capirla.",
+            "parole": ["Comunità creola", "Storia afroamericana", "Congo Square", "Gentrificazione", "Diversità"],
+        },
+        {
+            "emoji": "🏛",
+            "titolo": "Identità e storia",
+            "colore": "#7b3f00",
+            "sottotitolo": "Radici coloniali, voodoo, Mardi Gras e French Quarter",
+            "desc": "New Orleans è l'unica città americana fondata dai francesi, ceduta agli spagnoli e poi agli Stati Uniti. Questa stratificazione di culture — europea, africana, caraibica — ha prodotto un'identità unica: l'architettura del French Quarter, il voodoo, il Mardi Gras, la cucina creola. Una città che non somiglia a nessun'altra.",
+            "parole": ["French Quarter", "Voodoo", "Mardi Gras", "Architettura coloniale", "Cucina creola", "Marie Laveau"],
+        },
+    ]
+
+    for tema in temi:
+        pills = "".join([f'<span style="display:inline-block;background:{tema["colore"]}20;color:{tema["colore"]};border:1px solid {tema["colore"]}40;padding:0.2rem 0.6rem;border-radius:999px;font-size:0.75rem;font-weight:600;margin-right:0.35rem;margin-bottom:0.35rem;">{p}</span>' for p in tema["parole"]])
+        st.markdown(f"""
+        <div style="background:white;border-radius:22px;padding:1.4rem 1.5rem;border:1px solid rgba(20,33,61,0.07);
+                    box-shadow:0 6px 22px rgba(0,0,0,0.05);margin-bottom:1rem;
+                    border-left:5px solid {tema['colore']};">
+            <div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:0.5rem;">
+                <span style="font-size:1.8rem;">{tema['emoji']}</span>
+                <div>
+                    <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.25rem;font-weight:800;color:#14213d;">{tema['titolo']}</div>
+                    <div style="font-size:0.85rem;color:{tema['colore']};font-weight:600;">{tema['sottotitolo']}</div>
+                </div>
+            </div>
+            <div style="font-size:0.95rem;color:#3a4a5c;line-height:1.7;margin-bottom:0.8rem;">{tema['desc']}</div>
+            <div>{pills}</div>
+        </div>
+        """, unsafe_allow_html=True)
 
 # ----------------------------
 # MAPPE
