@@ -380,12 +380,22 @@ with st.sidebar:
 
     if "pagina" not in st.session_state:
         st.session_state.pagina = "Home"
+    if "nav_target" not in st.session_state:
+        st.session_state.nav_target = None
+
+    # Se c'è una destinazione richiesta dalle card, applicala
+    radio_index = 0
+    options = ["Home", "Briefing", "Approfondimenti", "Temi del viaggio", "Mappe", "Programma", "Documenti"]
+    if st.session_state.nav_target and st.session_state.nav_target in options:
+        radio_index = options.index(st.session_state.nav_target)
+        st.session_state.nav_target = None
 
     pagina = st.radio(
         label="",
-        options=["Home", "Briefing", "Approfondimenti", "Temi del viaggio", "Mappe", "Programma", "Documenti"],
+        options=options,
         label_visibility="collapsed",
-        key="pagina"
+        index=radio_index,
+        key="pagina_radio"
     )
 
     st.markdown("""
@@ -629,7 +639,7 @@ if pagina == "Home":
                 <div class="home-card-text">{desc}</div>
             </div>""", unsafe_allow_html=True)
             if st.button(f"Vai a {title}", key=f"nav_{dest}", use_container_width=True):
-                st.session_state.pagina = dest
+                st.session_state.nav_target = dest
                 st.rerun()
 
 # ----------------------------
