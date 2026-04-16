@@ -3,6 +3,12 @@ import folium
 from streamlit_folium import st_folium
 from pathlib import Path
 import base64
+import io
+try:
+    from PIL import Image as PILImage
+    HAS_PIL = True
+except ImportError:
+    HAS_PIL = False
 
 st.set_page_config(
     page_title="Peccioli x New Orleans 2026",
@@ -27,6 +33,24 @@ def img_to_base64(path):
             mime = "image/jpeg" if ext in [".jpg", ".jpeg"] else "image/png"
             return base64.b64encode(f.read()).decode(), mime
     return None, None
+
+def img_to_base64_small(path, max_width=600):
+    """Compressed version for mobile scroll — much smaller file size."""
+    if not path or not Path(path).exists():
+        return None, None
+    if HAS_PIL:
+        try:
+            img = PILImage.open(path)
+            img = img.convert("RGB")
+            ratio = min(max_width / img.width, 1.0)
+            new_size = (int(img.width * ratio), int(img.height * ratio))
+            img = img.resize(new_size, PILImage.LANCZOS)
+            buf = io.BytesIO()
+            img.save(buf, format="JPEG", quality=72, optimize=True)
+            return base64.b64encode(buf.getvalue()).decode(), "image/jpeg"
+        except Exception:
+            pass
+    return img_to_base64(path)
 
 # ----------------------------
 # Immagini
@@ -550,44 +574,108 @@ if pagina == "Home":
     </p>
     """, unsafe_allow_html=True)
 
-    # Galleria leggera — Streamlit nativo per velocità
+    # Galleria — frecce su desktop, scroll orizzontale su mobile
     st.markdown("### 📸 Sguardi su New Orleans")
     valid_items = [item for item in gallery_items if item["path"]]
 
     if "selected_home_image" not in st.session_state:
         st.session_state.selected_home_image = 0
-
-    idx = st.session_state.selected_home_image
-    if idx >= len(valid_items):
-        idx = 0
-
-    # Foto grande + navigazione frecce
+    idx = min(st.session_state.selected_home_image, len(valid_items) - 1)
     selected = valid_items[idx]
+
+    # --- DESKTOP: immagine grande con frecce (Streamlit nativo, veloce) ---
+    st.markdown('<div class="desktop-gallery">', unsafe_allow_html=True)
     col_prev, col_img, col_next = st.columns([1, 14, 1])
     with col_prev:
-        st.markdown("<div style='height:120px;display:flex;align-items:center;'>", unsafe_allow_html=True)
         if st.button("←", key="prev_img"):
             st.session_state.selected_home_image = (idx - 1) % len(valid_items)
             st.rerun()
-        st.markdown("</div>", unsafe_allow_html=True)
     with col_img:
         st.image(selected["path"], use_container_width=True)
     with col_next:
-        st.markdown("<div style='height:120px;display:flex;align-items:center;'>", unsafe_allow_html=True)
         if st.button("→", key="next_img"):
             st.session_state.selected_home_image = (idx + 1) % len(valid_items)
             st.rerun()
-        st.markdown("</div>", unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
     st.markdown(f'<div class="gallery-caption"><strong>{selected["title"]}</strong> — {selected["desc"]}</div>', unsafe_allow_html=True)
 
-    # Pallini indicatori
-    dots_html = '<div style="display:flex;justify-content:center;gap:6px;margin-bottom:1rem;">'
-    for i, item in enumerate(valid_items):
+    # Pallini
+    dots_html = '<div style="display:flex;justify-content:center;gap:6px;margin-bottom:0.8rem;">'
+    for i in range(len(valid_items)):
         color = "#d08c38" if i == idx else "rgba(20,33,61,0.15)"
         dots_html += f'<div style="width:7px;height:7px;border-radius:50%;background:{color};"></div>'
     dots_html += '</div>'
     st.markdown(dots_html, unsafe_allow_html=True)
+
+    # --- MOBILE: scroll orizzontale con immagini compresse ---
+    import json
+    mobile_data = []
+    for item in valid_items:
+        b64, mime = img_to_base64_small(item["path"], max_width=500)
+        if b64:
+            mobile_data.append({"src": f"data:{mime};base64,{b64}", "title": item["title"], "desc": item["desc"]})
+
+    mobile_html = """
+    <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html, body { overflow:hidden; background:transparent; font-family:'Inter',sans-serif; }
+    .mob-scroll {
+        display:flex;
+        overflow-x:auto;
+        scroll-snap-type:x mandatory;
+        -webkit-overflow-scrolling:touch;
+        gap:0.7rem;
+        padding-bottom:4px;
+    }
+    .mob-scroll::-webkit-scrollbar { display:none; }
+    .mob-card {
+        flex-shrink:0;
+        width:82vw;
+        scroll-snap-align:center;
+        border-radius:14px;
+        overflow:hidden;
+        position:relative;
+        box-shadow:0 4px 14px rgba(0,0,0,0.12);
+    }
+    .mob-card img { width:100%; height:210px; object-fit:cover; display:block; }
+    .mob-cap {
+        position:absolute; bottom:0; left:0; right:0;
+        background:linear-gradient(0deg,rgba(10,20,40,0.8),transparent);
+        color:white; padding:0.7rem 0.8rem 0.6rem;
+    }
+    .mob-cap strong { font-size:0.88rem; display:block; }
+    .mob-cap span { font-size:0.75rem; opacity:0.8; }
+    </style>
+    <div class="mob-scroll" id="ms"></div>
+    <script>
+    var items = """ + json.dumps(mobile_data) + """;
+    var el = document.getElementById("ms");
+    items.forEach(function(item) {
+        var c = document.createElement("div");
+        c.className = "mob-card";
+        c.innerHTML = '<img src="' + item.src + '" loading="lazy"><div class="mob-cap"><strong>' + item.title + '</strong><span>' + item.desc + '</span></div>';
+        el.appendChild(c);
+    });
+    </script>
+    """
+    import streamlit.components.v1 as components
+    components.html(mobile_html, height=230, scrolling=False)
+
+    # CSS per nascondere desktop/mobile nel contesto giusto
+    st.markdown("""
+    <style>
+    /* Su mobile nascondi la galleria desktop Streamlit */
+    @media (max-width: 600px) {
+        .desktop-gallery { display: none !important; }
+        .gallery-caption { display: none !important; }
+    }
+    /* Su desktop nascondi il componente mobile */
+    @media (min-width: 601px) {
+        iframe[title="st.iframe"] { display: none !important; }
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
     # Card sezioni
     st.markdown("## ")
