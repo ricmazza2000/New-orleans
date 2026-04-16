@@ -342,7 +342,7 @@ with st.sidebar:
         st.image(logo_path, width=118)
     st.markdown("## Portale ragazzi")
     st.write("Uno spazio per accompagnare il progetto prima della partenza.")
-    pagina = st.radio("Naviga", ["Home", "Briefing", "Materiali", "Gruppi tematici", "Mappe", "Programma"])
+    pagina = st.radio("Naviga", ["Home", "Briefing", "Approfondimenti", "Gruppi tematici", "Mappe", "Programma"])
     st.markdown("---")
     st.markdown("**Periodo indicativo**")
     st.write("Settembre 2026 · 8/9 giorni")
@@ -488,7 +488,7 @@ if pagina == "Home":
     c1, c2, c3 = st.columns(3)
     for col, icon, title, desc in [
         (c1, "📅", "Briefing",        "Tre incontri con esperti di storia, geopolitica e giornalismo per prepararsi al viaggio."),
-        (c2, "📚", "Materiali",       "Letture, schede e contenuti per orientarsi tra i temi chiave di New Orleans."),
+        (c2, "📚", "Approfondimenti", "Libri, film, documentari e risorse per orientarsi tra i temi chiave di New Orleans."),
         (c3, "🎭", "Gruppi tematici", "Otto lenti diverse per leggere la città con più profondità e consapevolezza."),
     ]:
         with col:
@@ -532,13 +532,13 @@ elif pagina == "Briefing":
     st.markdown(timeline_html, unsafe_allow_html=True)
 
 # ----------------------------
-# MATERIALI
+# APPROFONDIMENTI
 # ----------------------------
-elif pagina == "Materiali":
-    st.markdown('<div class="page-title">Materiali consigliati</div><div class="gold-line"></div>', unsafe_allow_html=True)
+elif pagina == "Approfondimenti":
+    st.markdown('<div class="page-title">Approfondimenti</div><div class="gold-line"></div>', unsafe_allow_html=True)
     left, right = st.columns([3, 2])
     with left:
-        st.write("Una selezione di letture, documentari e podcast per arrivare a New Orleans con strumenti culturali già solidi.")
+        st.write("Libri, film, documentari e risorse online per arrivare a New Orleans con uno sguardo già allenato.")
     with right:
         if materiali_img:
             st.image(materiali_img, use_container_width=True)
@@ -547,68 +547,98 @@ elif pagina == "Materiali":
 
     sezioni = [
         {
-            "titolo": "📚 Libri",
+            "titolo": "📚 Libri su New Orleans",
             "items": [
                 {
-                    "titolo": "Frontiera — Francesco Costa",
-                    "desc": "Un viaggio on the road negli Stati Uniti di oggi: contraddizioni, rinascita industriale, questioni razziali. Il libro più utile per capire l'America che visiteremo. Scritto dal nostro relatore.",
-                    "link": "https://www.mondadori.it/libri/frontiera-francesco-costa/",
+                    "titolo": "Una banda di idioti — John Kennedy Toole",
+                    "desc": "Capolavoro della letteratura americana ambientato nella New Orleans degli anni '60. Satira sociale geniale, vincitore postumo del Pulitzer. Il modo più divertente per entrare nell'anima della città.",
+                    "link": "https://www.amazon.it/banda-idioti-John-Kennedy-Toole/dp/8875218765",
                     "label": "Scopri il libro"
                 },
                 {
-                    "titolo": "Questa è l'America — Francesco Costa",
-                    "desc": "Storie per capire il presente degli Stati Uniti e il nostro futuro. Il primo libro della serie di Costa sugli USA, ideale come punto di partenza.",
-                    "link": "https://www.amazon.it/Questa-lAmerica-capire-presente-Stati/dp/8804725044",
+                    "titolo": "Intervista col vampiro — Anne Rice",
+                    "desc": "Il romanzo che ha reso New Orleans capitale mondiale del gotico americano. Ambientato tra il French Quarter e le piantagioni della Louisiana, mescola storia, atmosfera e questioni razziali in modo unico.",
+                    "link": "https://www.amazon.it/Intervista-col-vampiro-Anne-Rice/dp/8854138959",
+                    "label": "Scopri il libro"
+                },
+                {
+                    "titolo": "Blues Highway — Rob Siebert",
+                    "desc": "Viaggio narrativo da Chicago a New Orleans sulle tracce delle origini della musica americana: blues, jazz, gospel. Perfetto per capire il legame tra musica, storia e territorio.",
+                    "link": "https://www.amazon.it/Blues-highway-Chicago-New-Orleans/dp/8868262452",
+                    "label": "Scopri il libro"
+                },
+                {
+                    "titolo": "Un tram che si chiama Desiderio — Tennessee Williams",
+                    "desc": "Il capolavoro teatrale ambientato a New Orleans, scritto da Williams proprio nel French Quarter. Punto di riferimento assoluto per capire il Sud americano, la tensione sociale e l'immaginario della città.",
+                    "link": "https://www.amazon.it/tram-chiama-desiderio-Tennessee-Williams/dp/8845292878",
                     "label": "Scopri il libro"
                 },
             ]
         },
         {
-            "titolo": "🎬 Documentari",
+            "titolo": "🎬 Film e serie TV",
+            "items": [
+                {
+                    "titolo": "Un tram che si chiama Desiderio (1951) — Elia Kazan",
+                    "desc": "Il film tratto dalla pièce di Tennessee Williams con Marlon Brando e Vivien Leigh. Classico assoluto, girato nella New Orleans reale. La tensione tra i personaggi rispecchia le contraddizioni della città.",
+                    "link": "https://www.imdb.com/title/tt0044081/",
+                    "label": "Scheda IMDb"
+                },
+                {
+                    "titolo": "Intervista col vampiro (1994) — Neil Jordan",
+                    "desc": "Con Tom Cruise, Brad Pitt e una giovanissima Kirsten Dunst. Girato tra New Orleans e la Oak Alley Plantation, cattura perfettamente l'atmosfera gotica e decadente della Louisiana.",
+                    "link": "https://www.imdb.com/title/tt0110632/",
+                    "label": "Scheda IMDb"
+                },
+                {
+                    "titolo": "Il curioso caso di Benjamin Button (2008) — David Fincher",
+                    "desc": "Con Brad Pitt e Cate Blanchett. Ambientato a New Orleans dal dopoguerra a Katrina, usa la città come sfondo per una storia sull'identità, il tempo e la memoria collettiva.",
+                    "link": "https://www.imdb.com/title/tt0421715/",
+                    "label": "Scheda IMDb"
+                },
+                {
+                    "titolo": "Treme — serie HBO (2010-2013)",
+                    "desc": "La serie più importante mai realizzata su New Orleans dopo Katrina. Segue i residenti del quartiere Tremé mentre cercano di ricostruire la loro vita e la loro musica. Vince un Emmy Award.",
+                    "link": "https://www.imdb.com/title/tt1279972/",
+                    "label": "Scheda IMDb"
+                },
+                {
+                    "titolo": "Easy Rider (1969) — Dennis Hopper",
+                    "desc": "Icona della controcultura americana. I protagonisti raggiungono New Orleans per il Mardi Gras in una delle scene più celebri della storia del cinema indipendente americano.",
+                    "link": "https://www.imdb.com/title/tt0064276/",
+                    "label": "Scheda IMDb"
+                },
+            ]
+        },
+        {
+            "titolo": "🎬 Documentari su Katrina",
             "items": [
                 {
                     "titolo": "Katrina: Come Hell and High Water (Netflix, 2025)",
-                    "desc": "Serie in 3 episodi prodotta da Spike Lee: venti anni dopo Katrina, i sopravvissuti raccontano in prima persona la catastrofe, i fallimenti istituzionali e la rinascita. Da vedere prima del viaggio.",
+                    "desc": "Serie in 3 episodi prodotta da Spike Lee: venti anni dopo, i sopravvissuti raccontano in prima persona la catastrofe e i fallimenti istituzionali. Da vedere prima del viaggio.",
                     "link": "https://www.netflix.com/title/81676595",
                     "label": "Guarda su Netflix"
                 },
                 {
-                    "titolo": "Hurricane Katrina: Race Against Time (National Geographic, 2025)",
-                    "desc": "Docuserie in 5 episodi, vincitrice del Critics Choice Award 2025 come miglior documentario storico. Ricostruisce minuto per minuto la catastrofe con footage inedito e testimonianze dirette.",
+                    "titolo": "Hurricane Katrina: Race Against Time (Nat. Geographic, 2025)",
+                    "desc": "Docuserie in 5 episodi, vincitrice del Critics Choice Award 2025. Ricostruisce minuto per minuto la catastrofe con footage inedito e testimonianze dirette dei sopravvissuti.",
                     "link": "https://www.imdb.com/title/tt37458027/",
                     "label": "Scheda IMDb"
                 },
                 {
                     "titolo": "When the Levees Broke — Spike Lee (2006)",
-                    "desc": "Il documentario classico in 4 atti che ha raccontato al mondo la devastazione di Katrina e la risposta istituzionale disastrosa. Pietra miliare sul tema.",
+                    "desc": "Il documentario classico in 4 atti che ha raccontato al mondo la devastazione di Katrina. Pietra miliare sul tema, ancora oggi imprescindibile per capire cosa è successo davvero.",
                     "link": "https://www.imdb.com/title/tt0783105/",
                     "label": "Scheda IMDb"
                 },
             ]
         },
         {
-            "titolo": "🎙 Podcast",
+            "titolo": "🌐 Risorse online",
             "items": [
                 {
-                    "titolo": "Da Costa a Costa — Francesco Costa (Il Post)",
-                    "desc": "Newsletter e podcast dell'esperto di America che incontreremo al briefing. Il modo migliore per seguire l'attualità americana con occhi italiani.",
-                    "link": "https://www.ilpost.it/costa/",
-                    "label": "Ascolta e leggi"
-                },
-                {
-                    "titolo": "Wilson — Francesco Costa (Il Post, 2025)",
-                    "desc": "Il nuovo podcast settimanale di approfondimento di Francesco Costa: geopolitica, politica americana e grandi temi internazionali.",
-                    "link": "https://www.ilpost.it/episodes/wilson/",
-                    "label": "Ascolta"
-                },
-            ]
-        },
-        {
-            "titolo": "🌐 Approfondimenti online",
-            "items": [
-                {
-                    "titolo": "New Orleans — Wikipedia (versione italiana)",
-                    "desc": "Una panoramica completa sulla storia, la cultura, la musica e la geografia di New Orleans. Ottimo punto di partenza per orientarsi.",
+                    "titolo": "New Orleans — Wikipedia italiana",
+                    "desc": "Panoramica completa su storia, cultura, musica e geografia della città. Ottimo punto di partenza per orientarsi prima di approfondire.",
                     "link": "https://it.wikipedia.org/wiki/New_Orleans",
                     "label": "Leggi"
                 },
@@ -617,6 +647,12 @@ elif pagina == "Materiali":
                     "desc": "Il principale quotidiano di New Orleans. Utile per seguire l'attualità della città nelle settimane prima della partenza.",
                     "link": "https://www.nola.com",
                     "label": "Visita il sito"
+                },
+                {
+                    "titolo": "Da Costa a Costa — Francesco Costa (Il Post)",
+                    "desc": "Newsletter e canale YouTube dell'esperto di America che incontreremo al briefing. Il modo migliore per seguire l'attualità americana con occhi italiani.",
+                    "link": "https://www.ilpost.it/costa/",
+                    "label": "Segui"
                 },
             ]
         },
@@ -631,7 +667,7 @@ elif pagina == "Materiali":
                     <div style="font-weight:700;color:#14213d;margin-bottom:0.25rem;">{item['titolo']}</div>
                     <div style="font-size:0.9rem;color:#5b6472;line-height:1.55;">{item['desc']}</div>
                 </div>
-                <a href="{item['link']}" target="_blank" style="flex-shrink:0;background:#0d1f3c;color:white;padding:0.4rem 0.9rem;border-radius:999px;font-size:0.8rem;font-weight:600;text-decoration:none;white-space:nowrap;align-self:center;">{item['label']} →</a>
+                <a href="{item['link']}" target="_blank" style="flex-shrink:0;background:#0d1f3c;color:white;padding:0.4rem 0.9rem;border-radius:999px;font-size:0.8rem;font-weight:600;text-decoration:none;white-space:nowrap;align-self:center;">{item['label']} &#8594;</a>
             </div>
             """, unsafe_allow_html=True)
 
