@@ -550,172 +550,44 @@ if pagina == "Home":
     </p>
     """, unsafe_allow_html=True)
 
-    # Galleria slider — frecce su desktop, scroll orizzontale su mobile
+    # Galleria leggera — Streamlit nativo per velocità
     st.markdown("### 📸 Sguardi su New Orleans")
     valid_items = [item for item in gallery_items if item["path"]]
 
-    # Prepara immagini in base64
-    gallery_data = []
-    for item in valid_items:
-        b64, mime = img_to_base64(item["path"])
-        if b64:
-            gallery_data.append({
-                "src": f"data:{mime};base64,{b64}",
-                "title": item["title"],
-                "desc": item["desc"]
-            })
+    if "selected_home_image" not in st.session_state:
+        st.session_state.selected_home_image = 0
 
-    import json
-    gallery_json = json.dumps(gallery_data)
+    idx = st.session_state.selected_home_image
+    if idx >= len(valid_items):
+        idx = 0
 
-    gallery_html = f"""
-    <style>
-    * {{ margin:0; padding:0; box-sizing:border-box; }}
-    html, body {{ background:transparent; overflow:hidden; font-family:'Inter',sans-serif; }}
+    # Foto grande + navigazione frecce
+    selected = valid_items[idx]
+    col_prev, col_img, col_next = st.columns([1, 14, 1])
+    with col_prev:
+        st.markdown("<div style='height:120px;display:flex;align-items:center;'>", unsafe_allow_html=True)
+        if st.button("←", key="prev_img"):
+            st.session_state.selected_home_image = (idx - 1) % len(valid_items)
+            st.rerun()
+        st.markdown("</div>", unsafe_allow_html=True)
+    with col_img:
+        st.image(selected["path"], use_container_width=True)
+    with col_next:
+        st.markdown("<div style='height:120px;display:flex;align-items:center;'>", unsafe_allow_html=True)
+        if st.button("→", key="next_img"):
+            st.session_state.selected_home_image = (idx + 1) % len(valid_items)
+            st.rerun()
+        st.markdown("</div>", unsafe_allow_html=True)
 
-    /* DESKTOP */
-    .slider-wrap {{
-        position:relative;
-        border-radius:16px;
-        overflow:hidden;
-        background:#000;
-    }}
-    .slider-img {{
-        width:100%;
-        display:block;
-        max-height:420px;
-        object-fit:cover;
-        transition:opacity 0.3s;
-    }}
-    .slider-caption {{
-        position:absolute;
-        bottom:0; left:0; right:0;
-        background:linear-gradient(0deg,rgba(10,20,40,0.82),transparent);
-        color:white;
-        padding:1rem 1.2rem 0.9rem;
-    }}
-    .slider-caption strong {{ font-size:1rem; display:block; margin-bottom:0.2rem; }}
-    .slider-caption span {{ font-size:0.85rem; opacity:0.8; }}
-    .arrow {{
-        position:absolute; top:50%; transform:translateY(-50%);
-        background:rgba(255,255,255,0.92);
-        border:none; border-radius:50%;
-        width:38px; height:38px;
-        font-size:1.1rem; cursor:pointer;
-        display:flex; align-items:center; justify-content:center;
-        box-shadow:0 2px 8px rgba(0,0,0,0.18);
-        transition:background 0.2s;
-        z-index:10;
-    }}
-    .arrow:hover {{ background:white; }}
-    .arrow-left {{ left:10px; }}
-    .arrow-right {{ right:10px; }}
-    .dots {{
-        display:flex; justify-content:center; gap:6px;
-        padding:8px 0 4px;
-    }}
-    .dot {{
-        width:7px; height:7px; border-radius:50%;
-        background:rgba(20,33,61,0.18); cursor:pointer;
-        transition:background 0.2s;
-        border:none;
-    }}
-    .dot.active {{ background:#d08c38; }}
+    st.markdown(f'<div class="gallery-caption"><strong>{selected["title"]}</strong> — {selected["desc"]}</div>', unsafe_allow_html=True)
 
-    /* MOBILE: scroll orizzontale */
-    @media (max-width:600px) {{
-        html, body {{ overflow:hidden; }}
-        .arrow {{ display:none; }}
-        .slider-wrap {{ border-radius:12px; }}
-        .mobile-scroll {{
-            display:flex;
-            overflow-x:auto;
-            scroll-snap-type:x mandatory;
-            -webkit-overflow-scrolling:touch;
-            gap:0.6rem;
-            border-radius:12px;
-        }}
-        .mobile-scroll::-webkit-scrollbar {{ display:none; }}
-        .mobile-card {{
-            flex-shrink:0;
-            width:85vw;
-            scroll-snap-align:center;
-            border-radius:12px;
-            overflow:hidden;
-            position:relative;
-        }}
-        .mobile-card img {{
-            width:100%;
-            height:220px;
-            object-fit:cover;
-            display:block;
-        }}
-        .slider-wrap {{ display:none; }}
-        .dots {{ padding-top:6px; }}
-    }}
-    </style>
-
-    <!-- DESKTOP -->
-    <div class="slider-wrap" id="desktop-slider">
-        <img class="slider-img" id="main-img" src="" alt="">
-        <div class="slider-caption">
-            <strong id="cap-title"></strong>
-            <span id="cap-desc"></span>
-        </div>
-        <button class="arrow arrow-left" onclick="move(-1)">&#8592;</button>
-        <button class="arrow arrow-right" onclick="move(1)">&#8594;</button>
-    </div>
-
-    <!-- MOBILE -->
-    <div class="mobile-scroll" id="mobile-scroll"></div>
-
-    <div class="dots" id="dots"></div>
-
-    <script>
-    var items = {gallery_json};
-    var cur = 0;
-
-    function render() {{
-        var img = document.getElementById("main-img");
-        var t = document.getElementById("cap-title");
-        var d = document.getElementById("cap-desc");
-        if (img) {{ img.src = items[cur].src; }}
-        if (t) t.textContent = items[cur].title;
-        if (d) d.textContent = items[cur].desc;
-        var dots = document.querySelectorAll(".dot");
-        dots.forEach(function(dot, i) {{ dot.classList.toggle("active", i === cur); }});
-    }}
-
-    function move(dir) {{
-        cur = (cur + dir + items.length) % items.length;
-        render();
-    }}
-
-    // Dots
-    var dotsEl = document.getElementById("dots");
-    items.forEach(function(_, i) {{
-        var d = document.createElement("button");
-        d.className = "dot" + (i===0?" active":"");
-        d.onclick = function() {{ cur=i; render(); }};
-        dotsEl.appendChild(d);
-    }});
-
-    // Mobile scroll
-    var mobileEl = document.getElementById("mobile-scroll");
-    items.forEach(function(item, i) {{
-        var card = document.createElement("div");
-        card.className = "mobile-card";
-        card.innerHTML = '<img src="' + item.src + '" alt="' + item.title + '">' +
-            '<div class="slider-caption"><strong>' + item.title + '</strong><span>' + item.desc + '</span></div>';
-        mobileEl.appendChild(card);
-    }});
-
-    render();
-    </script>
-    """
-
-    import streamlit.components.v1 as components
-    components.html(gallery_html, height=480, scrolling=False)
+    # Pallini indicatori
+    dots_html = '<div style="display:flex;justify-content:center;gap:6px;margin-bottom:1rem;">'
+    for i, item in enumerate(valid_items):
+        color = "#d08c38" if i == idx else "rgba(20,33,61,0.15)"
+        dots_html += f'<div style="width:7px;height:7px;border-radius:50%;background:{color};"></div>'
+    dots_html += '</div>'
+    st.markdown(dots_html, unsafe_allow_html=True)
 
     # Card sezioni
     st.markdown("## ")
