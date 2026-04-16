@@ -337,20 +337,63 @@ luoghi_dati = [
 # ----------------------------
 # SIDEBAR
 # ----------------------------
+# ----------------------------
+# SIDEBAR
+# ----------------------------
 with st.sidebar:
+    # Logo comune
     if logo_path:
-        st.image(logo_path, width=118)
-    st.markdown("## Portale ragazzi")
-    st.write("Uno spazio per accompagnare il progetto prima della partenza.")
-    pagina = st.radio("Naviga", ["Home", "Briefing", "Approfondimenti", "Gruppi tematici", "Mappe", "Programma"])
-    st.markdown("---")
-    st.markdown("**Periodo indicativo**")
-    st.write("Settembre 2026 · 8/9 giorni")
-    st.markdown("**Focus**")
+        st.image(logo_path, width=100)
+
     st.markdown("""
-    <span class="small-pill">Storia</span><span class="small-pill">Geopolitica</span>
-    <span class="small-pill">Società</span><span class="small-pill">Musica</span>
-    <span class="small-pill">Katrina</span>
+    <div style="margin-top:0.2rem;margin-bottom:1.4rem;">
+        <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:0.2rem;">Comune di Peccioli</div>
+        <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.15rem;font-weight:700;color:white;line-height:1.2;">Peccioli × New Orleans<br><span style="color:#d08c38;">2026</span></div>
+    </div>
+    <div style="height:1px;background:rgba(255,255,255,0.1);margin-bottom:1.2rem;"></div>
+    <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:0.6rem;">Naviga</div>
+    """, unsafe_allow_html=True)
+
+    pagina = st.radio(
+        label="",
+        options=["Home", "Briefing", "Approfondimenti", "Gruppi tematici", "Mappe", "Programma"],
+        label_visibility="collapsed"
+    )
+
+    st.markdown("""
+    <div style="height:1px;background:rgba(255,255,255,0.1);margin:1.2rem 0;"></div>
+    <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:0.8rem;">Il viaggio</div>
+
+    <div style="display:flex;flex-direction:column;gap:0.55rem;">
+        <div style="display:flex;align-items:center;gap:0.6rem;">
+            <span style="font-size:1rem;">📅</span>
+            <div>
+                <div style="font-size:0.72rem;color:rgba(255,255,255,0.5);">Date</div>
+                <div style="font-size:0.88rem;font-weight:600;color:white;">21–28 settembre 2026</div>
+            </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.6rem;">
+            <span style="font-size:1rem;">📍</span>
+            <div>
+                <div style="font-size:0.72rem;color:rgba(255,255,255,0.5);">Destinazione</div>
+                <div style="font-size:0.88rem;font-weight:600;color:white;">New Orleans, Louisiana</div>
+            </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.6rem;">
+            <span style="font-size:1rem;">👥</span>
+            <div>
+                <div style="font-size:0.72rem;color:rgba(255,255,255,0.5);">Partecipanti</div>
+                <div style="font-size:0.88rem;font-weight:600;color:white;">80 giovani</div>
+            </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.6rem;">
+            <span style="font-size:1rem;">🎙</span>
+            <div>
+                <div style="font-size:0.72rem;color:rgba(255,255,255,0.5);">Incontri preparatori</div>
+                <div style="font-size:0.88rem;font-weight:600;color:white;">3 briefing con esperti</div>
+            </div>
+        </div>
+    </div>
     """, unsafe_allow_html=True)
 
 # ----------------------------
