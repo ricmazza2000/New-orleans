@@ -388,85 +388,36 @@ if pagina == "Home":
     morelli_b64, morelli_mime = img_to_base64(morelli_img)
     prossimo_foto = f'<img src="data:{morelli_mime};base64,{morelli_b64}" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid #d08c38;flex-shrink:0;">' if morelli_b64 else '<div style="width:44px;height:44px;border-radius:50%;background:#dde3ec;flex-shrink:0;"></div>'
 
-    countdown_html = f"""
+    countdown_html = ("""
     <style>
-    .cd-wrap {
-        display: flex;
-        gap: 0.75rem;
-        margin-bottom: 1rem;
-        font-family: 'Inter', sans-serif;
-    }
-    .cd-main {
-        flex: 1.4;
-        background: linear-gradient(135deg, #0d1f3c, #17305a);
-        border-radius: 18px;
-        padding: 1.2rem 1.4rem;
-        color: white;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-    .cd-label {
-        font-size: 0.68rem;
-        font-weight: 700;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: #d08c38;
-        margin-bottom: 0.4rem;
-    }
-    .cd-num {
-        font-size: 2.2rem;
-        font-weight: 800;
-        color: white;
-        line-height: 1.1;
-    }
-    .cd-box {
-        flex: 1;
-        background: white;
-        border-radius: 18px;
-        padding: 1rem 0.8rem;
-        text-align: center;
-        border: 1px solid rgba(20,33,61,0.08);
-        box-shadow: 0 4px 14px rgba(0,0,0,0.05);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-    .cd-box-num {
-        font-size: 2rem;
-        font-weight: 800;
-        color: #d08c38;
-        line-height: 1;
-        font-family: Georgia, serif;
-    }
-    .cd-box-label {
-        font-size: 0.75rem;
-        color: #5b6472;
-        margin-top: 0.25rem;
-        font-weight: 500;
-    }
-    @media (max-width: 500px) {
-        .cd-wrap { flex-direction: column; }
-        .cd-main { padding: 1rem 1.2rem; }
-        .cd-num { font-size: 1.8rem; }
-        .cd-box { padding: 0.8rem; flex-direction: row; justify-content: space-between; align-items: center; }
-        .cd-box-num { font-size: 1.4rem; }
-        .cd-box-label { font-size: 0.72rem; margin-top: 0; margin-left: 0.5rem; text-align: left; }
+    .cd-wrap { display:flex; gap:0.75rem; margin-bottom:1rem; font-family:'Inter',sans-serif; }
+    .cd-main { flex:1.4; background:linear-gradient(135deg,#0d1f3c,#17305a); border-radius:18px; padding:1.2rem 1.4rem; color:white; display:flex; flex-direction:column; justify-content:center; }
+    .cd-label { font-size:0.68rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:#d08c38; margin-bottom:0.4rem; }
+    .cd-num { font-size:2.2rem; font-weight:800; color:white; line-height:1.1; }
+    .cd-box { flex:1; background:white; border-radius:18px; padding:1rem 0.8rem; text-align:center; border:1px solid rgba(20,33,61,0.08); box-shadow:0 4px 14px rgba(0,0,0,0.05); display:flex; flex-direction:column; justify-content:center; }
+    .cd-box-num { font-size:2rem; font-weight:800; color:#d08c38; line-height:1; font-family:Georgia,serif; }
+    .cd-box-label { font-size:0.75rem; color:#5b6472; margin-top:0.25rem; font-weight:500; }
+    @media (max-width:500px) {
+        .cd-wrap { flex-direction:column; }
+        .cd-num { font-size:1.8rem; }
+        .cd-box { flex-direction:row; align-items:center; justify-content:space-between; padding:0.8rem 1rem; }
+        .cd-box-num { font-size:1.4rem; }
+        .cd-box-label { margin-top:0; margin-left:0.5rem; text-align:left; }
     }
     </style>
     <div class="cd-wrap">
         <div class="cd-main">
-            <div class="cd-label">⏳ Mancano al viaggio</div>
-            <div class="cd-num" id="cd">—</div>
+            <div class="cd-label">&#9203; Mancano al viaggio</div>
+            <div class="cd-num" id="cd">&#8212;</div>
         </div>
         <div class="cd-box">
-            <div class="cd-box-num">21–28</div>
+            <div class="cd-box-num">21&#8211;28</div>
             <div class="cd-box-label">Settembre 2026</div>
         </div>
         <div class="cd-box" style="text-align:left;padding:0.9rem 1rem;">
-            <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#d08c38;margin-bottom:0.5rem;">📅 Prossimo incontro</div>
+            <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#d08c38;margin-bottom:0.5rem;">&#128197; Prossimo incontro</div>
             <div style="display:flex;align-items:center;gap:0.6rem;">
-                {prossimo_foto}
+    """ + prossimo_foto + """
                 <div>
                     <div style="font-size:0.82rem;font-weight:700;color:#14213d;line-height:1.2;">Elia Morelli</div>
                     <div style="font-size:0.75rem;color:#5b6472;margin-top:0.1rem;">7 maggio 2026</div>
@@ -478,15 +429,14 @@ if pagina == "Home":
         var t = new Date("2026-09-21T00:00:00").getTime() - Date.now();
         var el = document.getElementById("cd");
         if (el) {
-            if (t <= 0) {
-                el.textContent = "🎷 Ci siamo!";
-            } else {
+            if (t <= 0) { el.textContent = "Ci siamo!"; }
+            else {
                 var d = Math.floor(t / 86400000);
                 el.innerHTML = d + "<span style='font-size:1rem;font-weight:400;opacity:0.65;margin-left:0.3rem;'>giorni</span>";
             }
         }
     </script>
-    """
+    """)
     components.html(countdown_html, height=220)
 
     # Descrizione
