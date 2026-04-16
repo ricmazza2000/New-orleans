@@ -385,7 +385,10 @@ if pagina == "Home":
     # Countdown funzionante via st.components — mobile responsive
     import streamlit.components.v1 as components
 
-    countdown_html = """
+    morelli_b64, morelli_mime = img_to_base64(morelli_img)
+    prossimo_foto = f'<img src="data:{morelli_mime};base64,{morelli_b64}" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid #d08c38;flex-shrink:0;">' if morelli_b64 else '<div style="width:44px;height:44px;border-radius:50%;background:#dde3ec;flex-shrink:0;"></div>'
+
+    countdown_html = f"""
     <style>
     .cd-wrap {
         display: flex;
@@ -460,9 +463,15 @@ if pagina == "Home":
             <div class="cd-box-num">21–28</div>
             <div class="cd-box-label">Settembre 2026</div>
         </div>
-        <div class="cd-box">
-            <div class="cd-box-num">80</div>
-            <div class="cd-box-label">Giovani partecipanti</div>
+        <div class="cd-box" style="text-align:left;padding:0.9rem 1rem;">
+            <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#d08c38;margin-bottom:0.5rem;">📅 Prossimo incontro</div>
+            <div style="display:flex;align-items:center;gap:0.6rem;">
+                {prossimo_foto}
+                <div>
+                    <div style="font-size:0.82rem;font-weight:700;color:#14213d;line-height:1.2;">Elia Morelli</div>
+                    <div style="font-size:0.75rem;color:#5b6472;margin-top:0.1rem;">7 maggio 2026</div>
+                </div>
+            </div>
         </div>
     </div>
     <script>
