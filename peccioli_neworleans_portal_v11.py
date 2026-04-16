@@ -383,7 +383,6 @@ with st.sidebar:
     if "nav_target" not in st.session_state:
         st.session_state.nav_target = "Home"
 
-    # Calcola indice corrente
     cur_index = options.index(st.session_state.nav_target) if st.session_state.nav_target in options else 0
 
     pagina_radio = st.radio(
@@ -391,14 +390,11 @@ with st.sidebar:
         options=options,
         label_visibility="collapsed",
         index=cur_index,
-        key="pagina_radio"
     )
 
-    # Il radio aggiorna sempre nav_target quando l'utente clicca manualmente
-    if pagina_radio != st.session_state.nav_target:
-        st.session_state.nav_target = pagina_radio
-
-    pagina = st.session_state.nav_target
+    # Se l'utente clicca manualmente la sidebar, aggiorna nav_target
+    st.session_state.nav_target = pagina_radio
+    pagina = pagina_radio
 
     st.markdown("""
     <div style="height:1px;background:rgba(255,255,255,0.1);margin:1.2rem 0;"></div>
@@ -642,7 +638,6 @@ if pagina == "Home":
             </div>""", unsafe_allow_html=True)
             if st.button(f"Vai a {title}", key=f"nav_{dest}", use_container_width=True):
                 st.session_state.nav_target = dest
-                st.session_state.pagina_radio = dest
                 st.rerun()
 
 # ----------------------------
