@@ -434,20 +434,77 @@ if pagina == "Home":
     countdown_html = ("""
     <style>
     * { margin:0; padding:0; box-sizing:border-box; }
-    html, body { overflow:hidden; }
-    .cd-wrap { display:flex; gap:0.75rem; font-family:'Inter',sans-serif; height:100%; align-items:stretch; }
-    .cd-main { flex:1.4; background:linear-gradient(135deg,#0d1f3c,#17305a); border-radius:18px; padding:1rem 1.4rem; color:white; display:flex; flex-direction:column; justify-content:center; }
+    html, body { overflow:hidden; background:transparent; }
+    .cd-wrap {
+        display:flex;
+        gap:0.75rem;
+        font-family:'Inter',sans-serif;
+        height:110px;
+        align-items:stretch;
+    }
+    .cd-main {
+        flex:1.4;
+        min-width:0;
+        background:linear-gradient(135deg,#0d1f3c,#17305a);
+        border-radius:18px;
+        padding:1rem 1.4rem;
+        color:white;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        flex-shrink:0;
+    }
     .cd-label { font-size:0.65rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:#d08c38; margin-bottom:0.3rem; }
     .cd-num { font-size:2rem; font-weight:800; color:white; line-height:1.1; }
-    .cd-box { flex:1; background:white; border-radius:18px; padding:0.8rem; text-align:center; border:1px solid rgba(20,33,61,0.08); box-shadow:0 4px 14px rgba(0,0,0,0.05); display:flex; flex-direction:column; justify-content:center; }
+    .cd-box {
+        flex:1;
+        min-width:0;
+        background:white;
+        border-radius:18px;
+        padding:0.8rem;
+        text-align:center;
+        border:1px solid rgba(20,33,61,0.08);
+        box-shadow:0 4px 14px rgba(0,0,0,0.05);
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        flex-shrink:0;
+    }
     .cd-box-num { font-size:1.8rem; font-weight:800; color:#d08c38; line-height:1; font-family:Georgia,serif; }
     .cd-box-label { font-size:0.72rem; color:#5b6472; margin-top:0.2rem; font-weight:500; }
+
     @media (max-width:600px) {
-        html, body { overflow:auto; }
-        .cd-wrap { flex-direction:column; height:auto; gap:0.5rem; }
-        .cd-box { flex-direction:row; align-items:center; justify-content:space-between; padding:0.7rem 1rem; }
-        .cd-box-num { font-size:1.3rem; }
-        .cd-box-label { margin-top:0; margin-left:0.5rem; text-align:left; }
+        html, body { overflow:hidden; }
+        .cd-wrap {
+            overflow-x:auto;
+            overflow-y:hidden;
+            -webkit-overflow-scrolling:touch;
+            scroll-snap-type:x mandatory;
+            gap:0.6rem;
+            height:100px;
+            padding-bottom:2px;
+        }
+        .cd-wrap::-webkit-scrollbar { display:none; }
+        .cd-main {
+            min-width:200px;
+            max-width:200px;
+            scroll-snap-align:start;
+            padding:0.85rem 1rem;
+        }
+        .cd-box {
+            min-width:150px;
+            max-width:150px;
+            scroll-snap-align:start;
+        }
+        .cd-box-last {
+            min-width:180px;
+            max-width:180px;
+            scroll-snap-align:start;
+            text-align:left;
+            padding:0.8rem 1rem;
+        }
+        .cd-num { font-size:1.75rem; }
+        .cd-box-num { font-size:1.5rem; }
     }
     </style>
     <div class="cd-wrap">
@@ -459,7 +516,7 @@ if pagina == "Home":
             <div class="cd-box-num">21&#8211;28</div>
             <div class="cd-box-label">Settembre 2026</div>
         </div>
-        <div class="cd-box" style="text-align:left;padding:0.8rem 1rem;">
+        <div class="cd-box cd-box-last" style="text-align:left;padding:0.8rem 1rem;">
             <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#d08c38;margin-bottom:0.4rem;">&#128197; Prossimo incontro</div>
             <div style="display:flex;align-items:center;gap:0.5rem;">
     """ + prossimo_foto + """
