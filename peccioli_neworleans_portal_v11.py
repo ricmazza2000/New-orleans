@@ -820,19 +820,19 @@ elif pagina == "Approfondimenti":
                 "colore": "#17305a",
             },
             {
-                "titolo": "Questa è l'America",
-                "autore": "Francesco Costa",
-                "anno": "2020 · Mondadori",
-                "desc": "Storie per capire il presente degli Stati Uniti. Il primo libro del nostro relatore sugli USA: ideale per orientarsi prima del viaggio.",
-                "link": "https://www.amazon.it/Questa-lAmerica-capire-presente-Stati/dp/8804725044",
+                "titolo": "The Moviegoer",
+                "autore": "Walker Percy",
+                "anno": "1961 · National Book Award",
+                "desc": "Romanzo ambientato a New Orleans, vincitore del National Book Award. Racconta l'alienazione e la ricerca di senso di un giovane creolo nella città del Mardi Gras.",
+                "link": "https://it.wikipedia.org/wiki/Walker_Percy",
                 "colore": "#2e7d5e",
             },
             {
-                "titolo": "Frontiera",
-                "autore": "Francesco Costa",
-                "anno": "2024 · Premio Estense",
-                "desc": "Un viaggio on the road negli Stati Uniti di oggi: contraddizioni, rinascita industriale, questioni razziali. Il più aggiornato per capire l'America che visiteremo.",
-                "link": "https://www.mondadori.it/libri/frontiera-francesco-costa/",
+                "titolo": "Zeitoun",
+                "autore": "Dave Eggers",
+                "anno": "2009 · Non fiction",
+                "desc": "La storia vera di un siriano-americano rimasto a New Orleans durante Katrina. Un racconto potente su resilienza, razzismo e fallimento istituzionale dopo la catastrofe.",
+                "link": "https://it.wikipedia.org/wiki/Zeitoun_(libro)",
                 "colore": "#7b3f00",
             },
         ]
@@ -857,11 +857,6 @@ elif pagina == "Approfondimenti":
 
     with tab2:
         st.markdown("## ")
-        film = [
-            {"emoji": "🎭", "titolo": "Un tram che si chiama Desiderio", "anno": "1951 · Elia Kazan", "desc": "Con Marlon Brando e Vivien Leigh. Classico assoluto girato nella New Orleans reale.", "link": "https://www.imdb.com/title/tt0044081/", "colore": "#d08c38"},
-            {"emoji": "🧛", "titolo": "Intervista col vampiro", "anno": "1994 · Neil Jordan", "desc": "Tom Cruise, Brad Pitt, Kirsten Dunst. Cattura l'atmosfera gotica e decadente della Louisiana.", "link": "https://www.imdb.com/title/tt0110632/", "colore": "#17305a"},
-            {"emoji": "⏳", "titolo": "Il curioso caso di Benjamin Button", "anno": "2008 · David Fincher", "desc": "New Orleans dal dopoguerra a Katrina come sfondo per una storia sull'identità e la memoria.", "link": "https://www.imdb.com/title/tt0421715/", "colore": "#2e7d5e"},
-            {"emoji": "🎷", "titolo": "Treme", "anno": "2010–2013 · HBO", "desc": "La serie più importante su New Orleans dopo Katrina. Emmy Award. Da vedere assolutamente.", "link": "https://www.imdb.com/title/tt1279972/", "colore": "#d4a017"},
         film = [
             {"titolo": "Un tram che si chiama Desiderio", "anno": "1951 · Elia Kazan", "desc": "Con Marlon Brando e Vivien Leigh. Classico assoluto girato nella New Orleans reale.", "link": "https://www.imdb.com/title/tt0044081/", "colore": "#d08c38"},
             {"titolo": "Intervista col vampiro", "anno": "1994 · Neil Jordan", "desc": "Tom Cruise, Brad Pitt, Kirsten Dunst. Cattura l'atmosfera gotica e decadente della Louisiana.", "link": "https://www.imdb.com/title/tt0110632/", "colore": "#17305a"},
