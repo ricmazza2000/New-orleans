@@ -69,7 +69,7 @@ gallery_items = [
     {"key": "artistica", "title": "Street art",         "desc": "Murale che racconta la voce artistica e comunitaria di New Orleans.",         "path": find_image(["home_artistica.jpg"])},
     {"key": "musicale",  "title": "Jazz dal vivo",      "desc": "Gruppo di artisti jazz in una serata nel French Quarter.",                    "path": find_image(["home_musicale.jpg"])},
     {"key": "simbolica", "title": "La città e il fiume","desc": "Veduta simbolica di New Orleans affacciata sul Mississippi.",                 "path": find_image(["home_simbolica.jpg", "home_simbolica.jpeg"])},
-    {"key": "sociale",   "title": "Cinema e immaginario","desc": "Scena del film Il tram chiamato Desiderio, ambientato a New Orleans.",       "path": find_image(["home_sociale.jpg"])},
+    {"key": "sociale",   "title": "Mardi Gras",          "desc": "Un carro del Mardi Gras sfila tra la folla lungo le strade del French Quarter. Il carnevale di New Orleans è uno dei più spettacolari al mondo.",       "path": find_image(["Home_carnevale.jpg", "home_carnevale.jpg", "home_sociale.jpg"])},
     {"key": "umana",     "title": "Volti della città",  "desc": "Un ritratto che richiama il lato umano e quotidiano di New Orleans.",         "path": find_image(["home_umana.jpg"])},
     {"key": "urbana",    "title": "Atmosfera urbana",   "desc": "Una composizione visiva che restituisce l'energia e i contrasti della città.", "path": find_image(["home_urbana.jpeg", "home_urbana.jpg", "home_urbana.png"])},
 ]
@@ -643,40 +643,47 @@ if pagina == "Home":
 
     with news_col:
         st.markdown("""
-        <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:700;color:#14213d;margin-bottom:0.6rem;">
-            🗞 Ultime notizie da New Orleans
-        </div>
-        """, unsafe_allow_html=True)
-
-        try:
-            import feedparser
-            feed = feedparser.parse("https://www.nola.com/search/?f=rss")
-            entries = feed.entries[:5]
-            if entries:
-                for entry in entries:
-                    titolo = entry.get("title", "")
-                    link = entry.get("link", "#")
-                    data = entry.get("published", "")[:16] if entry.get("published") else ""
-                    st.markdown(f"""
-                    <div style="border-left:3px solid #d08c38;padding:0.5rem 0.8rem;margin-bottom:0.6rem;background:white;border-radius:0 12px 12px 0;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
-                        <a href="{link}" target="_blank" style="font-size:0.88rem;font-weight:600;color:#14213d;text-decoration:none;line-height:1.4;display:block;">{titolo}</a>
-                        <div style="font-size:0.72rem;color:#9aa3b0;margin-top:0.2rem;">{data}</div>
-                    </div>
-                    """, unsafe_allow_html=True)
-                st.markdown('<div style="font-size:0.72rem;color:#9aa3b0;margin-top:0.3rem;">Fonte: The Times-Picayune · NOLA.com</div>', unsafe_allow_html=True)
-            else:
-                st.markdown('<div style="font-size:0.88rem;color:#5b6472;">Notizie non disponibili al momento.</div>', unsafe_allow_html=True)
-        except Exception:
-            st.markdown("""
-            <div style="background:white;border-radius:20px;padding:1rem 1.2rem;border:1px solid rgba(20,33,61,0.08);">
-                <div style="font-size:0.88rem;color:#5b6472;margin-bottom:0.8rem;">Le ultime notizie da New Orleans direttamente sul sito del giornale locale.</div>
+        <div style="background:white;border-radius:20px;padding:1.2rem 1.4rem;border:1px solid rgba(20,33,61,0.08);box-shadow:0 6px 20px rgba(0,0,0,0.05);height:100%;">
+            <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:700;color:#14213d;margin-bottom:0.3rem;">
+                🗞 Notizie da New Orleans
+            </div>
+            <div style="font-size:0.85rem;color:#5b6472;margin-bottom:1rem;line-height:1.5;">
+                Le fonti locali per seguire la città prima del viaggio
+            </div>
+            <div style="display:flex;flex-direction:column;gap:0.5rem;">
                 <a href="https://www.nola.com" target="_blank"
-                   style="display:inline-block;background:#0d1f3c;color:white;padding:0.55rem 1.2rem;
-                          border-radius:999px;font-size:0.88rem;font-weight:600;text-decoration:none;">
-                    📰 Vai a NOLA.com →
+                   style="display:flex;align-items:center;gap:0.6rem;padding:0.55rem 0.8rem;
+                          background:#f5f8fc;border-radius:12px;text-decoration:none;
+                          border-left:3px solid #d08c38;">
+                    <span style="font-size:1rem;">📰</span>
+                    <div>
+                        <div style="font-size:0.85rem;font-weight:600;color:#14213d;">The Times-Picayune</div>
+                        <div style="font-size:0.72rem;color:#9aa3b0;">Il principale quotidiano di New Orleans</div>
+                    </div>
+                </a>
+                <a href="https://www.wwno.org" target="_blank"
+                   style="display:flex;align-items:center;gap:0.6rem;padding:0.55rem 0.8rem;
+                          background:#f5f8fc;border-radius:12px;text-decoration:none;
+                          border-left:3px solid #17305a;">
+                    <span style="font-size:1rem;">📻</span>
+                    <div>
+                        <div style="font-size:0.85rem;font-weight:600;color:#14213d;">WWNO Public Radio</div>
+                        <div style="font-size:0.72rem;color:#9aa3b0;">Radio pubblica NPR di New Orleans</div>
+                    </div>
+                </a>
+                <a href="https://thelensnola.org" target="_blank"
+                   style="display:flex;align-items:center;gap:0.6rem;padding:0.55rem 0.8rem;
+                          background:#f5f8fc;border-radius:12px;text-decoration:none;
+                          border-left:3px solid #2e7d5e;">
+                    <span style="font-size:1rem;">🔍</span>
+                    <div>
+                        <div style="font-size:0.85rem;font-weight:600;color:#14213d;">The Lens NOLA</div>
+                        <div style="font-size:0.72rem;color:#9aa3b0;">Giornalismo investigativo locale</div>
+                    </div>
                 </a>
             </div>
-            """, unsafe_allow_html=True)
+        </div>
+        """, unsafe_allow_html=True)
 
     # Card sezioni cliccabili
     st.markdown("## ")
