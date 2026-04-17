@@ -797,7 +797,7 @@ elif pagina == "Approfondimenti":
     section_header("02", "Per prepararsi", "Approfondimenti",
         "Libri, film, documentari e risorse online per arrivare a New Orleans con uno sguardo già allenato.")
 
-    tab1, tab2, tab3, tab4 = st.tabs(["Libri", "Film e TV", "Documentari", "Risorse"])
+    tab1, tab2, tab3, tab4 = st.tabs(["📚 Libri", "🎬 Film e TV", "🎞 Documentari", "🌐 Risorse"])
 
     with tab1:
         st.markdown("## ")
