@@ -524,9 +524,11 @@ st.markdown(f"""
     {bottom_items}
 </div>
 """, unsafe_allow_html=True)
-# ----------------------------
+
 # ----------------------------
 # HEADER — semplice: logo + titolo + skyline
+# ----------------------------
+if nola_logo_b64:
     nola_logo_tag = f'<img src="data:{nola_logo_mime};base64,{nola_logo_b64}" class="nola-logo-inline" style="height:44px;opacity:0.65;filter:brightness(0) saturate(100%) invert(16%) sepia(60%) saturate(500%) hue-rotate(190deg);margin-left:0.8rem;vertical-align:middle;position:relative;top:-4px;">'
 else:
     nola_logo_tag = ""
