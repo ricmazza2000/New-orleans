@@ -622,28 +622,23 @@ if pagina == "Home":
     cam_col, _ = st.columns([2, 1])
     with cam_col:
         st.markdown("""
-        <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:700;color:#14213d;margin-bottom:0.4rem;">
-            📹 Live da New Orleans — Bourbon Street
-        </div>
-        <div style="font-size:0.83rem;color:#5b6472;margin-bottom:0.6rem;">
-            Webcam in diretta dal French Quarter · Cat's Meow, angolo Bourbon & St. Peter
+        <div style="background:white;border-radius:20px;padding:1.2rem 1.4rem;border:1px solid rgba(20,33,61,0.08);box-shadow:0 6px 20px rgba(0,0,0,0.05);">
+            <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:700;color:#14213d;margin-bottom:0.3rem;">
+                📹 Live da New Orleans
+            </div>
+            <div style="font-size:0.85rem;color:#5b6472;margin-bottom:1rem;line-height:1.5;">
+                Webcam in diretta dal French Quarter · Bourbon Street, angolo St. Peter
+            </div>
+            <a href="https://www.earthcam.com/usa/louisiana/neworleans/bourbonstreet/" target="_blank"
+               style="display:inline-block;background:#0d1f3c;color:white;padding:0.55rem 1.2rem;
+                      border-radius:999px;font-size:0.88rem;font-weight:600;text-decoration:none;">
+                🎥 Guarda la webcam live →
+            </a>
+            <div style="font-size:0.75rem;color:#9aa3b0;margin-top:0.8rem;">
+                Fonte: EarthCam · Cats Meow Karaoke Bar · 24/7
+            </div>
         </div>
         """, unsafe_allow_html=True)
-        import streamlit.components.v1 as components
-        components.html("""
-        <div style="border-radius:16px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,0.12);">
-            <iframe
-                src="https://www.earthcam.com/cams/common/swfembed.php?cam=bourbonstreet&width=640&height=360&autostart=1"
-                width="100%" height="360"
-                frameborder="0" scrolling="no"
-                allowfullscreen
-                style="display:block;">
-            </iframe>
-        </div>
-        <div style="font-size:0.75rem;color:#9aa3b0;margin-top:0.4rem;text-align:right;">
-            Fonte: EarthCam · Cats Meow Karaoke Bar
-        </div>
-        """, height=390)
 
     # Card sezioni cliccabili
     st.markdown("## ")
