@@ -560,14 +560,21 @@ if pagina == "Home":
 
     # Descrizione
     st.markdown("""
-    <p style="font-size:1rem;color:#3a4a5c;line-height:1.7;margin-bottom:1.2rem;">
-    Benvenuti nel portale di <strong>Peccioli × New Orleans 2026</strong> — lo spazio digitale che accompagna
-    gli 80 ragazzi del progetto nel percorso di preparazione al viaggio. Qui trovate i <strong>briefing con gli esperti</strong>,
-    una selezione di <strong>libri, film e documentari</strong>, la <strong>mappa interattiva</strong> della città
-    e i <strong>quattro temi</strong> con cui osservare New Orleans: musica, resilienza, società, identità.
-    L'obiettivo è arrivare in Louisiana con curiosità già allenata e uno sguardo consapevole.
+    <p style="font-size:1rem;color:#3a4a5c;line-height:1.7;margin-bottom:0.4rem;">
+    Il portale ufficiale del progetto <strong>Peccioli × New Orleans 2026</strong> — 80 ragazzi, settembre 2026.
     </p>
     """, unsafe_allow_html=True)
+    with st.expander("Scopri a cosa serve →"):
+        st.markdown("""
+        <p style="font-size:0.95rem;color:#3a4a5c;line-height:1.75;">
+        Questo spazio è pensato per accompagnare i ragazzi <strong>prima, durante e dopo il viaggio</strong>.
+        Qui troverete in tempo reale il <strong>programma aggiornato</strong> del viaggio con tutte le tappe e le attività,
+        i <strong>documenti da compilare</strong> con le relative scadenze,
+        i <strong>briefing con gli esperti</strong> per prepararsi culturalmente,
+        e gli <strong>approfondimenti</strong> — libri, film, documentari — per arrivare a New Orleans
+        con uno sguardo già orientato sui quattro temi del viaggio: musica, resilienza, società, identità.
+        </p>
+        """, unsafe_allow_html=True)
 
     # Galleria — frecce su desktop e mobile
     st.markdown("""
