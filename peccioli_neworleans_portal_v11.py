@@ -797,132 +797,148 @@ elif pagina == "Approfondimenti":
     section_header("02", "Per prepararsi", "Approfondimenti",
         "Libri, film, documentari e risorse online per arrivare a New Orleans con uno sguardo già allenato.")
 
-    st.markdown("## ")
+    tab1, tab2, tab3, tab4 = st.tabs(["📚 Libri", "🎬 Film e TV", "🎞 Documentari", "🌐 Risorse"])
 
-    sezioni = [
-        {
-            "titolo": "📚 Libri su New Orleans",
-            "items": [
-                {
-                    "titolo": "Una banda di idioti — John Kennedy Toole",
-                    "desc": "Capolavoro della letteratura americana ambientato nella New Orleans degli anni '60. Satira sociale geniale, vincitore postumo del Pulitzer. Il modo più divertente per entrare nell'anima della città.",
-                    "link": "https://it.wikipedia.org/wiki/Una_banda_di_idioti",
-                    "label": "Leggi su Wikipedia"
-                },
-                {
-                    "titolo": "Intervista col vampiro — Anne Rice",
-                    "desc": "Il romanzo che ha reso New Orleans capitale mondiale del gotico americano. Ambientato tra il French Quarter e le piantagioni della Louisiana, mescola storia, atmosfera e questioni razziali in modo unico.",
-                    "link": "https://it.wikipedia.org/wiki/Intervista_col_vampiro_(romanzo)",
-                    "label": "Leggi su Wikipedia"
-                },
-                {
-                    "titolo": "Blues Highway — Rob Siebert",
-                    "desc": "Viaggio narrativo da Chicago a New Orleans sulle tracce delle origini della musica americana: blues, jazz, gospel. Perfetto per capire il legame tra musica, storia e territorio.",
-                    "link": "https://marcosymarcos.com/libri/gli-alianti/blues-highway/",
-                    "label": "Scheda editoriale"
-                },
-                {
-                    "titolo": "Un tram che si chiama Desiderio — Tennessee Williams",
-                    "desc": "Il capolavoro teatrale ambientato a New Orleans, scritto da Williams proprio nel French Quarter. Punto di riferimento assoluto per capire il Sud americano, la tensione sociale e l'immaginario della città.",
-                    "link": "https://it.wikipedia.org/wiki/Un_tram_che_si_chiama_Desiderio",
-                    "label": "Leggi su Wikipedia"
-                },
-            ]
-        },
-        {
-            "titolo": "🎬 Film e serie TV",
-            "items": [
-                {
-                    "titolo": "Un tram che si chiama Desiderio (1951) — Elia Kazan",
-                    "desc": "Il film tratto dalla pièce di Tennessee Williams con Marlon Brando e Vivien Leigh. Classico assoluto, girato nella New Orleans reale. La tensione tra i personaggi rispecchia le contraddizioni della città.",
-                    "link": "https://www.imdb.com/title/tt0044081/",
-                    "label": "Scheda IMDb"
-                },
-                {
-                    "titolo": "Intervista col vampiro (1994) — Neil Jordan",
-                    "desc": "Con Tom Cruise, Brad Pitt e una giovanissima Kirsten Dunst. Girato tra New Orleans e la Oak Alley Plantation, cattura perfettamente l'atmosfera gotica e decadente della Louisiana.",
-                    "link": "https://www.imdb.com/title/tt0110632/",
-                    "label": "Scheda IMDb"
-                },
-                {
-                    "titolo": "Il curioso caso di Benjamin Button (2008) — David Fincher",
-                    "desc": "Con Brad Pitt e Cate Blanchett. Ambientato a New Orleans dal dopoguerra a Katrina, usa la città come sfondo per una storia sull'identità, il tempo e la memoria collettiva.",
-                    "link": "https://www.imdb.com/title/tt0421715/",
-                    "label": "Scheda IMDb"
-                },
-                {
-                    "titolo": "Treme — serie HBO (2010-2013)",
-                    "desc": "La serie più importante mai realizzata su New Orleans dopo Katrina. Segue i residenti del quartiere Tremé mentre cercano di ricostruire la loro vita e la loro musica. Vince un Emmy Award.",
-                    "link": "https://www.imdb.com/title/tt1279972/",
-                    "label": "Scheda IMDb"
-                },
-                {
-                    "titolo": "Easy Rider (1969) — Dennis Hopper",
-                    "desc": "Icona della controcultura americana. I protagonisti raggiungono New Orleans per il Mardi Gras in una delle scene più celebri della storia del cinema indipendente americano.",
-                    "link": "https://www.imdb.com/title/tt0064276/",
-                    "label": "Scheda IMDb"
-                },
-            ]
-        },
-        {
-            "titolo": "🎬 Documentari su Katrina",
-            "items": [
-                {
-                    "titolo": "Katrina: Come Hell and High Water (Netflix, 2025)",
-                    "desc": "Serie in 3 episodi prodotta da Spike Lee: venti anni dopo, i sopravvissuti raccontano in prima persona la catastrofe e i fallimenti istituzionali. Da vedere prima del viaggio.",
-                    "link": "https://www.netflix.com/title/81676595",
-                    "label": "Guarda su Netflix"
-                },
-                {
-                    "titolo": "Hurricane Katrina: Race Against Time (Nat. Geographic, 2025)",
-                    "desc": "Docuserie in 5 episodi, vincitrice del Critics Choice Award 2025. Ricostruisce minuto per minuto la catastrofe con footage inedito e testimonianze dirette dei sopravvissuti.",
-                    "link": "https://www.imdb.com/title/tt37458027/",
-                    "label": "Scheda IMDb"
-                },
-                {
-                    "titolo": "When the Levees Broke — Spike Lee (2006)",
-                    "desc": "Il documentario classico in 4 atti che ha raccontato al mondo la devastazione di Katrina. Pietra miliare sul tema, ancora oggi imprescindibile per capire cosa è successo davvero.",
-                    "link": "https://www.imdb.com/title/tt0783105/",
-                    "label": "Scheda IMDb"
-                },
-            ]
-        },
-        {
-            "titolo": "🌐 Risorse online",
-            "items": [
-                {
-                    "titolo": "New Orleans — Wikipedia italiana",
-                    "desc": "Panoramica completa su storia, cultura, musica e geografia della città. Ottimo punto di partenza per orientarsi prima di approfondire.",
-                    "link": "https://it.wikipedia.org/wiki/New_Orleans",
-                    "label": "Leggi"
-                },
-                {
-                    "titolo": "The Times-Picayune | The New Orleans Advocate",
-                    "desc": "Il principale quotidiano di New Orleans. Utile per seguire l'attualità della città nelle settimane prima della partenza.",
-                    "link": "https://www.nola.com",
-                    "label": "Visita il sito"
-                },
-                {
-                    "titolo": "Da Costa a Costa — Francesco Costa (Il Post)",
-                    "desc": "Newsletter e canale YouTube dell'esperto di America che incontreremo al briefing. Il modo migliore per seguire l'attualità americana con occhi italiani.",
-                    "link": "https://www.ilpost.it/costa/",
-                    "label": "Segui"
-                },
-            ]
-        },
-    ]
-
-    for sez in sezioni:
-        st.markdown(f'<div style="font-family:\'Playfair Display\',Georgia,serif;font-size:1.2rem;font-weight:700;color:#14213d;margin:1.4rem 0 0.7rem 0;">{sez["titolo"]}</div>', unsafe_allow_html=True)
-        for item in sez["items"]:
-            st.markdown(f"""
-            <div class="mat-card" style="display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;">
-                <div style="flex:1;">
-                    <div style="font-weight:700;color:#14213d;margin-bottom:0.25rem;">{item['titolo']}</div>
-                    <div style="font-size:0.9rem;color:#5b6472;line-height:1.55;">{item['desc']}</div>
+    with tab1:
+        st.markdown("## ")
+        col1, col2 = st.columns(2)
+        libri = [
+            {
+                "titolo": "Una banda di idioti",
+                "autore": "John Kennedy Toole",
+                "anno": "1980 · Pulitzer",
+                "desc": "Capolavoro ambientato nella New Orleans degli anni '60. Satira geniale e irresistibile — il modo più divertente per entrare nell'anima della città.",
+                "link": "https://it.wikipedia.org/wiki/Una_banda_di_idioti",
+                "colore": "#d08c38",
+            },
+            {
+                "titolo": "Intervista col vampiro",
+                "autore": "Anne Rice",
+                "anno": "1976 · Romanzo",
+                "desc": "Il romanzo che ha reso New Orleans capitale del gotico americano. Storia, atmosfera e questioni razziali mescolate in modo unico.",
+                "link": "https://it.wikipedia.org/wiki/Intervista_col_vampiro_(romanzo)",
+                "colore": "#17305a",
+            },
+            {
+                "titolo": "Un tram che si chiama Desiderio",
+                "autore": "Tennessee Williams",
+                "anno": "1947 · Teatro",
+                "desc": "Il capolavoro teatrale scritto nel French Quarter. Punto di riferimento per capire il Sud americano e l'immaginario di New Orleans.",
+                "link": "https://it.wikipedia.org/wiki/Un_tram_che_si_chiama_Desiderio",
+                "colore": "#2e7d5e",
+            },
+            {
+                "titolo": "Blues Highway",
+                "autore": "Rob Siebert",
+                "anno": "Reportage narrativo",
+                "desc": "Viaggio da Chicago a New Orleans sulle tracce delle origini della musica americana: blues, jazz, gospel.",
+                "link": "https://marcosymarcos.com/libri/gli-alianti/blues-highway/",
+                "colore": "#7b3f00",
+            },
+        ]
+        for i, libro in enumerate(libri):
+            with (col1 if i % 2 == 0 else col2):
+                st.markdown(f"""
+                <div style="background:white;border-radius:20px;padding:1.2rem 1.3rem;
+                            border-top:4px solid {libro['colore']};
+                            box-shadow:0 4px 16px rgba(0,0,0,0.06);margin-bottom:1rem;">
+                    <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+                                color:{libro['colore']};margin-bottom:0.3rem;">{libro['anno']}</div>
+                    <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.05rem;font-weight:800;
+                                color:#14213d;line-height:1.2;margin-bottom:0.15rem;">{libro['titolo']}</div>
+                    <div style="font-size:0.8rem;color:#9aa3b0;margin-bottom:0.6rem;">{libro['autore']}</div>
+                    <div style="font-size:0.88rem;color:#3a4a5c;line-height:1.6;margin-bottom:0.8rem;">{libro['desc']}</div>
+                    <a href="{libro['link']}" target="_blank"
+                       style="font-size:0.78rem;font-weight:600;color:{libro['colore']};text-decoration:none;">
+                        Approfondisci →
+                    </a>
                 </div>
-                <a href="{item['link']}" target="_blank" style="flex-shrink:0;background:#0d1f3c;color:white;padding:0.4rem 0.9rem;border-radius:999px;font-size:0.8rem;font-weight:600;text-decoration:none;white-space:nowrap;align-self:center;">{item['label']} &#8594;</a>
+                """, unsafe_allow_html=True)
+
+    with tab2:
+        st.markdown("## ")
+        film = [
+            {"emoji": "🎭", "titolo": "Un tram che si chiama Desiderio", "anno": "1951 · Elia Kazan", "desc": "Con Marlon Brando e Vivien Leigh. Classico assoluto girato nella New Orleans reale.", "link": "https://www.imdb.com/title/tt0044081/", "colore": "#d08c38"},
+            {"emoji": "🧛", "titolo": "Intervista col vampiro", "anno": "1994 · Neil Jordan", "desc": "Tom Cruise, Brad Pitt, Kirsten Dunst. Cattura l'atmosfera gotica e decadente della Louisiana.", "link": "https://www.imdb.com/title/tt0110632/", "colore": "#17305a"},
+            {"emoji": "⏳", "titolo": "Il curioso caso di Benjamin Button", "anno": "2008 · David Fincher", "desc": "New Orleans dal dopoguerra a Katrina come sfondo per una storia sull'identità e la memoria.", "link": "https://www.imdb.com/title/tt0421715/", "colore": "#2e7d5e"},
+            {"emoji": "🎷", "titolo": "Treme", "anno": "2010–2013 · HBO", "desc": "La serie più importante su New Orleans dopo Katrina. Emmy Award. Da vedere assolutamente.", "link": "https://www.imdb.com/title/tt1279972/", "colore": "#d4a017"},
+            {"emoji": "🏍", "titolo": "Easy Rider", "anno": "1969 · Dennis Hopper", "desc": "Icona della controcultura. Il Mardi Gras di New Orleans in una delle scene più celebri del cinema.", "link": "https://www.imdb.com/title/tt0064276/", "colore": "#7b3f00"},
+        ]
+        for f in film:
+            st.markdown(f"""
+            <div style="background:white;border-radius:18px;padding:1rem 1.2rem;margin-bottom:0.7rem;
+                        display:flex;align-items:center;gap:1rem;
+                        border-left:4px solid {f['colore']};
+                        box-shadow:0 3px 12px rgba(0,0,0,0.05);">
+                <div style="font-size:2rem;flex-shrink:0;">{f['emoji']}</div>
+                <div style="flex:1;">
+                    <div style="font-size:0.7rem;color:{f['colore']};font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">{f['anno']}</div>
+                    <div style="font-family:'Playfair Display',Georgia,serif;font-size:1rem;font-weight:700;color:#14213d;">{f['titolo']}</div>
+                    <div style="font-size:0.85rem;color:#5b6472;margin-top:0.2rem;">{f['desc']}</div>
+                </div>
+                <a href="{f['link']}" target="_blank"
+                   style="flex-shrink:0;background:#0d1f3c;color:white;padding:0.35rem 0.8rem;
+                          border-radius:999px;font-size:0.75rem;font-weight:600;text-decoration:none;white-space:nowrap;">
+                    IMDb →
+                </a>
             </div>
+            """, unsafe_allow_html=True)
+
+    with tab3:
+        st.markdown("## ")
+        docs = [
+            {"emoji": "🌊", "titolo": "Katrina: Come Hell and High Water", "anno": "Netflix · 2025 · Spike Lee", "desc": "Tre episodi, vent'anni dopo: i sopravvissuti raccontano la catastrofe e i fallimenti istituzionali.", "link": "https://www.netflix.com/title/81676595", "label": "Netflix →", "colore": "#c0392b"},
+            {"emoji": "📡", "titolo": "Hurricane Katrina: Race Against Time", "anno": "National Geographic · 2025", "desc": "Cinque episodi. Critics Choice Award 2025. Ricostruzione minuto per minuto con footage inedito.", "link": "https://www.imdb.com/title/tt37458027/", "label": "IMDb →", "colore": "#17305a"},
+            {"emoji": "🎬", "titolo": "When the Levees Broke", "anno": "HBO · 2006 · Spike Lee", "desc": "Quattro atti, il documentario che ha raccontato al mondo la devastazione di Katrina. Pietra miliare.", "link": "https://www.imdb.com/title/tt0783105/", "label": "IMDb →", "colore": "#2e7d5e"},
+        ]
+        for d in docs:
+            st.markdown(f"""
+            <div style="background:white;border-radius:20px;padding:1.3rem 1.4rem;margin-bottom:0.8rem;
+                        border-top:4px solid {d['colore']};box-shadow:0 4px 16px rgba(0,0,0,0.06);">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;">
+                    <div>
+                        <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.3rem;">
+                            <span style="font-size:1.4rem;">{d['emoji']}</span>
+                            <div style="font-size:0.7rem;color:{d['colore']};font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">{d['anno']}</div>
+                        </div>
+                        <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:800;color:#14213d;margin-bottom:0.4rem;">{d['titolo']}</div>
+                        <div style="font-size:0.88rem;color:#5b6472;line-height:1.6;">{d['desc']}</div>
+                    </div>
+                    <a href="{d['link']}" target="_blank"
+                       style="flex-shrink:0;background:{d['colore']};color:white;padding:0.4rem 0.9rem;
+                              border-radius:999px;font-size:0.78rem;font-weight:600;text-decoration:none;white-space:nowrap;align-self:center;">
+                        {d['label']}
+                    </a>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+    with tab4:
+        st.markdown("## ")
+        risorse = [
+            {"emoji": "🌐", "titolo": "New Orleans — Wikipedia italiana", "desc": "Panoramica su storia, cultura, musica e geografia. Ottimo punto di partenza.", "link": "https://it.wikipedia.org/wiki/New_Orleans", "colore": "#17305a"},
+            {"emoji": "📰", "titolo": "The Times-Picayune · NOLA.com", "desc": "Il principale quotidiano di New Orleans per seguire l'attualità della città.", "link": "https://www.nola.com", "colore": "#d08c38"},
+            {"emoji": "🎙", "titolo": "Da Costa a Costa — Francesco Costa", "desc": "Newsletter e YouTube dell'esperto di America che incontreremo al briefing.", "link": "https://www.ilpost.it/costa/", "colore": "#2e7d5e"},
+        ]
+        for r in risorse:
+            st.markdown(f"""
+            <a href="{r['link']}" target="_blank" style="text-decoration:none;">
+            <div style="background:white;border-radius:18px;padding:1.1rem 1.3rem;margin-bottom:0.7rem;
+                        display:flex;align-items:center;gap:1rem;
+                        border:1px solid rgba(20,33,61,0.08);
+                        box-shadow:0 3px 12px rgba(0,0,0,0.05);
+                        transition:box-shadow 0.2s;">
+                <div style="width:44px;height:44px;border-radius:12px;background:{r['colore']}18;
+                            display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;">
+                    {r['emoji']}
+                </div>
+                <div>
+                    <div style="font-size:0.95rem;font-weight:700;color:#14213d;">{r['titolo']}</div>
+                    <div style="font-size:0.82rem;color:#5b6472;margin-top:0.15rem;">{r['desc']}</div>
+                </div>
+                <div style="margin-left:auto;color:{r['colore']};font-size:1.1rem;flex-shrink:0;">→</div>
+            </div>
+            </a>
             """, unsafe_allow_html=True)
 
 # ----------------------------
