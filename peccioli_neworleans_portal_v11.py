@@ -507,6 +507,7 @@ st.markdown("""
     .main .block-container { padding-bottom: 80px !important; }
 }
 .bottom-nav { display: none; }
+/* Copri il badge Streamlit su mobile con un blocco blu */
 @media (max-width: 768px) {
     .bottom-nav {
         display: flex;
@@ -514,10 +515,11 @@ st.markdown("""
         bottom: 0; left: 0; right: 0;
         background: #0d1f3c;
         border-top: 1px solid rgba(255,255,255,0.1);
-        padding: 8px 4px 12px;
-        z-index: 9999;
+        padding: 8px 4px 24px;
+        z-index: 2147483647;
         justify-content: space-around;
         align-items: flex-end;
+        min-height: 70px;
     }
     .bn-item {
         display: flex; flex-direction: column;
