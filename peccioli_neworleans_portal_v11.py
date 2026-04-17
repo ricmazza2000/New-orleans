@@ -617,17 +617,46 @@ if pagina == "Home":
     dots_html += '</div>'
     st.markdown(dots_html, unsafe_allow_html=True)
 
+    # Webcam live New Orleans
+    st.markdown("## ")
+    cam_col, _ = st.columns([2, 1])
+    with cam_col:
+        st.markdown("""
+        <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:700;color:#14213d;margin-bottom:0.4rem;">
+            📹 Live da New Orleans — Bourbon Street
+        </div>
+        <div style="font-size:0.83rem;color:#5b6472;margin-bottom:0.6rem;">
+            Webcam in diretta dal French Quarter · Cat's Meow, angolo Bourbon & St. Peter
+        </div>
+        """, unsafe_allow_html=True)
+        import streamlit.components.v1 as components
+        components.html("""
+        <div style="border-radius:16px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,0.12);">
+            <iframe
+                src="https://www.earthcam.com/cams/common/swfembed.php?cam=bourbonstreet&width=640&height=360&autostart=1"
+                width="100%" height="360"
+                frameborder="0" scrolling="no"
+                allowfullscreen
+                style="display:block;">
+            </iframe>
+        </div>
+        <div style="font-size:0.75rem;color:#9aa3b0;margin-top:0.4rem;text-align:right;">
+            Fonte: EarthCam · Cats Meow Karaoke Bar
+        </div>
+        """, height=390)
+
     # Card sezioni cliccabili
     st.markdown("## ")
     sezioni_home = [
         ("📅", "Briefing",          "Tre incontri con esperti di storia, geopolitica e giornalismo.",       "Briefing"),
         ("📚", "Approfondimenti",   "Libri, film, documentari e risorse su New Orleans.",                   "Approfondimenti"),
         ("🎷", "Temi del viaggio",  "Quattro chiavi di lettura per osservare la città.",                    "Temi del viaggio"),
+        ("🗺", "Mappe",             "Mappa interattiva con i luoghi simbolici del viaggio.",                "Mappe"),
         ("🗓", "Programma",         "Il programma del viaggio — in costruzione.",                           "Programma"),
         ("📂", "Documenti",         "Documenti e scadenze per la preparazione al viaggio.",                 "Documenti"),
     ]
     c1, c2, c3 = st.columns(3)
-    cols_cycle = [c1, c2, c3, c1, c2]
+    cols_cycle = [c1, c2, c3, c1, c2, c3]
     for i, (icon, title, desc, dest) in enumerate(sezioni_home):
         with cols_cycle[i]:
             st.markdown(f"""
