@@ -886,62 +886,156 @@ elif pagina == "Approfondimenti":
 # ----------------------------
 elif pagina == "Temi del viaggio":
     st.markdown('<div class="page-title">Temi del viaggio</div><div class="gold-line"></div>', unsafe_allow_html=True)
-    st.write("Quattro chiavi di lettura per osservare New Orleans durante il viaggio. Non sono gruppi separati, ma prospettive da tenere sempre attive.")
+    st.markdown('<p style="font-size:1rem;color:#3a4a5c;line-height:1.7;margin-bottom:1.6rem;">Quattro chiavi di lettura per osservare New Orleans durante il viaggio. Non categorie separate, ma prospettive da tenere sempre attive.</p>', unsafe_allow_html=True)
 
-    st.markdown("## ")
+    # SVG decorativi per ogni tema
+    svg_musica = """
+    <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;opacity:0.12;position:absolute;bottom:0;right:0;">
+      <circle cx="160" cy="60" r="50" fill="#d08c38"/>
+      <circle cx="120" cy="90" r="30" fill="#d08c38"/>
+      <!-- onde sonore -->
+      <path d="M20 60 Q50 30 80 60 Q110 90 140 60" stroke="#d08c38" stroke-width="4" fill="none"/>
+      <path d="M10 75 Q45 40 80 75 Q115 110 150 75" stroke="#d08c38" stroke-width="3" fill="none"/>
+      <path d="M30 45 Q60 20 90 45 Q120 70 150 45" stroke="#d08c38" stroke-width="2" fill="none"/>
+      <!-- nota musicale -->
+      <circle cx="170" cy="35" r="8" fill="#d08c38"/>
+      <line x1="178" y1="35" x2="178" y2="5" stroke="#d08c38" stroke-width="3"/>
+      <line x1="178" y1="5" x2="195" y2="10" stroke="#d08c38" stroke-width="3"/>
+    </svg>"""
+
+    svg_resilienza = """
+    <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;opacity:0.12;position:absolute;bottom:0;right:0;">
+      <!-- onde acqua -->
+      <path d="M0 90 Q25 70 50 90 Q75 110 100 90 Q125 70 150 90 Q175 110 200 90 L200 120 L0 120 Z" fill="#17305a"/>
+      <path d="M0 75 Q25 55 50 75 Q75 95 100 75 Q125 55 150 75 Q175 95 200 75 L200 120 L0 120 Z" fill="#17305a" opacity="0.6"/>
+      <!-- forma che emerge -->
+      <polygon points="100,15 115,55 85,55" fill="#d08c38"/>
+      <rect x="92" y="55" width="16" height="30" fill="#d08c38"/>
+    </svg>"""
+
+    svg_societa = """
+    <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;opacity:0.12;position:absolute;bottom:0;right:0;">
+      <!-- figure umane stilizzate -->
+      <circle cx="50" cy="40" r="14" fill="#2e7d5e"/>
+      <rect x="38" y="54" width="24" height="35" rx="4" fill="#2e7d5e"/>
+      <circle cx="100" cy="35" r="16" fill="#d08c38"/>
+      <rect x="86" y="51" width="28" height="40" rx="4" fill="#d08c38"/>
+      <circle cx="150" cy="40" r="14" fill="#17305a"/>
+      <rect x="138" y="54" width="24" height="35" rx="4" fill="#17305a"/>
+      <!-- linee connessione -->
+      <line x1="64" y1="60" x2="86" y2="58" stroke="#2e7d5e" stroke-width="2" stroke-dasharray="4"/>
+      <line x1="114" y1="60" x2="138" y2="60" stroke="#d08c38" stroke-width="2" stroke-dasharray="4"/>
+    </svg>"""
+
+    svg_storia = """
+    <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;opacity:0.12;position:absolute;bottom:0;right:0;">
+      <!-- arco stile French Quarter -->
+      <path d="M60 110 L60 50 Q60 20 90 20 Q120 20 120 50 L120 110" stroke="#7b3f00" stroke-width="5" fill="none"/>
+      <!-- balcone -->
+      <line x1="45" y1="65" x2="135" y2="65" stroke="#7b3f00" stroke-width="4"/>
+      <line x1="48" y1="65" x2="48" y2="80" stroke="#7b3f00" stroke-width="3"/>
+      <line x1="70" y1="65" x2="70" y2="80" stroke="#7b3f00" stroke-width="3"/>
+      <line x1="90" y1="65" x2="90" y2="80" stroke="#7b3f00" stroke-width="3"/>
+      <line x1="110" y1="65" x2="110" y2="80" stroke="#7b3f00" stroke-width="3"/>
+      <line x1="132" y1="65" x2="132" y2="80" stroke="#7b3f00" stroke-width="3"/>
+      <line x1="43" y1="80" x2="137" y2="80" stroke="#7b3f00" stroke-width="4"/>
+      <!-- stelle/decorazioni -->
+      <circle cx="155" cy="30" r="5" fill="#d08c38"/>
+      <circle cx="170" cy="50" r="4" fill="#d08c38"/>
+      <circle cx="160" cy="70" r="6" fill="#d08c38"/>
+      <circle cx="180" cy="25" r="3" fill="#d08c38"/>
+    </svg>"""
 
     temi = [
         {
-            "emoji": "🎷",
             "titolo": "Musica",
+            "label": "JAZZ",
             "colore": "#d08c38",
+            "bg": "#fff8ee",
             "sottotitolo": "Jazz, blues e il ritmo della città",
-            "desc": "New Orleans è la culla del jazz e del blues americano. La musica qui non è solo intrattenimento: è linguaggio sociale, memoria collettiva, forma di resistenza. Dalle second line nei funerali di strada a Frenchmen Street la sera, la città vive e comunica attraverso il suono.",
-            "parole": ["Jazz", "Blues", "Second line", "Frenchmen Street", "Louis Armstrong", "Brass band"],
+            "domanda": "Perché il jazz è nato proprio qui, e non altrove?",
+            "desc": "New Orleans è la culla del jazz e del blues. La musica non è intrattenimento: è linguaggio sociale, memoria collettiva, forma di resistenza. Dalle second line nei funerali di strada a Frenchmen Street la sera, la città vive attraverso il suono.",
+            "luoghi": "Frenchmen Street · Congo Square · Louis Armstrong Park",
+            "svg": svg_musica,
         },
         {
-            "emoji": "🌊",
             "titolo": "Resilienza",
+            "label": "KATRINA",
             "colore": "#17305a",
+            "bg": "#f0f4fb",
             "sottotitolo": "Katrina, ricostruzione e cambiamento climatico",
-            "desc": "L'uragano Katrina del 2005 ha devastato New Orleans e messo a nudo le fragilità strutturali della città: infrastrutture, disuguaglianze razziali, risposta istituzionale. Vent'anni dopo, la città è ancora in cammino. Il Lower Ninth Ward è il luogo dove questo tema si tocca con mano.",
-            "parole": ["Katrina 2005", "Lower Ninth Ward", "Argini e dighe", "Rigenerazione urbana", "Cambiamento climatico"],
+            "domanda": "Come si ricostruisce una città dopo che l'acqua se la porta via?",
+            "desc": "Il 2005 ha messo a nudo le fragilità strutturali della città: infrastrutture, disuguaglianze razziali, risposta istituzionale. Vent'anni dopo, la città è ancora in cammino. Il Lower Ninth Ward è il luogo dove questo tema si tocca con mano.",
+            "luoghi": "Lower Ninth Ward · Argini del Mississippi · Lakeview",
+            "svg": svg_resilienza,
         },
         {
-            "emoji": "⚖️",
             "titolo": "Società",
+            "label": "PEOPLE",
             "colore": "#2e7d5e",
-            "sottotitolo": "Diversità culturale, questioni razziali, parte umana",
-            "desc": "New Orleans è una delle città più multiculturali e diseguali degli Stati Uniti. L'eredità della schiavitù, la comunità creola, le contraddizioni tra turismo e vita reale, la povertà accanto all'opulenza: osservare la città attraverso le persone che la abitano è il modo più onesto di capirla.",
-            "parole": ["Comunità creola", "Storia afroamericana", "Congo Square", "Gentrificazione", "Diversità"],
+            "bg": "#f0faf5",
+            "sottotitolo": "Diversità culturale, questioni razziali, umanità",
+            "domanda": "Cosa succede quando culture lontanissime vivono nello stesso isolato da tre secoli?",
+            "desc": "New Orleans è una delle città più multiculturali e diseguali degli Stati Uniti. L'eredità della schiavitù, la comunità creola, le contraddizioni tra turismo e vita reale: osservare la città attraverso le persone che la abitano è il modo più onesto di capirla.",
+            "luoghi": "Congo Square · Tremé · Garden District",
+            "svg": svg_societa,
         },
         {
-            "emoji": "🏛",
             "titolo": "Identità e storia",
+            "label": "NOLA",
             "colore": "#7b3f00",
-            "sottotitolo": "Radici coloniali, voodoo, Mardi Gras e French Quarter",
-            "desc": "New Orleans è l'unica città americana fondata dai francesi, ceduta agli spagnoli e poi agli Stati Uniti. Questa stratificazione di culture — europea, africana, caraibica — ha prodotto un'identità unica: l'architettura del French Quarter, il voodoo, il Mardi Gras, la cucina creola. Una città che non somiglia a nessun'altra.",
-            "parole": ["French Quarter", "Voodoo", "Mardi Gras", "Architettura coloniale", "Cucina creola", "Marie Laveau"],
+            "bg": "#fdf6f0",
+            "sottotitolo": "Radici coloniali, voodoo, Mardi Gras, French Quarter",
+            "domanda": "Perché New Orleans non somiglia a nessun'altra città americana?",
+            "desc": "Fondata dai francesi, ceduta agli spagnoli, acquistata dagli Stati Uniti. Questa stratificazione di culture — europea, africana, caraibica — ha prodotto un'identità unica: il French Quarter, il voodoo, il Mardi Gras, la cucina creola.",
+            "luoghi": "French Quarter · St. Louis Cemetery · Jackson Square",
+            "svg": svg_storia,
         },
     ]
 
-    for tema in temi:
-        pills = "".join([f'<span style="display:inline-block;background:{tema["colore"]}20;color:{tema["colore"]};border:1px solid {tema["colore"]}40;padding:0.2rem 0.6rem;border-radius:999px;font-size:0.75rem;font-weight:600;margin-right:0.35rem;margin-bottom:0.35rem;">{p}</span>' for p in tema["parole"]])
-        st.markdown(f"""
-        <div style="background:white;border-radius:22px;padding:1.4rem 1.5rem;border:1px solid rgba(20,33,61,0.07);
-                    box-shadow:0 6px 22px rgba(0,0,0,0.05);margin-bottom:1rem;
-                    border-left:5px solid {tema['colore']};">
-            <div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:0.5rem;">
-                <span style="font-size:1.8rem;">{tema['emoji']}</span>
-                <div>
-                    <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.25rem;font-weight:800;color:#14213d;">{tema['titolo']}</div>
-                    <div style="font-size:0.85rem;color:{tema['colore']};font-weight:600;">{tema['sottotitolo']}</div>
+    col1, col2 = st.columns(2)
+    for i, tema in enumerate(temi):
+        with (col1 if i % 2 == 0 else col2):
+            st.markdown(f"""
+            <div style="position:relative;background:{tema['bg']};border-radius:24px;
+                        padding:1.6rem 1.5rem 1.4rem;margin-bottom:1rem;
+                        border:1px solid {tema['colore']}22;
+                        box-shadow:0 6px 24px rgba(0,0,0,0.06);
+                        overflow:hidden;min-height:240px;">
+                {tema['svg']}
+                <!-- Numero/parola decorativa in background -->
+                <div style="position:absolute;top:-10px;right:12px;
+                            font-family:'Playfair Display',Georgia,serif;
+                            font-size:4.5rem;font-weight:800;
+                            color:{tema['colore']};opacity:0.07;
+                            line-height:1;user-select:none;pointer-events:none;">
+                    {tema['label']}
+                </div>
+                <!-- Contenuto -->
+                <div style="position:relative;z-index:1;">
+                    <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.13em;
+                                text-transform:uppercase;color:{tema['colore']};margin-bottom:0.4rem;">
+                        {tema['sottotitolo']}
+                    </div>
+                    <div style="font-family:'Playfair Display',Georgia,serif;
+                                font-size:1.5rem;font-weight:800;color:#14213d;
+                                margin-bottom:0.7rem;line-height:1.1;">
+                        {tema['titolo']}
+                    </div>
+                    <div style="font-size:0.92rem;font-style:italic;color:{tema['colore']};
+                                font-weight:600;margin-bottom:0.7rem;line-height:1.5;">
+                        "{tema['domanda']}"
+                    </div>
+                    <div style="font-size:0.88rem;color:#3a4a5c;line-height:1.65;margin-bottom:0.9rem;">
+                        {tema['desc']}
+                    </div>
+                    <div style="font-size:0.75rem;font-weight:600;color:{tema['colore']};
+                                border-top:1px solid {tema['colore']}30;padding-top:0.6rem;">
+                        📍 {tema['luoghi']}
+                    </div>
                 </div>
             </div>
-            <div style="font-size:0.95rem;color:#3a4a5c;line-height:1.7;margin-bottom:0.8rem;">{tema['desc']}</div>
-            <div>{pills}</div>
-        </div>
-        """, unsafe_allow_html=True)
+            """, unsafe_allow_html=True)
 
 # ----------------------------
 # MAPPE
