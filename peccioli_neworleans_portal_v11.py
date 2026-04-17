@@ -576,9 +576,38 @@ if pagina == "Home":
         </p>
         """, unsafe_allow_html=True)
 
+    # Card sezioni — graficamente migliorate
+    st.markdown('<div style="height:1.2rem;"></div>', unsafe_allow_html=True)
+
+    sezioni_home = [
+        {"icon": "🗓", "title": "Programma",        "desc": "Tappe e attività del viaggio",          "dest": "Programma",        "colore": "#d08c38", "bg": "#fff8ee"},
+        {"icon": "📂", "title": "Documenti",         "desc": "Moduli e scadenze",                     "dest": "Documenti",        "colore": "#17305a", "bg": "#f0f4fb"},
+        {"icon": "📅", "title": "Briefing",          "desc": "I tre incontri con gli esperti",        "dest": "Briefing",         "colore": "#2e7d5e", "bg": "#f0faf5"},
+        {"icon": "🎷", "title": "Temi del viaggio",  "desc": "Musica, resilienza, società, storia",   "dest": "Temi del viaggio", "colore": "#7b3f00", "bg": "#fdf6f0"},
+        {"icon": "📚", "title": "Approfondimenti",   "desc": "Libri, film e documentari",             "dest": "Approfondimenti",  "colore": "#c0392b", "bg": "#fdf0f0"},
+        {"icon": "🗺", "title": "Mappe",             "desc": "I luoghi simbolici della città",        "dest": "Mappe",            "colore": "#17305a", "bg": "#f0f4fb"},
+    ]
+
+    c1, c2, c3 = st.columns(3)
+    cols_cycle = [c1, c2, c3, c1, c2, c3]
+    for i, sez in enumerate(sezioni_home):
+        with cols_cycle[i]:
+            st.markdown(f"""
+            <div style="background:{sez['bg']};border-radius:18px;padding:1rem 1rem 0.8rem;
+                        border:1px solid {sez['colore']}25;margin-bottom:0.6rem;
+                        box-shadow:0 3px 12px rgba(0,0,0,0.04);">
+                <div style="font-size:1.5rem;margin-bottom:0.35rem;">{sez['icon']}</div>
+                <div style="font-family:'Playfair Display',Georgia,serif;font-size:0.95rem;
+                            font-weight:700;color:#14213d;margin-bottom:0.15rem;">{sez['title']}</div>
+                <div style="font-size:0.78rem;color:{sez['colore']};font-weight:500;">{sez['desc']}</div>
+            </div>""", unsafe_allow_html=True)
+            if st.button("Vai →", key=f"nav_{sez['dest']}", use_container_width=True):
+                st.session_state.nav_target = sez['dest']
+                st.rerun()
+
     # Galleria — frecce su desktop e mobile
     st.markdown("""
-    <div style="display:flex;align-items:center;gap:1rem;margin:1.4rem 0 0.8rem;">
+    <div style="display:flex;align-items:center;gap:1rem;margin:1.6rem 0 0.8rem;">
         <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(20,33,61,0.15));"></div>
         <div style="text-align:center;">
             <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#d08c38;margin-bottom:0.2rem;">New Orleans vista da vicino</div>
@@ -683,30 +712,6 @@ if pagina == "Home":
             </div>
         </div>
         """, unsafe_allow_html=True)
-
-    # Card sezioni cliccabili
-    st.markdown("## ")
-    sezioni_home = [
-        ("🎷", "Temi del viaggio",  "Quattro chiavi di lettura per osservare la città.",                    "Temi del viaggio"),
-        ("📅", "Briefing",          "Tre incontri con esperti di storia, geopolitica e giornalismo.",       "Briefing"),
-        ("📚", "Approfondimenti",   "Libri, film, documentari e risorse su New Orleans.",                   "Approfondimenti"),
-        ("🗺", "Mappe",             "Mappa interattiva con i luoghi simbolici del viaggio.",                "Mappe"),
-        ("🗓", "Programma",         "Il programma del viaggio — in costruzione.",                           "Programma"),
-        ("📂", "Documenti",         "Documenti e scadenze per la preparazione al viaggio.",                 "Documenti"),
-    ]
-    c1, c2, c3 = st.columns(3)
-    cols_cycle = [c1, c2, c3, c1, c2, c3]
-    for i, (icon, title, desc, dest) in enumerate(sezioni_home):
-        with cols_cycle[i]:
-            st.markdown(f"""
-            <div class="home-card" style="margin-bottom:0.8rem;">
-                <div class="home-card-icon">{icon}</div>
-                <div class="home-card-title">{title}</div>
-                <div class="home-card-text">{desc}</div>
-            </div>""", unsafe_allow_html=True)
-            if st.button(f"Vai a {title}", key=f"nav_{dest}", use_container_width=True):
-                st.session_state.nav_target = dest
-                st.rerun()
 
 # ----------------------------
 # BRIEFING
