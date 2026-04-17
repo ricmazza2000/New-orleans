@@ -689,33 +689,100 @@ if pagina == "Home":
 # BRIEFING
 # ----------------------------
 elif pagina == "Briefing":
-    st.markdown('<div class="page-title">Briefing</div><div class="gold-line"></div>', unsafe_allow_html=True)
-    st.markdown('<div class="quote-box">I briefing costruiranno un primo sguardo sulla città, mettendo insieme storia, geopolitica e attualità.</div>', unsafe_allow_html=True)
 
-    left, right = st.columns([3, 2])
-    with left:
-        st.write("In preparazione al viaggio, i ragazzi seguiranno tre incontri con tre esperti che racconteranno storia, cultura, società e attualità su New Orleans. L'idea è di chiamarli briefing, più che lezioni.")
-    with right:
-        if briefing_img:
-            st.image(briefing_img, use_container_width=True)
+    # Intestazione stile editoriale
+    st.markdown("""
+    <div style="background:linear-gradient(135deg,#0d1f3c 0%,#17305a 100%);border-radius:24px;padding:2rem 2.2rem;margin-bottom:1.6rem;position:relative;overflow:hidden;">
+        <div style="position:absolute;right:-20px;top:-20px;font-size:8rem;opacity:0.05;font-weight:900;color:white;line-height:1;">01</div>
+        <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:#d08c38;margin-bottom:0.4rem;">Prima del viaggio</div>
+        <div style="font-family:'Playfair Display',Georgia,serif;font-size:2rem;font-weight:800;color:white;line-height:1.1;margin-bottom:0.6rem;">Incontri propedeutici<br>al viaggio</div>
+        <div style="font-size:0.92rem;color:rgba(255,255,255,0.65);line-height:1.65;max-width:520px;">
+            Tre serate con tre esperti per arrivare a New Orleans con strumenti culturali già solidi.
+            Non lezioni — conversazioni aperte su storia, geopolitica e società americana.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
-    st.markdown("## ")
-    timeline_html = '<div class="timeline">'
-    for b in briefing_data:
+    # Dati completi con biografia
+    briefing_full = [
+        {
+            "data": "7 maggio", "ora": "ore 21",
+            "titolo": "Elia Morelli",
+            "ruolo": "Ricercatore in storia moderna · Università di Pisa",
+            "bio": "Ricercatore in storia moderna all'Università di Pisa. Come analista geopolitico, scrive per Domino, rivista edita da Enrico Mentana. Membro della Società Italiana per la Storia dell'Età Moderna, della Società Italiana per lo Studio della Storia Contemporanea e della Renaissance Society of America.",
+            "tema": "Storia culturale, politico-economica e geopolitica di New Orleans e della Louisiana.",
+            "foto": morelli_img, "emoji": "🏛", "colore": "#d08c38",
+        },
+        {
+            "data": "21 maggio", "ora": "ore 21",
+            "titolo": "Anthony Gardner",
+            "ruolo": "Ex ambasciatore USA all'UE · Consiglio di sicurezza nazionale",
+            "bio": "Ex ambasciatore degli Stati Uniti presso l'Unione Europea dal 2014 al 2017 su nomina del presidente Obama. Ha lavorato per oltre vent'anni sulle relazioni tra USA ed Europa, su temi come i negoziati commerciali transatlantici, la privacy dei dati, l'economia digitale e la sicurezza energetica.",
+            "tema": "Sguardo istituzionale e geopolitico: il ruolo di New Orleans e il rapporto tra USA ed Europa.",
+            "foto": gardner_img, "emoji": "🌐", "colore": "#17305a",
+        },
+        {
+            "data": "18 giugno", "ora": "ore 21",
+            "titolo": "Francesco Costa",
+            "ruolo": "Giornalista · Direttore de Il Post",
+            "bio": "Direttore responsabile de Il Post. Tra i principali divulgatori italiani sulla società e politica americana, autore di libri e progetti dedicati agli Stati Uniti. Dal 2021 al 2025 ha condotto per il Post il podcast giornaliero Morning, una rassegna stampa commentata che è stata definita \"il primo vero podcast daily italiano\".",
+            "tema": "Punto di vista sociale, narrativo e attuale sugli Stati Uniti: leggere l'America oltre gli stereotipi.",
+            "foto": costa_img, "emoji": "📰", "colore": "#2e7d5e",
+        },
+    ]
+
+    # Dialog popup per ogni relatore
+    @st.dialog(" ")
+    def mostra_relatore(idx):
+        b = briefing_full[idx]
         b64, mime = img_to_base64(b["foto"])
-        dot = f'<div class="tl-dot"><img src="data:{mime};base64,{b64}"></div>' if b64 else f'<div class="tl-dot-placeholder">{b["emoji"]}</div>'
-        timeline_html += f"""
-        <div class="tl-item">
-            {dot}
-            <div class="tl-content">
-                <div class="tl-date">{b["data"]}</div>
-                <div class="tl-name">{b["titolo"]}</div>
-                <div class="tl-role">{b["ruolo"]}</div>
-                <div class="tl-desc">{b["descrizione"]}</div>
+        if b64:
+            col_foto, col_info = st.columns([1, 2])
+            with col_foto:
+                st.markdown(f'<img src="data:{mime};base64,{b64}" style="width:100%;border-radius:16px;object-fit:cover;">', unsafe_allow_html=True)
+            with col_info:
+                st.markdown(f"""
+                <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:{b['colore']};">{b['data']} · {b['ora']}</div>
+                <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.4rem;font-weight:800;color:#14213d;margin:0.2rem 0 0.3rem;">{b['titolo']}</div>
+                <div style="font-size:0.85rem;color:#5b6472;margin-bottom:0.8rem;">{b['ruolo']}</div>
+                """, unsafe_allow_html=True)
+        st.markdown(f"""
+        <div style="background:#f5f8fc;border-radius:14px;padding:1rem 1.1rem;margin:0.5rem 0;">
+            <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:{b['colore']};margin-bottom:0.4rem;">Chi è</div>
+            <div style="font-size:0.92rem;color:#3a4a5c;line-height:1.65;">{b['bio']}</div>
+        </div>
+        <div style="background:#fff8ee;border-radius:14px;padding:1rem 1.1rem;margin-top:0.6rem;border-left:3px solid {b['colore']};">
+            <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:{b['colore']};margin-bottom:0.4rem;">Di cosa parlerà</div>
+            <div style="font-size:0.92rem;color:#3a4a5c;line-height:1.65;">{b['tema']}</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # Inizializza stato dialog
+    if "dialog_idx" not in st.session_state:
+        st.session_state.dialog_idx = None
+    if st.session_state.dialog_idx is not None:
+        mostra_relatore(st.session_state.dialog_idx)
+        st.session_state.dialog_idx = None
+
+    # Card tre relatori affiancate
+    c1, c2, c3 = st.columns(3)
+    for i, (col, b) in enumerate(zip([c1, c2, c3], briefing_full)):
+        b64, mime = img_to_base64(b["foto"])
+        foto_tag = f'<img src="data:{mime};base64,{b64}" style="width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid {b["colore"]};margin:0 auto 0.8rem;display:block;">' if b64 else f'<div style="width:90px;height:90px;border-radius:50%;background:#dde3ec;margin:0 auto 0.8rem;display:flex;align-items:center;justify-content:center;font-size:2rem;">{b["emoji"]}</div>'
+        with col:
+            st.markdown(f"""
+            <div style="background:white;border-radius:22px;padding:1.4rem 1rem 1.2rem;
+                        border:1px solid rgba(20,33,61,0.08);box-shadow:0 6px 22px rgba(0,0,0,0.06);
+                        text-align:center;margin-bottom:0.5rem;">
+                {foto_tag}
+                <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:{b['colore']};margin-bottom:0.2rem;">{b['data']} · {b['ora']}</div>
+                <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:800;color:#14213d;line-height:1.2;margin-bottom:0.3rem;">{b['titolo']}</div>
+                <div style="font-size:0.78rem;color:#5b6472;line-height:1.4;">{b['ruolo']}</div>
             </div>
-        </div>"""
-    timeline_html += '</div>'
-    st.markdown(timeline_html, unsafe_allow_html=True)
+            """, unsafe_allow_html=True)
+            if st.button(f"Scopri {b['titolo'].split()[0]}", key=f"dialog_{i}", use_container_width=True):
+                st.session_state.dialog_idx = i
+                st.rerun()
 
 # ----------------------------
 # APPROFONDIMENTI
