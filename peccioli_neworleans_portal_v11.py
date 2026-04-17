@@ -797,7 +797,7 @@ elif pagina == "Approfondimenti":
     section_header("02", "Per prepararsi", "Approfondimenti",
         "Libri, film, documentari e risorse online per arrivare a New Orleans con uno sguardo già allenato.")
 
-    tab1, tab2, tab3, tab4 = st.tabs(["📚 Libri", "🎬 Film e TV", "🎞 Documentari", "🌐 Risorse"])
+    tab1, tab2, tab3, tab4 = st.tabs(["Libri", "Film e TV", "Documentari", "Risorse"])
 
     with tab1:
         st.markdown("## ")
@@ -812,27 +812,27 @@ elif pagina == "Approfondimenti":
                 "colore": "#d08c38",
             },
             {
-                "titolo": "Intervista col vampiro",
-                "autore": "Anne Rice",
-                "anno": "1976 · Romanzo",
-                "desc": "Il romanzo che ha reso New Orleans capitale del gotico americano. Storia, atmosfera e questioni razziali mescolate in modo unico.",
-                "link": "https://it.wikipedia.org/wiki/Intervista_col_vampiro_(romanzo)",
-                "colore": "#17305a",
-            },
-            {
-                "titolo": "Un tram che si chiama Desiderio",
-                "autore": "Tennessee Williams",
-                "anno": "1947 · Teatro",
-                "desc": "Il capolavoro teatrale scritto nel French Quarter. Punto di riferimento per capire il Sud americano e l'immaginario di New Orleans.",
-                "link": "https://it.wikipedia.org/wiki/Un_tram_che_si_chiama_Desiderio",
-                "colore": "#2e7d5e",
-            },
-            {
                 "titolo": "Blues Highway",
                 "autore": "Rob Siebert",
                 "anno": "Reportage narrativo",
-                "desc": "Viaggio da Chicago a New Orleans sulle tracce delle origini della musica americana: blues, jazz, gospel.",
+                "desc": "Viaggio da Chicago a New Orleans sulle tracce delle origini della musica americana: blues, jazz, gospel. Per capire il legame tra musica e territorio.",
                 "link": "https://marcosymarcos.com/libri/gli-alianti/blues-highway/",
+                "colore": "#17305a",
+            },
+            {
+                "titolo": "Questa è l'America",
+                "autore": "Francesco Costa",
+                "anno": "2020 · Mondadori",
+                "desc": "Storie per capire il presente degli Stati Uniti. Il primo libro del nostro relatore sugli USA: ideale per orientarsi prima del viaggio.",
+                "link": "https://www.amazon.it/Questa-lAmerica-capire-presente-Stati/dp/8804725044",
+                "colore": "#2e7d5e",
+            },
+            {
+                "titolo": "Frontiera",
+                "autore": "Francesco Costa",
+                "anno": "2024 · Premio Estense",
+                "desc": "Un viaggio on the road negli Stati Uniti di oggi: contraddizioni, rinascita industriale, questioni razziali. Il più aggiornato per capire l'America che visiteremo.",
+                "link": "https://www.mondadori.it/libri/frontiera-francesco-costa/",
                 "colore": "#7b3f00",
             },
         ]
@@ -862,7 +862,12 @@ elif pagina == "Approfondimenti":
             {"emoji": "🧛", "titolo": "Intervista col vampiro", "anno": "1994 · Neil Jordan", "desc": "Tom Cruise, Brad Pitt, Kirsten Dunst. Cattura l'atmosfera gotica e decadente della Louisiana.", "link": "https://www.imdb.com/title/tt0110632/", "colore": "#17305a"},
             {"emoji": "⏳", "titolo": "Il curioso caso di Benjamin Button", "anno": "2008 · David Fincher", "desc": "New Orleans dal dopoguerra a Katrina come sfondo per una storia sull'identità e la memoria.", "link": "https://www.imdb.com/title/tt0421715/", "colore": "#2e7d5e"},
             {"emoji": "🎷", "titolo": "Treme", "anno": "2010–2013 · HBO", "desc": "La serie più importante su New Orleans dopo Katrina. Emmy Award. Da vedere assolutamente.", "link": "https://www.imdb.com/title/tt1279972/", "colore": "#d4a017"},
-            {"emoji": "🏍", "titolo": "Easy Rider", "anno": "1969 · Dennis Hopper", "desc": "Icona della controcultura. Il Mardi Gras di New Orleans in una delle scene più celebri del cinema.", "link": "https://www.imdb.com/title/tt0064276/", "colore": "#7b3f00"},
+        film = [
+            {"titolo": "Un tram che si chiama Desiderio", "anno": "1951 · Elia Kazan", "desc": "Con Marlon Brando e Vivien Leigh. Classico assoluto girato nella New Orleans reale.", "link": "https://www.imdb.com/title/tt0044081/", "colore": "#d08c38"},
+            {"titolo": "Intervista col vampiro", "anno": "1994 · Neil Jordan", "desc": "Tom Cruise, Brad Pitt, Kirsten Dunst. Cattura l'atmosfera gotica e decadente della Louisiana.", "link": "https://www.imdb.com/title/tt0110632/", "colore": "#17305a"},
+            {"titolo": "Il curioso caso di Benjamin Button", "anno": "2008 · David Fincher", "desc": "New Orleans dal dopoguerra a Katrina come sfondo per una storia sull'identità e la memoria.", "link": "https://www.imdb.com/title/tt0421715/", "colore": "#2e7d5e"},
+            {"titolo": "Treme", "anno": "2010–2013 · HBO", "desc": "La serie più importante su New Orleans dopo Katrina. Emmy Award. Da vedere assolutamente.", "link": "https://www.imdb.com/title/tt1279972/", "colore": "#d4a017"},
+            {"titolo": "Easy Rider", "anno": "1969 · Dennis Hopper", "desc": "Icona della controcultura. Il Mardi Gras di New Orleans in una delle scene più celebri del cinema.", "link": "https://www.imdb.com/title/tt0064276/", "colore": "#7b3f00"},
         ]
         for f in film:
             st.markdown(f"""
@@ -870,7 +875,6 @@ elif pagina == "Approfondimenti":
                         display:flex;align-items:center;gap:1rem;
                         border-left:4px solid {f['colore']};
                         box-shadow:0 3px 12px rgba(0,0,0,0.05);">
-                <div style="font-size:2rem;flex-shrink:0;">{f['emoji']}</div>
                 <div style="flex:1;">
                     <div style="font-size:0.7rem;color:{f['colore']};font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">{f['anno']}</div>
                     <div style="font-family:'Playfair Display',Georgia,serif;font-size:1rem;font-weight:700;color:#14213d;">{f['titolo']}</div>
@@ -887,9 +891,9 @@ elif pagina == "Approfondimenti":
     with tab3:
         st.markdown("## ")
         docs = [
-            {"emoji": "🌊", "titolo": "Katrina: Come Hell and High Water", "anno": "Netflix · 2025 · Spike Lee", "desc": "Tre episodi, vent'anni dopo: i sopravvissuti raccontano la catastrofe e i fallimenti istituzionali.", "link": "https://www.netflix.com/title/81676595", "label": "Netflix →", "colore": "#c0392b"},
-            {"emoji": "📡", "titolo": "Hurricane Katrina: Race Against Time", "anno": "National Geographic · 2025", "desc": "Cinque episodi. Critics Choice Award 2025. Ricostruzione minuto per minuto con footage inedito.", "link": "https://www.imdb.com/title/tt37458027/", "label": "IMDb →", "colore": "#17305a"},
-            {"emoji": "🎬", "titolo": "When the Levees Broke", "anno": "HBO · 2006 · Spike Lee", "desc": "Quattro atti, il documentario che ha raccontato al mondo la devastazione di Katrina. Pietra miliare.", "link": "https://www.imdb.com/title/tt0783105/", "label": "IMDb →", "colore": "#2e7d5e"},
+            {"titolo": "Katrina: Come Hell and High Water", "anno": "Netflix · 2025 · Spike Lee", "desc": "Tre episodi, vent'anni dopo: i sopravvissuti raccontano la catastrofe e i fallimenti istituzionali.", "link": "https://www.netflix.com/title/81676595", "label": "Netflix →", "colore": "#c0392b"},
+            {"titolo": "Hurricane Katrina: Race Against Time", "anno": "National Geographic · 2025", "desc": "Cinque episodi. Critics Choice Award 2025. Ricostruzione minuto per minuto con footage inedito.", "link": "https://www.imdb.com/title/tt37458027/", "label": "IMDb →", "colore": "#17305a"},
+            {"titolo": "When the Levees Broke", "anno": "HBO · 2006 · Spike Lee", "desc": "Quattro atti, il documentario che ha raccontato al mondo la devastazione di Katrina. Pietra miliare.", "link": "https://www.imdb.com/title/tt0783105/", "label": "IMDb →", "colore": "#2e7d5e"},
         ]
         for d in docs:
             st.markdown(f"""
@@ -897,10 +901,7 @@ elif pagina == "Approfondimenti":
                         border-top:4px solid {d['colore']};box-shadow:0 4px 16px rgba(0,0,0,0.06);">
                 <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;">
                     <div>
-                        <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.3rem;">
-                            <span style="font-size:1.4rem;">{d['emoji']}</span>
-                            <div style="font-size:0.7rem;color:{d['colore']};font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">{d['anno']}</div>
-                        </div>
+                        <div style="font-size:0.7rem;color:{d['colore']};font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.3rem;">{d['anno']}</div>
                         <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:800;color:#14213d;margin-bottom:0.4rem;">{d['titolo']}</div>
                         <div style="font-size:0.88rem;color:#5b6472;line-height:1.6;">{d['desc']}</div>
                     </div>
@@ -916,9 +917,9 @@ elif pagina == "Approfondimenti":
     with tab4:
         st.markdown("## ")
         risorse = [
-            {"emoji": "🌐", "titolo": "New Orleans — Wikipedia italiana", "desc": "Panoramica su storia, cultura, musica e geografia. Ottimo punto di partenza.", "link": "https://it.wikipedia.org/wiki/New_Orleans", "colore": "#17305a"},
-            {"emoji": "📰", "titolo": "The Times-Picayune · NOLA.com", "desc": "Il principale quotidiano di New Orleans per seguire l'attualità della città.", "link": "https://www.nola.com", "colore": "#d08c38"},
-            {"emoji": "🎙", "titolo": "Da Costa a Costa — Francesco Costa", "desc": "Newsletter e YouTube dell'esperto di America che incontreremo al briefing.", "link": "https://www.ilpost.it/costa/", "colore": "#2e7d5e"},
+            {"titolo": "New Orleans — Wikipedia italiana", "desc": "Panoramica su storia, cultura, musica e geografia. Ottimo punto di partenza.", "link": "https://it.wikipedia.org/wiki/New_Orleans", "colore": "#17305a"},
+            {"titolo": "The Times-Picayune · NOLA.com", "desc": "Il principale quotidiano di New Orleans per seguire l'attualità della città.", "link": "https://www.nola.com", "colore": "#d08c38"},
+            {"titolo": "Da Costa a Costa — Francesco Costa", "desc": "Newsletter e YouTube dell'esperto di America che incontreremo al briefing.", "link": "https://www.ilpost.it/costa/", "colore": "#2e7d5e"},
         ]
         for r in risorse:
             st.markdown(f"""
@@ -926,12 +927,8 @@ elif pagina == "Approfondimenti":
             <div style="background:white;border-radius:18px;padding:1.1rem 1.3rem;margin-bottom:0.7rem;
                         display:flex;align-items:center;gap:1rem;
                         border:1px solid rgba(20,33,61,0.08);
-                        box-shadow:0 3px 12px rgba(0,0,0,0.05);
-                        transition:box-shadow 0.2s;">
-                <div style="width:44px;height:44px;border-radius:12px;background:{r['colore']}18;
-                            display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;">
-                    {r['emoji']}
-                </div>
+                        box-shadow:0 3px 12px rgba(0,0,0,0.05);">
+                <div style="width:6px;height:40px;border-radius:3px;background:{r['colore']};flex-shrink:0;"></div>
                 <div>
                     <div style="font-size:0.95rem;font-weight:700;color:#14213d;">{r['titolo']}</div>
                     <div style="font-size:0.82rem;color:#5b6472;margin-top:0.15rem;">{r['desc']}</div>
