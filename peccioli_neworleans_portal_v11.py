@@ -486,76 +486,18 @@ if pagina == "Home":
     <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     html, body { overflow:hidden; background:transparent; }
-    .cd-wrap {
-        display:flex;
-        gap:0.75rem;
-        font-family:'Inter',sans-serif;
-        height:110px;
-        align-items:stretch;
-    }
-    .cd-main {
-        flex:1.4;
-        min-width:0;
-        background:linear-gradient(135deg,#0d1f3c,#17305a);
-        border-radius:18px;
-        padding:1rem 1.4rem;
-        color:white;
-        display:flex;
-        flex-direction:column;
-        justify-content:center;
-        flex-shrink:0;
-    }
+    .cd-wrap { display:flex; gap:0.75rem; font-family:'Inter',sans-serif; height:110px; align-items:stretch; }
+    .cd-main { flex:1.6; min-width:0; background:linear-gradient(135deg,#0d1f3c,#17305a); border-radius:18px; padding:1rem 1.4rem; color:white; display:flex; flex-direction:column; justify-content:center; flex-shrink:0; }
     .cd-label { font-size:0.65rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:#d08c38; margin-bottom:0.3rem; }
-    .cd-num { font-size:2rem; font-weight:800; color:white; line-height:1.1; }
-    .cd-box {
-        flex:1;
-        min-width:0;
-        background:white;
-        border-radius:18px;
-        padding:0.8rem;
-        text-align:center;
-        border:1px solid rgba(20,33,61,0.08);
-        box-shadow:0 4px 14px rgba(0,0,0,0.05);
-        display:flex;
-        flex-direction:column;
-        justify-content:center;
-        flex-shrink:0;
-    }
-    .cd-box-num { font-size:1.8rem; font-weight:800; color:#d08c38; line-height:1; font-family:Georgia,serif; }
-    .cd-box-label { font-size:0.72rem; color:#5b6472; margin-top:0.2rem; font-weight:500; }
-
+    .cd-num { font-size:1.65rem; font-weight:800; color:white; line-height:1.2; }
+    .cd-box { flex:1; min-width:0; background:white; border-radius:18px; padding:0.85rem 1rem; border:1px solid rgba(20,33,61,0.08); box-shadow:0 4px 14px rgba(0,0,0,0.05); display:flex; flex-direction:column; justify-content:center; flex-shrink:0; }
     @media (max-width:600px) {
-        html, body { overflow:hidden; }
-        .cd-wrap {
-            overflow-x:auto;
-            overflow-y:hidden;
-            -webkit-overflow-scrolling:touch;
-            scroll-snap-type:x mandatory;
-            gap:0.6rem;
-            height:100px;
-            padding-bottom:2px;
-        }
+        html, body { overflow-x:auto; }
+        .cd-wrap { overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; gap:0.6rem; height:100px; }
         .cd-wrap::-webkit-scrollbar { display:none; }
-        .cd-main {
-            min-width:200px;
-            max-width:200px;
-            scroll-snap-align:start;
-            padding:0.85rem 1rem;
-        }
-        .cd-box {
-            min-width:150px;
-            max-width:150px;
-            scroll-snap-align:start;
-        }
-        .cd-box-last {
-            min-width:180px;
-            max-width:180px;
-            scroll-snap-align:start;
-            text-align:left;
-            padding:0.8rem 1rem;
-        }
-        .cd-num { font-size:1.75rem; }
-        .cd-box-num { font-size:1.5rem; }
+        .cd-main { min-width:190px; scroll-snap-align:start; padding:0.85rem 1rem; }
+        .cd-box { min-width:180px; scroll-snap-align:start; }
+        .cd-num { font-size:1.4rem; }
     }
     </style>
     <div class="cd-wrap">
@@ -564,30 +506,31 @@ if pagina == "Home":
             <div class="cd-num" id="cd">&#8212;</div>
         </div>
         <div class="cd-box">
-            <div class="cd-box-num">21&#8211;28</div>
-            <div class="cd-box-label">Settembre 2026</div>
-        </div>
-        <div class="cd-box cd-box-last" style="text-align:left;padding:0.8rem 1rem;">
-            <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#d08c38;margin-bottom:0.4rem;">&#128197; Prossimo incontro</div>
+            <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#d08c38;margin-bottom:0.45rem;">&#128197; Prossimo incontro</div>
             <div style="display:flex;align-items:center;gap:0.5rem;">
     """ + prossimo_foto + """
                 <div>
-                    <div style="font-size:0.8rem;font-weight:700;color:#14213d;line-height:1.2;">Elia Morelli</div>
+                    <div style="font-size:0.82rem;font-weight:700;color:#14213d;line-height:1.2;">Elia Morelli</div>
                     <div style="font-size:0.72rem;color:#5b6472;margin-top:0.1rem;">7 maggio 2026</div>
                 </div>
             </div>
         </div>
     </div>
     <script>
-        var t = new Date("2026-09-21T00:00:00").getTime() - Date.now();
-        var el = document.getElementById("cd");
-        if (el) {
-            if (t <= 0) { el.textContent = "Ci siamo!"; }
-            else {
-                var d = Math.floor(t / 86400000);
-                el.innerHTML = d + "<span style='font-size:0.95rem;font-weight:400;opacity:0.65;margin-left:0.3rem;'>giorni</span>";
-            }
+        function tick() {
+            var t = new Date("2026-09-21T00:00:00").getTime() - Date.now();
+            var el = document.getElementById("cd");
+            if (!el) return;
+            if (t <= 0) { el.innerHTML = "&#127926; Ci siamo!"; return; }
+            var d = Math.floor(t / 86400000);
+            var h = Math.floor((t % 86400000) / 3600000);
+            var m = Math.floor((t % 3600000) / 60000);
+            el.innerHTML = "<span style='font-size:1.65rem;font-weight:800;'>" + d + "</span><span style='font-size:0.82rem;opacity:0.6;margin:0 0.3rem 0 0.15rem;'>g</span>" +
+                           "<span style='font-size:1.65rem;font-weight:800;'>" + h + "</span><span style='font-size:0.82rem;opacity:0.6;margin:0 0.3rem 0 0.15rem;'>h</span>" +
+                           "<span style='font-size:1.65rem;font-weight:800;'>" + m + "</span><span style='font-size:0.82rem;opacity:0.6;margin-left:0.15rem;'>min</span>";
         }
+        tick();
+        setInterval(tick, 30000);
     </script>
     """)
     components.html(countdown_html, height=120, scrolling=False)
@@ -604,7 +547,16 @@ if pagina == "Home":
     """, unsafe_allow_html=True)
 
     # Galleria — frecce su desktop e mobile
-    st.markdown("### 📸 Sguardi su New Orleans")
+    st.markdown("""
+    <div style="display:flex;align-items:center;gap:1rem;margin:1.4rem 0 0.8rem;">
+        <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(20,33,61,0.15));"></div>
+        <div style="text-align:center;">
+            <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#d08c38;margin-bottom:0.2rem;">New Orleans vista da vicino</div>
+            <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.35rem;font-weight:800;color:#0d1f3c;line-height:1.1;">Sguardi sulla città</div>
+        </div>
+        <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(20,33,61,0.15),transparent);"></div>
+    </div>
+    """, unsafe_allow_html=True)
     valid_items = [item for item in gallery_items if item["path"]]
 
     if "selected_home_image" not in st.session_state:
