@@ -796,12 +796,6 @@ elif pagina == "Briefing":
 elif pagina == "Approfondimenti":
     section_header("02", "Per prepararsi", "Approfondimenti",
         "Libri, film, documentari e risorse online per arrivare a New Orleans con uno sguardo già allenato.")
-    left, right = st.columns([3, 2])
-    with left:
-        st.write("")
-    with right:
-        if materiali_img:
-            st.image(materiali_img, use_container_width=True)
 
     st.markdown("## ")
 
