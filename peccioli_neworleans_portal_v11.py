@@ -578,31 +578,29 @@ if pagina == "Home":
 
     # Card sezioni — griglia HTML via components per CSS corretto
     sezioni_home = [
-        {"icon": "🗓", "title": "Programma",        "desc": "Tappe e attività",              "dest": "Programma",        "colore": "#d08c38", "bg": "#fff8ee"},
-        {"icon": "📂", "title": "Documenti",         "desc": "Moduli e scadenze",             "dest": "Documenti",        "colore": "#17305a", "bg": "#f0f4fb"},
-        {"icon": "📅", "title": "Briefing",          "desc": "Gli esperti",                   "dest": "Briefing",         "colore": "#2e7d5e", "bg": "#f0faf5"},
-        {"icon": "🎷", "title": "Temi",              "desc": "Le chiavi di lettura",          "dest": "Temi del viaggio", "colore": "#7b3f00", "bg": "#fdf6f0"},
-        {"icon": "📚", "title": "Approfondimenti",   "desc": "Libri, film e doc",             "dest": "Approfondimenti",  "colore": "#c0392b", "bg": "#fdf0f0"},
-        {"icon": "🗺", "title": "Mappe",             "desc": "I luoghi simbolici",            "dest": "Mappe",            "colore": "#17305a", "bg": "#f0f4fb"},
+        {"title": "Programma",        "desc": "Tappe e attività",              "dest": "Programma"},
+        {"title": "Documenti",         "desc": "Moduli e scadenze",             "dest": "Documenti"},
+        {"title": "Briefing",          "desc": "Gli esperti",                   "dest": "Briefing"},
+        {"title": "Temi del viaggio",  "desc": "Le chiavi di lettura",          "dest": "Temi del viaggio"},
+        {"title": "Approfondimenti",   "desc": "Libri, film e doc",             "dest": "Approfondimenti"},
+        {"title": "Mappe",             "desc": "I luoghi simbolici",            "dest": "Mappe"},
     ]
 
     cards_html = """<style>
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
     .ng{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;}
-    .nc{border-radius:12px;padding:9px 8px 8px;border:1px solid rgba(0,0,0,0.07);cursor:pointer;}
-    .ni{font-size:0.95rem;margin-bottom:3px;}
-    .nt{font-size:0.78rem;font-weight:700;color:#14213d;line-height:1.2;margin-bottom:2px;}
-    .nd{font-size:0.65rem;font-weight:500;line-height:1.3;}
+    .nc{border-radius:12px;padding:10px 8px 9px;background:#0d1f3c;cursor:pointer;}
+    .nt{font-size:0.8rem;font-weight:700;color:white;line-height:1.25;margin-bottom:2px;}
+    .nd{font-size:0.64rem;font-weight:400;color:rgba(255,255,255,0.5);line-height:1.3;}
     </style><div class="ng">"""
     for sez in sezioni_home:
-        cards_html += f'<div class="nc" style="background:{sez["bg"]};"><div class="ni">{sez["icon"]}</div><div class="nt">{sez["title"]}</div><div class="nd" style="color:{sez["colore"]};">{sez["desc"]}</div></div>'
+        cards_html += f'<div class="nc"><div class="nt">{sez["title"]}</div><div class="nd">{sez["desc"]}</div></div>'
     cards_html += "</div>"
 
     import streamlit.components.v1 as components
-    components.html(cards_html, height=130, scrolling=False)
+    components.html(cards_html, height=110, scrolling=False)
 
     # Bottoni invisibili per navigazione
-    import streamlit as _st
     _cols = st.columns(6)
     for i, sez in enumerate(sezioni_home):
         with _cols[i]:
