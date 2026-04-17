@@ -66,12 +66,12 @@ skyline_path    = find_image(["neworleans_stilizzata.png", "neworleans_stilizzat
 nola_logo_path  = find_image(["New_Orleans_Logo.png", "New_Orleans_Logo.jpg"])
 
 gallery_items = [
-    {"key": "artistica", "title": "Street art",         "desc": "Murale che racconta la voce artistica e comunitaria di New Orleans.",         "path": find_image(["home_artistica.jpg"])},
-    {"key": "musicale",  "title": "Jazz dal vivo",      "desc": "Gruppo di artisti jazz in una serata nel French Quarter.",                    "path": find_image(["home_musicale.jpg"])},
-    {"key": "simbolica", "title": "La città e il fiume","desc": "Veduta simbolica di New Orleans affacciata sul Mississippi.",                 "path": find_image(["home_simbolica.jpg", "home_simbolica.jpeg"])},
-    {"key": "sociale",   "title": "Mardi Gras",          "desc": "Un carro del Mardi Gras sfila tra la folla lungo le strade del French Quarter. Il carnevale di New Orleans è uno dei più spettacolari al mondo.",       "path": find_image(["Home_carnevale.jpg", "home_carnevale.jpg", "home_sociale.jpg"])},
-    {"key": "umana",     "title": "Volti della città",  "desc": "Un ritratto che richiama il lato umano e quotidiano di New Orleans.",         "path": find_image(["home_umana.jpg"])},
-    {"key": "urbana",    "title": "Atmosfera urbana",   "desc": "Una composizione visiva che restituisce l'energia e i contrasti della città.", "path": find_image(["home_urbana.jpeg", "home_urbana.jpg", "home_urbana.png"])},
+    {"key": "artistica", "title": "Street art",          "desc": "Murale che racconta la voce artistica e comunitaria di New Orleans.",                                                                    "path": find_image(["home_artistica.jpg"])},
+    {"key": "urbana",    "title": "Atmosfera urbana",    "desc": "Una composizione visiva che restituisce l'energia e i contrasti della città.",                                                           "path": find_image(["home_urbana.jpeg", "home_urbana.jpg", "home_urbana.png"])},
+    {"key": "simbolica", "title": "La città e il fiume", "desc": "Veduta aerea di New Orleans affacciata sul Mississippi, con il ponte Crescent City Connection.",                                        "path": find_image(["home_simbolica.jpg", "home_simbolica.jpeg"])},
+    {"key": "sociale",   "title": "Mardi Gras",          "desc": "Un carro del Mardi Gras sfila tra la folla lungo le strade del French Quarter. Il carnevale di New Orleans è uno dei più spettacolari al mondo.", "path": find_image(["Home_carnevale.jpg", "home_carnevale.jpg", "home_sociale.jpg"])},
+    {"key": "umana",     "title": "Volti della città",   "desc": "Un ritratto che racconta il lato umano e quotidiano di New Orleans, attraverso le persone che la vivono.",                               "path": find_image(["home_umana.jpg"])},
+    {"key": "musicale",  "title": "Jazz dal vivo",       "desc": "Gruppo di artisti jazz in una serata nel French Quarter: la musica come anima pulsante della città.",                                   "path": find_image(["home_musicale.jpg"])},
 ]
 
 skyline_b64, skyline_mime = img_to_base64(skyline_path)
@@ -350,12 +350,27 @@ squadre = [
 ]
 
 luoghi_dati = [
-    {"nome": "French Quarter",    "lat": 29.9584, "lon": -90.0645, "desc": "Il quartiere più iconico, tra architettura storica e balconi in ferro battuto.",        "colore": "#d08c38"},
-    {"nome": "Congo Square",      "lat": 29.9596, "lon": -90.0773, "desc": "Luogo simbolico per la storia afroamericana e le radici musicali di New Orleans.",      "colore": "#17305a"},
-    {"nome": "Warehouse District","lat": 29.9489, "lon": -90.0715, "desc": "Il volto contemporaneo della città: musei, cultura e trasformazioni urbane.",            "colore": "#17305a"},
-    {"nome": "Lower Ninth Ward",  "lat": 29.9214, "lon": -90.0790, "desc": "Il luogo più legato alla memoria dell'uragano Katrina e alla ricostruzione.",           "colore": "#c0392b"},
-    {"nome": "Jackson Square",    "lat": 29.9623, "lon": -90.0637, "desc": "Piazza centrale e simbolica: arte, turismo e identità storica.",                        "colore": "#17305a"},
-    {"nome": "Frenchmen Street",  "lat": 29.9691, "lon": -90.0519, "desc": "La strada più rappresentativa per il jazz dal vivo e l'atmosfera più autentica.",       "colore": "#d08c38"},
+    # IDENTITÀ E STORIA — rosso #c0392b
+    {"nome": "French Quarter",       "lat": 29.9584, "lon": -90.0645, "desc": "Il quartiere più iconico, tra architettura storica, balconi in ferro battuto e stratificazioni culturali.",  "colore": "#c0392b", "tema": "Identità e storia"},
+    {"nome": "Jackson Square",       "lat": 29.9623, "lon": -90.0637, "desc": "Piazza centrale e simbolica: la Cattedrale di San Luigi, artisti di strada e identità storica.",             "colore": "#c0392b", "tema": "Identità e storia"},
+    {"nome": "St. Louis Cemetery",   "lat": 29.9647, "lon": -90.0706, "desc": "Il cimitero più antico di New Orleans, con le tombe sopraelevate e la leggenda di Marie Laveau.",           "colore": "#c0392b", "tema": "Identità e storia"},
+    {"nome": "Garden District",      "lat": 29.9277, "lon": -90.0972, "desc": "Quartiere delle grandi ville antebellum, simbolo della storia americana del Sud.",                           "colore": "#c0392b", "tema": "Identità e storia"},
+
+    # MUSICA — giallo/oro #d4a017
+    {"nome": "Frenchmen Street",     "lat": 29.9608, "lon": -90.0519, "desc": "La strada più autentica per il jazz dal vivo, lontana dal turismo di Bourbon Street.",                      "colore": "#d4a017", "tema": "Musica"},
+    {"nome": "Congo Square",         "lat": 29.9596, "lon": -90.0773, "desc": "Luogo simbolico delle radici africane della musica americana: qui si danzava e suonava già nel '700.",      "colore": "#d4a017", "tema": "Musica"},
+    {"nome": "Louis Armstrong Park", "lat": 29.9608, "lon": -90.0736, "desc": "Il parco dedicato al più celebre musicista di New Orleans, nel cuore del quartiere Tremé.",                 "colore": "#d4a017", "tema": "Musica"},
+    {"nome": "Preservation Hall",    "lat": 29.9576, "lon": -90.0659, "desc": "La sala concerti storica nel French Quarter, tempio vivente del jazz tradizionale di New Orleans.",         "colore": "#d4a017", "tema": "Musica"},
+
+    # RESILIENZA — blu #17305a
+    {"nome": "Lower Ninth Ward",     "lat": 29.9214, "lon": -90.0310, "desc": "Il quartiere più colpito da Katrina nel 2005. Simbolo della resilienza e della lentezza della ricostruzione.", "colore": "#17305a", "tema": "Resilienza"},
+    {"nome": "Lake Pontchartrain",   "lat": 30.0500, "lon": -90.1000, "desc": "Il lago ai cui argini fallirono le dighe durante Katrina, causando l'inondazione della città.",              "colore": "#17305a", "tema": "Resilienza"},
+    {"nome": "Make It Right Houses", "lat": 29.9230, "lon": -90.0320, "desc": "Le case colorate costruite da Brad Pitt dopo Katrina per i residenti del Lower Ninth Ward.",                 "colore": "#17305a", "tema": "Resilienza"},
+
+    # SOCIETÀ — verde #2e7d5e
+    {"nome": "Tremé",                "lat": 29.9636, "lon": -90.0760, "desc": "Il quartiere afroamericano più antico degli USA, culla della cultura creola e della comunità nera.",        "colore": "#2e7d5e", "tema": "Società"},
+    {"nome": "Warehouse District",   "lat": 29.9449, "lon": -90.0715, "desc": "Zona di musei e gallerie che mostra la trasformazione urbana e le nuove tensioni sociali della città.",    "colore": "#2e7d5e", "tema": "Società"},
+    {"nome": "Bywater",              "lat": 29.9527, "lon": -90.0394, "desc": "Quartiere creativo e in gentrificazione: murales, artisti e contraddizioni della New Orleans contemporanea.", "colore": "#2e7d5e", "tema": "Società"},
 ]
 
 # ----------------------------
@@ -580,9 +595,11 @@ if pagina == "Home":
     # Descrizione
     st.markdown("""
     <p style="font-size:1rem;color:#3a4a5c;line-height:1.7;margin-bottom:1.2rem;">
-    Questo spazio accompagna i ragazzi nel percorso di preparazione al viaggio:
-    tre incontri formativi con esperti, materiali di approfondimento, una mappa interattiva
-    e otto gruppi tematici per osservare New Orleans con sguardi diversi.
+    Benvenuti nel portale di <strong>Peccioli × New Orleans 2026</strong> — lo spazio digitale che accompagna
+    gli 80 ragazzi del progetto nel percorso di preparazione al viaggio. Qui trovate i <strong>briefing con gli esperti</strong>,
+    una selezione di <strong>libri, film e documentari</strong>, la <strong>mappa interattiva</strong> della città
+    e i <strong>quattro temi</strong> con cui osservare New Orleans: musica, resilienza, società, identità.
+    L'obiettivo è arrivare in Louisiana con curiosità già allenata e uno sguardo consapevole.
     </p>
     """, unsafe_allow_html=True)
 
@@ -1059,13 +1076,34 @@ elif pagina == "Mappe":
         ).add_to(m)
     st_folium(m, width=None, height=480, use_container_width=True)
 
+    # Legenda temi
     st.markdown("## ")
+    st.markdown("""
+    <div style="display:flex;flex-wrap:wrap;gap:0.6rem;margin-bottom:1.2rem;">
+        <div style="display:flex;align-items:center;gap:0.4rem;background:white;padding:0.35rem 0.8rem;border-radius:999px;border:1px solid rgba(0,0,0,0.08);font-size:0.82rem;font-weight:600;">
+            <div style="width:12px;height:12px;border-radius:50%;background:#c0392b;flex-shrink:0;"></div> Identità e storia
+        </div>
+        <div style="display:flex;align-items:center;gap:0.4rem;background:white;padding:0.35rem 0.8rem;border-radius:999px;border:1px solid rgba(0,0,0,0.08);font-size:0.82rem;font-weight:600;">
+            <div style="width:12px;height:12px;border-radius:50%;background:#d4a017;flex-shrink:0;"></div> Musica
+        </div>
+        <div style="display:flex;align-items:center;gap:0.4rem;background:white;padding:0.35rem 0.8rem;border-radius:999px;border:1px solid rgba(0,0,0,0.08);font-size:0.82rem;font-weight:600;">
+            <div style="width:12px;height:12px;border-radius:50%;background:#17305a;flex-shrink:0;"></div> Resilienza
+        </div>
+        <div style="display:flex;align-items:center;gap:0.4rem;background:white;padding:0.35rem 0.8rem;border-radius:999px;border:1px solid rgba(0,0,0,0.08);font-size:0.82rem;font-weight:600;">
+            <div style="width:12px;height:12px;border-radius:50%;background:#2e7d5e;flex-shrink:0;"></div> Società
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
     col1, col2 = st.columns(2)
     for i, luogo in enumerate(luoghi_dati):
         with (col1 if i % 2 == 0 else col2):
             st.markdown(f"""
-            <div class="legend-card">
-                <div class="card-title" style="color:{luogo['colore']}">{luogo['nome']}</div>
+            <div class="legend-card" style="border-left:4px solid {luogo['colore']};margin-bottom:0.6rem;">
+                <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.2rem;">
+                    <div style="font-family:'Playfair Display',Georgia,serif;font-size:0.95rem;font-weight:700;color:#14213d;">{luogo['nome']}</div>
+                </div>
+                <div style="font-size:0.72rem;font-weight:600;color:{luogo['colore']};margin-bottom:0.2rem;">{luogo['tema']}</div>
                 <div class="note">{luogo['desc']}</div>
             </div>""", unsafe_allow_html=True)
 
