@@ -576,35 +576,43 @@ if pagina == "Home":
         </p>
         """, unsafe_allow_html=True)
 
-    # Card sezioni — griglia HTML via components per CSS corretto
+    # Card sezioni — bottoni Streamlit stilizzati
     sezioni_home = [
-        {"title": "Programma",        "desc": "Tappe e attività",              "dest": "Programma"},
-        {"title": "Documenti",         "desc": "Moduli e scadenze",             "dest": "Documenti"},
-        {"title": "Briefing",          "desc": "Gli esperti",                   "dest": "Briefing"},
-        {"title": "Temi del viaggio",  "desc": "Le chiavi di lettura",          "dest": "Temi del viaggio"},
-        {"title": "Approfondimenti",   "desc": "Libri, film e doc",             "dest": "Approfondimenti"},
-        {"title": "Mappe",             "desc": "I luoghi simbolici",            "dest": "Mappe"},
+        {"title": "Programma",       "desc": "Tappe e attività",       "dest": "Programma"},
+        {"title": "Documenti",        "desc": "Moduli e scadenze",      "dest": "Documenti"},
+        {"title": "Briefing",         "desc": "Gli esperti",            "dest": "Briefing"},
+        {"title": "Temi del viaggio", "desc": "Le chiavi di lettura",   "dest": "Temi del viaggio"},
+        {"title": "Approfondimenti",  "desc": "Libri, film e doc",      "dest": "Approfondimenti"},
+        {"title": "Mappe",            "desc": "I luoghi simbolici",     "dest": "Mappe"},
     ]
 
-    cards_html = """<style>
-    *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
-    .ng{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;}
-    .nc{border-radius:12px;padding:10px 8px 9px;background:#0d1f3c;cursor:pointer;}
-    .nt{font-size:0.8rem;font-weight:700;color:white;line-height:1.25;margin-bottom:2px;}
-    .nd{font-size:0.64rem;font-weight:400;color:rgba(255,255,255,0.5);line-height:1.3;}
-    </style><div class="ng">"""
-    for sez in sezioni_home:
-        cards_html += f'<div class="nc"><div class="nt">{sez["title"]}</div><div class="nd">{sez["desc"]}</div></div>'
-    cards_html += "</div>"
+    st.markdown("""
+    <style>
+    div[data-testid="column"] .stButton button {
+        background: #0d1f3c !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 12px !important;
+        padding: 0.7rem 0.5rem !important;
+        font-weight: 700 !important;
+        font-size: 0.82rem !important;
+        width: 100% !important;
+        text-align: left !important;
+        line-height: 1.3 !important;
+        box-shadow: none !important;
+    }
+    div[data-testid="column"] .stButton button:hover {
+        background: #17305a !important;
+        border: none !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
-    import streamlit.components.v1 as components
-    components.html(cards_html, height=110, scrolling=False)
-
-    # Bottoni invisibili per navigazione
-    _cols = st.columns(6)
+    c1, c2, c3 = st.columns(3)
+    cols_cycle = [c1, c2, c3, c1, c2, c3]
     for i, sez in enumerate(sezioni_home):
-        with _cols[i]:
-            if st.button(sez['title'][:4], key=f"nav_{sez['dest']}", use_container_width=True, help=sez['title']):
+        with cols_cycle[i]:
+            if st.button(f"**{sez['title']}**\n\n{sez['desc']}", key=f"nav_{sez['dest']}", use_container_width=True):
                 st.session_state.nav_target = sez['dest']
                 st.rerun()
 
