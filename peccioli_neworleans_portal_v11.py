@@ -1046,49 +1046,72 @@ elif pagina == "Temi del viaggio":
         },
     ]
 
+    # CSS per nascondere/mostrare in base al device
+    st.markdown("""
+    <style>
+    .temi-desktop { display: block; }
+    .temi-mobile  { display: none; }
+    @media (max-width: 640px) {
+        .temi-desktop { display: none !important; }
+        .temi-mobile  { display: block !important; }
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+    # Genera HTML card per riuso
+    def tema_card_html(tema):
+        return f"""
+        <div style="position:relative;background:{tema['bg']};border-radius:24px;
+                    padding:1.6rem 1.5rem 1.4rem;margin-bottom:1rem;
+                    border:1px solid {tema['colore']}22;
+                    box-shadow:0 6px 24px rgba(0,0,0,0.06);
+                    overflow:hidden;min-height:240px;">
+            {tema['svg']}
+            <div style="position:absolute;top:-10px;right:12px;
+                        font-family:'Playfair Display',Georgia,serif;
+                        font-size:4.5rem;font-weight:800;
+                        color:{tema['colore']};opacity:0.07;
+                        line-height:1;user-select:none;pointer-events:none;">
+                {tema['label']}
+            </div>
+            <div style="position:relative;z-index:1;">
+                <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.13em;
+                            text-transform:uppercase;color:{tema['colore']};margin-bottom:0.4rem;">
+                    {tema['sottotitolo']}
+                </div>
+                <div style="font-family:'Playfair Display',Georgia,serif;
+                            font-size:1.5rem;font-weight:800;color:#14213d;
+                            margin-bottom:0.7rem;line-height:1.1;">
+                    {tema['titolo']}
+                </div>
+                <div style="font-size:0.92rem;font-style:italic;color:{tema['colore']};
+                            font-weight:600;margin-bottom:0.7rem;line-height:1.5;">
+                    &ldquo;{tema['domanda']}&rdquo;
+                </div>
+                <div style="font-size:0.88rem;color:#3a4a5c;line-height:1.65;margin-bottom:0.9rem;">
+                    {tema['desc']}
+                </div>
+                <div style="font-size:0.75rem;font-weight:600;color:{tema['colore']};
+                            border-top:1px solid {tema['colore']}30;padding-top:0.6rem;">
+                    &#128205; {tema['luoghi']}
+                </div>
+            </div>
+        </div>"""
+
+    # DESKTOP — 2 colonne
+    st.markdown('<div class="temi-desktop">', unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     for i, tema in enumerate(temi):
         with (col1 if i % 2 == 0 else col2):
-            st.markdown(f"""
-            <div style="position:relative;background:{tema['bg']};border-radius:24px;
-                        padding:1.6rem 1.5rem 1.4rem;margin-bottom:1rem;
-                        border:1px solid {tema['colore']}22;
-                        box-shadow:0 6px 24px rgba(0,0,0,0.06);
-                        overflow:hidden;min-height:240px;">
-                {tema['svg']}
-                <!-- Numero/parola decorativa in background -->
-                <div style="position:absolute;top:-10px;right:12px;
-                            font-family:'Playfair Display',Georgia,serif;
-                            font-size:4.5rem;font-weight:800;
-                            color:{tema['colore']};opacity:0.07;
-                            line-height:1;user-select:none;pointer-events:none;">
-                    {tema['label']}
-                </div>
-                <!-- Contenuto -->
-                <div style="position:relative;z-index:1;">
-                    <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.13em;
-                                text-transform:uppercase;color:{tema['colore']};margin-bottom:0.4rem;">
-                        {tema['sottotitolo']}
-                    </div>
-                    <div style="font-family:'Playfair Display',Georgia,serif;
-                                font-size:1.5rem;font-weight:800;color:#14213d;
-                                margin-bottom:0.7rem;line-height:1.1;">
-                        {tema['titolo']}
-                    </div>
-                    <div style="font-size:0.92rem;font-style:italic;color:{tema['colore']};
-                                font-weight:600;margin-bottom:0.7rem;line-height:1.5;">
-                        "{tema['domanda']}"
-                    </div>
-                    <div style="font-size:0.88rem;color:#3a4a5c;line-height:1.65;margin-bottom:0.9rem;">
-                        {tema['desc']}
-                    </div>
-                    <div style="font-size:0.75rem;font-weight:600;color:{tema['colore']};
-                                border-top:1px solid {tema['colore']}30;padding-top:0.6rem;">
-                        📍 {tema['luoghi']}
-                    </div>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+            st.markdown(tema_card_html(tema), unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    # MOBILE — accordion con st.expander
+    st.markdown('<div class="temi-mobile">', unsafe_allow_html=True)
+    for tema in temi:
+        with st.expander(f"{tema['titolo']} — {tema['sottotitolo']}"):
+            st.markdown(tema_card_html(tema), unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
 # ----------------------------
 # MAPPE
