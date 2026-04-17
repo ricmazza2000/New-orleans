@@ -94,6 +94,16 @@ st.markdown("""
 html, body, [class*="css"] { font-family: "Inter", "Segoe UI", sans-serif; }
 .block-container { max-width: 1200px; padding-top: 1.2rem; padding-bottom: 2rem; }
 
+/* Nascondi elementi Streamlit */
+#MainMenu { display: none !important; }
+header[data-testid="stHeader"] { display: none !important; }
+footer { display: none !important; }
+[data-testid="stToolbar"] { display: none !important; }
+[data-testid="stDecoration"] { display: none !important; }
+[data-testid="stStatusWidget"] { display: none !important; }
+.viewerBadge_container__1QSob { display: none !important; }
+.streamlit-footer { display: none !important; }
+
 [data-testid="stSidebar"] {
     background: linear-gradient(180deg, #0d1f3c 0%, #17305a 100%);
     border-right: 1px solid rgba(255,255,255,0.07);
