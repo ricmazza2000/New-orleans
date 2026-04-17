@@ -101,8 +101,16 @@ footer { display: none !important; }
 [data-testid="stToolbar"] { display: none !important; }
 [data-testid="stDecoration"] { display: none !important; }
 [data-testid="stStatusWidget"] { display: none !important; }
+[data-testid="stAppViewBlockContainer"] footer { display: none !important; }
 .viewerBadge_container__1QSob { display: none !important; }
+.viewerBadge_link__qRIco { display: none !important; }
+#stDecoration { display: none !important; }
 .streamlit-footer { display: none !important; }
+[data-testid="stBottom"] { display: none !important; }
+section[data-testid="stBottom"] { display: none !important; }
+div[class*="StatusWidget"] { display: none !important; }
+div[class*="viewerBadge"] { display: none !important; }
+button[title="View fullscreen"] { display: none !important; }
 
 [data-testid="stSidebar"] {
     background: linear-gradient(180deg, #0d1f3c 0%, #17305a 100%);
