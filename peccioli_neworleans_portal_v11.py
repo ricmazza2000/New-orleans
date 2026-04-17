@@ -576,9 +576,7 @@ if pagina == "Home":
         </p>
         """, unsafe_allow_html=True)
 
-    # Card sezioni — graficamente migliorate
-    st.markdown('<div style="height:1.2rem;"></div>', unsafe_allow_html=True)
-
+    # Card sezioni — griglia HTML 3x2 sempre, anche su mobile
     sezioni_home = [
         {"icon": "🗓", "title": "Programma",        "desc": "Tappe e attività del viaggio",          "dest": "Programma",        "colore": "#d08c38", "bg": "#fff8ee"},
         {"icon": "📂", "title": "Documenti",         "desc": "Moduli e scadenze",                     "dest": "Documenti",        "colore": "#17305a", "bg": "#f0f4fb"},
@@ -588,20 +586,39 @@ if pagina == "Home":
         {"icon": "🗺", "title": "Mappe",             "desc": "I luoghi simbolici della città",        "dest": "Mappe",            "colore": "#17305a", "bg": "#f0f4fb"},
     ]
 
-    c1, c2, c3 = st.columns(3)
-    cols_cycle = [c1, c2, c3, c1, c2, c3]
+    # Costruisci le card come HTML puro con griglia CSS — 3 colonne su tutti i device
+    cards_html = """
+    <style>
+    .nav-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0.5rem; margin-bottom:0.4rem; }
+    .nav-card {
+        border-radius:14px; padding:0.75rem 0.6rem 0.6rem;
+        border:1px solid rgba(0,0,0,0.06);
+        box-shadow:0 2px 8px rgba(0,0,0,0.04);
+        cursor:pointer; text-decoration:none; display:block;
+    }
+    .nav-card:active { opacity:0.85; }
+    .nav-icon { font-size:1.2rem; margin-bottom:0.25rem; }
+    .nav-title { font-family:'Playfair Display',Georgia,serif; font-size:0.82rem; font-weight:700; color:#14213d; line-height:1.2; margin-bottom:0.1rem; }
+    .nav-desc  { font-size:0.68rem; font-weight:500; line-height:1.3; }
+    </style>
+    <div class="nav-grid">
+    """
+    for sez in sezioni_home:
+        cards_html += f"""
+        <div class="nav-card" style="background:{sez['bg']};border-color:{sez['colore']}22;"
+             onclick="window.parent.postMessage({{type:'streamlit:setComponentValue', value:'{sez['dest']}'}}, '*')">
+            <div class="nav-icon">{sez['icon']}</div>
+            <div class="nav-title">{sez['title']}</div>
+            <div class="nav-desc" style="color:{sez['colore']};">{sez['desc']}</div>
+        </div>"""
+    cards_html += "</div>"
+    st.markdown(cards_html, unsafe_allow_html=True)
+
+    # Bottoni invisibili per la navigazione reale (Streamlit)
+    cols = st.columns(6)
     for i, sez in enumerate(sezioni_home):
-        with cols_cycle[i]:
-            st.markdown(f"""
-            <div style="background:{sez['bg']};border-radius:18px;padding:1rem 1rem 0.8rem;
-                        border:1px solid {sez['colore']}25;margin-bottom:0.6rem;
-                        box-shadow:0 3px 12px rgba(0,0,0,0.04);">
-                <div style="font-size:1.5rem;margin-bottom:0.35rem;">{sez['icon']}</div>
-                <div style="font-family:'Playfair Display',Georgia,serif;font-size:0.95rem;
-                            font-weight:700;color:#14213d;margin-bottom:0.15rem;">{sez['title']}</div>
-                <div style="font-size:0.78rem;color:{sez['colore']};font-weight:500;">{sez['desc']}</div>
-            </div>""", unsafe_allow_html=True)
-            if st.button("Vai →", key=f"nav_{sez['dest']}", use_container_width=True):
+        with cols[i]:
+            if st.button(sez['title'], key=f"nav_{sez['dest']}", use_container_width=True):
                 st.session_state.nav_target = sez['dest']
                 st.rerun()
 
