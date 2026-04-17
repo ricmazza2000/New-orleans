@@ -373,6 +373,22 @@ luoghi_dati = [
     {"nome": "Bywater",              "lat": 29.9527, "lon": -90.0394, "desc": "Quartiere creativo e in gentrificazione: murales, artisti e contraddizioni della New Orleans contemporanea.", "colore": "#2e7d5e", "tema": "Società"},
 ]
 
+def section_header(numero, sopratitolo, titolo, desc, colore="#d08c38"):
+    st.markdown(f"""
+    <div style="background:linear-gradient(135deg,#0d1f3c 0%,#17305a 100%);border-radius:24px;
+                padding:1.8rem 2rem;margin-bottom:1.6rem;position:relative;overflow:hidden;">
+        <div style="position:absolute;right:-10px;top:-15px;font-family:'Playfair Display',Georgia,serif;
+                    font-size:7rem;opacity:0.05;font-weight:900;color:white;line-height:1;user-select:none;">
+            {numero}
+        </div>
+        <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;
+                    color:{colore};margin-bottom:0.35rem;">{sopratitolo}</div>
+        <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.8rem;font-weight:800;
+                    color:white;line-height:1.1;margin-bottom:0.5rem;">{titolo}</div>
+        <div style="font-size:0.9rem;color:rgba(255,255,255,0.6);line-height:1.65;max-width:520px;">{desc}</div>
+    </div>
+    """, unsafe_allow_html=True)
+
 # ----------------------------
 # SIDEBAR
 # ----------------------------
@@ -690,14 +706,8 @@ if pagina == "Home":
 # ----------------------------
 elif pagina == "Briefing":
 
-    st.markdown('<div class="page-title">Briefing</div><div class="gold-line"></div>', unsafe_allow_html=True)
-    st.markdown("""
-    <p style="font-size:1rem;color:#3a4a5c;line-height:1.7;margin-bottom:1.6rem;">
-    Tre serate con tre esperti per arrivare a New Orleans con strumenti culturali già solidi.
-    Non lezioni — conversazioni aperte su storia, geopolitica e società americana.
-    Clicca su un relatore per scoprire chi è e di cosa parlerà.
-    </p>
-    """, unsafe_allow_html=True)
+    section_header("01", "Prima del viaggio", "Incontri propedeutici al viaggio",
+        "Tre serate con tre esperti per arrivare a New Orleans con strumenti culturali già solidi. Non lezioni — conversazioni aperte su storia, geopolitica e società americana. Clicca su un relatore per scoprire chi è.")
 
     # Dati completi con biografia
     briefing_full = [
@@ -784,10 +794,11 @@ elif pagina == "Briefing":
 # APPROFONDIMENTI
 # ----------------------------
 elif pagina == "Approfondimenti":
-    st.markdown('<div class="page-title">Approfondimenti</div><div class="gold-line"></div>', unsafe_allow_html=True)
+    section_header("02", "Per prepararsi", "Approfondimenti",
+        "Libri, film, documentari e risorse online per arrivare a New Orleans con uno sguardo già allenato.")
     left, right = st.columns([3, 2])
     with left:
-        st.write("Libri, film, documentari e risorse online per arrivare a New Orleans con uno sguardo già allenato.")
+        st.write("")
     with right:
         if materiali_img:
             st.image(materiali_img, use_container_width=True)
@@ -924,8 +935,9 @@ elif pagina == "Approfondimenti":
 # TEMI DEL VIAGGIO
 # ----------------------------
 elif pagina == "Temi del viaggio":
-    st.markdown('<div class="page-title">Temi del viaggio</div><div class="gold-line"></div>', unsafe_allow_html=True)
-    st.markdown('<p style="font-size:1rem;color:#3a4a5c;line-height:1.7;margin-bottom:1.6rem;">Quattro chiavi di lettura per osservare New Orleans durante il viaggio. Non categorie separate, ma prospettive da tenere sempre attive.</p>', unsafe_allow_html=True)
+    section_header("03", "Come guardare la città", "Temi del viaggio",
+        "Quattro chiavi di lettura per osservare New Orleans durante il viaggio. Non categorie separate, ma prospettive da tenere sempre attive.", colore="#d4a017")
+    st.markdown('<p style="font-size:1rem;color:#3a4a5c;line-height:1.7;margin-bottom:1.6rem;"></p>', unsafe_allow_html=True)
 
     # SVG decorativi per ogni tema
     svg_musica = """
@@ -1080,8 +1092,8 @@ elif pagina == "Temi del viaggio":
 # MAPPE
 # ----------------------------
 elif pagina == "Mappe":
-    st.markdown('<div class="page-title">Mappa di New Orleans</div><div class="gold-line"></div>', unsafe_allow_html=True)
-    st.write("Mappa interattiva con i luoghi simbolici del viaggio. Clicca sui marker per leggere la descrizione.")
+    section_header("04", "Orientarsi nella città", "Mappa di New Orleans",
+        "I luoghi simbolici del viaggio, organizzati per tema. Clicca sui marker per leggere la descrizione di ogni posto.", colore="#2e7d5e")
 
     m = folium.Map(location=[29.950, -90.065], zoom_start=13, tiles="CartoDB positron")
     for luogo in luoghi_dati:
@@ -1133,7 +1145,8 @@ elif pagina == "Mappe":
 # PROGRAMMA
 # ----------------------------
 elif pagina == "Programma":
-    st.markdown('<div class="page-title">Programma del viaggio</div><div class="gold-line"></div>', unsafe_allow_html=True)
+    section_header("05", "Il viaggio", "Programma",
+        "Il programma dettagliato è ancora in costruzione. Questa sezione verrà aggiornata con tutte le tappe non appena il percorso sarà definito.", colore="#d08c38")
 
     st.markdown("""
     <div style="background:#fff8ee;border:2px dashed #d08c38;border-radius:24px;padding:2.5rem 2rem;text-align:center;max-width:580px;margin:2rem auto;">
@@ -1151,8 +1164,8 @@ elif pagina == "Programma":
 # DOCUMENTI
 # ----------------------------
 elif pagina == "Documenti":
-    st.markdown('<div class="page-title">Materiali e documenti</div><div class="gold-line"></div>', unsafe_allow_html=True)
-    st.write("Qui troverete i documenti da consultare, compilare e consegnare in vista del viaggio, con relative scadenze.")
+    section_header("06", "Prima della partenza", "Materiali e documenti",
+        "Documenti da consultare, compilare e consegnare in vista del viaggio, con relative scadenze.", colore="#17305a")
 
     st.markdown("""
     <div style="background:#f0f4fb;border:2px dashed rgba(20,33,61,0.2);border-radius:24px;padding:2.5rem 2rem;text-align:center;max-width:580px;margin:2rem auto;">
