@@ -617,12 +617,13 @@ if pagina == "Home":
     dots_html += '</div>'
     st.markdown(dots_html, unsafe_allow_html=True)
 
-    # Webcam live New Orleans
+    # Webcam + News affiancati
     st.markdown("## ")
-    cam_col, _ = st.columns([2, 1])
+    cam_col, news_col = st.columns(2)
+
     with cam_col:
         st.markdown("""
-        <div style="background:white;border-radius:20px;padding:1.2rem 1.4rem;border:1px solid rgba(20,33,61,0.08);box-shadow:0 6px 20px rgba(0,0,0,0.05);">
+        <div style="background:white;border-radius:20px;padding:1.2rem 1.4rem;border:1px solid rgba(20,33,61,0.08);box-shadow:0 6px 20px rgba(0,0,0,0.05);height:100%;">
             <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:700;color:#14213d;margin-bottom:0.3rem;">
                 📹 Live da New Orleans
             </div>
@@ -639,6 +640,43 @@ if pagina == "Home":
             </div>
         </div>
         """, unsafe_allow_html=True)
+
+    with news_col:
+        st.markdown("""
+        <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:700;color:#14213d;margin-bottom:0.6rem;">
+            🗞 Ultime notizie da New Orleans
+        </div>
+        """, unsafe_allow_html=True)
+
+        try:
+            import feedparser
+            feed = feedparser.parse("https://www.nola.com/search/?f=rss")
+            entries = feed.entries[:5]
+            if entries:
+                for entry in entries:
+                    titolo = entry.get("title", "")
+                    link = entry.get("link", "#")
+                    data = entry.get("published", "")[:16] if entry.get("published") else ""
+                    st.markdown(f"""
+                    <div style="border-left:3px solid #d08c38;padding:0.5rem 0.8rem;margin-bottom:0.6rem;background:white;border-radius:0 12px 12px 0;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+                        <a href="{link}" target="_blank" style="font-size:0.88rem;font-weight:600;color:#14213d;text-decoration:none;line-height:1.4;display:block;">{titolo}</a>
+                        <div style="font-size:0.72rem;color:#9aa3b0;margin-top:0.2rem;">{data}</div>
+                    </div>
+                    """, unsafe_allow_html=True)
+                st.markdown('<div style="font-size:0.72rem;color:#9aa3b0;margin-top:0.3rem;">Fonte: The Times-Picayune · NOLA.com</div>', unsafe_allow_html=True)
+            else:
+                st.markdown('<div style="font-size:0.88rem;color:#5b6472;">Notizie non disponibili al momento.</div>', unsafe_allow_html=True)
+        except Exception:
+            st.markdown("""
+            <div style="background:white;border-radius:20px;padding:1rem 1.2rem;border:1px solid rgba(20,33,61,0.08);">
+                <div style="font-size:0.88rem;color:#5b6472;margin-bottom:0.8rem;">Le ultime notizie da New Orleans direttamente sul sito del giornale locale.</div>
+                <a href="https://www.nola.com" target="_blank"
+                   style="display:inline-block;background:#0d1f3c;color:white;padding:0.55rem 1.2rem;
+                          border-radius:999px;font-size:0.88rem;font-weight:600;text-decoration:none;">
+                    📰 Vai a NOLA.com →
+                </a>
+            </div>
+            """, unsafe_allow_html=True)
 
     # Card sezioni cliccabili
     st.markdown("## ")
