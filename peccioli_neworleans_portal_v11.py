@@ -451,18 +451,25 @@ with st.sidebar:
 # HEADER — semplice: logo + titolo + skyline
 # ----------------------------
 if nola_logo_b64:
-    nola_logo_tag = f'<img src="data:{nola_logo_mime};base64,{nola_logo_b64}" style="height:48px;opacity:0.65;filter:brightness(0) saturate(100%) invert(16%) sepia(60%) saturate(500%) hue-rotate(190deg);margin-left:1rem;vertical-align:middle;position:relative;top:-4px;">'
+    nola_logo_tag = f'<img src="data:{nola_logo_mime};base64,{nola_logo_b64}" class="nola-logo-inline" style="height:44px;opacity:0.65;filter:brightness(0) saturate(100%) invert(16%) sepia(60%) saturate(500%) hue-rotate(190deg);margin-left:0.8rem;vertical-align:middle;position:relative;top:-4px;">'
 else:
     nola_logo_tag = ""
 
 logo_tag = f'<img src="data:{logo_mime};base64,{logo_b64}" style="height:62px;object-fit:contain;flex-shrink:0;">' if logo_b64 else ""
 
 header_html = f"""
+<style>
+@media (max-width: 600px) {{
+    .nola-logo-inline {{ display: none !important; }}
+    .header-title {{ font-size: 1.8rem !important; }}
+    .header-eyebrow {{ font-size: 0.62rem !important; }}
+}}
+</style>
 <div style="display:flex;align-items:center;gap:1.2rem;padding:1.2rem 0 0.6rem 0;">
     {logo_tag}
     <div>
-        <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#d08c38;margin-bottom:0.25rem;">🎷 Comune di Peccioli · Progetto di viaggio</div>
-        <div style="font-family:'Playfair Display',Georgia,serif;font-size:2.6rem;font-weight:800;color:#0d1f3c;line-height:1.05;letter-spacing:-0.01em;">
+        <div class="header-eyebrow" style="font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#d08c38;margin-bottom:0.25rem;">🎷 Comune di Peccioli · Progetto di viaggio</div>
+        <div class="header-title" style="font-family:'Playfair Display',Georgia,serif;font-size:2.6rem;font-weight:800;color:#0d1f3c;line-height:1.05;letter-spacing:-0.01em;">
             Peccioli &times; <span style="color:#d08c38;">New Orleans</span> 2026{nola_logo_tag}
         </div>
     </div>
