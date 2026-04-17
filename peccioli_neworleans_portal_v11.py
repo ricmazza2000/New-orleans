@@ -690,17 +690,13 @@ if pagina == "Home":
 # ----------------------------
 elif pagina == "Briefing":
 
-    # Intestazione stile editoriale
+    st.markdown('<div class="page-title">Briefing</div><div class="gold-line"></div>', unsafe_allow_html=True)
     st.markdown("""
-    <div style="background:linear-gradient(135deg,#0d1f3c 0%,#17305a 100%);border-radius:24px;padding:2rem 2.2rem;margin-bottom:1.6rem;position:relative;overflow:hidden;">
-        <div style="position:absolute;right:-20px;top:-20px;font-size:8rem;opacity:0.05;font-weight:900;color:white;line-height:1;">01</div>
-        <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:#d08c38;margin-bottom:0.4rem;">Prima del viaggio</div>
-        <div style="font-family:'Playfair Display',Georgia,serif;font-size:2rem;font-weight:800;color:white;line-height:1.1;margin-bottom:0.6rem;">Incontri propedeutici<br>al viaggio</div>
-        <div style="font-size:0.92rem;color:rgba(255,255,255,0.65);line-height:1.65;max-width:520px;">
-            Tre serate con tre esperti per arrivare a New Orleans con strumenti culturali già solidi.
-            Non lezioni — conversazioni aperte su storia, geopolitica e società americana.
-        </div>
-    </div>
+    <p style="font-size:1rem;color:#3a4a5c;line-height:1.7;margin-bottom:1.6rem;">
+    Tre serate con tre esperti per arrivare a New Orleans con strumenti culturali già solidi.
+    Non lezioni — conversazioni aperte su storia, geopolitica e società americana.
+    Clicca su un relatore per scoprire chi è e di cosa parlerà.
+    </p>
     """, unsafe_allow_html=True)
 
     # Dati completi con biografia
