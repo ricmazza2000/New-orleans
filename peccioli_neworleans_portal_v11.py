@@ -469,7 +469,6 @@ with st.sidebar:
     """, unsafe_allow_html=True)
 
 # Bottom navigation bar — solo mobile
-# Iniettata tramite st.markdown con position:fixed nel DOM padre
 voci_nav = [
     ("🏠", "Home"),
     ("🎷", "Temi del viaggio"),
@@ -481,33 +480,17 @@ voci_nav = [
 ]
 active = st.session_state.get("nav_target", "Home")
 
-bottom_items = ""
-for icon, label in voci_nav:
-    is_active = (label == active)
-    color = "#d08c38" if is_active else "rgba(255,255,255,0.55)"
-    weight = "700" if is_active else "400"
-    short = label.split()[0]  # prima parola per brevità
-    bottom_items += f"""
-    <a href="?page={label.replace(' ', '+')}"
-       style="display:flex;flex-direction:column;align-items:center;gap:2px;
-              text-decoration:none;flex:1;">
-        <span style="font-size:1.1rem;line-height:1;">{icon}</span>
-        <span style="font-size:0.55rem;font-weight:{weight};color:{color};
-                     letter-spacing:0.02em;text-align:center;line-height:1.2;">{short}</span>
-    </a>"""
-
-st.markdown(f"""
+# CSS separato (no f-string)
+st.markdown("""
 <style>
-/* Nascondi sidebar su mobile */
-@media (max-width: 768px) {{
-    [data-testid="stSidebar"] {{ display: none !important; }}
-    [data-testid="collapsedControl"] {{ display: none !important; }}
-    .main .block-container {{ padding-bottom: 80px !important; }}
-}}
-/* Bottom bar visibile solo su mobile */
-.bottom-nav {{ display: none; }}
-@media (max-width: 768px) {{
-    .bottom-nav {{
+@media (max-width: 768px) {
+    [data-testid="stSidebar"] { display: none !important; }
+    [data-testid="collapsedControl"] { display: none !important; }
+    .main .block-container { padding-bottom: 80px !important; }
+}
+.bottom-nav { display: none; }
+@media (max-width: 768px) {
+    .bottom-nav {
         display: flex;
         position: fixed;
         bottom: 0; left: 0; right: 0;
@@ -517,13 +500,29 @@ st.markdown(f"""
         z-index: 9999;
         justify-content: space-around;
         align-items: flex-end;
-    }}
-}}
+    }
+    .bn-item {
+        display: flex; flex-direction: column;
+        align-items: center; gap: 2px;
+        text-decoration: none; flex: 1;
+    }
+    .bn-icon { font-size: 1.1rem; line-height: 1; }
+    .bn-label { font-size: 0.55rem; letter-spacing: 0.02em; text-align: center; line-height: 1.2; }
+}
 </style>
-<div class="bottom-nav">
-    {bottom_items}
-</div>
 """, unsafe_allow_html=True)
+
+# HTML separato (f-string solo per i dati)
+bottom_items = ""
+for icon, label in voci_nav:
+    is_active = (label == active)
+    color = "#d08c38" if is_active else "rgba(255,255,255,0.55)"
+    weight = "700" if is_active else "400"
+    short = label.split()[0]
+    page_param = label.replace(" ", "+")
+    bottom_items += f'<a href="?page={page_param}" class="bn-item"><span class="bn-icon">{icon}</span><span class="bn-label" style="color:{color};font-weight:{weight};">{short}</span></a>'
+
+st.markdown(f'<div class="bottom-nav">{bottom_items}</div>', unsafe_allow_html=True)
 
 # ----------------------------
 # HEADER — semplice: logo + titolo + skyline
