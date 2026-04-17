@@ -504,7 +504,9 @@ st.markdown("""
 @media (max-width: 768px) {
     [data-testid="stSidebar"] { display: none !important; }
     [data-testid="collapsedControl"] { display: none !important; }
-    .main .block-container { padding-bottom: 80px !important; }
+    [data-testid="stSidebarCollapsedControl"] { display: none !important; }
+    button[kind="header"] { display: none !important; }
+    .main .block-container { padding-bottom: 80px !important; padding-top: 0.5rem !important; }
 }
 .bottom-nav { display: none; }
 /* Copri il badge Streamlit su mobile con un blocco blu */
@@ -657,6 +659,45 @@ if pagina == "Home":
         </p>
         """, unsafe_allow_html=True)
 
+    # Menu a tendina
+    st.markdown('<div style="height:0.6rem;"></div>', unsafe_allow_html=True)
+    voci_menu = ["Programma", "Documenti", "Briefing", "Temi del viaggio", "Approfondimenti", "Mappe"]
+    descrizioni_menu = {
+        "Programma":       "Tappe e attività del viaggio",
+        "Documenti":       "Moduli e scadenze",
+        "Briefing":        "I tre incontri con gli esperti",
+        "Temi del viaggio":"Musica, resilienza, società, storia",
+        "Approfondimenti": "Libri, film e documentari",
+        "Mappe":           "I luoghi simbolici della città",
+    }
+    icone_menu = {
+        "Programma": "🗓", "Documenti": "📂", "Briefing": "📅",
+        "Temi del viaggio": "🎷", "Approfondimenti": "📚", "Mappe": "🗺",
+    }
+
+    if "menu_aperto" not in st.session_state:
+        st.session_state.menu_aperto = False
+
+    col_btn, _ = st.columns([2, 3])
+    with col_btn:
+        if st.button("☰  Vai a una sezione →", key="toggle_menu", use_container_width=True):
+            st.session_state.menu_aperto = not st.session_state.menu_aperto
+            st.rerun()
+
+    if st.session_state.menu_aperto:
+        for voce in voci_menu:
+            col_item, _ = st.columns([2, 3])
+            with col_item:
+                st.markdown(f"""
+                <div style="background:white;border-radius:12px;border:1px solid rgba(20,33,61,0.08);
+                            margin-bottom:0px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+                </div>""", unsafe_allow_html=True)
+                if st.button(f"{icone_menu[voce]}  {voce}  —  {descrizioni_menu[voce]}", key=f"menu_{voce}", use_container_width=True):
+                    st.session_state.nav_target = voce
+                    st.session_state.menu_aperto = False
+                    st.rerun()
+        st.markdown('<div style="height:0.4rem;"></div>', unsafe_allow_html=True)
+
     # Card sezioni — bottoni Streamlit stilizzati
     sezioni_home = [
         {"title": "Programma",       "desc": "Tappe e attività",       "dest": "Programma"},
@@ -669,6 +710,7 @@ if pagina == "Home":
 
     st.markdown("""
     <style>
+    /* Bottone menu hamburger */
     div[data-testid="column"] .stButton button {
         background: #0d1f3c !important;
         color: white !important;
@@ -685,6 +727,20 @@ if pagina == "Home":
     div[data-testid="column"] .stButton button:hover {
         background: #17305a !important;
         border: none !important;
+    }
+    /* Voci menu dropdown */
+    button[key*="menu_"] {
+        background: white !important;
+        color: #14213d !important;
+        border: 1px solid rgba(20,33,61,0.1) !important;
+        border-radius: 12px !important;
+        text-align: left !important;
+        font-size: 0.88rem !important;
+        padding: 0.65rem 0.9rem !important;
+    }
+    button[key*="menu_"]:hover {
+        background: #f5f8fc !important;
+        border-color: #d08c38 !important;
     }
     </style>
     """, unsafe_allow_html=True)
