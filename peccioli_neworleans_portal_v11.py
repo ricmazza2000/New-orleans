@@ -393,7 +393,7 @@ with st.sidebar:
     <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:0.6rem;">Naviga</div>
     """, unsafe_allow_html=True)
 
-    options = ["Home", "Briefing", "Approfondimenti", "Temi del viaggio", "Mappe", "Programma", "Documenti"]
+    options = ["Home", "Temi del viaggio", "Briefing", "Approfondimenti", "Mappe", "Programma", "Documenti"]
 
     if "nav_target" not in st.session_state:
         st.session_state.nav_target = "Home"
@@ -664,9 +664,9 @@ if pagina == "Home":
     # Card sezioni cliccabili
     st.markdown("## ")
     sezioni_home = [
+        ("🎷", "Temi del viaggio",  "Quattro chiavi di lettura per osservare la città.",                    "Temi del viaggio"),
         ("📅", "Briefing",          "Tre incontri con esperti di storia, geopolitica e giornalismo.",       "Briefing"),
         ("📚", "Approfondimenti",   "Libri, film, documentari e risorse su New Orleans.",                   "Approfondimenti"),
-        ("🎷", "Temi del viaggio",  "Quattro chiavi di lettura per osservare la città.",                    "Temi del viaggio"),
         ("🗺", "Mappe",             "Mappa interattiva con i luoghi simbolici del viaggio.",                "Mappe"),
         ("🗓", "Programma",         "Il programma del viaggio — in costruzione.",                           "Programma"),
         ("📂", "Documenti",         "Documenti e scadenze per la preparazione al viaggio.",                 "Documenti"),
