@@ -96,9 +96,7 @@ def inline_img(path, style=""):
 # ----------------------------
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&display=swap');
-
-html, body, [class*="css"] { font-family: "Inter", "Segoe UI", sans-serif; }
+html, body, [class*="css"] { font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
 .block-container { max-width: 1200px; padding-top: 0.5rem; padding-bottom: 2rem; }
 @media (max-width: 768px) {
     .block-container { padding-top: 0.2rem !important; }
@@ -733,32 +731,35 @@ if pagina == "Home":
     """, unsafe_allow_html=True)
     valid_items = [item for item in gallery_items if item["path"]]
 
-    if "selected_home_image" not in st.session_state:
-        st.session_state.selected_home_image = 0
-    idx = min(st.session_state.selected_home_image, len(valid_items) - 1)
-    selected = valid_items[idx]
+    @st.fragment
+    def galleria():
+        if "selected_home_image" not in st.session_state:
+            st.session_state.selected_home_image = 0
+        idx = min(st.session_state.selected_home_image, len(valid_items) - 1)
+        selected = valid_items[idx]
 
-    col_prev, col_img, col_next = st.columns([1, 14, 1])
-    with col_prev:
-        if st.button("←", key="prev_img"):
-            st.session_state.selected_home_image = (idx - 1) % len(valid_items)
-            st.rerun()
-    with col_img:
-        st.image(selected["path"], use_container_width=True)
-    with col_next:
-        if st.button("→", key="next_img"):
-            st.session_state.selected_home_image = (idx + 1) % len(valid_items)
-            st.rerun()
+        col_prev, col_img, col_next = st.columns([1, 14, 1])
+        with col_prev:
+            if st.button("←", key="prev_img"):
+                st.session_state.selected_home_image = (idx - 1) % len(valid_items)
+                st.rerun(scope="fragment")
+        with col_img:
+            st.image(selected["path"], use_container_width=True)
+        with col_next:
+            if st.button("→", key="next_img"):
+                st.session_state.selected_home_image = (idx + 1) % len(valid_items)
+                st.rerun(scope="fragment")
 
-    st.markdown(f'<div class="gallery-caption"><strong>{selected["title"]}</strong> — {selected["desc"]}</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="gallery-caption"><strong>{selected["title"]}</strong> — {selected["desc"]}</div>', unsafe_allow_html=True)
 
-    # Pallini indicatori
-    dots_html = '<div style="display:flex;justify-content:center;gap:6px;margin-bottom:0.8rem;">'
-    for i in range(len(valid_items)):
-        color = "#d08c38" if i == idx else "rgba(20,33,61,0.15)"
-        dots_html += f'<div style="width:7px;height:7px;border-radius:50%;background:{color};"></div>'
-    dots_html += '</div>'
-    st.markdown(dots_html, unsafe_allow_html=True)
+        dots_html = '<div style="display:flex;justify-content:center;gap:6px;margin-bottom:0.8rem;">'
+        for i in range(len(valid_items)):
+            color = "#d08c38" if i == idx else "rgba(20,33,61,0.15)"
+            dots_html += f'<div style="width:7px;height:7px;border-radius:50%;background:{color};"></div>'
+        dots_html += '</div>'
+        st.markdown(dots_html, unsafe_allow_html=True)
+
+    galleria()
 
     # Webcam + News — affiancati desktop, in colonna mobile
     st.markdown("## ")
