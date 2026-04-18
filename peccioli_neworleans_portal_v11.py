@@ -405,6 +405,10 @@ def section_header(numero, sopratitolo, titolo, desc, colore="#d08c38"):
                 padding:1.8rem 2rem;margin-bottom:1.6rem;position:relative;overflow:hidden;
                 border:1px solid rgba(255,255,255,0.06);">
         {ponte_deco}
+        <div style="position:absolute;right:-10px;top:-15px;font-family:'Playfair Display',Georgia,serif;
+                    font-size:7rem;opacity:0.05;font-weight:900;color:white;line-height:1;user-select:none;">
+            {numero}
+        </div>
         <div style="position:relative;z-index:1;">
             <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;
                         color:{colore};margin-bottom:0.35rem;">{sopratitolo}</div>
@@ -804,7 +808,7 @@ if pagina == "Home":
 # ----------------------------
 elif pagina == "Briefing":
 
-    section_header("01", "Prima del viaggio", "Incontri propedeutici al viaggio",
+    section_header("02", "Prima del viaggio", "Incontri propedeutici al viaggio",
         "Tre serate con tre esperti per arrivare a New Orleans con strumenti culturali già solidi. Non lezioni — conversazioni aperte su storia, geopolitica e società americana. Clicca su un relatore per scoprire chi è.")
 
     # Dati completi con biografia — immagini caricate qui (lazy)
@@ -894,7 +898,7 @@ elif pagina == "Briefing":
 # APPROFONDIMENTI
 # ----------------------------
 elif pagina == "Approfondimenti":
-    section_header("02", "Per prepararsi", "Approfondimenti",
+    section_header("03", "Per prepararsi", "Approfondimenti",
         "Libri, film, documentari e risorse online per arrivare a New Orleans con uno sguardo già allenato.")
 
     tab1, tab2, tab3, tab4 = st.tabs(["📚 Libri", "🎬 Film e TV", "🎞 Documentari", "🌐 Risorse"])
@@ -1037,7 +1041,7 @@ elif pagina == "Approfondimenti":
 # TEMI DEL VIAGGIO
 # ----------------------------
 elif pagina == "Temi del viaggio":
-    section_header("03", "Come guardare la città", "Temi del viaggio",
+    section_header("01", "Come guardare la città", "Temi del viaggio",
         "Quattro chiavi di lettura per osservare New Orleans durante il viaggio. Non categorie separate, ma prospettive da tenere sempre attive.", colore="#d4a017")
     st.markdown('<p style="font-size:1rem;color:#3a4a5c;line-height:1.7;margin-bottom:1.6rem;"></p>', unsafe_allow_html=True)
 
