@@ -583,27 +583,22 @@ logo_tag_small = f'<img src="data:{logo_mime};base64,{logo_b64}" style="height:3
 
 if pagina == "Home":
     ponte_bg = f'<img src="data:{ponte_mime};base64,{ponte_b64}" style="position:absolute;bottom:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:0.09;pointer-events:none;filter:invert(1);">' if ponte_b64 else ""
-    nola_logo_header = f'<img src="data:{nola_logo_mime};base64,{nola_logo_b64}" style="height:38px;opacity:0.8;filter:brightness(0) invert(1);flex-shrink:0;">' if nola_logo_b64 else ""
 
     header_html = f"""
     <style>
     @media (max-width: 600px) {{
-        .header-title {{ font-size: 1.8rem !important; }}
+        .header-title {{ font-size: 1.9rem !important; }}
     }}
     </style>
     <div style="position:relative;overflow:hidden;border-radius:22px;
                 background:linear-gradient(135deg,#0d1f3c 0%,#17305a 100%);
-                padding:1.6rem 1.8rem 1.4rem;margin-bottom:1.2rem;
+                padding:1.8rem 1.8rem 1.6rem;margin-bottom:1.2rem;
                 border:1px solid rgba(255,255,255,0.06);">
         {ponte_bg}
-        <div style="position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:1rem;">
-            <div>
-                <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:#d08c38;margin-bottom:0.3rem;">🎷 Comune di Peccioli · Settembre 2026</div>
-                <div class="header-title" style="font-family:'Playfair Display',Georgia,serif;font-size:2.4rem;font-weight:800;color:white;line-height:1.05;letter-spacing:-0.01em;">
-                    Peccioli &times; <span style="color:#d08c38;">New Orleans</span> 2026
-                </div>
+        <div style="position:relative;z-index:1;text-align:center;">
+            <div class="header-title" style="font-family:'Playfair Display',Georgia,serif;font-size:2.6rem;font-weight:800;color:white;line-height:1.05;letter-spacing:-0.01em;">
+                Peccioli &times; <span style="color:#d08c38;">New Orleans</span> 2026
             </div>
-            {nola_logo_header}
         </div>
     </div>
     """
@@ -693,18 +688,22 @@ if pagina == "Home":
     <style>
     .quick-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin:0.8rem 0; }
     .quick-btn {
-        display:block; text-align:center; text-decoration:none;
-        background:#0d1f3c; color:white; border-radius:14px;
-        padding:0.9rem 0.5rem; font-weight:700; font-size:0.9rem;
-        line-height:1.3;
+        display:block; text-align:left; text-decoration:none;
+        background:white; color:#14213d; border-radius:14px;
+        padding:0.85rem 1rem; font-weight:700; font-size:0.88rem;
+        line-height:1.3; border:1px solid rgba(20,33,61,0.09);
+        box-shadow:0 2px 8px rgba(0,0,0,0.04);
+        border-left: 3px solid #d08c38;
     }
-    .quick-btn span { display:block; font-size:1.2rem; margin-bottom:0.2rem; }
+    .quick-btn-label { font-size:0.68rem; color:#d08c38; font-weight:700;
+                       text-transform:uppercase; letter-spacing:0.08em;
+                       display:block; margin-bottom:0.15rem; }
     </style>
     <div class="quick-grid">
-        <a href="?page=Programma" class="quick-btn"><span>🗓</span>Programma</a>
-        <a href="?page=Briefing" class="quick-btn"><span>📅</span>Briefing</a>
-        <a href="?page=Mappe" class="quick-btn"><span>🗺</span>Mappe</a>
-        <a href="?page=Documenti" class="quick-btn"><span>📂</span>Documenti</a>
+        <a href="?page=Programma" class="quick-btn"><span class="quick-btn-label">🗓 Programma</span>Tappe e attività</a>
+        <a href="?page=Briefing" class="quick-btn"><span class="quick-btn-label">📅 Briefing</span>Gli esperti</a>
+        <a href="?page=Mappe" class="quick-btn"><span class="quick-btn-label">🗺 Mappe</span>I luoghi</a>
+        <a href="?page=Documenti" class="quick-btn"><span class="quick-btn-label">📂 Documenti</span>Moduli e scadenze</a>
     </div>
     """, unsafe_allow_html=True)
 
