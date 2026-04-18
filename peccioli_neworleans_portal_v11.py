@@ -58,9 +58,11 @@ def img_to_base64_small(path, max_width=600):
 # Solo logo e header caricate sempre
 logo_path      = find_image(["logo_comune.png", "logo_comune.jpg"])
 nola_logo_path = find_image(["New_Orleans_Logo.png", "New_Orleans_Logo.jpg"])
+ponte_path     = find_image(["piazza_nola_ponte.png", "piazza_nola_ponte.jpg", "Schermata_2026-04-18_alle_11_58_52.png"])
 
-logo_b64, logo_mime         = img_to_base64(logo_path)
+logo_b64, logo_mime           = img_to_base64(logo_path)
 nola_logo_b64, nola_logo_mime = img_to_base64(nola_logo_path)
+ponte_b64, ponte_mime         = img_to_base64(ponte_path)
 
 # Galleria (solo percorsi, caricamento b64 avviene nella Home)
 gallery_items = [
@@ -397,18 +399,23 @@ luoghi_dati = [
 ]
 
 def section_header(numero, sopratitolo, titolo, desc, colore="#d08c38"):
+    ponte_deco = f'<img src="data:{ponte_mime};base64,{ponte_b64}" style="position:absolute;right:-40px;bottom:-20px;height:160px;opacity:0.06;pointer-events:none;filter:invert(1);">' if ponte_b64 else ""
     st.markdown(f"""
     <div style="background:linear-gradient(135deg,#0d1f3c 0%,#17305a 100%);border-radius:24px;
-                padding:1.8rem 2rem;margin-bottom:1.6rem;position:relative;overflow:hidden;">
+                padding:1.8rem 2rem;margin-bottom:1.6rem;position:relative;overflow:hidden;
+                border:1px solid rgba(255,255,255,0.06);">
+        {ponte_deco}
         <div style="position:absolute;right:-10px;top:-15px;font-family:'Playfair Display',Georgia,serif;
                     font-size:7rem;opacity:0.05;font-weight:900;color:white;line-height:1;user-select:none;">
             {numero}
         </div>
-        <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;
-                    color:{colore};margin-bottom:0.35rem;">{sopratitolo}</div>
-        <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.8rem;font-weight:800;
-                    color:white;line-height:1.1;margin-bottom:0.5rem;">{titolo}</div>
-        <div style="font-size:0.9rem;color:rgba(255,255,255,0.6);line-height:1.65;max-width:520px;">{desc}</div>
+        <div style="position:relative;z-index:1;">
+            <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;
+                        color:{colore};margin-bottom:0.35rem;">{sopratitolo}</div>
+            <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.8rem;font-weight:800;
+                        color:white;line-height:1.1;margin-bottom:0.5rem;">{titolo}</div>
+            <div style="font-size:0.9rem;color:rgba(255,255,255,0.6);line-height:1.65;max-width:520px;">{desc}</div>
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -589,29 +596,36 @@ logo_tag = f'<img src="data:{logo_mime};base64,{logo_b64}" style="height:62px;ob
 logo_tag_small = f'<img src="data:{logo_mime};base64,{logo_b64}" style="height:32px;object-fit:contain;flex-shrink:0;">' if logo_b64 else ""
 
 if pagina == "Home":
+    ponte_bg = f'<img src="data:{ponte_mime};base64,{ponte_b64}" style="position:absolute;bottom:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:0.09;pointer-events:none;filter:invert(1);">' if ponte_b64 else ""
+    nola_logo_header = f'<img src="data:{nola_logo_mime};base64,{nola_logo_b64}" style="height:38px;opacity:0.8;filter:brightness(0) invert(1);flex-shrink:0;">' if nola_logo_b64 else ""
+
     header_html = f"""
     <style>
     @media (max-width: 600px) {{
-        .nola-logo-inline {{ display: none !important; }}
         .header-title {{ font-size: 1.8rem !important; }}
     }}
     </style>
-    <div style="border-radius:20px;background:linear-gradient(135deg,#f8f5f0 0%,#fdf9f4 100%);border:1px solid rgba(208,140,56,0.15);padding:1.4rem 1.5rem 1.2rem;margin-bottom:1.2rem;">
-        <div style="display:flex;align-items:center;gap:1.2rem;">
-            {logo_tag}
-            <div class="header-title" style="font-family:'Playfair Display',Georgia,serif;font-size:2.6rem;font-weight:800;color:#0d1f3c;line-height:1.05;letter-spacing:-0.01em;">
-                Peccioli &times; <span style="color:#d08c38;">New Orleans</span> 2026{nola_logo_tag}
+    <div style="position:relative;overflow:hidden;border-radius:22px;
+                background:linear-gradient(135deg,#0d1f3c 0%,#17305a 100%);
+                padding:1.6rem 1.8rem 1.4rem;margin-bottom:1.2rem;
+                border:1px solid rgba(255,255,255,0.06);">
+        {ponte_bg}
+        <div style="position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:1rem;">
+            <div>
+                <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:#d08c38;margin-bottom:0.3rem;">🎷 Comune di Peccioli · Settembre 2026</div>
+                <div class="header-title" style="font-family:'Playfair Display',Georgia,serif;font-size:2.4rem;font-weight:800;color:white;line-height:1.05;letter-spacing:-0.01em;">
+                    Peccioli &times; <span style="color:#d08c38;">New Orleans</span> 2026
+                </div>
             </div>
+            {nola_logo_header}
         </div>
     </div>
     """
 else:
-    # Topbar compatta per le altre pagine con tasto indietro
     header_html = f"""
-    <div style="display:flex;align-items:center;gap:0.8rem;padding:0.6rem 0 0.5rem 0;
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0 0.5rem 0;
                 border-bottom:1px solid rgba(20,33,61,0.1);margin-bottom:1.2rem;">
-        {logo_tag_small}
-        <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#d08c38;flex:1;">Peccioli × New Orleans 2026</div>
+        <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#d08c38;">Peccioli × New Orleans 2026</div>
         <a href="?page=Home" style="display:inline-flex;align-items:center;gap:0.35rem;
                   background:#0d1f3c;color:white;text-decoration:none;
                   padding:0.35rem 0.8rem;border-radius:999px;
