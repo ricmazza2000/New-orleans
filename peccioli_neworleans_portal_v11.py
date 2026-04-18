@@ -579,12 +579,18 @@ if pagina == "Home":
     </div>
     """
 else:
-    # Topbar compatta per le altre pagine
+    # Topbar compatta per le altre pagine con tasto indietro
     header_html = f"""
     <div style="display:flex;align-items:center;gap:0.8rem;padding:0.6rem 0 0.5rem 0;
                 border-bottom:1px solid rgba(20,33,61,0.1);margin-bottom:1.2rem;">
         {logo_tag_small}
-        <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#d08c38;">Peccioli × New Orleans 2026</div>
+        <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#d08c38;flex:1;">Peccioli × New Orleans 2026</div>
+        <a href="?page=Home" style="display:inline-flex;align-items:center;gap:0.35rem;
+                  background:#0d1f3c;color:white;text-decoration:none;
+                  padding:0.35rem 0.8rem;border-radius:999px;
+                  font-size:0.75rem;font-weight:600;white-space:nowrap;">
+            ← Home
+        </a>
     </div>
     """
 st.markdown(header_html, unsafe_allow_html=True)
