@@ -502,14 +502,13 @@ with st.sidebar:
 voci_nav = [
     ("🏠", "Home"),
     ("📅", "Briefing"),
+    ("🎷", "Temi del viaggio"),
+    ("📚", "Approfondimenti"),
     ("🗺", "Mappe"),
     ("🗓", "Programma"),
     ("📂", "Documenti"),
 ]
-voci_altro = [
-    ("🎷", "Temi del viaggio"),
-    ("📚", "Approfondimenti"),
-]
+voci_altro = []
 active = st.session_state.get("nav_target", "Home")
 
 # CSS separato (no f-string)
@@ -559,30 +558,15 @@ for icon, label in voci_nav:
     page_param = label.replace(" ", "+")
     bottom_items += f'<a href="?page={page_param}" class="bn-item"><span class="bn-icon">{icon}</span><span class="bn-label" style="color:{color};font-weight:{weight};">{short}</span></a>'
 
-# Voce Altro
-altro_attivo = active in [v[1] for v in voci_altro]
-altro_color = "#d08c38" if altro_attivo else "rgba(255,255,255,0.55)"
-altro_weight = "700" if altro_attivo else "400"
-bottom_items += f'<span class="bn-item" style="cursor:pointer;" onclick="document.getElementById(\'altro-panel\').style.display=document.getElementById(\'altro-panel\').style.display===\'none\'?\'flex\':\'none\'"><span class="bn-icon">☰</span><span class="bn-label" style="color:{altro_color};font-weight:{altro_weight};">Altro</span></span>'
-
-# Pannello Altro — sopra la bottom bar
-altro_links = ""
 for icon, label in voci_altro:
-    is_act = (label == active)
-    bg = "#fff8ee" if is_act else "white"
-    c = "#d08c38" if is_act else "#14213d"
+    is_active = (label == active)
+    color = "#d08c38" if is_active else "rgba(255,255,255,0.55)"
+    weight = "700" if is_active else "400"
+    short = label.split()[0]
     page_param = label.replace(" ", "+")
-    altro_links += f'<a href="?page={page_param}" style="display:flex;align-items:center;gap:0.6rem;padding:0.7rem 1.2rem;text-decoration:none;background:{bg};border-bottom:1px solid rgba(0,0,0,0.05);"><span style="font-size:1.1rem;">{icon}</span><span style="font-size:0.9rem;font-weight:600;color:{c};">{label}</span></a>'
+    bottom_items += f'<a href="?page={page_param}" class="bn-item"><span class="bn-icon">{icon}</span><span class="bn-label" style="color:{color};font-weight:{weight};">{short}</span></a>'
 
-st.markdown(f"""
-<div id="altro-panel" style="display:none;position:fixed;bottom:70px;right:0;left:0;
-     flex-direction:column;background:white;border-top:1px solid rgba(0,0,0,0.1);
-     box-shadow:0 -4px 20px rgba(0,0,0,0.12);z-index:2147483646;border-radius:16px 16px 0 0;overflow:hidden;">
-    <div style="padding:0.6rem 1.2rem;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#9aa3b0;background:#f8f8f8;">Altre sezioni</div>
-    {altro_links}
-</div>
-<div class="bottom-nav">{bottom_items}</div>
-""", unsafe_allow_html=True)
+st.markdown(f'<div class="bottom-nav">{bottom_items}</div>', unsafe_allow_html=True)
 
 # ----------------------------
 # HEADER
