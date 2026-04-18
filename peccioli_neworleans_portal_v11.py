@@ -92,7 +92,10 @@ st.markdown("""
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&display=swap');
 
 html, body, [class*="css"] { font-family: "Inter", "Segoe UI", sans-serif; }
-.block-container { max-width: 1200px; padding-top: 1.2rem; padding-bottom: 2rem; }
+.block-container { max-width: 1200px; padding-top: 0.5rem; padding-bottom: 2rem; }
+@media (max-width: 768px) {
+    .block-container { padding-top: 0.2rem !important; }
+}
 
 /* Nascondi elementi Streamlit */
 #MainMenu { display: none !important; }
@@ -488,13 +491,13 @@ with st.sidebar:
 
 # Bottom navigation bar — solo mobile
 voci_nav = [
-    ("Home",            "Home"),
-    ("Temi del viaggio","Temi"),
-    ("Briefing",        "Briefing"),
-    ("Approfondimenti", "Approfond."),
-    ("Mappe",           "Mappe"),
-    ("Programma",       "Programma"),
-    ("Documenti",       "Documenti"),
+    ("🏠", "Home"),
+    ("🎷", "Temi del viaggio"),
+    ("📅", "Briefing"),
+    ("📚", "Approfondimenti"),
+    ("🗺", "Mappe"),
+    ("🗓", "Programma"),
+    ("📂", "Documenti"),
 ]
 active = st.session_state.get("nav_target", "Home")
 
@@ -529,19 +532,21 @@ st.markdown("""
         text-decoration: none; flex: 1;
         padding: 2px 1px;
     }
-    .bn-label { font-size: 0.58rem; letter-spacing: 0.01em; text-align: center; line-height: 1.2; font-family: 'Inter', sans-serif; }
+    .bn-icon { font-size: 1.1rem; line-height: 1; }
+    .bn-label { font-size: 0.55rem; letter-spacing: 0.02em; text-align: center; line-height: 1.2; font-family: 'Inter', sans-serif; }
 }
 </style>
 """, unsafe_allow_html=True)
 
 # HTML separato (f-string solo per i dati)
 bottom_items = ""
-for dest, label in voci_nav:
-    is_active = (dest == active)
+for icon, label in voci_nav:
+    is_active = (label == active)
     color = "#d08c38" if is_active else "rgba(255,255,255,0.55)"
     weight = "700" if is_active else "400"
-    page_param = dest.replace(" ", "+")
-    bottom_items += f'<a href="?page={page_param}" class="bn-item"><span class="bn-label" style="color:{color};font-weight:{weight};">{label}</span></a>'
+    short = label.split()[0]
+    page_param = label.replace(" ", "+")
+    bottom_items += f'<a href="?page={page_param}" class="bn-item"><span class="bn-icon">{icon}</span><span class="bn-label" style="color:{color};font-weight:{weight};">{short}</span></a>'
 
 st.markdown(f'<div class="bottom-nav">{bottom_items}</div>', unsafe_allow_html=True)
 
@@ -557,20 +562,16 @@ logo_tag = f'<img src="data:{logo_mime};base64,{logo_b64}" style="height:62px;ob
 logo_tag_small = f'<img src="data:{logo_mime};base64,{logo_b64}" style="height:32px;object-fit:contain;flex-shrink:0;">' if logo_b64 else ""
 
 if pagina == "Home":
-    # Header completo solo sulla Home
     header_html = f"""
     <style>
     @media (max-width: 600px) {{
         .nola-logo-inline {{ display: none !important; }}
-        .header-title {{ font-size: 1.4rem !important; line-height:1.15 !important; }}
-        .header-eyebrow {{ font-size: 0.58rem !important; }}
-        .header-wrap {{ padding: 0.6rem 0 0.3rem 0 !important; gap: 0.7rem !important; }}
-        .header-logo {{ height: 40px !important; }}
-        .header-divider {{ margin: 0.3rem 0 0.8rem 0 !important; }}
+        .header-title {{ font-size: 1.8rem !important; }}
+        .header-eyebrow {{ font-size: 0.62rem !important; }}
     }}
     </style>
-    <div class="header-wrap" style="display:flex;align-items:center;gap:1.2rem;padding:1.2rem 0 0.6rem 0;">
-        <img class="header-logo" src="data:{logo_mime};base64,{logo_b64}" style="height:62px;object-fit:contain;flex-shrink:0;">
+    <div style="display:flex;align-items:center;gap:1.2rem;padding:0.4rem 0 0.6rem 0;">
+        {logo_tag}
         <div>
             <div class="header-eyebrow" style="font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#d08c38;margin-bottom:0.25rem;">🎷 Comune di Peccioli · Progetto di viaggio</div>
             <div class="header-title" style="font-family:'Playfair Display',Georgia,serif;font-size:2.6rem;font-weight:800;color:#0d1f3c;line-height:1.05;letter-spacing:-0.01em;">
@@ -578,17 +579,7 @@ if pagina == "Home":
             </div>
         </div>
     </div>
-    <div class="header-divider" style="height:2px;background:linear-gradient(90deg,#d08c38 0%,#17305a 40%,transparent 100%);margin:0.5rem 0 1.2rem 0;border-radius:2px;opacity:0.35;"></div>
-    """ if logo_b64 else f"""
-    <div class="header-wrap" style="display:flex;align-items:center;gap:1.2rem;padding:1.2rem 0 0.6rem 0;">
-        <div>
-            <div class="header-eyebrow" style="font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#d08c38;margin-bottom:0.25rem;">🎷 Comune di Peccioli · Progetto di viaggio</div>
-            <div class="header-title" style="font-family:'Playfair Display',Georgia,serif;font-size:2.6rem;font-weight:800;color:#0d1f3c;line-height:1.05;">
-                Peccioli &times; <span style="color:#d08c38;">New Orleans</span> 2026
-            </div>
-        </div>
-    </div>
-    <div class="header-divider" style="height:2px;background:linear-gradient(90deg,#d08c38 0%,#17305a 40%,transparent 100%);margin:0.5rem 0 1.2rem 0;border-radius:2px;opacity:0.35;"></div>
+    <div style="height:2px;background:linear-gradient(90deg,#d08c38 0%,#17305a 40%,transparent 100%);margin:0.5rem 0 1.2rem 0;border-radius:2px;opacity:0.35;"></div>
     """
 else:
     # Topbar compatta per le altre pagine
