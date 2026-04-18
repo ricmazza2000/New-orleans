@@ -405,10 +405,6 @@ def section_header(numero, sopratitolo, titolo, desc, colore="#d08c38"):
                 padding:1.8rem 2rem;margin-bottom:1.6rem;position:relative;overflow:hidden;
                 border:1px solid rgba(255,255,255,0.06);">
         {ponte_deco}
-        <div style="position:absolute;right:-10px;top:-15px;font-family:'Playfair Display',Georgia,serif;
-                    font-size:7rem;opacity:0.05;font-weight:900;color:white;line-height:1;user-select:none;">
-            {numero}
-        </div>
         <div style="position:relative;z-index:1;">
             <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;
                         color:{colore};margin-bottom:0.35rem;">{sopratitolo}</div>
