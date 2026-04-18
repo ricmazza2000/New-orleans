@@ -698,61 +698,6 @@ if pagina == "Home":
                     st.rerun()
         st.markdown('<div style="height:0.4rem;"></div>', unsafe_allow_html=True)
 
-    # Card sezioni — bottoni Streamlit stilizzati
-    sezioni_home = [
-        {"title": "Programma",       "desc": "Tappe e attività",       "dest": "Programma"},
-        {"title": "Documenti",        "desc": "Moduli e scadenze",      "dest": "Documenti"},
-        {"title": "Briefing",         "desc": "Gli esperti",            "dest": "Briefing"},
-        {"title": "Temi del viaggio", "desc": "Le chiavi di lettura",   "dest": "Temi del viaggio"},
-        {"title": "Approfondimenti",  "desc": "Libri, film e doc",      "dest": "Approfondimenti"},
-        {"title": "Mappe",            "desc": "I luoghi simbolici",     "dest": "Mappe"},
-    ]
-
-    st.markdown("""
-    <style>
-    /* Bottone menu hamburger */
-    div[data-testid="column"] .stButton button {
-        background: #0d1f3c !important;
-        color: white !important;
-        border: none !important;
-        border-radius: 12px !important;
-        padding: 0.7rem 0.5rem !important;
-        font-weight: 700 !important;
-        font-size: 0.82rem !important;
-        width: 100% !important;
-        text-align: left !important;
-        line-height: 1.3 !important;
-        box-shadow: none !important;
-    }
-    div[data-testid="column"] .stButton button:hover {
-        background: #17305a !important;
-        border: none !important;
-    }
-    /* Voci menu dropdown */
-    button[key*="menu_"] {
-        background: white !important;
-        color: #14213d !important;
-        border: 1px solid rgba(20,33,61,0.1) !important;
-        border-radius: 12px !important;
-        text-align: left !important;
-        font-size: 0.88rem !important;
-        padding: 0.65rem 0.9rem !important;
-    }
-    button[key*="menu_"]:hover {
-        background: #f5f8fc !important;
-        border-color: #d08c38 !important;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
-    c1, c2, c3 = st.columns(3)
-    cols_cycle = [c1, c2, c3, c1, c2, c3]
-    for i, sez in enumerate(sezioni_home):
-        with cols_cycle[i]:
-            if st.button(f"**{sez['title']}**\n\n{sez['desc']}", key=f"nav_{sez['dest']}", use_container_width=True):
-                st.session_state.nav_target = sez['dest']
-                st.rerun()
-
     # Galleria — frecce su desktop e mobile
     st.markdown("""
     <div style="display:flex;align-items:center;gap:1rem;margin:1.6rem 0 0.8rem;">
