@@ -718,7 +718,7 @@ if pagina == "Home":
         </p>
         """, unsafe_allow_html=True)
 
-    # Webcam + Spotify + News
+    # Webcam + News + Spotify
     st.markdown("## ")
     st.markdown("""
     <style>
@@ -735,44 +735,44 @@ if pagina == "Home":
     .news-link-dot { width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-right:0.5rem; }
     .news-link-text { font-size:0.8rem;font-weight:600;color:#14213d; }
     </style>
-    <div class="home-bottom-grid">
-        <!-- Spotify -->
-        <div style="border-radius:20px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.08);">
-            <iframe style="border-radius:20px" 
-                src="https://open.spotify.com/embed/playlist/0iMiZcvIy26MqHQln5kkrI?utm_source=generator&theme=0" 
-                width="100%" height="200" frameBorder="0" 
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                loading="lazy">
-            </iframe>
+
+    <!-- Webcam + News affiancati -->
+    <div class="home-bottom-grid" style="margin-bottom:1rem;">
+        <div class="hb-card">
+            <div class="hb-title">📹 Live da New Orleans</div>
+            <div class="hb-sub">French Quarter · Bourbon Street · 24/7</div>
+            <a href="https://www.earthcam.com/usa/louisiana/neworleans/bourbonstreet/" target="_blank"
+               style="display:inline-block;background:#0d1f3c;color:white;padding:0.4rem 0.9rem;
+                      border-radius:999px;font-size:0.78rem;font-weight:600;text-decoration:none;">
+                🎥 Guarda →
+            </a>
         </div>
-        <!-- Webcam + News -->
-        <div style="display:flex;flex-direction:column;gap:0.8rem;">
-            <div class="hb-card">
-                <div class="hb-title">📹 Live da New Orleans</div>
-                <div class="hb-sub">French Quarter · Bourbon Street · 24/7</div>
-                <a href="https://www.earthcam.com/usa/louisiana/neworleans/bourbonstreet/" target="_blank"
-                   style="display:inline-block;background:#0d1f3c;color:white;padding:0.4rem 0.9rem;
-                          border-radius:999px;font-size:0.78rem;font-weight:600;text-decoration:none;">
-                    🎥 Guarda →
-                </a>
-            </div>
-            <div class="hb-card">
-                <div class="hb-title">🗞 Notizie</div>
-                <div class="hb-sub">Fonti locali di New Orleans</div>
-                <a href="https://www.nola.com" target="_blank" class="news-link">
-                    <div class="news-link-dot" style="background:#d08c38;"></div>
-                    <span class="news-link-text">The Times-Picayune</span>
-                </a>
-                <a href="https://www.wwno.org" target="_blank" class="news-link">
-                    <div class="news-link-dot" style="background:#17305a;"></div>
-                    <span class="news-link-text">WWNO Public Radio</span>
-                </a>
-                <a href="https://thelensnola.org" target="_blank" class="news-link">
-                    <div class="news-link-dot" style="background:#2e7d5e;"></div>
-                    <span class="news-link-text">The Lens NOLA</span>
-                </a>
-            </div>
+        <div class="hb-card">
+            <div class="hb-title">🗞 Notizie</div>
+            <div class="hb-sub">Fonti locali di New Orleans</div>
+            <a href="https://www.nola.com" target="_blank" class="news-link">
+                <div class="news-link-dot" style="background:#d08c38;"></div>
+                <span class="news-link-text">The Times-Picayune</span>
+            </a>
+            <a href="https://www.wwno.org" target="_blank" class="news-link">
+                <div class="news-link-dot" style="background:#17305a;"></div>
+                <span class="news-link-text">WWNO Public Radio</span>
+            </a>
+            <a href="https://thelensnola.org" target="_blank" class="news-link">
+                <div class="news-link-dot" style="background:#2e7d5e;"></div>
+                <span class="news-link-text">The Lens NOLA</span>
+            </a>
         </div>
+    </div>
+
+    <!-- Spotify a tutta larghezza sotto -->
+    <div style="border-radius:20px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+        <iframe style="border-radius:20px;display:block;"
+            src="https://open.spotify.com/embed/playlist/0iMiZcvIy26MqHQln5kkrI?utm_source=generator&theme=0"
+            width="100%" height="152" frameBorder="0"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy">
+        </iframe>
     </div>
     """, unsafe_allow_html=True)
 
