@@ -505,111 +505,127 @@ voci_nav = [
 ]
 active = st.session_state.get("nav_target", "Home")
 
-# Costruisci le voci del menu
-menu_items = ""
+# CSS per nascondere sidebar e aggiungere padding top su mobile
+st.markdown("""
+<style>
+@media (max-width: 768px) {
+    [data-testid="stSidebar"] { display: none !important; }
+    [data-testid="collapsedControl"] { display: none !important; }
+    [data-testid="stSidebarCollapsedControl"] { display: none !important; }
+    button[kind="header"] { display: none !important; }
+    .main .block-container { padding-top: 64px !important; padding-bottom: 1rem !important; padding-left: 1rem !important; padding-right: 1rem !important; }
+}
+</style>
+""", unsafe_allow_html=True)
+
+# Costruisci voci menu
+menu_items_html = ""
 for icon, label in voci_nav:
     is_active = (label == active)
-    active_style = "background:#fff8ee;border-left:3px solid #d08c38;" if is_active else "border-left:3px solid transparent;"
+    bg = "#fff8ee" if is_active else "white"
+    border = "#d08c38" if is_active else "transparent"
     color = "#d08c38" if is_active else "#14213d"
     weight = "700" if is_active else "500"
     page_param = label.replace(" ", "+")
-    menu_items += f"""
-    <a href="?page={page_param}" style="display:flex;align-items:center;gap:0.8rem;
-       padding:0.75rem 1.2rem;text-decoration:none;{active_style}
-       border-bottom:1px solid rgba(0,0,0,0.05);">
-        <span style="font-size:1.1rem;">{icon}</span>
-        <span style="font-size:0.92rem;font-weight:{weight};color:{color};">{label}</span>
-    </a>"""
+    menu_items_html += f"""<a href="?page={page_param}" style="display:flex;align-items:center;gap:0.8rem;padding:0.8rem 1.2rem;text-decoration:none;background:{bg};border-left:3px solid {border};border-bottom:1px solid #f0f0f0;"><span style="font-size:1.1rem;">{icon}</span><span style="font-size:0.92rem;font-weight:{weight};color:{color};font-family:sans-serif;">{label}</span></a>"""
 
-st.markdown(f"""
+import streamlit.components.v1 as components
+components.html(f"""
 <style>
-@media (max-width: 768px) {{
-    [data-testid="stSidebar"] {{ display: none !important; }}
-    [data-testid="collapsedControl"] {{ display: none !important; }}
-    [data-testid="stSidebarCollapsedControl"] {{ display: none !important; }}
-    button[kind="header"] {{ display: none !important; }}
-    .main .block-container {{ padding-top: 60px !important; padding-bottom: 1rem !important; padding-left: 1rem !important; padding-right: 1rem !important; }}
-}}
+* {{ margin:0; padding:0; box-sizing:border-box; }}
+body {{ background:transparent; overflow:visible; }}
 
-/* Topbar fissa in cima — solo mobile */
-.top-nav-bar {{ display: none; }}
-@media (max-width: 768px) {{
-    .top-nav-bar {{
-        display: flex;
-        position: fixed;
-        top: 0; left: 0; right: 0;
-        height: 52px;
-        background: #0d1f3c;
-        border-bottom: 1px solid rgba(255,255,255,0.1);
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 1rem;
-        z-index: 2147483647;
-    }}
-    .top-nav-title {{
-        font-family: 'Playfair Display', Georgia, serif;
-        font-size: 0.95rem;
-        font-weight: 700;
-        color: white;
-    }}
-    .top-nav-title span {{ color: #d08c38; }}
-    .top-nav-btn {{
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 6px;
-        color: white;
-        font-size: 1.3rem;
-        line-height: 1;
-    }}
-    /* Pannello menu a scorrimento dall'alto */
-    .top-menu-panel {{
-        display: none;
-        position: fixed;
-        top: 52px; left: 0; right: 0;
-        background: white;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.15);
-        z-index: 2147483646;
-        border-radius: 0 0 20px 20px;
-        overflow: hidden;
-        animation: slideDown 0.25s ease;
-    }}
-    .top-menu-panel.open {{ display: block; }}
-    @keyframes slideDown {{
-        from {{ transform: translateY(-20px); opacity: 0; }}
-        to   {{ transform: translateY(0); opacity: 1; }}
-    }}
-    /* Overlay scuro dietro il menu */
-    .top-menu-overlay {{
-        display: none;
-        position: fixed;
-        inset: 52px 0 0 0;
-        background: rgba(0,0,0,0.3);
-        z-index: 2147483645;
-    }}
-    .top-menu-overlay.open {{ display: block; }}
+.topbar {{
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 52px;
+    background: #0d1f3c;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    z-index: 9999;
+    font-family: sans-serif;
+}}
+.topbar-title {{
+    font-size: 1rem;
+    font-weight: 700;
+    color: white;
+}}
+.topbar-title span {{ color: #d08c38; }}
+.menu-btn {{
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.4rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    line-height: 1;
+}}
+.overlay {{
+    display: none;
+    position: fixed;
+    top: 52px; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 9998;
+}}
+.menu-panel {{
+    display: none;
+    position: fixed;
+    top: 52px; left: 0; right: 0;
+    background: white;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    z-index: 9999;
+    overflow: hidden;
+    transform: translateY(-10px);
+    opacity: 0;
+    transition: transform 0.22s ease, opacity 0.22s ease;
+}}
+.menu-panel.open {{
+    display: block;
+    transform: translateY(0);
+    opacity: 1;
 }}
 </style>
 
-<div class="top-nav-bar">
-    <div class="top-nav-title">Peccioli × <span>NOLA</span></div>
-    <button class="top-nav-btn" onclick="
-        var p = document.getElementById('top-menu');
-        var o = document.getElementById('top-overlay');
-        p.classList.toggle('open');
-        o.classList.toggle('open');
-    ">☰</button>
+<div class="topbar">
+    <div class="topbar-title">Peccioli × <span>NOLA</span></div>
+    <button class="menu-btn" id="menuBtn">☰</button>
 </div>
 
-<div class="top-menu-overlay" id="top-overlay" onclick="
-    document.getElementById('top-menu').classList.remove('open');
-    this.classList.remove('open');
-"></div>
+<div class="overlay" id="overlay"></div>
 
-<div class="top-menu-panel" id="top-menu">
-    {menu_items}
+<div class="menu-panel" id="menuPanel">
+    {menu_items_html}
 </div>
-""", unsafe_allow_html=True)
+
+<script>
+var btn = document.getElementById('menuBtn');
+var panel = document.getElementById('menuPanel');
+var overlay = document.getElementById('overlay');
+
+btn.addEventListener('click', function() {{
+    var isOpen = panel.classList.contains('open');
+    if (isOpen) {{
+        panel.classList.remove('open');
+        overlay.style.display = 'none';
+        btn.textContent = '☰';
+    }} else {{
+        panel.classList.add('open');
+        overlay.style.display = 'block';
+        btn.textContent = '✕';
+    }}
+}});
+
+overlay.addEventListener('click', function() {{
+    panel.classList.remove('open');
+    overlay.style.display = 'none';
+    btn.textContent = '☰';
+}});
+</script>
+""", height=52, scrolling=False)
 
 # ----------------------------
 # HEADER
