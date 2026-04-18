@@ -577,7 +577,6 @@ if pagina == "Home":
         <div style="position:relative;z-index:1;display:flex;align-items:center;gap:1.2rem;">
             {logo_tag}
             <div>
-                <div class="header-eyebrow" style="font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#d08c38;margin-bottom:0.25rem;">🎷 Comune di Peccioli · Progetto di viaggio</div>
                 <div class="header-title" style="font-family:'Playfair Display',Georgia,serif;font-size:2.6rem;font-weight:800;color:#0d1f3c;line-height:1.05;letter-spacing:-0.01em;">
                     Peccioli &times; <span style="color:#d08c38;">New Orleans</span> 2026{nola_logo_tag}
                 </div>
