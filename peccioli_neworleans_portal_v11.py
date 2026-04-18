@@ -552,29 +552,30 @@ for icon, label in voci_nav:
     page_param = label.replace(" ", "+")
     bottom_items += f'<a href="?page={page_param}" class="bn-item"><span class="bn-icon">{icon}</span><span class="bn-label" style="color:{color};font-weight:{weight};">{short}</span></a>'
 
-# Voce "Altro" con sottomenu
+# Voce Altro
 altro_attivo = active in [v[1] for v in voci_altro]
 altro_color = "#d08c38" if altro_attivo else "rgba(255,255,255,0.55)"
 altro_weight = "700" if altro_attivo else "400"
+bottom_items += f'<span class="bn-item" style="cursor:pointer;" onclick="document.getElementById(\'altro-panel\').style.display=document.getElementById(\'altro-panel\').style.display===\'none\'?\'flex\':\'none\'"><span class="bn-icon">☰</span><span class="bn-label" style="color:{altro_color};font-weight:{altro_weight};">Altro</span></span>'
 
+# Pannello Altro — sopra la bottom bar
 altro_links = ""
 for icon, label in voci_altro:
     is_act = (label == active)
-    c = "#d08c38" if is_act else "#0d1f3c"
-    w = "700" if is_act else "500"
+    bg = "#fff8ee" if is_act else "white"
+    c = "#d08c38" if is_act else "#14213d"
     page_param = label.replace(" ", "+")
-    altro_links += f'<a href="?page={page_param}" style="display:flex;align-items:center;gap:0.5rem;padding:0.6rem 1rem;text-decoration:none;border-bottom:1px solid rgba(0,0,0,0.06);"><span>{icon}</span><span style="font-size:0.85rem;font-weight:{w};color:{c};">{label}</span></a>'
+    altro_links += f'<a href="?page={page_param}" style="display:flex;align-items:center;gap:0.6rem;padding:0.7rem 1.2rem;text-decoration:none;background:{bg};border-bottom:1px solid rgba(0,0,0,0.05);"><span style="font-size:1.1rem;">{icon}</span><span style="font-size:0.9rem;font-weight:600;color:{c};">{label}</span></a>'
 
-bottom_items += f"""
-<div class="bn-item" style="position:relative;" onclick="var m=document.getElementById('altro-menu');m.style.display=m.style.display==='none'?'block':'none';">
-    <span class="bn-icon">☰</span>
-    <span class="bn-label" style="color:{altro_color};font-weight:{altro_weight};">Altro</span>
-    <div id="altro-menu" style="display:none;position:absolute;bottom:60px;right:0;background:white;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,0.15);min-width:180px;overflow:hidden;z-index:99999;">
-        {altro_links}
-    </div>
-</div>"""
-
-st.markdown(f'<div class="bottom-nav">{bottom_items}</div>', unsafe_allow_html=True)
+st.markdown(f"""
+<div id="altro-panel" style="display:none;position:fixed;bottom:70px;right:0;left:0;
+     flex-direction:column;background:white;border-top:1px solid rgba(0,0,0,0.1);
+     box-shadow:0 -4px 20px rgba(0,0,0,0.12);z-index:2147483646;border-radius:16px 16px 0 0;overflow:hidden;">
+    <div style="padding:0.6rem 1.2rem;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#9aa3b0;background:#f8f8f8;">Altre sezioni</div>
+    {altro_links}
+</div>
+<div class="bottom-nav">{bottom_items}</div>
+""", unsafe_allow_html=True)
 
 # ----------------------------
 # HEADER
@@ -724,45 +725,6 @@ if pagina == "Home":
         con uno sguardo già orientato sui quattro temi del viaggio: musica, resilienza, società, identità.
         </p>
         """, unsafe_allow_html=True)
-
-    # Menu a tendina
-    st.markdown('<div style="height:0.6rem;"></div>', unsafe_allow_html=True)
-    voci_menu = ["Programma", "Documenti", "Briefing", "Temi del viaggio", "Approfondimenti", "Mappe"]
-    descrizioni_menu = {
-        "Programma":       "Tappe e attività del viaggio",
-        "Documenti":       "Moduli e scadenze",
-        "Briefing":        "I tre incontri con gli esperti",
-        "Temi del viaggio":"Musica, resilienza, società, storia",
-        "Approfondimenti": "Libri, film e documentari",
-        "Mappe":           "I luoghi simbolici della città",
-    }
-    icone_menu = {
-        "Programma": "🗓", "Documenti": "📂", "Briefing": "📅",
-        "Temi del viaggio": "🎷", "Approfondimenti": "📚", "Mappe": "🗺",
-    }
-
-    if "menu_aperto" not in st.session_state:
-        st.session_state.menu_aperto = False
-
-    col_btn, _ = st.columns([2, 3])
-    with col_btn:
-        if st.button("☰  Vai a una sezione →", key="toggle_menu", use_container_width=True):
-            st.session_state.menu_aperto = not st.session_state.menu_aperto
-            st.rerun()
-
-    if st.session_state.menu_aperto:
-        for voce in voci_menu:
-            col_item, _ = st.columns([2, 3])
-            with col_item:
-                st.markdown(f"""
-                <div style="background:white;border-radius:12px;border:1px solid rgba(20,33,61,0.08);
-                            margin-bottom:0px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
-                </div>""", unsafe_allow_html=True)
-                if st.button(f"{icone_menu[voce]}  {voce}  —  {descrizioni_menu[voce]}", key=f"menu_{voce}", use_container_width=True):
-                    st.session_state.nav_target = voce
-                    st.session_state.menu_aperto = False
-                    st.rerun()
-        st.markdown('<div style="height:0.4rem;"></div>', unsafe_allow_html=True)
 
     # Galleria — frecce su desktop e mobile
     st.markdown("""
@@ -1283,45 +1245,19 @@ elif pagina == "Mappe":
 # ----------------------------
 elif pagina == "Programma":
     section_header("05", "Il viaggio", "Programma",
-        "Le tappe del viaggio a New Orleans, 21–28 settembre 2026.", colore="#d08c38")
+        "Il programma dettagliato è ancora in costruzione. Questa sezione verrà aggiornata con tutte le tappe non appena il percorso sarà definito.", colore="#d08c38")
 
     st.markdown("""
-    <div style="background:#fff8ee;border-left:4px solid #d08c38;border-radius:0 12px 12px 0;
-                padding:0.8rem 1.2rem;margin-bottom:1.4rem;font-size:0.88rem;color:#7b5a1e;">
-        ⏳ Il programma è in fase di definizione — questa è una struttura provvisoria che verrà aggiornata.
+    <div style="background:#fff8ee;border:2px dashed #d08c38;border-radius:24px;padding:2.5rem 2rem;text-align:center;max-width:580px;margin:2rem auto;">
+        <div style="font-size:2.5rem;margin-bottom:0.6rem;">🗓</div>
+        <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.4rem;font-weight:700;color:#14213d;margin-bottom:0.6rem;">Programma in definizione</div>
+        <div style="font-size:0.97rem;color:#5b6472;line-height:1.75;">
+            Il programma dettagliato del viaggio è ancora in fase di costruzione.<br>
+            Questa sezione verrà aggiornata con tutte le tappe, gli appuntamenti
+            e le attività non appena il percorso sarà definito.
+        </div>
     </div>
     """, unsafe_allow_html=True)
-
-    giorni = [
-        ("Dom 21 sett", "✈️", "Partenza", "Volo dall'Italia verso New Orleans. Arrivo e sistemazione.", "#d08c38", True),
-        ("Lun 22 sett", "🏛", "Orientamento", "Primo giro della città: French Quarter, Jackson Square, fronte del fiume.", "#17305a", True),
-        ("Mar 23 sett", "🎷", "Musica", "Frenchmen Street, Congo Square, Louis Armstrong Park. Serata jazz dal vivo.", "#d4a017", True),
-        ("Mer 24 sett", "🌊", "Resilienza", "Lower Ninth Ward, Make It Right Houses. Incontro con residenti post-Katrina.", "#17305a", True),
-        ("Gio 25 sett", "⚖️", "Società", "Tremé, Bywater. Incontro con comunità locale e realtà associative.", "#2e7d5e", True),
-        ("Ven 26 sett", "🏛", "Identità", "Garden District, cimiteri, cucina creola. Visita museo.", "#7b3f00", True),
-        ("Sab 27 sett", "📝", "Libero + restituzione", "Tempo libero in città. Serata di restituzione e confronto di gruppo.", "#c0392b", True),
-        ("Dom 28 sett", "✈️", "Rientro", "Partenza da New Orleans verso l'Italia.", "#d08c38", True),
-    ]
-
-    for giorno, icona, titolo, desc, colore, attivo in giorni:
-        opacita = "1" if attivo else "0.5"
-        st.markdown(f"""
-        <div style="display:flex;gap:1rem;align-items:flex-start;margin-bottom:0.8rem;opacity:{opacita};">
-            <div style="flex-shrink:0;width:44px;height:44px;border-radius:50%;
-                        background:{colore};display:flex;align-items:center;
-                        justify-content:center;font-size:1.2rem;margin-top:0.2rem;">
-                {icona}
-            </div>
-            <div style="flex:1;background:white;border-radius:14px;padding:0.8rem 1rem;
-                        border:1px solid rgba(20,33,61,0.07);box-shadow:0 2px 8px rgba(0,0,0,0.04);">
-                <div style="font-size:0.68rem;font-weight:700;text-transform:uppercase;
-                            letter-spacing:0.1em;color:{colore};margin-bottom:0.15rem;">{giorno}</div>
-                <div style="font-family:'Playfair Display',Georgia,serif;font-size:1rem;
-                            font-weight:700;color:#14213d;margin-bottom:0.2rem;">{titolo}</div>
-                <div style="font-size:0.85rem;color:#5b6472;line-height:1.5;">{desc}</div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
 
 # ----------------------------
 # DOCUMENTI
@@ -1338,15 +1274,15 @@ elif pagina == "Documenti":
     """, unsafe_allow_html=True)
 
     documenti = [
-        ("📋", "Modulo di adesione", "Da compilare e riconsegnare firmato dai genitori.", "Giugno 2026", False),
-        ("🛂", "Copia documento d'identità", "Carta d'identità o passaporto in corso di validità.", "Luglio 2026", False),
-        ("🏥", "Modulo sanitario", "Informazioni mediche e allergie da comunicare all'organizzazione.", "Luglio 2026", False),
-        ("✈️", "Informazioni sul volo", "Orari, scalo, indicazioni per l'aeroporto di partenza.", "Agosto 2026", False),
-        ("🏨", "Sistemazione", "Dettagli sull'alloggio a New Orleans.", "Agosto 2026", False),
-        ("📱", "Contatti e riferimenti", "Numeri di emergenza, referenti locali, chat di gruppo.", "Settembre 2026", False),
+        ("📋", "Modulo di adesione", "Da compilare e riconsegnare firmato dai genitori.", False),
+        ("🛂", "Copia documento d'identità", "Carta d'identità o passaporto in corso di validità.", False),
+        ("🏥", "Modulo sanitario", "Informazioni mediche e allergie da comunicare all'organizzazione.", False),
+        ("✈️", "Informazioni sul volo", "Orari, scalo, indicazioni per l'aeroporto di partenza.", False),
+        ("🏨", "Sistemazione", "Dettagli sull'alloggio a New Orleans.", False),
+        ("📱", "Contatti e riferimenti", "Numeri di emergenza, referenti locali, chat di gruppo.", False),
     ]
 
-    for icona, titolo, desc, scadenza, completato in documenti:
+    for icona, titolo, desc, completato in documenti:
         colore_stato = "#2e7d5e" if completato else "#9aa3b0"
         stato_testo = "✅ Disponibile" if completato else "⏳ In arrivo"
         st.markdown(f"""
@@ -1358,9 +1294,8 @@ elif pagina == "Documenti":
                 <div style="font-weight:700;color:#14213d;font-size:0.92rem;margin-bottom:0.1rem;">{titolo}</div>
                 <div style="font-size:0.8rem;color:#5b6472;">{desc}</div>
             </div>
-            <div style="text-align:right;flex-shrink:0;">
-                <div style="font-size:0.7rem;font-weight:600;color:{colore_stato};">{stato_testo}</div>
-                <div style="font-size:0.65rem;color:#9aa3b0;margin-top:0.1rem;">{scadenza}</div>
+            <div style="flex-shrink:0;">
+                <div style="font-size:0.72rem;font-weight:600;color:{colore_stato};">{stato_testo}</div>
             </div>
         </div>
         """, unsafe_allow_html=True)
