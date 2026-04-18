@@ -488,13 +488,13 @@ with st.sidebar:
 
 # Bottom navigation bar — solo mobile
 voci_nav = [
-    ("🏠", "Home"),
-    ("🎷", "Temi del viaggio"),
-    ("📅", "Briefing"),
-    ("📚", "Approfondimenti"),
-    ("🗺", "Mappe"),
-    ("🗓", "Programma"),
-    ("📂", "Documenti"),
+    ("Home",            "Home"),
+    ("Temi del viaggio","Temi"),
+    ("Briefing",        "Briefing"),
+    ("Approfondimenti", "Approfond."),
+    ("Mappe",           "Mappe"),
+    ("Programma",       "Programma"),
+    ("Documenti",       "Documenti"),
 ]
 active = st.session_state.get("nav_target", "Home")
 
@@ -506,7 +506,7 @@ st.markdown("""
     [data-testid="collapsedControl"] { display: none !important; }
     [data-testid="stSidebarCollapsedControl"] { display: none !important; }
     button[kind="header"] { display: none !important; }
-    .main .block-container { padding-bottom: 80px !important; padding-top: 0.5rem !important; }
+    .main .block-container { padding-bottom: 80px !important; padding-top: 0.3rem !important; padding-left: 1rem !important; padding-right: 1rem !important; }
 }
 .bottom-nav { display: none; }
 /* Copri il badge Streamlit su mobile con un blocco blu */
@@ -527,22 +527,21 @@ st.markdown("""
         display: flex; flex-direction: column;
         align-items: center; gap: 2px;
         text-decoration: none; flex: 1;
+        padding: 2px 1px;
     }
-    .bn-icon { font-size: 1.1rem; line-height: 1; }
-    .bn-label { font-size: 0.55rem; letter-spacing: 0.02em; text-align: center; line-height: 1.2; }
+    .bn-label { font-size: 0.58rem; letter-spacing: 0.01em; text-align: center; line-height: 1.2; font-family: 'Inter', sans-serif; }
 }
 </style>
 """, unsafe_allow_html=True)
 
 # HTML separato (f-string solo per i dati)
 bottom_items = ""
-for icon, label in voci_nav:
-    is_active = (label == active)
+for dest, label in voci_nav:
+    is_active = (dest == active)
     color = "#d08c38" if is_active else "rgba(255,255,255,0.55)"
     weight = "700" if is_active else "400"
-    short = label.split()[0]
-    page_param = label.replace(" ", "+")
-    bottom_items += f'<a href="?page={page_param}" class="bn-item"><span class="bn-icon">{icon}</span><span class="bn-label" style="color:{color};font-weight:{weight};">{short}</span></a>'
+    page_param = dest.replace(" ", "+")
+    bottom_items += f'<a href="?page={page_param}" class="bn-item"><span class="bn-label" style="color:{color};font-weight:{weight};">{label}</span></a>'
 
 st.markdown(f'<div class="bottom-nav">{bottom_items}</div>', unsafe_allow_html=True)
 
@@ -563,12 +562,15 @@ if pagina == "Home":
     <style>
     @media (max-width: 600px) {{
         .nola-logo-inline {{ display: none !important; }}
-        .header-title {{ font-size: 1.8rem !important; }}
-        .header-eyebrow {{ font-size: 0.62rem !important; }}
+        .header-title {{ font-size: 1.4rem !important; line-height:1.15 !important; }}
+        .header-eyebrow {{ font-size: 0.58rem !important; }}
+        .header-wrap {{ padding: 0.6rem 0 0.3rem 0 !important; gap: 0.7rem !important; }}
+        .header-logo {{ height: 40px !important; }}
+        .header-divider {{ margin: 0.3rem 0 0.8rem 0 !important; }}
     }}
     </style>
-    <div style="display:flex;align-items:center;gap:1.2rem;padding:1.2rem 0 0.6rem 0;">
-        {logo_tag}
+    <div class="header-wrap" style="display:flex;align-items:center;gap:1.2rem;padding:1.2rem 0 0.6rem 0;">
+        <img class="header-logo" src="data:{logo_mime};base64,{logo_b64}" style="height:62px;object-fit:contain;flex-shrink:0;">
         <div>
             <div class="header-eyebrow" style="font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#d08c38;margin-bottom:0.25rem;">🎷 Comune di Peccioli · Progetto di viaggio</div>
             <div class="header-title" style="font-family:'Playfair Display',Georgia,serif;font-size:2.6rem;font-weight:800;color:#0d1f3c;line-height:1.05;letter-spacing:-0.01em;">
@@ -576,7 +578,17 @@ if pagina == "Home":
             </div>
         </div>
     </div>
-    <div style="height:2px;background:linear-gradient(90deg,#d08c38 0%,#17305a 40%,transparent 100%);margin:0.5rem 0 1.2rem 0;border-radius:2px;opacity:0.35;"></div>
+    <div class="header-divider" style="height:2px;background:linear-gradient(90deg,#d08c38 0%,#17305a 40%,transparent 100%);margin:0.5rem 0 1.2rem 0;border-radius:2px;opacity:0.35;"></div>
+    """ if logo_b64 else f"""
+    <div class="header-wrap" style="display:flex;align-items:center;gap:1.2rem;padding:1.2rem 0 0.6rem 0;">
+        <div>
+            <div class="header-eyebrow" style="font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#d08c38;margin-bottom:0.25rem;">🎷 Comune di Peccioli · Progetto di viaggio</div>
+            <div class="header-title" style="font-family:'Playfair Display',Georgia,serif;font-size:2.6rem;font-weight:800;color:#0d1f3c;line-height:1.05;">
+                Peccioli &times; <span style="color:#d08c38;">New Orleans</span> 2026
+            </div>
+        </div>
+    </div>
+    <div class="header-divider" style="height:2px;background:linear-gradient(90deg,#d08c38 0%,#17305a 40%,transparent 100%);margin:0.5rem 0 1.2rem 0;border-radius:2px;opacity:0.35;"></div>
     """
 else:
     # Topbar compatta per le altre pagine
