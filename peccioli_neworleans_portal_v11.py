@@ -562,7 +562,36 @@ logo_tag = f'<img src="data:{logo_mime};base64,{logo_b64}" style="height:62px;ob
 logo_tag_small = f'<img src="data:{logo_mime};base64,{logo_b64}" style="height:32px;object-fit:contain;flex-shrink:0;">' if logo_b64 else ""
 
 if pagina == "Home":
+    # Carica immagine sfondo
+    sfondo_path = find_image(["Schermata_2026-04-18_alle_11_58_52.png", "neworleans_stilizzata.png", "neworleans_stilizzata.jpeg"])
+    sfondo_b64, sfondo_mime = img_to_base64(sfondo_path) if sfondo_path else (None, None)
+    sfondo_tag = f'<img src="data:{sfondo_mime};base64,{sfondo_b64}" style="position:absolute;bottom:0;right:0;height:100%;width:60%;object-fit:cover;object-position:right center;opacity:0.12;pointer-events:none;">' if sfondo_b64 else ""
+
     header_html = f"""
+    <style>
+    @media (max-width: 600px) {{
+        .nola-logo-inline {{ display: none !important; }}
+        .header-title {{ font-size: 1.8rem !important; }}
+        .header-eyebrow {{ font-size: 0.62rem !important; }}
+        .header-sfondo {{ width: 80% !important; opacity: 0.08 !important; }}
+    }}
+    </style>
+    <div style="position:relative;overflow:hidden;border-radius:20px;
+                background:linear-gradient(135deg,#f8f5f0 0%,#fdf9f4 100%);
+                border:1px solid rgba(208,140,56,0.15);
+                padding:1.4rem 1.5rem 1.2rem;margin-bottom:1.2rem;">
+        <img class="header-sfondo" src="data:{sfondo_mime};base64,{sfondo_b64}" style="position:absolute;bottom:0;right:-20px;height:115%;width:65%;object-fit:cover;object-position:right center;opacity:0.13;pointer-events:none;"> 
+        <div style="position:relative;z-index:1;display:flex;align-items:center;gap:1.2rem;">
+            {logo_tag}
+            <div>
+                <div class="header-eyebrow" style="font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#d08c38;margin-bottom:0.25rem;">🎷 Comune di Peccioli · Progetto di viaggio</div>
+                <div class="header-title" style="font-family:'Playfair Display',Georgia,serif;font-size:2.6rem;font-weight:800;color:#0d1f3c;line-height:1.05;letter-spacing:-0.01em;">
+                    Peccioli &times; <span style="color:#d08c38;">New Orleans</span> 2026{nola_logo_tag}
+                </div>
+            </div>
+        </div>
+    </div>
+    """ if sfondo_b64 else f"""
     <style>
     @media (max-width: 600px) {{
         .nola-logo-inline {{ display: none !important; }}
