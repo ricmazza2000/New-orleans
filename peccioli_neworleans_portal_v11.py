@@ -26,6 +26,7 @@ def find_image(possible_names):
             return str(p)
     return None
 
+@st.cache_data(show_spinner=False)
 def img_to_base64(path):
     if path and Path(path).exists():
         with open(path, "rb") as f:
@@ -34,6 +35,7 @@ def img_to_base64(path):
             return base64.b64encode(f.read()).decode(), mime
     return None, None
 
+@st.cache_data(show_spinner=False)
 def img_to_base64_small(path, max_width=600):
     """Compressed version for mobile scroll — much smaller file size."""
     if not path or not Path(path).exists():
@@ -75,6 +77,7 @@ gallery_items = [
 ]
 
 # Immagini per sezione — caricate solo quando servono
+@st.cache_data(show_spinner=False)
 def load_briefing_imgs():
     return (
         find_image(["morelli.jpg", "morelli.png"]),
