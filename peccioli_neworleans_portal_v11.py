@@ -426,11 +426,13 @@ def section_header(numero, sopratitolo, titolo, desc, colore="#d08c38"):
 # SIDEBAR
 # ----------------------------
 
-# Leggi navigazione da query params (usata dalla bottom bar mobile)
+# Leggi navigazione da query params (bottom bar mobile)
 qp = st.query_params
-if "page" in qp and qp["page"] in ["Home", "Temi del viaggio", "Briefing", "Approfondimenti", "Mappe", "Programma", "Documenti"]:
+_pagine_valide = ["Home", "Temi del viaggio", "Briefing", "Approfondimenti", "Mappe", "Programma", "Documenti"]
+if "page" in qp and qp["page"] in _pagine_valide:
     st.session_state.nav_target = qp["page"]
     st.query_params.clear()
+    st.rerun()
 
 with st.sidebar:
     if logo_path:
