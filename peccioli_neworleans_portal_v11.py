@@ -573,302 +573,228 @@ else:
 logo_tag = f'<img src="data:{logo_mime};base64,{logo_b64}" style="height:62px;object-fit:contain;flex-shrink:0;">' if logo_b64 else ""
 logo_tag_small = f'<img src="data:{logo_mime};base64,{logo_b64}" style="height:32px;object-fit:contain;flex-shrink:0;">' if logo_b64 else ""
 
+if pagina == "Home":
+    ponte_bg = f'<img src="data:{ponte_mime};base64,{ponte_b64}" style="position:absolute;bottom:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:0.09;pointer-events:none;filter:invert(1);">' if ponte_b64 else ""
+
+    header_html = f"""
+    <style>
+    @media (max-width: 600px) {{
+        .header-title {{ font-size: 1.9rem !important; }}
+    }}
+    </style>
+    <div style="position:relative;overflow:hidden;border-radius:22px;
+                background:linear-gradient(135deg,#0d1f3c 0%,#17305a 100%);
+                padding:1.8rem 1.8rem 1.6rem;margin-bottom:1.2rem;
+                border:1px solid rgba(255,255,255,0.06);">
+        {ponte_bg}
+        <div style="position:relative;z-index:1;text-align:center;">
+            <div class="header-title" style="font-family:'Playfair Display',Georgia,serif;font-size:2.6rem;font-weight:800;color:white;line-height:1.05;letter-spacing:-0.01em;">
+                Peccioli &times; <span style="color:#d08c38;">New Orleans</span> 2026
+            </div>
+        </div>
+    </div>
+    """
+else:
+    header_html = f"""
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0 0.5rem 0;
+                border-bottom:1px solid rgba(20,33,61,0.1);margin-bottom:1.2rem;">
+        <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#d08c38;">Peccioli × New Orleans 2026</div>
+        <a href="?page=Home" style="display:inline-flex;align-items:center;gap:0.35rem;
+                  background:#0d1f3c;color:white;text-decoration:none;
+                  padding:0.35rem 0.8rem;border-radius:999px;
+                  font-size:0.75rem;font-weight:600;white-space:nowrap;">
+            ← Home
+        </a>
+    </div>
+    """
+st.markdown(header_html, unsafe_allow_html=True)
+
 # ----------------------------
 # HOME
 # ----------------------------
 if pagina == "Home":
 
+    # Countdown funzionante via st.components — mobile responsive
     import streamlit.components.v1 as components
 
-    # Countdown
-    countdown_html = """
+    # Carica solo la foto di Morelli per il countdown (lazy)
+    _morelli_path = find_image(["morelli.jpg", "morelli.png"])
+    morelli_b64, morelli_mime = img_to_base64(_morelli_path)
+    prossimo_foto = f'<img src="data:{morelli_mime};base64,{morelli_b64}" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid #d08c38;flex-shrink:0;">' if morelli_b64 else '<div style="width:44px;height:44px;border-radius:50%;background:#dde3ec;flex-shrink:0;"></div>'
+
+    countdown_html = ("""
     <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     html, body { overflow:hidden; background:transparent; }
-    .cd-wrap {
-        display:flex;
-        gap:0.8rem;
-        font-family:'Inter',sans-serif;
-        align-items:stretch;
-        margin-bottom: 0.2rem;
-    }
-    .cd-main {
-        flex:1.2;
-        min-width:0;
-        background:linear-gradient(135deg,#0d1f3c,#17305a);
-        border-radius:18px;
-        padding:1rem 1.2rem;
-        color:white;
-        display:flex;
-        flex-direction:column;
-        justify-content:center;
-        min-height:88px;
-    }
-    .cd-label {
-        font-size:0.65rem;
-        font-weight:700;
-        letter-spacing:0.12em;
-        text-transform:uppercase;
-        color:#d08c38;
-        margin-bottom:0.3rem;
-    }
-    .cd-num {
-        font-size:1.45rem;
-        font-weight:800;
-        color:white;
-        line-height:1.15;
-    }
-    .cd-side {
-        flex:0.9;
-        min-width:0;
-        background:white;
-        border-radius:18px;
-        padding:0.9rem 1rem;
-        border:1px solid rgba(20,33,61,0.08);
-        box-shadow:0 4px 14px rgba(0,0,0,0.05);
-        display:flex;
-        flex-direction:column;
-        justify-content:center;
-        min-height:88px;
-    }
-    @media (max-width: 640px) {
-        .cd-wrap {
-            flex-direction:column;
-        }
-        .cd-main, .cd-side {
-            width:100%;
-        }
-        .cd-num {
-            font-size:1.28rem;
-        }
+    .cd-wrap { display:flex; gap:0.75rem; font-family:'Inter',sans-serif; height:110px; align-items:stretch; }
+    .cd-main { flex:1.6; min-width:0; background:linear-gradient(135deg,#0d1f3c,#17305a); border-radius:18px; padding:1rem 1.4rem; color:white; display:flex; flex-direction:column; justify-content:center; flex-shrink:0; }
+    .cd-label { font-size:0.65rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:#d08c38; margin-bottom:0.3rem; }
+    .cd-num { font-size:1.65rem; font-weight:800; color:white; line-height:1.2; }
+    .cd-box { flex:1; min-width:0; background:white; border-radius:18px; padding:0.85rem 1rem; border:1px solid rgba(20,33,61,0.08); box-shadow:0 4px 14px rgba(0,0,0,0.05); display:flex; flex-direction:column; justify-content:center; flex-shrink:0; }
+    @media (max-width:600px) {
+        html, body { overflow-x:auto; }
+        .cd-wrap { overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; gap:0.6rem; height:100px; }
+        .cd-wrap::-webkit-scrollbar { display:none; }
+        .cd-main { min-width:190px; scroll-snap-align:start; padding:0.85rem 1rem; }
+        .cd-box { min-width:180px; scroll-snap-align:start; }
+        .cd-num { font-size:1.4rem; }
     }
     </style>
-
     <div class="cd-wrap">
         <div class="cd-main">
-            <div class="cd-label">⏳ Mancano al viaggio</div>
-            <div class="cd-num" id="cd">—</div>
+            <div class="cd-label">&#9203; Mancano al viaggio</div>
+            <div class="cd-num" id="cd">&#8212;</div>
         </div>
-        <div class="cd-side">
-            <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#d08c38;margin-bottom:0.35rem;">
-                📅 Prossimo incontro
+        <div class="cd-box">
+            <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#d08c38;margin-bottom:0.45rem;">&#128197; Prossimo incontro</div>
+            <div style="display:flex;align-items:center;gap:0.5rem;">
+    """ + prossimo_foto + """
+                <div>
+                    <div style="font-size:0.82rem;font-weight:700;color:#14213d;line-height:1.2;">Elia Morelli</div>
+                    <div style="font-size:0.72rem;color:#5b6472;margin-top:0.1rem;">7 maggio 2026</div>
+                </div>
             </div>
-            <div style="font-size:0.9rem;font-weight:700;color:#14213d;">Elia Morelli</div>
-            <div style="font-size:0.75rem;color:#5b6472;margin-top:0.1rem;">7 maggio 2026 · ore 21</div>
         </div>
     </div>
-
     <script>
         function tick() {
             var t = new Date("2026-09-21T00:00:00").getTime() - Date.now();
             var el = document.getElementById("cd");
             if (!el) return;
-            if (t <= 0) { el.innerHTML = "🎷 Ci siamo!"; return; }
+            if (t <= 0) { el.innerHTML = "&#127926; Ci siamo!"; return; }
             var d = Math.floor(t / 86400000);
             var h = Math.floor((t % 86400000) / 3600000);
             var m = Math.floor((t % 3600000) / 60000);
-            el.innerHTML =
-                "<span style='font-size:1.45rem;font-weight:800;'>" + d + "</span><span style='font-size:0.8rem;opacity:0.65;margin:0 0.28rem 0 0.12rem;'>g</span>" +
-                "<span style='font-size:1.45rem;font-weight:800;'>" + h + "</span><span style='font-size:0.8rem;opacity:0.65;margin:0 0.28rem 0 0.12rem;'>h</span>" +
-                "<span style='font-size:1.45rem;font-weight:800;'>" + m + "</span><span style='font-size:0.8rem;opacity:0.65;margin-left:0.12rem;'>min</span>";
+            el.innerHTML = "<span style='font-size:1.65rem;font-weight:800;'>" + d + "</span><span style='font-size:0.82rem;opacity:0.6;margin:0 0.3rem 0 0.15rem;'>g</span>" +
+                           "<span style='font-size:1.65rem;font-weight:800;'>" + h + "</span><span style='font-size:0.82rem;opacity:0.6;margin:0 0.3rem 0 0.15rem;'>h</span>" +
+                           "<span style='font-size:1.65rem;font-weight:800;'>" + m + "</span><span style='font-size:0.82rem;opacity:0.6;margin-left:0.15rem;'>min</span>";
         }
         tick();
         setInterval(tick, 30000);
     </script>
-    """
-    components.html(countdown_html, height=140, scrolling=False)
+    """)
+    components.html(countdown_html, height=120, scrolling=False)
 
-    # Sottotitolo breve
-    st.markdown("""
-    <div style="margin:0.5rem 0 1rem 0;">
-        <div style="font-size:1rem;color:#3a4a5c;line-height:1.65;">
-            Il portale del progetto <strong>Peccioli × New Orleans 2026</strong>:
-            informazioni essenziali, briefing, mappe e documenti utili per accompagnare i ragazzi prima della partenza.
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    # 4 bottoni grandi
+    # 4 bottoni grandi touch-friendly
     st.markdown("""
     <style>
-    .quick-grid {
-        display:grid;
-        grid-template-columns:1fr 1fr;
-        gap:0.65rem;
-        margin:0.6rem 0 1.3rem 0;
-    }
+    .quick-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin:0.8rem 0; }
     .quick-btn {
-        display:block;
-        text-decoration:none;
-        background:white;
-        border-radius:16px;
-        padding:1rem 1rem;
-        border:1px solid rgba(20,33,61,0.08);
-        box-shadow:0 4px 14px rgba(0,0,0,0.04);
-        min-height:88px;
+        display:block; text-align:left; text-decoration:none;
+        background:white; color:#14213d; border-radius:14px;
+        padding:0.85rem 1rem; font-weight:700; font-size:0.88rem;
+        line-height:1.3; border:1px solid rgba(20,33,61,0.09);
+        box-shadow:0 2px 8px rgba(0,0,0,0.04);
+        border-left: 3px solid #d08c38;
     }
-    .quick-kicker {
-        font-size:0.66rem;
-        font-weight:700;
-        letter-spacing:0.09em;
-        text-transform:uppercase;
-        color:#d08c38;
-        margin-bottom:0.25rem;
-    }
-    .quick-title {
-        font-family:'Playfair Display',Georgia,serif;
-        font-size:1.02rem;
-        font-weight:700;
-        color:#14213d;
-        margin-bottom:0.2rem;
-        line-height:1.2;
-    }
-    .quick-text {
-        font-size:0.8rem;
-        color:#5b6472;
-        line-height:1.45;
-    }
-    @media (max-width: 640px) {
-        .quick-grid {
-            grid-template-columns:1fr 1fr;
-        }
-        .quick-btn {
-            min-height:82px;
-            padding:0.9rem 0.9rem;
-        }
-        .quick-title {
-            font-size:0.95rem;
-        }
-        .quick-text {
-            font-size:0.75rem;
-        }
-    }
+    .quick-btn-label { font-size:0.68rem; color:#d08c38; font-weight:700;
+                       text-transform:uppercase; letter-spacing:0.08em;
+                       display:block; margin-bottom:0.15rem; }
     </style>
-
     <div class="quick-grid">
-        <a href="?page=Programma" class="quick-btn">
-            <div class="quick-kicker">🗓 Programma</div>
-            <div class="quick-title">Tappe e attività</div>
-            <div class="quick-text">Il percorso del viaggio</div>
-        </a>
-        <a href="?page=Briefing" class="quick-btn">
-            <div class="quick-kicker">📅 Briefing</div>
-            <div class="quick-title">Gli incontri</div>
-            <div class="quick-text">I tre esperti del progetto</div>
-        </a>
-        <a href="?page=Mappe" class="quick-btn">
-            <div class="quick-kicker">🗺 Mappe</div>
-            <div class="quick-title">I luoghi chiave</div>
-            <div class="quick-text">La città da osservare</div>
-        </a>
-        <a href="?page=Documenti" class="quick-btn">
-            <div class="quick-kicker">📂 Documenti</div>
-            <div class="quick-title">Moduli utili</div>
-            <div class="quick-text">Scadenze e materiali</div>
-        </a>
+        <a href="?page=Programma" class="quick-btn"><span class="quick-btn-label">🗓 Programma</span>Tappe e attività</a>
+        <a href="?page=Briefing" class="quick-btn"><span class="quick-btn-label">📅 Briefing</span>Gli esperti</a>
+        <a href="?page=Mappe" class="quick-btn"><span class="quick-btn-label">🗺 Mappe</span>I luoghi</a>
+        <a href="?page=Documenti" class="quick-btn"><span class="quick-btn-label">📂 Documenti</span>Moduli e scadenze</a>
     </div>
     """, unsafe_allow_html=True)
 
-    # Una sola sezione "Scopri il progetto"
-    with st.expander("Scopri il progetto"):
+    # Descrizione
+    st.markdown("""
+    <p style="font-size:1rem;color:#3a4a5c;line-height:1.7;margin-bottom:0.4rem;">
+    Il portale ufficiale del progetto <strong>Peccioli × New Orleans 2026</strong> — 80 ragazzi, settembre 2026.
+    </p>
+    """, unsafe_allow_html=True)
+    with st.expander("Scopri a cosa serve →"):
         st.markdown("""
-        <div style="font-size:0.95rem;color:#3a4a5c;line-height:1.75;">
-            Questo spazio accompagna i ragazzi <strong>prima del viaggio</strong> con i contenuti essenziali:
-            <strong>briefing con gli esperti</strong>, <strong>mappe dei luoghi simbolici</strong>,
-            <strong>documenti</strong> e <strong>approfondimenti</strong> per arrivare a New Orleans
-            con uno sguardo già orientato sui temi del progetto.
-        </div>
+        <p style="font-size:0.95rem;color:#3a4a5c;line-height:1.75;">
+        Questo spazio è pensato per accompagnare i ragazzi <strong>prima, durante e dopo il viaggio</strong>.
+        Qui troverete in tempo reale il <strong>programma aggiornato</strong> del viaggio con tutte le tappe e le attività,
+        i <strong>documenti da compilare</strong> con le relative scadenze,
+        i <strong>briefing con gli esperti</strong> per prepararsi culturalmente,
+        e gli <strong>approfondimenti</strong> — libri, film, documentari — per arrivare a New Orleans
+        con uno sguardo già orientato sui quattro temi del viaggio: musica, resilienza, società, identità.
+        </p>
         """, unsafe_allow_html=True)
 
-    # Gallery più semplice
+    # Galleria — frecce su desktop e mobile
     st.markdown("""
-    <div style="margin:1.3rem 0 0.7rem 0;">
-        <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#d08c38;margin-bottom:0.25rem;">
-            New Orleans
+    <div style="display:flex;align-items:center;gap:1rem;margin:1.6rem 0 0.8rem;">
+        <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(20,33,61,0.15));"></div>
+        <div style="text-align:center;">
+            <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#d08c38;margin-bottom:0.2rem;">New Orleans vista da vicino</div>
+            <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.35rem;font-weight:800;color:#0d1f3c;line-height:1.1;">Sguardi sulla città</div>
         </div>
-        <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.35rem;font-weight:800;color:#14213d;line-height:1.1;">
-            Sguardi sulla città
-        </div>
+        <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(20,33,61,0.15),transparent);"></div>
     </div>
     """, unsafe_allow_html=True)
-
     valid_items = [item for item in gallery_items if item["path"]]
 
-    if valid_items:
-        if "selected_home_image" not in st.session_state:
-            st.session_state.selected_home_image = 0
+    if "selected_home_image" not in st.session_state:
+        st.session_state.selected_home_image = 0
+    idx = min(st.session_state.selected_home_image, len(valid_items) - 1)
+    selected = valid_items[idx]
 
-        idx = min(st.session_state.selected_home_image, len(valid_items) - 1)
-        selected = valid_items[idx]
-
+    col_prev, col_img, col_next = st.columns([1, 14, 1])
+    with col_prev:
+        if st.button("←", key="prev_img"):
+            st.session_state.selected_home_image = (idx - 1) % len(valid_items)
+            st.rerun()
+    with col_img:
         st.image(selected["path"], use_container_width=True)
+    with col_next:
+        if st.button("→", key="next_img"):
+            st.session_state.selected_home_image = (idx + 1) % len(valid_items)
+            st.rerun()
 
-        st.markdown(f"""
-        <div style="background:white;border-radius:0 0 16px 16px;padding:0.9rem 1rem 0.9rem;
-                    margin-top:-0.35rem;border:1px solid rgba(20,33,61,0.07);
-                    border-top:none;box-shadow:0 4px 14px rgba(0,0,0,0.04);">
-            <div style="font-weight:700;color:#14213d;font-size:0.95rem;margin-bottom:0.2rem;">{selected["title"]}</div>
-            <div style="font-size:0.84rem;color:#5b6472;line-height:1.55;">{selected["desc"]}</div>
-        </div>
-        """, unsafe_allow_html=True)
+    st.markdown(f'<div class="gallery-caption"><strong>{selected["title"]}</strong> — {selected["desc"]}</div>', unsafe_allow_html=True)
 
-        g1, g2, g3 = st.columns([1, 3, 1])
-        with g1:
-            if st.button("← Precedente", key="prev_img", use_container_width=True):
-                st.session_state.selected_home_image = (idx - 1) % len(valid_items)
-                st.rerun()
-        with g2:
-            st.markdown(f"""
-            <div style="text-align:center;font-size:0.78rem;color:#9aa3b0;padding-top:0.55rem;">
-                {idx + 1} / {len(valid_items)}
-            </div>
-            """, unsafe_allow_html=True)
-        with g3:
-            if st.button("Successiva →", key="next_img", use_container_width=True):
-                st.session_state.selected_home_image = (idx + 1) % len(valid_items)
-                st.rerun()
+    # Pallini indicatori
+    dots_html = '<div style="display:flex;justify-content:center;gap:6px;margin-bottom:0.8rem;">'
+    for i in range(len(valid_items)):
+        color = "#d08c38" if i == idx else "rgba(20,33,61,0.15)"
+        dots_html += f'<div style="width:7px;height:7px;border-radius:50%;background:{color};"></div>'
+    dots_html += '</div>'
+    st.markdown(dots_html, unsafe_allow_html=True)
 
-    # Webcam + news in fondo
-    st.markdown("<div style='height:0.6rem;'></div>", unsafe_allow_html=True)
-    col1, col2 = st.columns(2)
-
-    with col1:
-        st.markdown("""
-        <div style="background:white;border-radius:18px;padding:1.1rem 1.2rem;
-                    border:1px solid rgba(20,33,61,0.08);
-                    box-shadow:0 4px 14px rgba(0,0,0,0.04);height:100%;">
-            <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.05rem;font-weight:700;color:#14213d;margin-bottom:0.25rem;">
-                📹 Live da New Orleans
-            </div>
-            <div style="font-size:0.84rem;color:#5b6472;margin-bottom:0.8rem;line-height:1.5;">
-                Webcam dal French Quarter per respirare già l’atmosfera della città.
-            </div>
+    # Webcam + News — affiancati desktop, in colonna mobile
+    st.markdown("## ")
+    st.markdown("""
+    <style>
+    .cam-news-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 640px) { .cam-news-wrap { grid-template-columns: 1fr; } }
+    .cam-news-card { background:white;border-radius:20px;padding:1.2rem 1.4rem;
+                     border:1px solid rgba(20,33,61,0.08);box-shadow:0 4px 16px rgba(0,0,0,0.04); }
+    </style>
+    <div class="cam-news-wrap">
+        <div class="cam-news-card">
+            <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:700;color:#14213d;margin-bottom:0.3rem;">📹 Live da New Orleans</div>
+            <div style="font-size:0.85rem;color:#5b6472;margin-bottom:1rem;line-height:1.5;">Webcam in diretta dal French Quarter · Bourbon Street, angolo St. Peter</div>
             <a href="https://www.earthcam.com/usa/louisiana/neworleans/bourbonstreet/" target="_blank"
-               style="display:inline-block;background:#0d1f3c;color:white;padding:0.5rem 1rem;
-                      border-radius:999px;font-size:0.82rem;font-weight:600;text-decoration:none;">
-                Guarda la webcam →
+               style="display:inline-block;background:#0d1f3c;color:white;padding:0.5rem 1.1rem;
+                      border-radius:999px;font-size:0.85rem;font-weight:600;text-decoration:none;">
+                🎥 Guarda la webcam live →
             </a>
+            <div style="font-size:0.72rem;color:#9aa3b0;margin-top:0.7rem;">Fonte: EarthCam · Cats Meow · 24/7</div>
         </div>
-        """, unsafe_allow_html=True)
+        <div class="cam-news-card">
+            <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:700;color:#14213d;margin-bottom:0.3rem;">🗞 Notizie da New Orleans</div>
+            <div style="font-size:0.85rem;color:#5b6472;margin-bottom:0.8rem;line-height:1.5;">Le fonti locali per seguire la città prima del viaggio</div>
+            <div style="display:flex;flex-direction:column;gap:0.4rem;">
+                <a href="https://www.nola.com" target="_blank" style="display:flex;align-items:center;gap:0.5rem;padding:0.45rem 0.7rem;background:#f5f8fc;border-radius:10px;text-decoration:none;border-left:3px solid #d08c38;">
+                    <div><div style="font-size:0.82rem;font-weight:600;color:#14213d;">The Times-Picayune</div><div style="font-size:0.68rem;color:#9aa3b0;">Quotidiano di New Orleans</div></div>
+                </a>
+                <a href="https://www.wwno.org" target="_blank" style="display:flex;align-items:center;gap:0.5rem;padding:0.45rem 0.7rem;background:#f5f8fc;border-radius:10px;text-decoration:none;border-left:3px solid #17305a;">
+                    <div><div style="font-size:0.82rem;font-weight:600;color:#14213d;">WWNO Public Radio</div><div style="font-size:0.68rem;color:#9aa3b0;">Radio pubblica NPR</div></div>
+                </a>
+                <a href="https://thelensnola.org" target="_blank" style="display:flex;align-items:center;gap:0.5rem;padding:0.45rem 0.7rem;background:#f5f8fc;border-radius:10px;text-decoration:none;border-left:3px solid #2e7d5e;">
+                    <div><div style="font-size:0.82rem;font-weight:600;color:#14213d;">The Lens NOLA</div><div style="font-size:0.68rem;color:#9aa3b0;">Giornalismo investigativo</div></div>
+                </a>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
-    with col2:
-        st.markdown("""
-        <div style="background:white;border-radius:18px;padding:1.1rem 1.2rem;
-                    border:1px solid rgba(20,33,61,0.08);
-                    box-shadow:0 4px 14px rgba(0,0,0,0.04);height:100%;">
-            <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.05rem;font-weight:700;color:#14213d;margin-bottom:0.25rem;">
-                🗞 Fonti locali
-            </div>
-            <div style="font-size:0.84rem;color:#5b6472;margin-bottom:0.7rem;line-height:1.5;">
-                Per seguire la città prima della partenza.
-            </div>
-            <div style="display:flex;flex-direction:column;gap:0.45rem;">
-                <a href="https://www.nola.com" target="_blank" style="text-decoration:none;color:#14213d;font-size:0.84rem;font-weight:600;">• The Times-Picayune</a>
-                <a href="https://www.wwno.org" target="_blank" style="text-decoration:none;color:#14213d;font-size:0.84rem;font-weight:600;">• WWNO Public Radio</a>
-                <a href="https://thelensnola.org" target="_blank" style="text-decoration:none;color:#14213d;font-size:0.84rem;font-weight:600;">• The Lens NOLA</a>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
 # ----------------------------
 # BRIEFING
 # ----------------------------
