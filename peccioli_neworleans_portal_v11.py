@@ -399,23 +399,15 @@ luoghi_dati = [
 ]
 
 def section_header(numero, sopratitolo, titolo, desc, colore="#d08c38"):
-    ponte_deco = f'<img src="data:{ponte_mime};base64,{ponte_b64}" style="position:absolute;right:-40px;bottom:-20px;height:160px;opacity:0.06;pointer-events:none;filter:invert(1);">' if ponte_b64 else ""
     st.markdown(f"""
     <div style="background:linear-gradient(135deg,#0d1f3c 0%,#17305a 100%);border-radius:24px;
                 padding:1.8rem 2rem;margin-bottom:1.6rem;position:relative;overflow:hidden;
                 border:1px solid rgba(255,255,255,0.06);">
-        {ponte_deco}
-        <div style="position:absolute;right:-10px;top:-15px;font-family:'Playfair Display',Georgia,serif;
-                    font-size:7rem;opacity:0.05;font-weight:900;color:white;line-height:1;user-select:none;">
-            {numero}
-        </div>
-        <div style="position:relative;z-index:1;">
-            <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;
-                        color:{colore};margin-bottom:0.35rem;">{sopratitolo}</div>
-            <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.8rem;font-weight:800;
-                        color:white;line-height:1.1;margin-bottom:0.5rem;">{titolo}</div>
-            <div style="font-size:0.9rem;color:rgba(255,255,255,0.6);line-height:1.65;max-width:520px;">{desc}</div>
-        </div>
+        <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;
+                    color:{colore};margin-bottom:0.35rem;">{sopratitolo}</div>
+        <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.8rem;font-weight:800;
+                    color:white;line-height:1.1;margin-bottom:0.5rem;">{titolo}</div>
+        <div style="font-size:0.9rem;color:rgba(255,255,255,0.6);line-height:1.65;max-width:520px;">{desc}</div>
     </div>
     """, unsafe_allow_html=True)
 
