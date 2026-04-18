@@ -53,18 +53,16 @@ def img_to_base64_small(path, max_width=600):
     return img_to_base64(path)
 
 # ----------------------------
-# Immagini
+# Immagini — lazy loading per sezione
 # ----------------------------
-logo_path       = find_image(["logo_comune.png", "logo_comune.jpg"])
-morelli_img     = find_image(["morelli.jpg", "morelli.png"])
-gardner_img     = find_image(["gardner.jpg", "gardner.png"])
-costa_img       = find_image(["costa.jpg", "costa.png"])
-briefing_img    = find_image(["briefing.jpg", "briefing.png"])
-materiali_img   = find_image(["materiali.jpg", "materiali.png"])
-gruppi_img      = find_image(["gruppi.jpg", "gruppi.png"])
-skyline_path    = find_image(["neworleans_stilizzata.png", "neworleans_stilizzata.jpeg", "neworleans_stilizzata.jpg"])
-nola_logo_path  = find_image(["New_Orleans_Logo.png", "New_Orleans_Logo.jpg"])
+# Solo logo e header caricate sempre
+logo_path      = find_image(["logo_comune.png", "logo_comune.jpg"])
+nola_logo_path = find_image(["New_Orleans_Logo.png", "New_Orleans_Logo.jpg"])
 
+logo_b64, logo_mime         = img_to_base64(logo_path)
+nola_logo_b64, nola_logo_mime = img_to_base64(nola_logo_path)
+
+# Galleria (solo percorsi, caricamento b64 avviene nella Home)
 gallery_items = [
     {"key": "artistica", "title": "Street art",          "desc": "Murale che racconta la voce artistica e comunitaria di New Orleans.",                                                                    "path": find_image(["home_artistica.jpg"])},
     {"key": "urbana",    "title": "Atmosfera urbana",    "desc": "Una composizione visiva che restituisce l'energia e i contrasti della città.",                                                           "path": find_image(["home_urbana.jpeg", "home_urbana.jpg", "home_urbana.png"])},
@@ -74,9 +72,13 @@ gallery_items = [
     {"key": "musicale",  "title": "Jazz dal vivo",       "desc": "Gruppo di artisti jazz in una serata nel French Quarter: la musica come anima pulsante della città.",                                   "path": find_image(["home_musicale.jpg"])},
 ]
 
-skyline_b64, skyline_mime = img_to_base64(skyline_path)
-nola_logo_b64, nola_logo_mime = img_to_base64(nola_logo_path)
-logo_b64, logo_mime = img_to_base64(logo_path)
+# Immagini per sezione — caricate solo quando servono
+def load_briefing_imgs():
+    return (
+        find_image(["morelli.jpg", "morelli.png"]),
+        find_image(["gardner.jpg", "gardner.png"]),
+        find_image(["costa.jpg", "costa.png"]),
+    )
 
 def inline_img(path, style=""):
     b64, mime = img_to_base64(path)
@@ -336,19 +338,19 @@ briefing_data = [
         "data": "7 maggio", "titolo": "Elia Morelli",
         "ruolo": "Assegnista di ricerca in Storia Moderna · Università di Pisa",
         "descrizione": "Un briefing dedicato alla storia culturale, politico-economica e geopolitica di New Orleans e della Louisiana. Il punto di vista storico che aiuterà i ragazzi a leggere le radici della città.",
-        "foto": morelli_img, "emoji": "🏛"
+        "foto": None, "emoji": "🏛"
     },
     {
         "data": "21 maggio", "titolo": "Anthony Gardner",
         "ruolo": "Ex ambasciatore USA all'Unione Europea · Consiglio di sicurezza nazionale",
         "descrizione": "Uno sguardo istituzionale e geopolitico, utile a capire il ruolo di New Orleans e il rapporto tra Stati Uniti, Europa e relazioni internazionali.",
-        "foto": gardner_img, "emoji": "🌐"
+        "foto": None, "emoji": "🌐"
     },
     {
         "data": "15 giugno", "titolo": "Francesco Costa",
         "ruolo": "Giornalista · Direttore de Il Post",
         "descrizione": "Il punto di vista sociale, narrativo e attuale sugli Stati Uniti, per aiutare i ragazzi a leggere la realtà americana oltre gli stereotipi.",
-        "foto": costa_img, "emoji": "📰"
+        "foto": None, "emoji": "📰"
     },
 ]
 
@@ -520,7 +522,7 @@ st.markdown("""
         bottom: 0; left: 0; right: 0;
         background: #0d1f3c;
         border-top: 1px solid rgba(255,255,255,0.1);
-        padding: 8px 4px 24px;
+        padding: 8px 4px calc(12px + env(safe-area-inset-bottom));
         z-index: 2147483647;
         justify-content: space-around;
         align-items: flex-end;
@@ -603,7 +605,9 @@ if pagina == "Home":
     # Countdown funzionante via st.components — mobile responsive
     import streamlit.components.v1 as components
 
-    morelli_b64, morelli_mime = img_to_base64(morelli_img)
+    # Carica solo la foto di Morelli per il countdown (lazy)
+    _morelli_path = find_image(["morelli.jpg", "morelli.png"])
+    morelli_b64, morelli_mime = img_to_base64(_morelli_path)
     prossimo_foto = f'<img src="data:{morelli_mime};base64,{morelli_b64}" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid #d08c38;flex-shrink:0;">' if morelli_b64 else '<div style="width:44px;height:44px;border-radius:50%;background:#dde3ec;flex-shrink:0;"></div>'
 
     countdown_html = ("""
@@ -832,7 +836,9 @@ elif pagina == "Briefing":
     section_header("01", "Prima del viaggio", "Incontri propedeutici al viaggio",
         "Tre serate con tre esperti per arrivare a New Orleans con strumenti culturali già solidi. Non lezioni — conversazioni aperte su storia, geopolitica e società americana. Clicca su un relatore per scoprire chi è.")
 
-    # Dati completi con biografia
+    # Dati completi con biografia — immagini caricate qui (lazy)
+    morelli_img, gardner_img, costa_img = load_briefing_imgs()
+
     briefing_full = [
         {
             "data": "7 maggio", "ora": "ore 21",
@@ -1209,20 +1215,23 @@ elif pagina == "Mappe":
     section_header("04", "Orientarsi nella città", "Mappa di New Orleans",
         "I luoghi simbolici del viaggio, organizzati per tema. Clicca sui marker per leggere la descrizione di ogni posto.", colore="#2e7d5e")
 
-    m = folium.Map(location=[29.950, -90.065], zoom_start=13, tiles="CartoDB positron")
-    for luogo in luoghi_dati:
-        folium.CircleMarker(
-            location=[luogo["lat"], luogo["lon"]],
-            radius=11, color=luogo["colore"], fill=True,
-            fill_color=luogo["colore"], fill_opacity=0.88,
-            popup=folium.Popup(
-                f"<b style='font-size:14px'>{luogo['nome']}</b><br>"
-                f"<span style='font-size:12px;color:#444'>{luogo['desc']}</span>",
-                max_width=250
-            ),
-            tooltip=folium.Tooltip(luogo["nome"], sticky=True)
-        ).add_to(m)
-    st_folium(m, width=None, height=480, use_container_width=True)
+    @st.fragment
+    def mostra_mappa():
+        m = folium.Map(location=[29.950, -90.065], zoom_start=13, tiles="CartoDB positron")
+        for luogo in luoghi_dati:
+            folium.CircleMarker(
+                location=[luogo["lat"], luogo["lon"]],
+                radius=11, color=luogo["colore"], fill=True,
+                fill_color=luogo["colore"], fill_opacity=0.88,
+                popup=folium.Popup(
+                    f"<b style='font-size:14px'>{luogo['nome']}</b><br>"
+                    f"<span style='font-size:12px;color:#444'>{luogo['desc']}</span>",
+                    max_width=250
+                ),
+                tooltip=folium.Tooltip(luogo["nome"], sticky=True)
+            ).add_to(m)
+        st_folium(m, width=None, height=480, use_container_width=True)
+    mostra_mappa()
 
     # Legenda temi
     st.markdown("## ")
