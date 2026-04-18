@@ -584,10 +584,7 @@ else:
     <div style="display:flex;align-items:center;gap:0.8rem;padding:0.6rem 0 0.5rem 0;
                 border-bottom:1px solid rgba(20,33,61,0.1);margin-bottom:1.2rem;">
         {logo_tag_small}
-        <div style="flex:1;">
-            <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#d08c38;">Peccioli × New Orleans 2026</div>
-            <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:800;color:#0d1f3c;line-height:1.1;">{pagina}</div>
-        </div>
+        <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#d08c38;">Peccioli × New Orleans 2026</div>
     </div>
     """
 st.markdown(header_html, unsafe_allow_html=True)
