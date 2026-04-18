@@ -494,12 +494,14 @@ with st.sidebar:
 # Bottom navigation bar — solo mobile
 voci_nav = [
     ("🏠", "Home"),
-    ("🎷", "Temi del viaggio"),
     ("📅", "Briefing"),
-    ("📚", "Approfondimenti"),
     ("🗺", "Mappe"),
     ("🗓", "Programma"),
     ("📂", "Documenti"),
+]
+voci_altro = [
+    ("🎷", "Temi del viaggio"),
+    ("📚", "Approfondimenti"),
 ]
 active = st.session_state.get("nav_target", "Home")
 
@@ -549,6 +551,28 @@ for icon, label in voci_nav:
     short = label.split()[0]
     page_param = label.replace(" ", "+")
     bottom_items += f'<a href="?page={page_param}" class="bn-item"><span class="bn-icon">{icon}</span><span class="bn-label" style="color:{color};font-weight:{weight};">{short}</span></a>'
+
+# Voce "Altro" con sottomenu
+altro_attivo = active in [v[1] for v in voci_altro]
+altro_color = "#d08c38" if altro_attivo else "rgba(255,255,255,0.55)"
+altro_weight = "700" if altro_attivo else "400"
+
+altro_links = ""
+for icon, label in voci_altro:
+    is_act = (label == active)
+    c = "#d08c38" if is_act else "#0d1f3c"
+    w = "700" if is_act else "500"
+    page_param = label.replace(" ", "+")
+    altro_links += f'<a href="?page={page_param}" style="display:flex;align-items:center;gap:0.5rem;padding:0.6rem 1rem;text-decoration:none;border-bottom:1px solid rgba(0,0,0,0.06);"><span>{icon}</span><span style="font-size:0.85rem;font-weight:{w};color:{c};">{label}</span></a>'
+
+bottom_items += f"""
+<div class="bn-item" style="position:relative;" onclick="var m=document.getElementById('altro-menu');m.style.display=m.style.display==='none'?'block':'none';">
+    <span class="bn-icon">☰</span>
+    <span class="bn-label" style="color:{altro_color};font-weight:{altro_weight};">Altro</span>
+    <div id="altro-menu" style="display:none;position:absolute;bottom:60px;right:0;background:white;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,0.15);min-width:180px;overflow:hidden;z-index:99999;">
+        {altro_links}
+    </div>
+</div>"""
 
 st.markdown(f'<div class="bottom-nav">{bottom_items}</div>', unsafe_allow_html=True)
 
@@ -663,6 +687,26 @@ if pagina == "Home":
     """)
     components.html(countdown_html, height=120, scrolling=False)
 
+    # 4 bottoni grandi touch-friendly
+    st.markdown("""
+    <style>
+    .quick-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin:0.8rem 0; }
+    .quick-btn {
+        display:block; text-align:center; text-decoration:none;
+        background:#0d1f3c; color:white; border-radius:14px;
+        padding:0.9rem 0.5rem; font-weight:700; font-size:0.9rem;
+        line-height:1.3;
+    }
+    .quick-btn span { display:block; font-size:1.2rem; margin-bottom:0.2rem; }
+    </style>
+    <div class="quick-grid">
+        <a href="?page=Programma" class="quick-btn"><span>🗓</span>Programma</a>
+        <a href="?page=Briefing" class="quick-btn"><span>📅</span>Briefing</a>
+        <a href="?page=Mappe" class="quick-btn"><span>🗺</span>Mappe</a>
+        <a href="?page=Documenti" class="quick-btn"><span>📂</span>Documenti</a>
+    </div>
+    """, unsafe_allow_html=True)
+
     # Descrizione
     st.markdown("""
     <p style="font-size:1rem;color:#3a4a5c;line-height:1.7;margin-bottom:0.4rem;">
@@ -760,73 +804,43 @@ if pagina == "Home":
     dots_html += '</div>'
     st.markdown(dots_html, unsafe_allow_html=True)
 
-    # Webcam + News affiancati
+    # Webcam + News — affiancati desktop, in colonna mobile
     st.markdown("## ")
-    cam_col, news_col = st.columns(2)
-
-    with cam_col:
-        st.markdown("""
-        <div style="background:white;border-radius:20px;padding:1.2rem 1.4rem;border:1px solid rgba(20,33,61,0.08);box-shadow:0 6px 20px rgba(0,0,0,0.05);height:100%;">
-            <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:700;color:#14213d;margin-bottom:0.3rem;">
-                📹 Live da New Orleans
-            </div>
-            <div style="font-size:0.85rem;color:#5b6472;margin-bottom:1rem;line-height:1.5;">
-                Webcam in diretta dal French Quarter · Bourbon Street, angolo St. Peter
-            </div>
+    st.markdown("""
+    <style>
+    .cam-news-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 640px) { .cam-news-wrap { grid-template-columns: 1fr; } }
+    .cam-news-card { background:white;border-radius:20px;padding:1.2rem 1.4rem;
+                     border:1px solid rgba(20,33,61,0.08);box-shadow:0 4px 16px rgba(0,0,0,0.04); }
+    </style>
+    <div class="cam-news-wrap">
+        <div class="cam-news-card">
+            <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:700;color:#14213d;margin-bottom:0.3rem;">📹 Live da New Orleans</div>
+            <div style="font-size:0.85rem;color:#5b6472;margin-bottom:1rem;line-height:1.5;">Webcam in diretta dal French Quarter · Bourbon Street, angolo St. Peter</div>
             <a href="https://www.earthcam.com/usa/louisiana/neworleans/bourbonstreet/" target="_blank"
-               style="display:inline-block;background:#0d1f3c;color:white;padding:0.55rem 1.2rem;
-                      border-radius:999px;font-size:0.88rem;font-weight:600;text-decoration:none;">
+               style="display:inline-block;background:#0d1f3c;color:white;padding:0.5rem 1.1rem;
+                      border-radius:999px;font-size:0.85rem;font-weight:600;text-decoration:none;">
                 🎥 Guarda la webcam live →
             </a>
-            <div style="font-size:0.75rem;color:#9aa3b0;margin-top:0.8rem;">
-                Fonte: EarthCam · Cats Meow Karaoke Bar · 24/7
-            </div>
+            <div style="font-size:0.72rem;color:#9aa3b0;margin-top:0.7rem;">Fonte: EarthCam · Cats Meow · 24/7</div>
         </div>
-        """, unsafe_allow_html=True)
-
-    with news_col:
-        st.markdown("""
-        <div style="background:white;border-radius:20px;padding:1.2rem 1.4rem;border:1px solid rgba(20,33,61,0.08);box-shadow:0 6px 20px rgba(0,0,0,0.05);height:100%;">
-            <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:700;color:#14213d;margin-bottom:0.3rem;">
-                🗞 Notizie da New Orleans
-            </div>
-            <div style="font-size:0.85rem;color:#5b6472;margin-bottom:1rem;line-height:1.5;">
-                Le fonti locali per seguire la città prima del viaggio
-            </div>
-            <div style="display:flex;flex-direction:column;gap:0.5rem;">
-                <a href="https://www.nola.com" target="_blank"
-                   style="display:flex;align-items:center;gap:0.6rem;padding:0.55rem 0.8rem;
-                          background:#f5f8fc;border-radius:12px;text-decoration:none;
-                          border-left:3px solid #d08c38;">
-                    <span style="font-size:1rem;">📰</span>
-                    <div>
-                        <div style="font-size:0.85rem;font-weight:600;color:#14213d;">The Times-Picayune</div>
-                        <div style="font-size:0.72rem;color:#9aa3b0;">Il principale quotidiano di New Orleans</div>
-                    </div>
+        <div class="cam-news-card">
+            <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:700;color:#14213d;margin-bottom:0.3rem;">🗞 Notizie da New Orleans</div>
+            <div style="font-size:0.85rem;color:#5b6472;margin-bottom:0.8rem;line-height:1.5;">Le fonti locali per seguire la città prima del viaggio</div>
+            <div style="display:flex;flex-direction:column;gap:0.4rem;">
+                <a href="https://www.nola.com" target="_blank" style="display:flex;align-items:center;gap:0.5rem;padding:0.45rem 0.7rem;background:#f5f8fc;border-radius:10px;text-decoration:none;border-left:3px solid #d08c38;">
+                    <div><div style="font-size:0.82rem;font-weight:600;color:#14213d;">The Times-Picayune</div><div style="font-size:0.68rem;color:#9aa3b0;">Quotidiano di New Orleans</div></div>
                 </a>
-                <a href="https://www.wwno.org" target="_blank"
-                   style="display:flex;align-items:center;gap:0.6rem;padding:0.55rem 0.8rem;
-                          background:#f5f8fc;border-radius:12px;text-decoration:none;
-                          border-left:3px solid #17305a;">
-                    <span style="font-size:1rem;">📻</span>
-                    <div>
-                        <div style="font-size:0.85rem;font-weight:600;color:#14213d;">WWNO Public Radio</div>
-                        <div style="font-size:0.72rem;color:#9aa3b0;">Radio pubblica NPR di New Orleans</div>
-                    </div>
+                <a href="https://www.wwno.org" target="_blank" style="display:flex;align-items:center;gap:0.5rem;padding:0.45rem 0.7rem;background:#f5f8fc;border-radius:10px;text-decoration:none;border-left:3px solid #17305a;">
+                    <div><div style="font-size:0.82rem;font-weight:600;color:#14213d;">WWNO Public Radio</div><div style="font-size:0.68rem;color:#9aa3b0;">Radio pubblica NPR</div></div>
                 </a>
-                <a href="https://thelensnola.org" target="_blank"
-                   style="display:flex;align-items:center;gap:0.6rem;padding:0.55rem 0.8rem;
-                          background:#f5f8fc;border-radius:12px;text-decoration:none;
-                          border-left:3px solid #2e7d5e;">
-                    <span style="font-size:1rem;">🔍</span>
-                    <div>
-                        <div style="font-size:0.85rem;font-weight:600;color:#14213d;">The Lens NOLA</div>
-                        <div style="font-size:0.72rem;color:#9aa3b0;">Giornalismo investigativo locale</div>
-                    </div>
+                <a href="https://thelensnola.org" target="_blank" style="display:flex;align-items:center;gap:0.5rem;padding:0.45rem 0.7rem;background:#f5f8fc;border-radius:10px;text-decoration:none;border-left:3px solid #2e7d5e;">
+                    <div><div style="font-size:0.82rem;font-weight:600;color:#14213d;">The Lens NOLA</div><div style="font-size:0.68rem;color:#9aa3b0;">Giornalismo investigativo</div></div>
                 </a>
             </div>
         </div>
-        """, unsafe_allow_html=True)
+    </div>
+    """, unsafe_allow_html=True)
 
 # ----------------------------
 # BRIEFING
@@ -1269,37 +1283,86 @@ elif pagina == "Mappe":
 # ----------------------------
 elif pagina == "Programma":
     section_header("05", "Il viaggio", "Programma",
-        "Il programma dettagliato è ancora in costruzione. Questa sezione verrà aggiornata con tutte le tappe non appena il percorso sarà definito.", colore="#d08c38")
+        "Le tappe del viaggio a New Orleans, 21–28 settembre 2026.", colore="#d08c38")
 
     st.markdown("""
-    <div style="background:#fff8ee;border:2px dashed #d08c38;border-radius:24px;padding:2.5rem 2rem;text-align:center;max-width:580px;margin:2rem auto;">
-        <div style="font-size:2.5rem;margin-bottom:0.6rem;">🗓</div>
-        <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.4rem;font-weight:700;color:#14213d;margin-bottom:0.6rem;">Programma in definizione</div>
-        <div style="font-size:0.97rem;color:#5b6472;line-height:1.75;">
-            Il programma dettagliato del viaggio è ancora in fase di costruzione.<br>
-            Questa sezione verrà aggiornata con tutte le tappe, gli appuntamenti
-            e le attività non appena il percorso sarà definito.
-        </div>
+    <div style="background:#fff8ee;border-left:4px solid #d08c38;border-radius:0 12px 12px 0;
+                padding:0.8rem 1.2rem;margin-bottom:1.4rem;font-size:0.88rem;color:#7b5a1e;">
+        ⏳ Il programma è in fase di definizione — questa è una struttura provvisoria che verrà aggiornata.
     </div>
     """, unsafe_allow_html=True)
+
+    giorni = [
+        ("Dom 21 sett", "✈️", "Partenza", "Volo dall'Italia verso New Orleans. Arrivo e sistemazione.", "#d08c38", True),
+        ("Lun 22 sett", "🏛", "Orientamento", "Primo giro della città: French Quarter, Jackson Square, fronte del fiume.", "#17305a", True),
+        ("Mar 23 sett", "🎷", "Musica", "Frenchmen Street, Congo Square, Louis Armstrong Park. Serata jazz dal vivo.", "#d4a017", True),
+        ("Mer 24 sett", "🌊", "Resilienza", "Lower Ninth Ward, Make It Right Houses. Incontro con residenti post-Katrina.", "#17305a", True),
+        ("Gio 25 sett", "⚖️", "Società", "Tremé, Bywater. Incontro con comunità locale e realtà associative.", "#2e7d5e", True),
+        ("Ven 26 sett", "🏛", "Identità", "Garden District, cimiteri, cucina creola. Visita museo.", "#7b3f00", True),
+        ("Sab 27 sett", "📝", "Libero + restituzione", "Tempo libero in città. Serata di restituzione e confronto di gruppo.", "#c0392b", True),
+        ("Dom 28 sett", "✈️", "Rientro", "Partenza da New Orleans verso l'Italia.", "#d08c38", True),
+    ]
+
+    for giorno, icona, titolo, desc, colore, attivo in giorni:
+        opacita = "1" if attivo else "0.5"
+        st.markdown(f"""
+        <div style="display:flex;gap:1rem;align-items:flex-start;margin-bottom:0.8rem;opacity:{opacita};">
+            <div style="flex-shrink:0;width:44px;height:44px;border-radius:50%;
+                        background:{colore};display:flex;align-items:center;
+                        justify-content:center;font-size:1.2rem;margin-top:0.2rem;">
+                {icona}
+            </div>
+            <div style="flex:1;background:white;border-radius:14px;padding:0.8rem 1rem;
+                        border:1px solid rgba(20,33,61,0.07);box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+                <div style="font-size:0.68rem;font-weight:700;text-transform:uppercase;
+                            letter-spacing:0.1em;color:{colore};margin-bottom:0.15rem;">{giorno}</div>
+                <div style="font-family:'Playfair Display',Georgia,serif;font-size:1rem;
+                            font-weight:700;color:#14213d;margin-bottom:0.2rem;">{titolo}</div>
+                <div style="font-size:0.85rem;color:#5b6472;line-height:1.5;">{desc}</div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
 # ----------------------------
 # DOCUMENTI
 # ----------------------------
 elif pagina == "Documenti":
     section_header("06", "Prima della partenza", "Materiali e documenti",
-        "Documenti da consultare, compilare e consegnare in vista del viaggio, con relative scadenze.", colore="#17305a")
+        "Documenti da consultare, compilare e consegnare in vista del viaggio.", colore="#17305a")
 
     st.markdown("""
-    <div style="background:#f0f4fb;border:2px dashed rgba(20,33,61,0.2);border-radius:24px;padding:2.5rem 2rem;text-align:center;max-width:580px;margin:2rem auto;">
-        <div style="font-size:2.5rem;margin-bottom:0.6rem;">📂</div>
-        <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.4rem;font-weight:700;color:#14213d;margin-bottom:0.6rem;">Documenti in arrivo</div>
-        <div style="font-size:0.97rem;color:#5b6472;line-height:1.75;">
-            I documenti, le schede e le scadenze non sono ancora stati definiti.<br>
-            Questa sezione verrà aggiornata non appena i materiali saranno pronti<br>
-            e le date di consegna stabilite.
-        </div>
+    <div style="background:#f0f4fb;border-left:4px solid #17305a;border-radius:0 12px 12px 0;
+                padding:0.8rem 1.2rem;margin-bottom:1.4rem;font-size:0.88rem;color:#17305a;">
+        📋 I documenti saranno caricati progressivamente nelle settimane prima della partenza.
     </div>
     """, unsafe_allow_html=True)
+
+    documenti = [
+        ("📋", "Modulo di adesione", "Da compilare e riconsegnare firmato dai genitori.", "Giugno 2026", False),
+        ("🛂", "Copia documento d'identità", "Carta d'identità o passaporto in corso di validità.", "Luglio 2026", False),
+        ("🏥", "Modulo sanitario", "Informazioni mediche e allergie da comunicare all'organizzazione.", "Luglio 2026", False),
+        ("✈️", "Informazioni sul volo", "Orari, scalo, indicazioni per l'aeroporto di partenza.", "Agosto 2026", False),
+        ("🏨", "Sistemazione", "Dettagli sull'alloggio a New Orleans.", "Agosto 2026", False),
+        ("📱", "Contatti e riferimenti", "Numeri di emergenza, referenti locali, chat di gruppo.", "Settembre 2026", False),
+    ]
+
+    for icona, titolo, desc, scadenza, completato in documenti:
+        colore_stato = "#2e7d5e" if completato else "#9aa3b0"
+        stato_testo = "✅ Disponibile" if completato else "⏳ In arrivo"
+        st.markdown(f"""
+        <div style="background:white;border-radius:14px;padding:0.9rem 1.1rem;margin-bottom:0.6rem;
+                    display:flex;align-items:center;gap:1rem;
+                    border:1px solid rgba(20,33,61,0.07);box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+            <div style="font-size:1.5rem;flex-shrink:0;">{icona}</div>
+            <div style="flex:1;">
+                <div style="font-weight:700;color:#14213d;font-size:0.92rem;margin-bottom:0.1rem;">{titolo}</div>
+                <div style="font-size:0.8rem;color:#5b6472;">{desc}</div>
+            </div>
+            <div style="text-align:right;flex-shrink:0;">
+                <div style="font-size:0.7rem;font-weight:600;color:{colore_stato};">{stato_testo}</div>
+                <div style="font-size:0.65rem;color:#9aa3b0;margin-top:0.1rem;">{scadenza}</div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
 st.markdown("<div class='footer-box'>Demo grafica v12 · Portale ragazzi Peccioli × New Orleans 2026</div>", unsafe_allow_html=True)
