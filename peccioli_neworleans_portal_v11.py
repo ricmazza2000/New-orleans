@@ -547,7 +547,7 @@ for icon, label in voci_nav:
 st.markdown(f'<div class="bottom-nav">{bottom_items}</div>', unsafe_allow_html=True)
 
 # ----------------------------
-# HEADER — semplice: logo + titolo + skyline
+# HEADER
 # ----------------------------
 if nola_logo_b64:
     nola_logo_tag = f'<img src="data:{nola_logo_mime};base64,{nola_logo_b64}" class="nola-logo-inline" style="height:44px;opacity:0.65;filter:brightness(0) saturate(100%) invert(16%) sepia(60%) saturate(500%) hue-rotate(190deg);margin-left:0.8rem;vertical-align:middle;position:relative;top:-4px;">'
@@ -555,26 +555,41 @@ else:
     nola_logo_tag = ""
 
 logo_tag = f'<img src="data:{logo_mime};base64,{logo_b64}" style="height:62px;object-fit:contain;flex-shrink:0;">' if logo_b64 else ""
+logo_tag_small = f'<img src="data:{logo_mime};base64,{logo_b64}" style="height:32px;object-fit:contain;flex-shrink:0;">' if logo_b64 else ""
 
-header_html = f"""
-<style>
-@media (max-width: 600px) {{
-    .nola-logo-inline {{ display: none !important; }}
-    .header-title {{ font-size: 1.8rem !important; }}
-    .header-eyebrow {{ font-size: 0.62rem !important; }}
-}}
-</style>
-<div style="display:flex;align-items:center;gap:1.2rem;padding:1.2rem 0 0.6rem 0;">
-    {logo_tag}
-    <div>
-        <div class="header-eyebrow" style="font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#d08c38;margin-bottom:0.25rem;">🎷 Comune di Peccioli · Progetto di viaggio</div>
-        <div class="header-title" style="font-family:'Playfair Display',Georgia,serif;font-size:2.6rem;font-weight:800;color:#0d1f3c;line-height:1.05;letter-spacing:-0.01em;">
-            Peccioli &times; <span style="color:#d08c38;">New Orleans</span> 2026{nola_logo_tag}
+if pagina == "Home":
+    # Header completo solo sulla Home
+    header_html = f"""
+    <style>
+    @media (max-width: 600px) {{
+        .nola-logo-inline {{ display: none !important; }}
+        .header-title {{ font-size: 1.8rem !important; }}
+        .header-eyebrow {{ font-size: 0.62rem !important; }}
+    }}
+    </style>
+    <div style="display:flex;align-items:center;gap:1.2rem;padding:1.2rem 0 0.6rem 0;">
+        {logo_tag}
+        <div>
+            <div class="header-eyebrow" style="font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#d08c38;margin-bottom:0.25rem;">🎷 Comune di Peccioli · Progetto di viaggio</div>
+            <div class="header-title" style="font-family:'Playfair Display',Georgia,serif;font-size:2.6rem;font-weight:800;color:#0d1f3c;line-height:1.05;letter-spacing:-0.01em;">
+                Peccioli &times; <span style="color:#d08c38;">New Orleans</span> 2026{nola_logo_tag}
+            </div>
         </div>
     </div>
-</div>
-<div style="height:2px;background:linear-gradient(90deg,#d08c38 0%,#17305a 40%,transparent 100%);margin:0.5rem 0 1.6rem 0;border-radius:2px;opacity:0.35;"></div>
-"""
+    <div style="height:2px;background:linear-gradient(90deg,#d08c38 0%,#17305a 40%,transparent 100%);margin:0.5rem 0 1.2rem 0;border-radius:2px;opacity:0.35;"></div>
+    """
+else:
+    # Topbar compatta per le altre pagine
+    header_html = f"""
+    <div style="display:flex;align-items:center;gap:0.8rem;padding:0.6rem 0 0.5rem 0;
+                border-bottom:1px solid rgba(20,33,61,0.1);margin-bottom:1.2rem;">
+        {logo_tag_small}
+        <div style="flex:1;">
+            <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#d08c38;">Peccioli × New Orleans 2026</div>
+            <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:800;color:#0d1f3c;line-height:1.1;">{pagina}</div>
+        </div>
+    </div>
+    """
 st.markdown(header_html, unsafe_allow_html=True)
 
 # ----------------------------
