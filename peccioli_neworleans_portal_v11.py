@@ -718,81 +718,58 @@ if pagina == "Home":
         </p>
         """, unsafe_allow_html=True)
 
-    # Galleria — frecce su desktop e mobile
-    st.markdown("""
-    <div style="display:flex;align-items:center;gap:1rem;margin:1.6rem 0 0.8rem;">
-        <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(20,33,61,0.15));"></div>
-        <div style="text-align:center;">
-            <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#d08c38;margin-bottom:0.2rem;">New Orleans vista da vicino</div>
-            <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.35rem;font-weight:800;color:#0d1f3c;line-height:1.1;">Sguardi sulla città</div>
-        </div>
-        <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(20,33,61,0.15),transparent);"></div>
-    </div>
-    """, unsafe_allow_html=True)
-    valid_items = [item for item in gallery_items if item["path"]]
-
-    @st.fragment
-    def galleria():
-        if "selected_home_image" not in st.session_state:
-            st.session_state.selected_home_image = 0
-        idx = min(st.session_state.selected_home_image, len(valid_items) - 1)
-        selected = valid_items[idx]
-
-        col_prev, col_img, col_next = st.columns([1, 14, 1])
-        with col_prev:
-            if st.button("←", key="prev_img"):
-                st.session_state.selected_home_image = (idx - 1) % len(valid_items)
-                st.rerun(scope="fragment")
-        with col_img:
-            st.image(selected["path"], use_container_width=True)
-        with col_next:
-            if st.button("→", key="next_img"):
-                st.session_state.selected_home_image = (idx + 1) % len(valid_items)
-                st.rerun(scope="fragment")
-
-        st.markdown(f'<div class="gallery-caption"><strong>{selected["title"]}</strong> — {selected["desc"]}</div>', unsafe_allow_html=True)
-
-        dots_html = '<div style="display:flex;justify-content:center;gap:6px;margin-bottom:0.8rem;">'
-        for i in range(len(valid_items)):
-            color = "#d08c38" if i == idx else "rgba(20,33,61,0.15)"
-            dots_html += f'<div style="width:7px;height:7px;border-radius:50%;background:{color};"></div>'
-        dots_html += '</div>'
-        st.markdown(dots_html, unsafe_allow_html=True)
-
-    galleria()
-
-    # Webcam + News — affiancati desktop, in colonna mobile
+    # Webcam + Spotify + News
     st.markdown("## ")
     st.markdown("""
     <style>
-    .cam-news-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-    @media (max-width: 640px) { .cam-news-wrap { grid-template-columns: 1fr; } }
-    .cam-news-card { background:white;border-radius:20px;padding:1.2rem 1.4rem;
-                     border:1px solid rgba(20,33,61,0.08);box-shadow:0 4px 16px rgba(0,0,0,0.04); }
+    .home-bottom-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    @media (max-width:640px) { .home-bottom-grid { grid-template-columns:1fr; } }
+    .hb-card { background:white;border-radius:20px;padding:1.1rem 1.3rem;
+               border:1px solid rgba(20,33,61,0.08);box-shadow:0 4px 16px rgba(0,0,0,0.04); }
+    .hb-title { font-family:'Playfair Display',Georgia,serif;font-size:1rem;font-weight:700;
+                color:#14213d;margin-bottom:0.25rem; }
+    .hb-sub { font-size:0.78rem;color:#9aa3b0;margin-bottom:0.7rem; }
+    .news-link { display:flex;align-items:center;padding:0.35rem 0;
+                 text-decoration:none;border-bottom:1px solid rgba(20,33,61,0.05); }
+    .news-link:last-child { border-bottom:none; }
+    .news-link-dot { width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-right:0.5rem; }
+    .news-link-text { font-size:0.8rem;font-weight:600;color:#14213d; }
     </style>
-    <div class="cam-news-wrap">
-        <div class="cam-news-card">
-            <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:700;color:#14213d;margin-bottom:0.3rem;">📹 Live da New Orleans</div>
-            <div style="font-size:0.85rem;color:#5b6472;margin-bottom:1rem;line-height:1.5;">Webcam in diretta dal French Quarter · Bourbon Street, angolo St. Peter</div>
-            <a href="https://www.earthcam.com/usa/louisiana/neworleans/bourbonstreet/" target="_blank"
-               style="display:inline-block;background:#0d1f3c;color:white;padding:0.5rem 1.1rem;
-                      border-radius:999px;font-size:0.85rem;font-weight:600;text-decoration:none;">
-                🎥 Guarda la webcam live →
-            </a>
-            <div style="font-size:0.72rem;color:#9aa3b0;margin-top:0.7rem;">Fonte: EarthCam · Cats Meow · 24/7</div>
+    <div class="home-bottom-grid">
+        <!-- Spotify -->
+        <div style="border-radius:20px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+            <iframe style="border-radius:20px" 
+                src="https://open.spotify.com/embed/playlist/0iMiZcvIy26MqHQln5kkrI?utm_source=generator&theme=0" 
+                width="100%" height="200" frameBorder="0" 
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                loading="lazy">
+            </iframe>
         </div>
-        <div class="cam-news-card">
-            <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:700;color:#14213d;margin-bottom:0.3rem;">🗞 Notizie da New Orleans</div>
-            <div style="font-size:0.85rem;color:#5b6472;margin-bottom:0.8rem;line-height:1.5;">Le fonti locali per seguire la città prima del viaggio</div>
-            <div style="display:flex;flex-direction:column;gap:0.4rem;">
-                <a href="https://www.nola.com" target="_blank" style="display:flex;align-items:center;gap:0.5rem;padding:0.45rem 0.7rem;background:#f5f8fc;border-radius:10px;text-decoration:none;border-left:3px solid #d08c38;">
-                    <div><div style="font-size:0.82rem;font-weight:600;color:#14213d;">The Times-Picayune</div><div style="font-size:0.68rem;color:#9aa3b0;">Quotidiano di New Orleans</div></div>
+        <!-- Webcam + News -->
+        <div style="display:flex;flex-direction:column;gap:0.8rem;">
+            <div class="hb-card">
+                <div class="hb-title">📹 Live da New Orleans</div>
+                <div class="hb-sub">French Quarter · Bourbon Street · 24/7</div>
+                <a href="https://www.earthcam.com/usa/louisiana/neworleans/bourbonstreet/" target="_blank"
+                   style="display:inline-block;background:#0d1f3c;color:white;padding:0.4rem 0.9rem;
+                          border-radius:999px;font-size:0.78rem;font-weight:600;text-decoration:none;">
+                    🎥 Guarda →
                 </a>
-                <a href="https://www.wwno.org" target="_blank" style="display:flex;align-items:center;gap:0.5rem;padding:0.45rem 0.7rem;background:#f5f8fc;border-radius:10px;text-decoration:none;border-left:3px solid #17305a;">
-                    <div><div style="font-size:0.82rem;font-weight:600;color:#14213d;">WWNO Public Radio</div><div style="font-size:0.68rem;color:#9aa3b0;">Radio pubblica NPR</div></div>
+            </div>
+            <div class="hb-card">
+                <div class="hb-title">🗞 Notizie</div>
+                <div class="hb-sub">Fonti locali di New Orleans</div>
+                <a href="https://www.nola.com" target="_blank" class="news-link">
+                    <div class="news-link-dot" style="background:#d08c38;"></div>
+                    <span class="news-link-text">The Times-Picayune</span>
                 </a>
-                <a href="https://thelensnola.org" target="_blank" style="display:flex;align-items:center;gap:0.5rem;padding:0.45rem 0.7rem;background:#f5f8fc;border-radius:10px;text-decoration:none;border-left:3px solid #2e7d5e;">
-                    <div><div style="font-size:0.82rem;font-weight:600;color:#14213d;">The Lens NOLA</div><div style="font-size:0.68rem;color:#9aa3b0;">Giornalismo investigativo</div></div>
+                <a href="https://www.wwno.org" target="_blank" class="news-link">
+                    <div class="news-link-dot" style="background:#17305a;"></div>
+                    <span class="news-link-text">WWNO Public Radio</span>
+                </a>
+                <a href="https://thelensnola.org" target="_blank" class="news-link">
+                    <div class="news-link-dot" style="background:#2e7d5e;"></div>
+                    <span class="news-link-text">The Lens NOLA</span>
                 </a>
             </div>
         </div>
@@ -1178,6 +1155,46 @@ elif pagina == "Temi del viaggio":
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
+
+    # Galleria fotografica in fondo ai temi
+    st.markdown("""
+    <div style="display:flex;align-items:center;gap:1rem;margin:2rem 0 0.8rem;">
+        <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(20,33,61,0.15));"></div>
+        <div style="text-align:center;">
+            <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#d08c38;margin-bottom:0.2rem;">New Orleans vista da vicino</div>
+            <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.35rem;font-weight:800;color:#0d1f3c;line-height:1.1;">Sguardi sulla città</div>
+        </div>
+        <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(20,33,61,0.15),transparent);"></div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    valid_items = [item for item in gallery_items if item["path"]]
+
+    @st.fragment
+    def galleria():
+        if "selected_home_image" not in st.session_state:
+            st.session_state.selected_home_image = 0
+        idx = min(st.session_state.selected_home_image, len(valid_items) - 1)
+        selected = valid_items[idx]
+        col_prev, col_img, col_next = st.columns([1, 14, 1])
+        with col_prev:
+            if st.button("←", key="prev_img"):
+                st.session_state.selected_home_image = (idx - 1) % len(valid_items)
+                st.rerun(scope="fragment")
+        with col_img:
+            st.image(selected["path"], use_container_width=True)
+        with col_next:
+            if st.button("→", key="next_img"):
+                st.session_state.selected_home_image = (idx + 1) % len(valid_items)
+                st.rerun(scope="fragment")
+        st.markdown(f'<div class="gallery-caption"><strong>{selected["title"]}</strong> — {selected["desc"]}</div>', unsafe_allow_html=True)
+        dots_html = '<div style="display:flex;justify-content:center;gap:6px;margin-bottom:0.8rem;">'
+        for i in range(len(valid_items)):
+            color = "#d08c38" if i == idx else "rgba(20,33,61,0.15)"
+            dots_html += f'<div style="width:7px;height:7px;border-radius:50%;background:{color};"></div>'
+        dots_html += '</div>'
+        st.markdown(dots_html, unsafe_allow_html=True)
+    galleria()
 
 # ----------------------------
 # MAPPE
