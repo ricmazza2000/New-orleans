@@ -527,12 +527,12 @@ for icon, label in voci_nav:
     weight = "700" if is_active else "500"
     page_param = label.replace(" ", "+")
     menu_links += f"""
-    <a href="?page={page_param}" style="display:flex;align-items:center;gap:12px;
-       padding:13px 20px;text-decoration:none;background:{bg};
+    <div onclick="window.top.location.href='?page={page_param}'" style="display:flex;align-items:center;gap:12px;
+       padding:13px 20px;cursor:pointer;background:{bg};
        border-left:4px solid {border};border-bottom:1px solid #f0f0f0;">
         <span style="font-size:18px;">{icon}</span>
         <span style="font-size:15px;font-weight:{weight};color:{color};font-family:-apple-system,sans-serif;">{label}</span>
-    </a>"""
+    </div>"""
 
 import streamlit.components.v1 as components
 components.html(f"""
