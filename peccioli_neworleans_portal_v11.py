@@ -512,104 +512,105 @@ with st.sidebar:
     """, unsafe_allow_html=True)
 
 # ----------------------------
-# NAVIGAZIONE MOBILE — TOPBAR CON MENU A TENDINA
+# NAVIGAZIONE MOBILE — TOPBAR FUNZIONANTE CON SELECTBOX STREAMLIT
 # ----------------------------
-active_page = st.session_state.get("nav_target", "Home")
+if "nav_target" not in st.session_state:
+    st.session_state.nav_target = "Home"
 
-def build_mobile_topbar(current_page):
-    pages = [
-        ("Home", "Home"),
-        ("Temi", "Temi del viaggio"),
-        ("Briefing", "Briefing"),
-        ("Extra", "Approfondimenti"),
-        ("Mappe", "Mappe"),
-        ("Programma", "Programma"),
-        ("Documenti", "Documenti"),
-    ]
+mobile_pages = [
+    "Home",
+    "Temi del viaggio",
+    "Briefing",
+    "Approfondimenti",
+    "Mappe",
+    "Programma",
+    "Documenti",
+]
 
-    options_html = ""
-    for label, value in pages:
-        selected = "selected" if value == current_page else ""
-        options_html += f'<option value="{value}" {selected}>{label}</option>'
+st.markdown("""
+<style>
+/* mobile: nascondi sidebar e sticky-topbar HTML */
+@media (max-width: 768px) {
+    [data-testid="stSidebar"] { display: none !important; }
+    [data-testid="collapsedControl"] { display: none !important; }
+    [data-testid="stSidebarCollapsedControl"] { display: none !important; }
+    button[kind="header"] { display: none !important; }
+    .sticky-topbar { display: none !important; }
 
-    return f"""
-    <style>
-    @media (max-width: 768px) {{
-        [data-testid="stSidebar"] {{ display: none !important; }}
-        [data-testid="collapsedControl"] {{ display: none !important; }}
-        [data-testid="stSidebarCollapsedControl"] {{ display: none !important; }}
-        button[kind="header"] {{ display: none !important; }}
+    .main .block-container {
+        padding-top: 0.3rem !important;
+        padding-left: 0.9rem !important;
+        padding-right: 0.9rem !important;
+        padding-bottom: 1.5rem !important;
+    }
 
-        .main .block-container {{
-            padding-top: 58px !important;
-            padding-bottom: 1.5rem !important;
-            padding-left: 1rem !important;
-            padding-right: 1rem !important;
-        }}
+    .mobile-nav-wrap {
+        position: sticky;
+        top: 0;
+        z-index: 99999;
+        background: #0d1f3c;
+        margin: -0.5rem -0.9rem 0.8rem -0.9rem;
+        padding: 0.65rem 0.9rem 0.7rem 0.9rem;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
 
-        .mobile-topbar {{
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 52px;
-            background: #0d1f3c;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 0.6rem;
-            padding: 0 0.9rem;
-            z-index: 999999;
-        }}
+    .mobile-nav-title {
+        font-size: 0.78rem;
+        font-weight: 700;
+        color: rgba(255,255,255,0.82);
+        margin-bottom: 0.45rem;
+        letter-spacing: 0.02em;
+    }
 
-        .mobile-topbar-title {{
-            font-size: 0.78rem;
-            font-weight: 700;
-            color: rgba(255,255,255,0.82);
-            line-height: 1.1;
-            white-space: nowrap;
-        }}
+    .mobile-nav-title span {
+        color: #d08c38;
+    }
 
-        .mobile-topbar-title span {{
-            color: #d08c38;
-        }}
+    div[data-testid="stSelectbox"] > label {
+        display: none !important;
+    }
 
-        .mobile-nav-select {{
-            background: #17305a;
-            color: white;
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 10px;
-            padding: 0.45rem 0.65rem;
-            font-size: 0.78rem;
-            font-weight: 600;
-            max-width: 170px;
-            outline: none;
-        }}
+    div[data-testid="stSelectbox"] {
+        margin-top: 0 !important;
+    }
 
-        .sticky-topbar {{
-            display: none !important;
-        }}
-    }}
+    div[data-baseweb="select"] > div {
+        min-height: 42px !important;
+        border-radius: 10px !important;
+        background: #17305a !important;
+        border: 1px solid rgba(255,255,255,0.12) !important;
+    }
 
-    @media (min-width: 769px) {{
-        .mobile-topbar {{
-            display: none !important;
-        }}
-    }}
-    </style>
+    div[data-baseweb="select"] * {
+        color: white !important;
+        font-size: 0.82rem !important;
+        font-weight: 600 !important;
+    }
+}
 
-    <div class="mobile-topbar">
-        <div class="mobile-topbar-title">Peccioli × <span>NOLA</span> 2026</div>
-        <form method="get" style="margin:0;">
-            <select class="mobile-nav-select" name="page" onchange="this.form.submit()">
-                {options_html}
-            </select>
-        </form>
-    </div>
-    """
+/* desktop: nascondi la barra mobile */
+@media (min-width: 769px) {
+    .mobile-nav-wrap {
+        display: none !important;
+    }
+}
+</style>
+""", unsafe_allow_html=True)
 
-st.markdown(build_mobile_topbar(active_page), unsafe_allow_html=True)
+st.markdown('<div class="mobile-nav-wrap"><div class="mobile-nav-title">Peccioli × <span>NOLA</span> 2026</div></div>', unsafe_allow_html=True)
+
+selected_mobile_page = st.selectbox(
+    "Vai a",
+    mobile_pages,
+    index=mobile_pages.index(st.session_state.nav_target) if st.session_state.nav_target in mobile_pages else 0,
+    key="mobile_nav_select"
+)
+
+if selected_mobile_page != st.session_state.nav_target:
+    st.session_state.nav_target = selected_mobile_page
+    st.rerun()
+
+pagina = st.session_state.nav_target
 # ----------------------------
 # HEADER
 # ----------------------------
