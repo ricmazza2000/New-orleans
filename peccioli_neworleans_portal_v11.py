@@ -506,60 +506,103 @@ with st.sidebar:
     </div>
     """, unsafe_allow_html=True)
 
-# Navigazione mobile — bottom bar affidabile
-voci_nav = [
-    ("🏠", "Home"),
-    ("📅", "Briefing"),
-    ("🎷", "Temi"),
-    ("🗺", "Mappe"),
-    ("🗓", "Programma"),
-    ("📂", "Documenti"),
-    ("📚", "Altro"),
-]
-voci_map = {
-    "Home": "Home", "Briefing": "Briefing", "Temi": "Temi del viaggio",
-    "Mappe": "Mappe", "Programma": "Programma", "Documenti": "Documenti",
-    "Altro": "Approfondimenti",
-}
-active = st.session_state.get("nav_target", "Home")
+# ----------------------------
+# NAVIGAZIONE MOBILE — TOPBAR CON MENU A TENDINA
+# ----------------------------
+active_page = st.session_state.get("nav_target", "Home")
 
-st.markdown("""
-<style>
-@media (max-width: 768px) {
-    [data-testid="stSidebar"] { display: none !important; }
-    [data-testid="collapsedControl"] { display: none !important; }
-    [data-testid="stSidebarCollapsedControl"] { display: none !important; }
-    button[kind="header"] { display: none !important; }
-    .main .block-container { padding-bottom: 75px !important; padding-left: 1rem !important; padding-right: 1rem !important; }
-}
-.bottom-nav { display: none; }
-@media (max-width: 768px) {
-    .bottom-nav {
-        display: flex; position: fixed;
-        bottom: 0; left: 0; right: 0;
-        background: #0d1f3c;
-        border-top: 1px solid rgba(255,255,255,0.1);
-        padding: 6px 2px calc(10px + env(safe-area-inset-bottom));
-        z-index: 2147483647;
-        justify-content: space-around; align-items: flex-end;
-    }
-    .bn-item { display:flex; flex-direction:column; align-items:center; gap:2px; text-decoration:none; flex:1; padding:2px 1px; }
-    .bn-icon { font-size:1.1rem; line-height:1; }
-    .bn-label { font-size:0.5rem; text-align:center; line-height:1.2; font-family:sans-serif; }
-}
-</style>
-""", unsafe_allow_html=True)
+def build_mobile_topbar(current_page):
+    pages = [
+        ("Home", "Home"),
+        ("Temi", "Temi del viaggio"),
+        ("Briefing", "Briefing"),
+        ("Extra", "Approfondimenti"),
+        ("Mappe", "Mappe"),
+        ("Programma", "Programma"),
+        ("Documenti", "Documenti"),
+    ]
 
-bottom_items = ""
-for icon, short in voci_nav:
-    label = voci_map[short]
-    is_active = (label == active)
-    color = "#d08c38" if is_active else "rgba(255,255,255,0.55)"
-    weight = "700" if is_active else "400"
-    page_param = label.replace(" ", "+")
-    bottom_items += f'<a href="?page={page_param}" class="bn-item"><span class="bn-icon">{icon}</span><span class="bn-label" style="color:{color};font-weight:{weight};">{short}</span></a>'
+    options_html = ""
+    for label, value in pages:
+        selected = "selected" if value == current_page else ""
+        options_html += f'<option value="{value}" {selected}>{label}</option>'
 
-st.markdown(f'<div class="bottom-nav">{bottom_items}</div>', unsafe_allow_html=True)
+    return f"""
+    <style>
+    @media (max-width: 768px) {{
+        [data-testid="stSidebar"] {{ display: none !important; }}
+        [data-testid="collapsedControl"] {{ display: none !important; }}
+        [data-testid="stSidebarCollapsedControl"] {{ display: none !important; }}
+        button[kind="header"] {{ display: none !important; }}
+
+        .main .block-container {{
+            padding-top: 58px !important;
+            padding-bottom: 1.5rem !important;
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+        }}
+
+        .mobile-topbar {{
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 52px;
+            background: #0d1f3c;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.6rem;
+            padding: 0 0.9rem;
+            z-index: 999999;
+        }}
+
+        .mobile-topbar-title {{
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: rgba(255,255,255,0.82);
+            line-height: 1.1;
+            white-space: nowrap;
+        }}
+
+        .mobile-topbar-title span {{
+            color: #d08c38;
+        }}
+
+        .mobile-nav-select {{
+            background: #17305a;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 10px;
+            padding: 0.45rem 0.65rem;
+            font-size: 0.78rem;
+            font-weight: 600;
+            max-width: 170px;
+            outline: none;
+        }}
+
+        .sticky-topbar {{
+            display: none !important;
+        }}
+    }}
+
+    @media (min-width: 769px) {{
+        .mobile-topbar {{
+            display: none !important;
+        }}
+    }}
+    </style>
+
+    <div class="mobile-topbar">
+        <div class="mobile-topbar-title">Peccioli × <span>NOLA</span> 2026</div>
+        <select class="mobile-nav-select" onchange="window.location.href='?page=' + encodeURIComponent(this.value)">
+            {options_html}
+        </select>
+    </div>
+    """
+
+st.markdown(build_mobile_topbar(active_page), unsafe_allow_html=True)
 
 # ----------------------------
 # HEADER
