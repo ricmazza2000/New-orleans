@@ -560,38 +560,118 @@ logo_tag = f'<img src="data:{logo_mime};base64,{logo_b64}" style="height:62px;ob
 logo_tag_small = f'<img src="data:{logo_mime};base64,{logo_b64}" style="height:32px;object-fit:contain;flex-shrink:0;">' if logo_b64 else ""
 
 if pagina == "Home":
-    ponte_bg = f'<img src="data:{ponte_mime};base64,{ponte_b64}" style="position:absolute;bottom:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:0.09;pointer-events:none;filter:invert(1);">' if ponte_b64 else ""
+    ponte_bg = f'<img src="data:{ponte_mime};base64,{ponte_b64}" style="position:absolute;bottom:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:0.12;pointer-events:none;filter:invert(1);">' if ponte_b64 else ""
 
     header_html = f"""
     <style>
-    @media (max-width: 600px) {{
-        .header-title {{ font-size: 1.9rem !important; }}
+    /* Hero a tutta larghezza — compensa i margini di Streamlit */
+    .hero-full {{
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(135deg, #0d1f3c 0%, #17305a 100%);
+        margin: -1rem -1rem 1.4rem -1rem;
+        padding: 3rem 2rem 2.8rem;
+        text-align: center;
     }}
+    @media (min-width: 769px) {{
+        .hero-full {{
+            margin: -1.2rem -3rem 1.6rem -3rem;
+            padding: 3.5rem 3rem 3rem;
+        }}
+    }}
+    .hero-eyebrow {{
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.4);
+        margin-bottom: 0.6rem;
+    }}
+    .hero-title {{
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: clamp(2rem, 6vw, 3.2rem);
+        font-weight: 800;
+        color: white;
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+    }}
+    .hero-title span {{ color: #d08c38; }}
+    .hero-divider {{
+        width: 36px; height: 2px;
+        background: #d08c38;
+        border-radius: 2px;
+        margin: 1rem auto 0;
+        opacity: 0.7;
+    }}
+
+    /* Topbar fissa in cima — visibile sempre */
+    .sticky-topbar {{
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        height: 44px;
+        background: #0d1f3c;
+        display: flex;
+        align-items: center;
+        padding: 0 1.2rem;
+        z-index: 999998;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+    }}
+    .sticky-topbar-title {{
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: rgba(255,255,255,0.7);
+        letter-spacing: 0.05em;
+    }}
+    .sticky-topbar-title span {{ color: #d08c38; }}
+
+    /* Compensazione padding per la topbar fissa */
+    .main .block-container {{ padding-top: 44px !important; }}
     </style>
-    <div style="position:relative;overflow:hidden;border-radius:22px;
-                background:linear-gradient(135deg,#0d1f3c 0%,#17305a 100%);
-                padding:1.8rem 1.8rem 1.6rem;margin-bottom:1.2rem;
-                border:1px solid rgba(255,255,255,0.06);">
+
+    <!-- Topbar fissa -->
+    <div class="sticky-topbar">
+        <div class="sticky-topbar-title">Peccioli × <span>New Orleans</span> 2026</div>
+    </div>
+
+    <!-- Hero a tutta larghezza -->
+    <div class="hero-full">
         {ponte_bg}
-        <div style="position:relative;z-index:1;text-align:center;">
-            <div class="header-title" style="font-family:'Playfair Display',Georgia,serif;font-size:2.6rem;font-weight:800;color:white;line-height:1.05;letter-spacing:-0.01em;">
-                Peccioli &times; <span style="color:#d08c38;">New Orleans</span> 2026
-            </div>
+        <div style="position:relative;z-index:1;">
+            <div class="hero-eyebrow">Comune di Peccioli · Progetto di viaggio</div>
+            <div class="hero-title">Peccioli &times; <span>New Orleans</span> 2026</div>
+            <div class="hero-divider"></div>
         </div>
     </div>
     """
 else:
     header_html = f"""
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0 0.5rem 0;
-                border-bottom:1px solid rgba(20,33,61,0.1);margin-bottom:1.2rem;">
-        <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#d08c38;">Peccioli × New Orleans 2026</div>
-        <a href="?page=Home" style="display:inline-flex;align-items:center;gap:0.35rem;
-                  background:#0d1f3c;color:white;text-decoration:none;
-                  padding:0.35rem 0.8rem;border-radius:999px;
-                  font-size:0.75rem;font-weight:600;white-space:nowrap;">
-            ← Home
-        </a>
+    <style>
+    .sticky-topbar {{
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        height: 44px;
+        background: #0d1f3c;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 1.2rem;
+        z-index: 999998;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+    }}
+    .sticky-topbar-title {{
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: rgba(255,255,255,0.7);
+        letter-spacing: 0.05em;
+    }}
+    .sticky-topbar-title span {{ color: #d08c38; }}
+    .main .block-container {{ padding-top: 44px !important; }}
+    </style>
+    <div class="sticky-topbar">
+        <div class="sticky-topbar-title">Peccioli × <span>New Orleans</span> 2026</div>
+        <a href="?page=Home" style="font-size:0.75rem;font-weight:600;color:#d08c38;text-decoration:none;">← Home</a>
     </div>
+    <div style="height:0.8rem;"></div>
     """
 st.markdown(header_html, unsafe_allow_html=True)
 
