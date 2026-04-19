@@ -596,14 +596,15 @@ def build_mobile_topbar(current_page):
 
     <div class="mobile-topbar">
         <div class="mobile-topbar-title">Peccioli × <span>NOLA</span> 2026</div>
-        <select class="mobile-nav-select" onchange="window.location.href='?page=' + encodeURIComponent(this.value)">
-            {options_html}
-        </select>
+        <form method="get" style="margin:0;">
+            <select class="mobile-nav-select" name="page" onchange="this.form.submit()">
+                {options_html}
+            </select>
+        </form>
     </div>
     """
 
 st.markdown(build_mobile_topbar(active_page), unsafe_allow_html=True)
-
 # ----------------------------
 # HEADER
 # ----------------------------
