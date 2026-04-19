@@ -458,7 +458,7 @@ with st.sidebar:
     <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:0.6rem;">Naviga</div>
     """, unsafe_allow_html=True)
 
-    options = ["Home", "Temi del viaggio", "Briefing", "Approfondimenti", "Mappe", "Programma", "Documenti"]
+        options = ["Home", "Temi del viaggio", "Briefing", "Approfondimenti", "Mappe", "Programma", "Documenti"]
 
     if "nav_target" not in st.session_state:
         st.session_state.nav_target = "Home"
@@ -470,11 +470,11 @@ with st.sidebar:
         options=options,
         label_visibility="collapsed",
         index=cur_index,
+        key="sidebar_nav_radio"
     )
 
+    # La sidebar aggiorna solo il target, non decide direttamente la pagina finale
     st.session_state.nav_target = pagina_radio
-    pagina = pagina_radio
-
     st.markdown("""
     <div style="height:1px;background:rgba(255,255,255,0.1);margin:1.2rem 0;"></div>
     <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:0.8rem;">Il viaggio</div>
@@ -510,13 +510,10 @@ with st.sidebar:
         </div>
     </div>
     """, unsafe_allow_html=True)
-
+pagina = st.session_state.nav_target
 # ----------------------------
-# NAVIGAZIONE MOBILE — TOPBAR FUNZIONANTE CON SELECTBOX STREAMLIT
+# NAVIGAZIONE MOBILE — TOPBAR FUNZIONANTE
 # ----------------------------
-if "nav_target" not in st.session_state:
-    st.session_state.nav_target = "Home"
-
 mobile_pages = [
     "Home",
     "Temi del viaggio",
@@ -529,7 +526,6 @@ mobile_pages = [
 
 st.markdown("""
 <style>
-/* mobile: nascondi sidebar e sticky-topbar HTML */
 @media (max-width: 768px) {
     [data-testid="stSidebar"] { display: none !important; }
     [data-testid="collapsedControl"] { display: none !important; }
@@ -538,7 +534,7 @@ st.markdown("""
     .sticky-topbar { display: none !important; }
 
     .main .block-container {
-        padding-top: 0.3rem !important;
+        padding-top: 0.35rem !important;
         padding-left: 0.9rem !important;
         padding-right: 0.9rem !important;
         padding-bottom: 1.5rem !important;
@@ -550,7 +546,7 @@ st.markdown("""
         z-index: 99999;
         background: #0d1f3c;
         margin: -0.5rem -0.9rem 0.8rem -0.9rem;
-        padding: 0.65rem 0.9rem 0.7rem 0.9rem;
+        padding: 0.65rem 0.9rem 0.75rem 0.9rem;
         border-bottom: 1px solid rgba(255,255,255,0.08);
     }
 
@@ -570,10 +566,6 @@ st.markdown("""
         display: none !important;
     }
 
-    div[data-testid="stSelectbox"] {
-        margin-top: 0 !important;
-    }
-
     div[data-baseweb="select"] > div {
         min-height: 42px !important;
         border-radius: 10px !important;
@@ -588,7 +580,6 @@ st.markdown("""
     }
 }
 
-/* desktop: nascondi la barra mobile */
 @media (min-width: 769px) {
     .mobile-nav-wrap {
         display: none !important;
@@ -597,19 +588,27 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.markdown('<div class="mobile-nav-wrap"><div class="mobile-nav-title">Peccioli × <span>NOLA</span> 2026</div></div>', unsafe_allow_html=True)
+st.markdown(
+    '<div class="mobile-nav-wrap"><div class="mobile-nav-title">Peccioli × <span>NOLA</span> 2026</div></div>',
+    unsafe_allow_html=True
+)
+
+# Prende il valore del widget mobile se esiste, altrimenti quello attuale
+current_mobile_index = mobile_pages.index(st.session_state.nav_target) if st.session_state.nav_target in mobile_pages else 0
 
 selected_mobile_page = st.selectbox(
     "Vai a",
     mobile_pages,
-    index=mobile_pages.index(st.session_state.nav_target) if st.session_state.nav_target in mobile_pages else 0,
+    index=current_mobile_index,
     key="mobile_nav_select"
 )
 
+# Se il menu mobile cambia, aggiorna il target
 if selected_mobile_page != st.session_state.nav_target:
     st.session_state.nav_target = selected_mobile_page
     st.rerun()
 
+# Pagina finale SEMPRE letta dal target centrale
 pagina = st.session_state.nav_target
 # ----------------------------
 # HEADER
