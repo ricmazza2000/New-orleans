@@ -400,15 +400,28 @@ luoghi_dati = [
 ]
 
 def section_header(numero, sopratitolo, titolo, desc, colore="#d08c38"):
+    ponte_bg = f'<img src="data:{ponte_mime};base64,{ponte_b64}" style="position:absolute;bottom:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:0.07;pointer-events:none;filter:invert(1);">' if ponte_b64 else ""
     st.markdown(f"""
-    <div style="background:linear-gradient(135deg,#0d1f3c 0%,#17305a 100%);border-radius:24px;
-                padding:1.8rem 2rem;margin-bottom:1.6rem;position:relative;overflow:hidden;
-                border:1px solid rgba(255,255,255,0.06);">
-        <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;
-                    color:{colore};margin-bottom:0.35rem;">{sopratitolo}</div>
-        <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.8rem;font-weight:800;
-                    color:white;line-height:1.1;margin-bottom:0.5rem;">{titolo}</div>
-        <div style="font-size:0.9rem;color:rgba(255,255,255,0.6);line-height:1.65;max-width:520px;">{desc}</div>
+    <style>
+    .sec-header-full {{
+        position:relative; overflow:hidden;
+        background:linear-gradient(135deg,#0d1f3c 0%,#17305a 100%);
+        margin:-1rem -1rem 1.6rem -1rem;
+        padding:2rem 2rem 1.8rem;
+    }}
+    @media (min-width:769px) {{
+        .sec-header-full {{ margin:-1.2rem -3rem 1.6rem -3rem; padding:2.2rem 3rem 2rem; }}
+    }}
+    </style>
+    <div class="sec-header-full">
+        {ponte_bg}
+        <div style="position:relative;z-index:1;">
+            <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;
+                        color:{colore};margin-bottom:0.35rem;">{sopratitolo}</div>
+            <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.8rem;font-weight:800;
+                        color:white;line-height:1.1;margin-bottom:0.5rem;">{titolo}</div>
+            <div style="font-size:0.9rem;color:rgba(255,255,255,0.6);line-height:1.65;max-width:520px;">{desc}</div>
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
