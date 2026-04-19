@@ -406,11 +406,11 @@ def section_header(numero, sopratitolo, titolo, desc, colore="#d08c38"):
     .sec-header-full {{
         position:relative; overflow:hidden;
         background:linear-gradient(135deg,#0d1f3c 0%,#17305a 100%);
-        margin:-1rem -1rem 1.6rem -1rem;
-        padding:2rem 2rem 1.8rem;
+        margin:-5rem -1rem 1.6rem -1rem;
+        padding:5.5rem 2rem 1.8rem;
     }}
     @media (min-width:769px) {{
-        .sec-header-full {{ margin:-1.2rem -3rem 1.6rem -3rem; padding:2.2rem 3rem 2rem; }}
+        .sec-header-full {{ margin:-5rem -3rem 1.6rem -3rem; padding:5.5rem 3rem 2rem; }}
     }}
     </style>
     <div class="sec-header-full">
@@ -506,21 +506,16 @@ with st.sidebar:
     </div>
     """, unsafe_allow_html=True)
 
-# Navigazione mobile — bottom bar
+# Navigazione mobile — cerchietto FAB in basso a destra
 voci_nav = [
     ("🏠", "Home"),
     ("📅", "Briefing"),
-    ("🎷", "Temi"),
+    ("🎷", "Temi del viaggio"),
+    ("📚", "Approfondimenti"),
     ("🗺", "Mappe"),
     ("🗓", "Programma"),
     ("📂", "Documenti"),
-    ("📚", "Altro"),
 ]
-voci_map = {
-    "Home": "Home", "Briefing": "Briefing", "Temi": "Temi del viaggio",
-    "Mappe": "Mappe", "Programma": "Programma", "Documenti": "Documenti",
-    "Altro": "Approfondimenti",
-}
 active = st.session_state.get("nav_target", "Home")
 
 st.markdown("""
@@ -530,36 +525,89 @@ st.markdown("""
     [data-testid="collapsedControl"] { display: none !important; }
     [data-testid="stSidebarCollapsedControl"] { display: none !important; }
     button[kind="header"] { display: none !important; }
-    .main .block-container { padding-bottom: 75px !important; padding-top: 0.3rem !important; padding-left: 1rem !important; padding-right: 1rem !important; }
+    .main .block-container { padding-bottom: 90px !important; padding-left: 1rem !important; padding-right: 1rem !important; }
 }
-.bottom-nav { display: none; }
+/* FAB — cerchietto navigazione */
+.fab-wrap { display: none; }
 @media (max-width: 768px) {
-    .bottom-nav {
-        display: flex; position: fixed;
-        bottom: 0; left: 0; right: 0;
+    .fab-wrap { display: block; }
+    .fab-btn {
+        position: fixed;
+        bottom: 24px; right: 20px;
+        width: 52px; height: 52px;
+        border-radius: 50%;
         background: #0d1f3c;
-        border-top: 1px solid rgba(255,255,255,0.1);
-        padding: 6px 2px calc(10px + env(safe-area-inset-bottom));
+        border: 2px solid #d08c38;
+        color: white;
+        font-size: 1.2rem;
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer;
         z-index: 2147483647;
-        justify-content: space-around; align-items: flex-end;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
     }
-    .bn-item { display:flex; flex-direction:column; align-items:center; gap:2px; text-decoration:none; flex:1; padding:2px 1px; }
-    .bn-icon { font-size:1.05rem; line-height:1; }
-    .bn-label { font-size:0.5rem; text-align:center; line-height:1.2; font-family:sans-serif; }
+    .fab-menu {
+        position: fixed;
+        bottom: 84px; right: 16px;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+        z-index: 2147483646;
+        overflow: hidden;
+        display: none;
+        min-width: 200px;
+        border: 1px solid rgba(20,33,61,0.08);
+    }
+    .fab-menu.open { display: block; }
+    .fab-overlay {
+        display: none;
+        position: fixed; inset: 0;
+        z-index: 2147483645;
+    }
+    .fab-overlay.open { display: block; }
+    .fab-item {
+        display: flex; align-items: center; gap: 10px;
+        padding: 11px 16px;
+        text-decoration: none;
+        border-bottom: 1px solid #f5f5f5;
+        font-size: 0.88rem; font-weight: 500; color: #14213d;
+        font-family: sans-serif;
+    }
+    .fab-item:last-child { border-bottom: none; }
+    .fab-item.active { background: #fff8ee; color: #d08c38; font-weight: 700; border-left: 3px solid #d08c38; }
 }
 </style>
 """, unsafe_allow_html=True)
 
-bottom_items = ""
-for icon, short in voci_nav:
-    label = voci_map[short]
+# Costruisci le voci
+fab_items = ""
+for icon, label in voci_nav:
     is_active = (label == active)
-    color = "#d08c38" if is_active else "rgba(255,255,255,0.55)"
-    weight = "700" if is_active else "400"
+    cls = "fab-item active" if is_active else "fab-item"
     page_param = label.replace(" ", "+")
-    bottom_items += f'<a href="?page={page_param}" class="bn-item"><span class="bn-icon">{icon}</span><span class="bn-label" style="color:{color};font-weight:{weight};">{short}</span></a>'
+    fab_items += f'<a href="?page={page_param}" class="{cls}"><span>{icon}</span><span>{label}</span></a>'
 
-st.markdown(f'<div class="bottom-nav">{bottom_items}</div>', unsafe_allow_html=True)
+st.markdown(f"""
+<div class="fab-wrap">
+    <div class="fab-overlay" id="fab-overlay" onclick="closeFab()"></div>
+    <div class="fab-menu" id="fab-menu">{fab_items}</div>
+    <div class="fab-btn" id="fab-btn" onclick="toggleFab()">☰</div>
+</div>
+<script>
+function toggleFab() {{
+    var m = document.getElementById('fab-menu');
+    var o = document.getElementById('fab-overlay');
+    var b = document.getElementById('fab-btn');
+    var open = m.classList.contains('open');
+    if (open) {{ m.classList.remove('open'); o.classList.remove('open'); b.innerHTML='☰'; }}
+    else {{ m.classList.add('open'); o.classList.add('open'); b.innerHTML='✕'; }}
+}}
+function closeFab() {{
+    document.getElementById('fab-menu').classList.remove('open');
+    document.getElementById('fab-overlay').classList.remove('open');
+    document.getElementById('fab-btn').innerHTML='☰';
+}}
+</script>
+""", unsafe_allow_html=True)
 
 # ----------------------------
 # HEADER
