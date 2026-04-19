@@ -428,23 +428,22 @@ def section_header(numero, sopratitolo, titolo, desc, colore="#d08c38"):
 # ----------------------------
 # SIDEBAR
 # ----------------------------
-# ----------------------------
-# SIDEBAR
-# ----------------------------
 
-# Leggi navigazione da query params (bottom bar mobile)
+# Leggi navigazione da query params
 qp = st.query_params
 _pagine_valide = ["Home", "Temi del viaggio", "Briefing", "Approfondimenti", "Mappe", "Programma", "Documenti"]
 
-page_from_url = qp.get("page", None)
+if "nav_target" not in st.session_state:
+    st.session_state.nav_target = "Home"
 
+page_from_url = qp.get("page", None)
 if isinstance(page_from_url, list):
     page_from_url = page_from_url[0] if page_from_url else None
-
 if page_from_url in _pagine_valide:
     st.session_state.nav_target = page_from_url
     st.query_params.clear()
     st.rerun()
+
 with st.sidebar:
     if logo_path:
         st.image(logo_path, width=100)
@@ -458,23 +457,24 @@ with st.sidebar:
     <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:0.6rem;">Naviga</div>
     """, unsafe_allow_html=True)
 
-        options = ["Home", "Temi del viaggio", "Briefing", "Approfondimenti", "Mappe", "Programma", "Documenti"]
+    # Link HTML — non interferisce con session_state
+    sidebar_links = [
+        ("🏠 Home", "Home"),
+        ("🎷 Temi del viaggio", "Temi del viaggio"),
+        ("📅 Briefing", "Briefing"),
+        ("📚 Approfondimenti", "Approfondimenti"),
+        ("🗺 Mappe", "Mappe"),
+        ("🗓 Programma", "Programma"),
+        ("📂 Documenti", "Documenti"),
+    ]
+    cur = st.session_state.nav_target
+    links_html = ""
+    for label, full in sidebar_links:
+        is_cur = (full == cur)
+        style = "color:#d08c38;font-weight:700;background:rgba(255,255,255,0.07);border-radius:8px;" if is_cur else "color:rgba(255,255,255,0.8);font-weight:400;"
+        links_html += f'<a href="?page={full.replace(" ", "+")}" style="display:block;padding:0.5rem 0.6rem;margin-bottom:0.15rem;text-decoration:none;font-size:0.9rem;{style}">{label}</a>'
+    st.markdown(links_html, unsafe_allow_html=True)
 
-    if "nav_target" not in st.session_state:
-        st.session_state.nav_target = "Home"
-
-    cur_index = options.index(st.session_state.nav_target) if st.session_state.nav_target in options else 0
-
-    pagina_radio = st.radio(
-        label="",
-        options=options,
-        label_visibility="collapsed",
-        index=cur_index,
-        key="sidebar_nav_radio"
-    )
-
-    # La sidebar aggiorna solo il target, non decide direttamente la pagina finale
-    st.session_state.nav_target = pagina_radio
     st.markdown("""
     <div style="height:1px;background:rgba(255,255,255,0.1);margin:1.2rem 0;"></div>
     <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:0.8rem;">Il viaggio</div>
@@ -510,19 +510,26 @@ with st.sidebar:
         </div>
     </div>
     """, unsafe_allow_html=True)
+
+# Pagina letta SOLO dal session_state
 pagina = st.session_state.nav_target
-# ----------------------------
-# NAVIGAZIONE MOBILE — TOPBAR FUNZIONANTE
-# ----------------------------
-mobile_pages = [
-    "Home",
-    "Temi del viaggio",
-    "Briefing",
-    "Approfondimenti",
-    "Mappe",
-    "Programma",
-    "Documenti",
+
+# Navigazione mobile — bottom bar
+active = st.session_state.get("nav_target", "Home")
+voci_nav = [
+    ("🏠", "Home"),
+    ("📅", "Briefing"),
+    ("🎷", "Temi"),
+    ("🗺", "Mappe"),
+    ("🗓", "Programma"),
+    ("📂", "Documenti"),
+    ("📚", "Altro"),
 ]
+voci_map = {
+    "Home": "Home", "Briefing": "Briefing", "Temi": "Temi del viaggio",
+    "Mappe": "Mappe", "Programma": "Programma", "Documenti": "Documenti",
+    "Altro": "Approfondimenti",
+}
 
 st.markdown("""
 <style>
@@ -531,85 +538,37 @@ st.markdown("""
     [data-testid="collapsedControl"] { display: none !important; }
     [data-testid="stSidebarCollapsedControl"] { display: none !important; }
     button[kind="header"] { display: none !important; }
-    .sticky-topbar { display: none !important; }
-
-    .main .block-container {
-        padding-top: 0.35rem !important;
-        padding-left: 0.9rem !important;
-        padding-right: 0.9rem !important;
-        padding-bottom: 1.5rem !important;
-    }
-
-    .mobile-nav-wrap {
-        position: sticky;
-        top: 0;
-        z-index: 99999;
-        background: #0d1f3c;
-        margin: -0.5rem -0.9rem 0.8rem -0.9rem;
-        padding: 0.65rem 0.9rem 0.75rem 0.9rem;
-        border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .mobile-nav-title {
-        font-size: 0.78rem;
-        font-weight: 700;
-        color: rgba(255,255,255,0.82);
-        margin-bottom: 0.45rem;
-        letter-spacing: 0.02em;
-    }
-
-    .mobile-nav-title span {
-        color: #d08c38;
-    }
-
-    div[data-testid="stSelectbox"] > label {
-        display: none !important;
-    }
-
-    div[data-baseweb="select"] > div {
-        min-height: 42px !important;
-        border-radius: 10px !important;
-        background: #17305a !important;
-        border: 1px solid rgba(255,255,255,0.12) !important;
-    }
-
-    div[data-baseweb="select"] * {
-        color: white !important;
-        font-size: 0.82rem !important;
-        font-weight: 600 !important;
-    }
+    .main .block-container { padding-bottom: 75px !important; padding-left: 1rem !important; padding-right: 1rem !important; }
 }
-
-@media (min-width: 769px) {
-    .mobile-nav-wrap {
-        display: none !important;
+.bottom-nav { display: none; }
+@media (max-width: 768px) {
+    .bottom-nav {
+        display: flex; position: fixed;
+        bottom: 0; left: 0; right: 0;
+        background: #0d1f3c;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        padding: 6px 2px calc(10px + env(safe-area-inset-bottom));
+        z-index: 2147483647;
+        justify-content: space-around; align-items: flex-end;
     }
+    .bn-item { display:flex; flex-direction:column; align-items:center; gap:2px; text-decoration:none; flex:1; padding:2px 1px; }
+    .bn-icon { font-size:1.1rem; line-height:1; }
+    .bn-label { font-size:0.5rem; text-align:center; line-height:1.2; font-family:sans-serif; }
 }
 </style>
 """, unsafe_allow_html=True)
 
-st.markdown(
-    '<div class="mobile-nav-wrap"><div class="mobile-nav-title">Peccioli × <span>NOLA</span> 2026</div></div>',
-    unsafe_allow_html=True
-)
+bottom_items = ""
+for icon, short in voci_nav:
+    label = voci_map[short]
+    is_active = (label == active)
+    color = "#d08c38" if is_active else "rgba(255,255,255,0.55)"
+    weight = "700" if is_active else "400"
+    page_param = label.replace(" ", "+")
+    bottom_items += f'<a href="?page={page_param}" class="bn-item"><span class="bn-icon">{icon}</span><span class="bn-label" style="color:{color};font-weight:{weight};">{short}</span></a>'
 
-# Prende il valore del widget mobile se esiste, altrimenti quello attuale
-current_mobile_index = mobile_pages.index(st.session_state.nav_target) if st.session_state.nav_target in mobile_pages else 0
+st.markdown(f'<div class="bottom-nav">{bottom_items}</div>', unsafe_allow_html=True)
 
-selected_mobile_page = st.selectbox(
-    "Vai a",
-    mobile_pages,
-    index=current_mobile_index,
-    key="mobile_nav_select"
-)
-
-# Se il menu mobile cambia, aggiorna il target
-if selected_mobile_page != st.session_state.nav_target:
-    st.session_state.nav_target = selected_mobile_page
-    st.rerun()
-
-# Pagina finale SEMPRE letta dal target centrale
-pagina = st.session_state.nav_target
 # ----------------------------
 # HEADER
 # ----------------------------
