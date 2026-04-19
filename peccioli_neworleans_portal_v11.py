@@ -493,16 +493,21 @@ with st.sidebar:
     </div>
     """, unsafe_allow_html=True)
 
-# Navigazione mobile — menu dall'alto via components.html
+# Navigazione mobile — bottom bar
 voci_nav = [
     ("🏠", "Home"),
     ("📅", "Briefing"),
-    ("🎷", "Temi del viaggio"),
-    ("📚", "Approfondimenti"),
+    ("🎷", "Temi"),
     ("🗺", "Mappe"),
     ("🗓", "Programma"),
     ("📂", "Documenti"),
+    ("📚", "Altro"),
 ]
+voci_map = {
+    "Home": "Home", "Briefing": "Briefing", "Temi": "Temi del viaggio",
+    "Mappe": "Mappe", "Programma": "Programma", "Documenti": "Documenti",
+    "Altro": "Approfondimenti",
+}
 active = st.session_state.get("nav_target", "Home")
 
 st.markdown("""
@@ -512,119 +517,36 @@ st.markdown("""
     [data-testid="collapsedControl"] { display: none !important; }
     [data-testid="stSidebarCollapsedControl"] { display: none !important; }
     button[kind="header"] { display: none !important; }
-    .main .block-container { padding-bottom: 1rem !important; padding-top: 0rem !important; padding-left: 1rem !important; padding-right: 1rem !important; }
+    .main .block-container { padding-bottom: 75px !important; padding-top: 0.3rem !important; padding-left: 1rem !important; padding-right: 1rem !important; }
+}
+.bottom-nav { display: none; }
+@media (max-width: 768px) {
+    .bottom-nav {
+        display: flex; position: fixed;
+        bottom: 0; left: 0; right: 0;
+        background: #0d1f3c;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        padding: 6px 2px calc(10px + env(safe-area-inset-bottom));
+        z-index: 2147483647;
+        justify-content: space-around; align-items: flex-end;
+    }
+    .bn-item { display:flex; flex-direction:column; align-items:center; gap:2px; text-decoration:none; flex:1; padding:2px 1px; }
+    .bn-icon { font-size:1.05rem; line-height:1; }
+    .bn-label { font-size:0.5rem; text-align:center; line-height:1.2; font-family:sans-serif; }
 }
 </style>
 """, unsafe_allow_html=True)
 
-# Costruisci voci
-menu_links = ""
-for icon, label in voci_nav:
+bottom_items = ""
+for icon, short in voci_nav:
+    label = voci_map[short]
     is_active = (label == active)
-    bg = "#fff8ee" if is_active else "#ffffff"
-    border = "#d08c38" if is_active else "transparent"
-    color = "#d08c38" if is_active else "#14213d"
-    weight = "700" if is_active else "500"
+    color = "#d08c38" if is_active else "rgba(255,255,255,0.55)"
+    weight = "700" if is_active else "400"
     page_param = label.replace(" ", "+")
-    menu_links += f"""
-    <div onclick="window.top.location.href='?page={page_param}'" style="display:flex;align-items:center;gap:12px;
-       padding:13px 20px;cursor:pointer;background:{bg};
-       border-left:4px solid {border};border-bottom:1px solid #f0f0f0;">
-        <span style="font-size:18px;">{icon}</span>
-        <span style="font-size:15px;font-weight:{weight};color:{color};font-family:-apple-system,sans-serif;">{label}</span>
-    </div>"""
+    bottom_items += f'<a href="?page={page_param}" class="bn-item"><span class="bn-icon">{icon}</span><span class="bn-label" style="color:{color};font-weight:{weight};">{short}</span></a>'
 
-import streamlit.components.v1 as components
-components.html(f"""
-<!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-  * {{ margin:0; padding:0; box-sizing:border-box; }}
-  html, body {{ background:transparent; font-family:-apple-system,sans-serif; }}
-
-  #topbar {{
-    position:fixed; top:0; left:0; right:0; height:52px;
-    background:#0d1f3c;
-    display:flex; align-items:center; justify-content:space-between;
-    padding:0 16px;
-    box-shadow:0 2px 8px rgba(0,0,0,0.2);
-    z-index:1000;
-  }}
-  #topbar-title {{ color:white; font-size:16px; font-weight:700; }}
-  #topbar-title span {{ color:#d08c38; }}
-  #menu-btn {{
-    background:none; border:none; color:white;
-    font-size:22px; cursor:pointer; padding:4px 8px;
-    line-height:1;
-  }}
-
-  #overlay {{
-    display:none; position:fixed;
-    top:52px; left:0; right:0; bottom:0;
-    background:rgba(0,0,0,0.4); z-index:998;
-  }}
-
-  #menu-panel {{
-    display:none; position:fixed;
-    top:52px; left:0; right:0;
-    background:white;
-    border-radius:0 0 20px 20px;
-    box-shadow:0 8px 32px rgba(0,0,0,0.2);
-    z-index:999; overflow:hidden;
-    transform:translateY(-8px);
-    opacity:0;
-    transition:transform 0.2s ease, opacity 0.2s ease;
-  }}
-  #menu-panel.open {{
-    display:block;
-    transform:translateY(0);
-    opacity:1;
-  }}
-  #spacer {{ height:52px; }}
-</style>
-</head>
-<body>
-
-<div id="topbar">
-  <div id="topbar-title">Peccioli × <span>NOLA</span></div>
-  <button id="menu-btn" onclick="toggleMenu()">☰</button>
-</div>
-
-<div id="overlay" onclick="closeMenu()"></div>
-
-<div id="menu-panel">
-  {menu_links}
-</div>
-
-<div id="spacer"></div>
-
-<script>
-function toggleMenu() {{
-  var panel = document.getElementById('menu-panel');
-  var overlay = document.getElementById('overlay');
-  var btn = document.getElementById('menu-btn');
-  if (panel.classList.contains('open')) {{
-    closeMenu();
-  }} else {{
-    panel.classList.add('open');
-    overlay.style.display = 'block';
-    btn.textContent = '✕';
-  }}
-}}
-function closeMenu() {{
-  var panel = document.getElementById('menu-panel');
-  var overlay = document.getElementById('overlay');
-  var btn = document.getElementById('menu-btn');
-  panel.classList.remove('open');
-  overlay.style.display = 'none';
-  btn.textContent = '☰';
-}}
-</script>
-</body>
-</html>
-""", height=52, scrolling=False)
+st.markdown(f'<div class="bottom-nav">{bottom_items}</div>', unsafe_allow_html=True)
 
 # ----------------------------
 # HEADER
