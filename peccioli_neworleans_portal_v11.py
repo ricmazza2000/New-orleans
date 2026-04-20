@@ -70,9 +70,13 @@ def img_to_base64_small(path, max_width=600):
 logo_path = find_image(["logo_comune.png", "logo_comune.jpg"])
 nola_logo_path = find_image(["New_Orleans_Logo.png", "New_Orleans_Logo.jpg"])
 ponte_path = find_image(["piazza_nola_ponte.png", "piazza_nola_ponte.jpg", "Schermata_2026-04-18_alle_11_58_52.png"])
-eyes_logo_path = find_image(["peccioli_eyes_logo.png", "peccioli_eyes_logo.jpg", "eyes_logo.png"])
+eyes_logo_yellow_path = find_image(["peccioli_eyes_logo_yellow.png"])
+eyes_logo_blue_path = find_image(["peccioli_eyes_logo_blue.png"])
+eyes_logo_white_path = find_image(["peccioli_eyes_logo_white.png"])
 
-logo_b64, logo_mime = img_to_base64(logo_path)
+eyes_logo_yellow_b64, eyes_logo_yellow_mime = img_to_base64(eyes_logo_yellow_path)
+eyes_logo_blue_b64, eyes_logo_blue_mime = img_to_base64(eyes_logo_blue_path)
+eyes_logo_white_b64, eyes_logo_white_mime = img_to_base64(eyes_logo_white_path)
 nola_logo_b64, nola_logo_mime = img_to_base64(nola_logo_path)
 ponte_b64, ponte_mime = img_to_base64(ponte_path)
 eyes_logo_b64, eyes_logo_mime = img_to_base64(eyes_logo_path)
@@ -522,13 +526,19 @@ st.markdown(f'<div class="bottom-nav">{bottom_items}</div>', unsafe_allow_html=T
 # ----------------------------
 # HEADER
 # ----------------------------
-if eyes_logo_b64:
-    eyes_tag_hero = f'<img src="data:{eyes_logo_mime};base64,{eyes_logo_b64}" style="height:68px;width:auto;object-fit:contain;margin-bottom:0.6rem;filter:brightness(0) invert(1);opacity:0.95;">'
-    eyes_tag_topbar = f'<img src="data:{eyes_logo_mime};base64,{eyes_logo_b64}" style="height:22px;width:auto;object-fit:contain;filter:brightness(0) saturate(100%) invert(89%) sepia(45%) saturate(550%) hue-rotate(344deg);margin-right:0.5rem;vertical-align:middle;">'
+# ----------------------------
+# HEADER
+# ----------------------------
+# Logo Peccioli Eyes — niente filtri CSS, usiamo direttamente la versione col colore giusto
+if eyes_logo_white_b64:
+    eyes_tag_hero = f'<img src="data:{eyes_logo_white_mime};base64,{eyes_logo_white_b64}" style="height:90px;width:auto;object-fit:contain;margin-bottom:0.8rem;display:block;margin-left:auto;margin-right:auto;">'
 else:
     eyes_tag_hero = ""
-    eyes_tag_topbar = ""
 
+if eyes_logo_yellow_b64:
+    eyes_tag_topbar = f'<img src="data:{eyes_logo_yellow_mime};base64,{eyes_logo_yellow_b64}" style="height:26px;width:auto;object-fit:contain;margin-right:0.5rem;vertical-align:middle;">'
+else:
+    eyes_tag_topbar = ""
 if pagina == "Home":
     ponte_bg = f'<img src="data:{ponte_mime};base64,{ponte_b64}" style="position:absolute;bottom:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:0.08;pointer-events:none;filter:invert(1);">' if ponte_b64 else ""
     header_html = f"""
