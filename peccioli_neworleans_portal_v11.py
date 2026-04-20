@@ -208,11 +208,13 @@ _pagine_valide = ["Home", "Temi del viaggio", "Briefing", "Approfondimenti", "Ma
 if "nav_target" not in st.session_state:
     st.session_state.nav_target = "Home"
 
+# Leggi query params senza rerun
 qp = st.query_params
-if "page" in qp and qp["page"] in _pagine_valide:
-    st.session_state.nav_target = qp["page"]
+_page_qp = qp.get("page", None)
+if isinstance(_page_qp, list): _page_qp = _page_qp[0] if _page_qp else None
+if _page_qp in _pagine_valide:
+    st.session_state.nav_target = _page_qp
     st.query_params.clear()
-    st.rerun()
 
 # ----------------------------
 # SIDEBAR — link HTML, non sovrascrive session_state
@@ -230,21 +232,31 @@ with st.sidebar:
     """, unsafe_allow_html=True)
 
     cur = st.session_state.nav_target
-    sidebar_links = [
-        ("🏠 Home", "Home"),
-        ("🎷 Temi del viaggio", "Temi del viaggio"),
-        ("📅 Briefing", "Briefing"),
-        ("📚 Approfondimenti", "Approfondimenti"),
-        ("🗺 Mappe", "Mappe"),
-        ("🗓 Programma", "Programma"),
-        ("📂 Documenti", "Documenti"),
+    sidebar_voci = [
+        ("🏠", "Home"),
+        ("🎷", "Temi del viaggio"),
+        ("📅", "Briefing"),
+        ("📚", "Approfondimenti"),
+        ("🗺", "Mappe"),
+        ("🗓", "Programma"),
+        ("📂", "Documenti"),
     ]
-    links_html = ""
-    for label, full in sidebar_links:
-        is_cur = (full == cur)
-        style = "color:#d08c38;font-weight:700;background:rgba(255,255,255,0.07);border-radius:8px;" if is_cur else "color:rgba(255,255,255,0.8);font-weight:400;"
-        links_html += f'<a href="?page={full.replace(" ", "+")}" style="display:block;padding:0.5rem 0.6rem;margin-bottom:0.15rem;text-decoration:none;font-size:0.9rem;{style}">{label}</a>'
-    st.markdown(links_html, unsafe_allow_html=True)
+    st.markdown("""<style>
+    div[data-testid="stSidebar"] .stButton>button {
+        background: transparent !important; border: none !important;
+        color: rgba(255,255,255,0.8) !important; text-align: left !important;
+        padding: 0.45rem 0.6rem !important; font-size: 0.9rem !important;
+        width: 100% !important; border-radius: 8px !important; font-weight: 400 !important;
+        justify-content: flex-start !important;
+    }
+    div[data-testid="stSidebar"] .stButton>button:hover { background: rgba(255,255,255,0.07) !important; }
+    </style>""", unsafe_allow_html=True)
+    for icon, nome in sidebar_voci:
+        is_cur = (nome == cur)
+        label_btn = f"**{icon} {nome}**" if is_cur else f"{icon} {nome}"
+        if st.button(label_btn, key=f"sb_{nome}", use_container_width=True):
+            st.session_state.nav_target = nome
+            st.rerun()
 
     st.markdown("""
     <div style="height:1px;background:rgba(255,255,255,0.1);margin:1.2rem 0;"></div>
@@ -309,45 +321,45 @@ st.markdown("""
     [data-testid="collapsedControl"] { display: none !important; }
     [data-testid="stSidebarCollapsedControl"] { display: none !important; }
     button[kind="header"] { display: none !important; }
-    .main .block-container {
-        padding-bottom: 75px !important;
-        padding-left: 1rem !important;
-        padding-right: 1rem !important;
-    }
+    .main .block-container { padding-bottom: 75px !important; padding-left: 1rem !important; padding-right: 1rem !important; }
 }
-.bottom-nav { display: none; }
+.bnav-wrap { display: none; }
 @media (max-width: 768px) {
-    .bottom-nav {
-        display: flex;
-        position: fixed;
+    .bnav-wrap {
+        display: block; position: fixed;
         bottom: 0; left: 0; right: 0;
         background: #0d1f3c;
         border-top: 1px solid rgba(255,255,255,0.1);
-        padding: 6px 2px calc(10px + env(safe-area-inset-bottom));
+        padding: 4px 0 calc(8px + env(safe-area-inset-bottom));
         z-index: 2147483647;
-        justify-content: space-around;
-        align-items: flex-end;
     }
-    .bn-item {
-        display:flex; flex-direction:column; align-items:center; gap:2px;
-        text-decoration:none; flex:1; padding:2px 1px;
+    .bnav-wrap .stColumns { gap: 0 !important; }
+    .bnav-wrap .stButton > button {
+        background: transparent !important; border: none !important;
+        color: rgba(255,255,255,0.55) !important;
+        font-size: 0.48rem !important; line-height: 1.2 !important;
+        padding: 2px 1px !important; min-height: 48px !important;
+        display: flex !important; flex-direction: column !important;
+        align-items: center !important; justify-content: center !important;
+        gap: 2px !important; width: 100% !important; border-radius: 0 !important;
     }
-    .bn-icon { font-size:1.1rem; line-height:1; }
-    .bn-label { font-size:0.5rem; text-align:center; line-height:1.2; font-family:sans-serif; }
 }
 </style>
 """, unsafe_allow_html=True)
 
-bottom_items = ""
-for icon, short in voci_nav:
-    label = voci_map[short]
-    is_active = (label == active)
-    color = "#d08c38" if is_active else "rgba(255,255,255,0.55)"
-    weight = "700" if is_active else "400"
-    page_param = label.replace(" ", "+")
-    bottom_items += f'<a href="?page={page_param}" class="bn-item"><span class="bn-icon">{icon}</span><span class="bn-label" style="color:{color};font-weight:{weight};">{short}</span></a>'
-
-st.markdown(f'<div class="bottom-nav">{bottom_items}</div>', unsafe_allow_html=True)
+st.markdown('<div class="bnav-wrap">', unsafe_allow_html=True)
+_bn_cols = st.columns(len(voci_nav))
+for _col, (_icon, _short) in zip(_bn_cols, voci_nav):
+    _label = voci_map[_short]
+    _is_active = (_label == active)
+    _color = "#d08c38" if _is_active else "rgba(255,255,255,0.55)"
+    _weight = "700" if _is_active else "400"
+    with _col:
+        st.markdown(f'<style>.bnav-wrap [data-testid="column"]:nth-child({list(voci_nav).index((_icon,_short))+1}) .stButton>button{{color:{_color}!important;font-weight:{_weight}!important;}}</style>', unsafe_allow_html=True)
+        if st.button(f"{_icon}\n{_short}", key=f"bn_{_short}"):
+            st.session_state.nav_target = _label
+            st.rerun()
+st.markdown('</div>', unsafe_allow_html=True)
 
 # ----------------------------
 # HEADER
@@ -404,7 +416,7 @@ else:
     </style>
     <div class="sticky-topbar">
         <div class="sticky-topbar-title">Peccioli × <span>New Orleans</span> 2026</div>
-        <a href="?page=Home" style="font-size:0.75rem;font-weight:600;color:#d08c38;text-decoration:none;">← Home</a>
+        <a href="?page=Home" style="font-size:0.75rem;font-weight:600;color:#d08c38;text-decoration:none;" target="_self">← Home</a>
     </div>
     <div style="height:0.8rem;"></div>
     """
