@@ -70,16 +70,19 @@ def img_to_base64_small(path, max_width=600):
 logo_path = find_image(["logo_comune.png", "logo_comune.jpg"])
 nola_logo_path = find_image(["New_Orleans_Logo.png", "New_Orleans_Logo.jpg"])
 ponte_path = find_image(["piazza_nola_ponte.png", "piazza_nola_ponte.jpg", "Schermata_2026-04-18_alle_11_58_52.png"])
+
+# Logo Peccioli Eyes — 3 versioni
 eyes_logo_yellow_path = find_image(["peccioli_eyes_logo_yellow.png"])
 eyes_logo_blue_path = find_image(["peccioli_eyes_logo_blue.png"])
 eyes_logo_white_path = find_image(["peccioli_eyes_logo_white.png"])
 
+logo_b64, logo_mime = img_to_base64(logo_path)
+nola_logo_b64, nola_logo_mime = img_to_base64(nola_logo_path)
+ponte_b64, ponte_mime = img_to_base64(ponte_path)
+
 eyes_logo_yellow_b64, eyes_logo_yellow_mime = img_to_base64(eyes_logo_yellow_path)
 eyes_logo_blue_b64, eyes_logo_blue_mime = img_to_base64(eyes_logo_blue_path)
 eyes_logo_white_b64, eyes_logo_white_mime = img_to_base64(eyes_logo_white_path)
-nola_logo_b64, nola_logo_mime = img_to_base64(nola_logo_path)
-ponte_b64, ponte_mime = img_to_base64(ponte_path)
-eyes_logo_b64, eyes_logo_mime = img_to_base64(eyes_logo_path)
 
 gallery_items = [
     {"key": "artistica", "title": "Street art",
@@ -414,7 +417,7 @@ with st.sidebar:
     </div>
     """, unsafe_allow_html=True)
 
-# Bottom bar mobile — USA target="_self" e onclick per evitare nuova tab
+# Bottom bar mobile — href+target=_top funziona affidabilmente
 voci_nav = [
     ("🏠", "Home"),
     ("📅", "Briefing"),
@@ -495,41 +498,23 @@ st.markdown(f"""
     opacity:0.7;
 }}
 </style>
-
-<script>
-// Handler globale per la navigazione interna — forza lo stesso frame/tab
-window.addEventListener('click', function(e) {{
-    var t = e.target.closest('a[data-nav]');
-    if (!t) return;
-    e.preventDefault();
-    var page = t.getAttribute('data-nav');
-    try {{
-        window.parent.location.search = '?page=' + encodeURIComponent(page);
-    }} catch(err) {{
-        window.location.search = '?page=' + encodeURIComponent(page);
-    }}
-}}, true);
-</script>
 """, unsafe_allow_html=True)
 
-# Bottom bar — uso data-nav invece di href diretto
+# Bottom bar con href + target=_top
 bottom_items = ""
 for icon, short in voci_nav:
     label = voci_map[short]
     is_active = (label == active)
     color = BRAND_YELLOW if is_active else "rgba(255,255,255,0.6)"
     weight = "700" if is_active else "400"
-    bottom_items += f'<a href="#" data-nav="{label}" class="bn-item"><span class="bn-icon">{icon}</span><span class="bn-label" style="color:{color};font-weight:{weight};">{short}</span></a>'
+    page_param = label.replace(" ", "+")
+    bottom_items += f'<a href="?page={page_param}" target="_top" class="bn-item"><span class="bn-icon">{icon}</span><span class="bn-label" style="color:{color};font-weight:{weight};">{short}</span></a>'
 
 st.markdown(f'<div class="bottom-nav">{bottom_items}</div>', unsafe_allow_html=True)
 
 # ----------------------------
-# HEADER
+# HEADER — niente filtri CSS, usiamo direttamente la versione col colore giusto
 # ----------------------------
-# ----------------------------
-# HEADER
-# ----------------------------
-# Logo Peccioli Eyes — niente filtri CSS, usiamo direttamente la versione col colore giusto
 if eyes_logo_white_b64:
     eyes_tag_hero = f'<img src="data:{eyes_logo_white_mime};base64,{eyes_logo_white_b64}" style="height:90px;width:auto;object-fit:contain;margin-bottom:0.8rem;display:block;margin-left:auto;margin-right:auto;">'
 else:
@@ -539,6 +524,7 @@ if eyes_logo_yellow_b64:
     eyes_tag_topbar = f'<img src="data:{eyes_logo_yellow_mime};base64,{eyes_logo_yellow_b64}" style="height:26px;width:auto;object-fit:contain;margin-right:0.5rem;vertical-align:middle;">'
 else:
     eyes_tag_topbar = ""
+
 if pagina == "Home":
     ponte_bg = f'<img src="data:{ponte_mime};base64,{ponte_b64}" style="position:absolute;bottom:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:0.08;pointer-events:none;filter:invert(1);">' if ponte_b64 else ""
     header_html = f"""
@@ -682,7 +668,7 @@ else:
     </style>
     <div class="sticky-topbar">
         <div class="sticky-topbar-title">{eyes_tag_topbar}PECCIOLI EYES<em>to New Orleans</em></div>
-        <a href="#" data-nav="Home" style="font-size:0.75rem;font-weight:700;color:{BRAND_YELLOW};text-decoration:none;cursor:pointer;">← Home</a>
+        <a href="?page=Home" target="_top" style="font-size:0.75rem;font-weight:700;color:{BRAND_YELLOW};text-decoration:none;">← Home</a>
     </div>
     <div style="height:0.8rem;"></div>
     """
@@ -782,13 +768,13 @@ if pagina == "Home":
     """)
     components.html(countdown_html, height=120, scrolling=False)
 
-    # Quick buttons — USA data-nav invece di href
+    # Quick buttons — href + target=_top
     st.markdown(f"""
     <div class="quick-grid">
-        <a href="#" data-nav="Programma" class="quick-btn"><span class="quick-btn-label">🗓 Programma</span>Tappe e attività</a>
-        <a href="#" data-nav="Briefing" class="quick-btn"><span class="quick-btn-label">📅 Briefing</span>Gli esperti</a>
-        <a href="#" data-nav="Mappe" class="quick-btn"><span class="quick-btn-label">🗺 Mappe</span>I luoghi</a>
-        <a href="#" data-nav="Documenti" class="quick-btn"><span class="quick-btn-label">📂 Documenti</span>Moduli e scadenze</a>
+        <a href="?page=Programma" target="_top" class="quick-btn"><span class="quick-btn-label">🗓 Programma</span>Tappe e attività</a>
+        <a href="?page=Briefing" target="_top" class="quick-btn"><span class="quick-btn-label">📅 Briefing</span>Gli esperti</a>
+        <a href="?page=Mappe" target="_top" class="quick-btn"><span class="quick-btn-label">🗺 Mappe</span>I luoghi</a>
+        <a href="?page=Documenti" target="_top" class="quick-btn"><span class="quick-btn-label">📂 Documenti</span>Moduli e scadenze</a>
     </div>
     """, unsafe_allow_html=True)
 
