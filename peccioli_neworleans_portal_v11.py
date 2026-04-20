@@ -745,23 +745,30 @@ elif pagina == "Briefing":
         },
     ]
 
-    # CSS custom per foto rotonda dentro st.image
+   # CSS custom per foto rotonda centrata nelle card briefing
     st.markdown(f"""
     <style>
-    /* Foto rotonda per le card briefing — styling del contenitore stImage */
-    .expert-card {{
-        background:white; border-radius:22px; padding:1.4rem 1rem 1.2rem;
-        border:1px solid rgba(19,0,137,0.1);
-        box-shadow:0 6px 22px rgba(19,0,137,0.06);
-        text-align:center; margin-bottom:0.5rem;
+    /* Foto esperti: cerchio perfetto + centratura */
+    div[data-testid="stImage"] {{
+        display: flex !important;
+        justify-content: center !important;
     }}
-    div[data-testid="stVerticalBlock"] div[data-testid="stImage"] img {{
+    div[data-testid="stImage"] img {{
         border-radius: 50%;
         width: 90px !important;
         height: 90px !important;
         object-fit: cover;
-        margin: 0 auto !important;
-        display: block !important;
+        border: 3px solid {BRAND_BLUE};
+        display: block;
+    }}
+    /* Nel dialog popup la foto è più grande e rettangolare (non cerchio) */
+    div[data-testid="stDialog"] div[data-testid="stImage"] img {{
+        border-radius: 16px;
+        width: 100% !important;
+        height: auto !important;
+        max-height: 260px;
+        object-fit: cover;
+        border: none;
     }}
     </style>
     """, unsafe_allow_html=True)
@@ -800,21 +807,24 @@ elif pagina == "Briefing":
     c1, c2, c3 = st.columns(3)
     for i, (col, b) in enumerate(zip([c1, c2, c3], briefing_full)):
         with col:
-            with st.container():
-                if b["foto"]:
-                    st.image(b["foto"], width=90)
-                else:
-                    st.markdown(f'<div style="width:90px;height:90px;border-radius:50%;background:{b["colore"]};margin:0 auto 0.8rem;display:flex;align-items:center;justify-content:center;font-size:2rem;color:white;">{b["emoji"]}</div>', unsafe_allow_html=True)
-                st.markdown(f"""
-                <div style="text-align:center;margin-top:-0.3rem;">
-                    <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:{BRAND_BLUE};margin-bottom:0.2rem;opacity:0.7;">{b['data']} · {b['ora']}</div>
-                    <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:800;color:{BRAND_BLUE};line-height:1.2;margin-bottom:0.3rem;">{b['titolo']}</div>
-                    <div style="font-size:0.78rem;color:#5b6472;line-height:1.4;margin-bottom:0.6rem;">{b['ruolo']}</div>
-                </div>
-                """, unsafe_allow_html=True)
-                if st.button(f"Scopri {b['titolo'].split()[0]}", key=f"dialog_{i}", use_container_width=True):
-                    st.session_state.dialog_idx = i
-                    st.rerun()
+            # Wrapper centrato per la foto
+            if b["foto"]:
+                # Tre sub-colonne per centrare st.image (trucco affidabile)
+                sp1, sp_img, sp2 = st.columns([1, 2, 1])
+                with sp_img:
+                    st.image(b["foto"], use_container_width=True)
+            else:
+                st.markdown(f'<div style="width:90px;height:90px;border-radius:50%;background:{b["colore"]};margin:0 auto 0.8rem;display:flex;align-items:center;justify-content:center;font-size:2rem;color:white;">{b["emoji"]}</div>', unsafe_allow_html=True)
+            st.markdown(f"""
+            <div style="text-align:center;margin-top:0.2rem;">
+                <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:{BRAND_BLUE};margin-bottom:0.2rem;opacity:0.7;">{b['data']} · {b['ora']}</div>
+                <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:800;color:{BRAND_BLUE};line-height:1.2;margin-bottom:0.3rem;">{b['titolo']}</div>
+                <div style="font-size:0.78rem;color:#5b6472;line-height:1.4;margin-bottom:0.6rem;">{b['ruolo']}</div>
+            </div>
+            """, unsafe_allow_html=True)
+            if st.button(f"Scopri {b['titolo'].split()[0]}", key=f"dialog_{i}", use_container_width=True):
+                st.session_state.dialog_idx = i
+                st.rerun()
 
 # ============================
 # APPROFONDIMENTI
