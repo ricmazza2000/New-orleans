@@ -213,11 +213,24 @@ button[title="View fullscreen"] {{ display: none !important; }}
         margin-top: 0 !important;
     }}
     /* L'hero su mobile parte da sotto la topbar e non ha margin negativo */
+  /* Hero su mobile: zero spazio tra topbar e hero */
     .hero-full {{
         margin-top: 44px !important;
         margin-left: -1rem !important;
         margin-right: -1rem !important;
         padding-top: 2rem !important;
+    }}
+    /* Qualsiasi wrapper sopra l'hero deve avere zero spazio visibile */
+    .main .block-container > div:first-child,
+    [data-testid="stVerticalBlock"] > div:first-child,
+    [data-testid="stVerticalBlockBorderWrapper"]:first-child,
+    [data-testid="element-container"]:first-child {{
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }}
+    /* La topbar ha già il suo colore blu di fondo; estendiamolo leggermente anche sotto per coprire il seam */
+    .sticky-topbar {{
+        box-shadow: 0 0 0 2px {BRAND_BLUE};
     }}
 }}
 /* TOPBAR */
