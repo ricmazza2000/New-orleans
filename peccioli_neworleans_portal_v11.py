@@ -142,9 +142,15 @@ st.markdown(f"""
     --brand-white: {BRAND_WHITE};
 }}
 
-html {{
+html, body {{
     scroll-behavior: smooth;
     scroll-padding-top: 50px;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: {BRAND_BLUE} !important;
+}}
+.stApp {{
+    background: {BRAND_BLUE} !important;
 }}
 
 html, body, [class*="css"] {{
