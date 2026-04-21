@@ -290,11 +290,15 @@ button[title="View fullscreen"] {{ display: none !important; }}
 .hero-full {{
     position: relative; overflow: hidden;
     background: {BRAND_BLUE};
-    margin: -1rem -1rem 1.4rem -1rem;
-    padding: 3rem 2rem 3rem; text-align: center;
+    margin: -44px -1rem 1.4rem -1rem;
+    padding: 4rem 2rem 3rem; text-align: center;
 }}
 @media (min-width: 769px) {{
-    .hero-full {{ margin: -1.2rem -3rem 1.6rem -3rem; padding: 3.5rem 3rem 3.5rem; }}
+    .hero-full {{
+        margin: -44px -3rem 1.6rem -3rem;
+        padding: 4.5rem 3rem 3.5rem;
+    }}
+}}
 }}
 .hero-eyebrow {{
     font-size: 0.62rem; font-weight: 700; letter-spacing: 0.22em;
