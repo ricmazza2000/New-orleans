@@ -190,7 +190,7 @@ button[title="View fullscreen"] {{ display: none !important; }}
     .block-container {{
         padding-left: 1rem !important;
         padding-right: 1rem !important;
-        padding-top: 44px !important;
+        padding-top: 0 !important;
     }}
     [data-testid="stSidebar"] {{ display: none !important; }}
     [data-testid="collapsedControl"] {{ display: none !important; }}
@@ -200,12 +200,20 @@ button[title="View fullscreen"] {{ display: none !important; }}
         padding-bottom: 75px !important;
         padding-left: 1rem !important;
         padding-right: 1rem !important;
+        padding-top: 0 !important;
     }}
     .main > div:first-child {{
         padding-top: 0 !important;
+        margin-top: 0 !important;
+    }}
+    /* L'hero su mobile parte da sotto la topbar e non ha margin negativo */
+    .hero-full {{
+        margin-top: 44px !important;
+        margin-left: -1rem !important;
+        margin-right: -1rem !important;
+        padding-top: 2rem !important;
     }}
 }}
-
 /* TOPBAR */
 .sticky-topbar {{
     position: fixed; top: 0; left: 0; right: 0;
