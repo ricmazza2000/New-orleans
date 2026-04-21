@@ -231,42 +231,88 @@ button[title="View fullscreen"] {{ display: none !important; }}
     height: 0;
 }}
 
-/* Sezioni long-page — sfondano i margini del block-container */
+/* ── SEZIONI long-page — stacchi netti ── */
+/* ogni sezione è un blocco che sfonda i margini e occupa tutta la larghezza */
 .section-wrap {{
     position: relative;
     margin-left: -1rem;
     margin-right: -1rem;
-    padding: 3rem 1rem 2.5rem;
+    padding: 3rem 1rem 2.8rem;
 }}
 @media (min-width: 769px) {{
     .section-wrap {{
         margin-left: -3rem;
         margin-right: -3rem;
-        padding: 3.5rem 3rem 3rem;
+        padding: 3.8rem 3rem 3.2rem;
     }}
 }}
 .section-wrap.bg-blue {{ background: {BRAND_BLUE}; color: white; }}
 .section-wrap.bg-blue-light {{ background: {BRAND_BLUE_LIGHT}; }}
 .section-wrap.bg-yellow-light {{ background: {BRAND_YELLOW_LIGHT}; }}
-.section-wrap.bg-white {{ background: white; }}
-
-/* Contenitore contenuto DOPO una section-wrap che apre su sfondo colorato */
-.section-body {{
-    margin-left: -1rem;
-    margin-right: -1rem;
-    padding: 0 1rem 2.5rem;
+.section-wrap.bg-white {{
+    background: white;
+    /* striscia blu+giallo sopra e sotto per far risaltare la sezione bianca */
+    border-top: 3px solid {BRAND_BLUE};
+    border-bottom: 3px solid {BRAND_BLUE};
+    box-shadow:
+        inset 0 6px 0 {BRAND_YELLOW},
+        inset 0 -6px 0 {BRAND_YELLOW};
+    padding: 3.8rem 1rem 3.3rem;
 }}
 @media (min-width: 769px) {{
-    .section-body {{
-        margin-left: -3rem;
-        margin-right: -3rem;
-        padding: 0 3rem 3rem;
+    .section-wrap.bg-white {{
+        padding: 4.2rem 3rem 3.5rem;
     }}
 }}
-.section-body.bg-blue {{ background: {BRAND_BLUE}; }}
-.section-body.bg-blue-light {{ background: {BRAND_BLUE_LIGHT}; }}
-.section-body.bg-yellow-light {{ background: {BRAND_YELLOW_LIGHT}; }}
-.section-body.bg-white {{ background: white; }}
+
+/* corpo della sezione (contenuto streamlit che segue) con stesso background */
+.section-body-blue {{
+    background: {BRAND_BLUE};
+    margin: -2.8rem -1rem 0 -1rem;
+    padding: 0 1rem 3rem;
+    position: relative;
+}}
+@media (min-width: 769px) {{
+    .section-body-blue {{
+        margin: -3.2rem -3rem 0 -3rem;
+        padding: 0 3rem 3.5rem;
+    }}
+}}
+.section-body-blue-light {{
+    background: {BRAND_BLUE_LIGHT};
+    margin: -2.8rem -1rem 0 -1rem;
+    padding: 0 1rem 3rem;
+}}
+@media (min-width: 769px) {{
+    .section-body-blue-light {{
+        margin: -3.2rem -3rem 0 -3rem;
+        padding: 0 3rem 3.5rem;
+    }}
+}}
+.section-body-yellow-light {{
+    background: {BRAND_YELLOW_LIGHT};
+    margin: -2.8rem -1rem 0 -1rem;
+    padding: 0 1rem 3rem;
+}}
+@media (min-width: 769px) {{
+    .section-body-yellow-light {{
+        margin: -3.2rem -3rem 0 -3rem;
+        padding: 0 3rem 3.5rem;
+    }}
+}}
+.section-body-white {{
+    background: white;
+    margin: -3.3rem -1rem 0 -1rem;
+    padding: 0 1rem 2rem;
+    border-bottom: 3px solid {BRAND_BLUE};
+    box-shadow: inset 0 -6px 0 {BRAND_YELLOW};
+}}
+@media (min-width: 769px) {{
+    .section-body-white {{
+        margin: -3.5rem -3rem 0 -3rem;
+        padding: 0 3rem 2.2rem;
+    }}
+}}
 
 .section-eyebrow {{
     font-size: 0.68rem; font-weight: 700; letter-spacing: 0.18em;
@@ -339,23 +385,16 @@ button[title="View fullscreen"] {{ display: none !important; }}
     border: 1px solid rgba(255,222,89,0.5); border-radius: 999px;
 }}
 
-/* QUICK BUTTONS */
-.quick-grid {{
-    display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin:0.8rem 0;
+/* HOME CONTAINER — è una "sezione home" che si distingue già visualmente */
+.home-section {{
+    background: white;
+    margin: 0 -1rem;
+    padding: 2rem 1rem 3rem;
+    border-bottom: 3px solid {BRAND_BLUE};
+    box-shadow: inset 0 -6px 0 {BRAND_YELLOW};
 }}
-.quick-btn {{
-    display:block; text-align:left; text-decoration:none;
-    background:white; color:{BRAND_BLUE}; border-radius:14px;
-    padding:0.85rem 1rem; font-weight:700; font-size:0.88rem; line-height:1.3;
-    border:1px solid rgba(19,0,137,0.12);
-    box-shadow:0 2px 8px rgba(19,0,137,0.05);
-    border-left: 3px solid {BRAND_YELLOW}; cursor:pointer;
-}}
-.quick-btn:hover {{ background:{BRAND_BLUE_LIGHT}; }}
-.quick-btn-label {{
-    font-size:0.68rem; color:{BRAND_BLUE}; font-weight:700;
-    text-transform:uppercase; letter-spacing:0.08em;
-    display:block; margin-bottom:0.15rem; opacity:0.7;
+@media (min-width: 769px) {{
+    .home-section {{ margin: 0 -3rem; padding: 2.2rem 3rem 3.3rem; }}
 }}
 
 .legend-card {{
@@ -371,33 +410,59 @@ button[title="View fullscreen"] {{ display: none !important; }}
     font-size: 1rem; margin: 0.5rem 0 1.2rem; font-weight: 500;
 }}
 
-/* HOME BOTTOM GRID */
-.home-bottom-grid {{ display:grid; grid-template-columns:1fr 1fr; gap:1rem; }}
-@media (max-width:640px) {{ .home-bottom-grid {{ grid-template-columns:1fr; }} }}
-.hb-card {{
-    background:white; border-radius:20px; padding:1.1rem 1.3rem;
-    border:1px solid rgba(19,0,137,0.1);
-    box-shadow:0 4px 16px rgba(19,0,137,0.05);
+/* HOME LINK STRIP — webcam/news/spotify compatti in linea */
+.home-strip {{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.6rem;
+    margin: 0.6rem 0 0;
 }}
-.hb-title {{
-    font-family:'Playfair Display',Georgia,serif; font-size:1rem; font-weight:800;
-    color:{BRAND_BLUE}; margin-bottom:0.25rem;
+@media (max-width: 640px) {{
+    .home-strip {{ grid-template-columns: 1fr; gap: 0.5rem; }}
 }}
-.hb-sub {{ font-size:0.78rem; color:#9aa3b0; margin-bottom:0.7rem; }}
-.news-link {{
-    display:flex; align-items:center; padding:0.35rem 0;
-    text-decoration:none; border-bottom:1px solid rgba(19,0,137,0.07);
+.strip-card {{
+    background: white;
+    border-radius: 14px;
+    padding: 0.7rem 0.85rem;
+    border: 1px solid rgba(19,0,137,0.1);
+    box-shadow: 0 2px 8px rgba(19,0,137,0.04);
+    border-left: 3px solid {BRAND_YELLOW};
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    cursor: pointer;
 }}
-.news-link:last-child {{ border-bottom:none; }}
-.news-link-dot {{ width:6px; height:6px; border-radius:50%; flex-shrink:0; margin-right:0.5rem; }}
-.news-link-text {{ font-size:0.8rem; font-weight:600; color:{BRAND_BLUE}; }}
+.strip-card:hover {{ background: {BRAND_BLUE_LIGHT}; }}
+.strip-label {{
+    font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: {BRAND_BLUE}; opacity: 0.65;
+}}
+.strip-title {{
+    font-size: 0.85rem; font-weight: 700; color: {BRAND_BLUE}; line-height: 1.2;
+}}
+.strip-sub {{
+    font-size: 0.7rem; color: #5b6472; line-height: 1.3;
+}}
+
+.home-news-links {{
+    margin-top: 0.3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}}
+.home-news-links a {{
+    font-size: 0.72rem; color: {BRAND_BLUE}; text-decoration: none;
+    font-weight: 600; padding: 0.12rem 0;
+    border-bottom: 1px dotted rgba(19,0,137,0.15);
+}}
+.home-news-links a:last-child {{ border-bottom: none; }}
 
 /* FOTO ESPERTI centrate */
 div[data-testid="stImage"] {{
     display: flex !important;
     justify-content: center !important;
 }}
-/* Solo nelle card briefing le foto sono rotonde */
 .brief-section div[data-testid="stImage"] img {{
     border-radius: 50% !important;
     width: 90px !important;
@@ -405,7 +470,6 @@ div[data-testid="stImage"] {{
     object-fit: cover !important;
     border: 3px solid {BRAND_BLUE};
 }}
-/* Nel dialog invece è rettangolare */
 div[data-testid="stDialog"] div[data-testid="stImage"] img {{
     border-radius: 16px !important;
     width: 100% !important;
@@ -418,7 +482,6 @@ div[data-testid="stDialog"] div[data-testid="stImage"] img {{
 .footer-box {{
     text-align: center; color: #9aa3b0; font-size: 0.88rem;
     margin-top: 2rem; padding: 2rem 0 1rem;
-    border-top: 1px solid rgba(19,0,137,0.08);
 }}
 </style>
 """, unsafe_allow_html=True)
@@ -472,7 +535,7 @@ luoghi_dati = [
 ]
 
 # ============================
-# SIDEBAR (indice + info viaggio)
+# SIDEBAR
 # ============================
 with st.sidebar:
     if logo_path:
@@ -510,10 +573,10 @@ with st.sidebar:
         <a href="#home">🏠 &nbsp; Home</a>
         <a href="#temi">👁 &nbsp; Temi del viaggio</a>
         <a href="#briefing">📅 &nbsp; Briefing</a>
-        <a href="#approfondimenti">📚 &nbsp; Approfondimenti</a>
         <a href="#mappe">🗺 &nbsp; Mappa</a>
         <a href="#programma">🗓 &nbsp; Programma</a>
         <a href="#documenti">📂 &nbsp; Documenti</a>
+        <a href="#approfondimenti">📚 &nbsp; Altro</a>
     </div>
 
     <div style="height:1px;background:rgba(255,255,255,0.1);margin:1.2rem 0;"></div>
@@ -585,7 +648,13 @@ st.markdown(f"""
         <div class="hero-year">2026</div>
     </div>
 </div>
+
+<!-- Home section bianca con stacchi netti -->
+<div class="home-section">
 """, unsafe_allow_html=True)
+
+# Spazio fra hero blu e countdown
+st.markdown('<div style="height:0.8rem;"></div>', unsafe_allow_html=True)
 
 # Countdown
 import streamlit.components.v1 as components
@@ -659,64 +728,85 @@ setInterval(tick, 30000);
 """)
 components.html(countdown_html, height=120, scrolling=False)
 
+# Frase Peccioli Eyes
 st.markdown(f"""
-<div class="quick-grid">
-    <a href="#programma" class="quick-btn"><span class="quick-btn-label">🗓 Programma</span>Tappe e attività</a>
-    <a href="#briefing" class="quick-btn"><span class="quick-btn-label">📅 Briefing</span>Gli esperti</a>
-    <a href="#mappe" class="quick-btn"><span class="quick-btn-label">🗺 Mappa</span>I luoghi</a>
-    <a href="#documenti" class="quick-btn"><span class="quick-btn-label">📂 Documenti</span>Moduli e scadenze</a>
-</div>
-
-<div style="background:{BRAND_BLUE_LIGHT};border-radius:18px;padding:1.1rem 1.3rem;margin:0.8rem 0;border-left:4px solid {BRAND_YELLOW};">
+<div style="background:{BRAND_BLUE_LIGHT};border-radius:18px;padding:1.1rem 1.3rem;margin:1rem 0 1.2rem;border-left:4px solid {BRAND_YELLOW};">
     <p style="font-size:0.98rem;color:{BRAND_BLUE};line-height:1.65;margin:0;font-style:italic;">
         <strong style="font-style:normal;">Peccioli Eyes</strong> è uno sguardo che parte dal nostro piccolo territorio e si apre al mondo, mettendo al centro i giovani, la cultura e l'esperienza.
     </p>
 </div>
-<p style="font-size:1rem;color:#3a4a5c;line-height:1.7;margin-bottom:0.4rem;">
-    Il portale ufficiale del progetto — 80 ragazzi, settembre 2026.
-</p>
+""", unsafe_allow_html=True)
 
-<div class="home-bottom-grid" style="margin:1.5rem 0;">
-    <div class="hb-card">
-        <div class="hb-title">📹 Live da New Orleans</div>
-        <div class="hb-sub">French Quarter · Bourbon Street · 24/7</div>
-        <a href="https://www.earthcam.com/usa/louisiana/neworleans/bourbonstreet/"
-           target="_blank" rel="noopener"
-           style="display:inline-block;background:{BRAND_BLUE};color:white;padding:0.4rem 0.9rem;
-                  border-radius:999px;font-size:0.78rem;font-weight:600;text-decoration:none;">
-            🎥 Guarda →
-        </a>
+# Gallery "Sguardi sulla città"
+st.markdown(f"""
+<div style="display:flex;align-items:center;gap:1rem;margin:0.8rem 0 0.8rem;">
+    <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(19,0,137,0.2));"></div>
+    <div style="text-align:center;">
+        <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:{BRAND_BLUE};margin-bottom:0.15rem;opacity:0.7;">New Orleans vista da vicino</div>
+        <div style="font-family:'Lobster Two',cursive;font-style:italic;font-size:1.3rem;font-weight:700;color:{BRAND_BLUE};line-height:1;">Sguardi sulla città</div>
     </div>
-    <div class="hb-card">
-        <div class="hb-title">🗞 Notizie</div>
-        <div class="hb-sub">Fonti locali di New Orleans</div>
-        <a href="https://www.nola.com" target="_blank" rel="noopener" class="news-link">
-            <div class="news-link-dot" style="background:{BRAND_YELLOW};"></div>
-            <span class="news-link-text">The Times-Picayune</span>
-        </a>
-        <a href="https://www.wwno.org" target="_blank" rel="noopener" class="news-link">
-            <div class="news-link-dot" style="background:{BRAND_BLUE};"></div>
-            <span class="news-link-text">WWNO Public Radio</span>
-        </a>
-        <a href="https://thelensnola.org" target="_blank" rel="noopener" class="news-link">
-            <div class="news-link-dot" style="background:#4a3fb8;"></div>
-            <span class="news-link-text">The Lens NOLA</span>
-        </a>
-    </div>
-</div>
-
-<div style="border-radius:20px;overflow:hidden;box-shadow:0 4px 16px rgba(19,0,137,0.1);margin-bottom:1rem;">
-    <iframe style="border-radius:20px;display:block;"
-        src="https://open.spotify.com/embed/playlist/0iMiZcvIy26MqHQln5kkrI?utm_source=generator&theme=0"
-        width="100%" height="152" frameBorder="0"
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        loading="lazy">
-    </iframe>
+    <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(19,0,137,0.2),transparent);"></div>
 </div>
 """, unsafe_allow_html=True)
 
+valid_items = [item for item in gallery_items if item["path"]]
+
+@st.fragment
+def galleria():
+    if "selected_home_image" not in st.session_state:
+        st.session_state.selected_home_image = 0
+    idx = min(st.session_state.selected_home_image, len(valid_items) - 1)
+    selected = valid_items[idx]
+    col_prev, col_img, col_next = st.columns([1, 14, 1])
+    with col_prev:
+        if st.button("←", key="prev_img"):
+            st.session_state.selected_home_image = (idx - 1) % len(valid_items)
+            st.rerun(scope="fragment")
+    with col_img:
+        st.image(selected["path"], use_container_width=True)
+    with col_next:
+        if st.button("→", key="next_img"):
+            st.session_state.selected_home_image = (idx + 1) % len(valid_items)
+            st.rerun(scope="fragment")
+    st.markdown(f'<div class="gallery-caption"><strong>{selected["title"]}</strong> — {selected["desc"]}</div>', unsafe_allow_html=True)
+    dots_html = '<div style="display:flex;justify-content:center;gap:6px;margin-bottom:0.4rem;">'
+    for i in range(len(valid_items)):
+        color = BRAND_YELLOW if i == idx else "rgba(19,0,137,0.2)"
+        dots_html += f'<div style="width:7px;height:7px;border-radius:50%;background:{color};"></div>'
+    dots_html += '</div>'
+    st.markdown(dots_html, unsafe_allow_html=True)
+
+if valid_items:
+    galleria()
+
+# Webcam + News + Spotify in striscia compatta 3-col
+st.markdown(f"""
+<div class="home-strip">
+    <a href="https://www.earthcam.com/usa/louisiana/neworleans/bourbonstreet/" target="_blank" rel="noopener" class="strip-card">
+        <div class="strip-label">📹 Live</div>
+        <div class="strip-title">Bourbon Street</div>
+        <div class="strip-sub">French Quarter · 24/7</div>
+    </a>
+    <div class="strip-card" style="cursor:default;border-left-color:{BRAND_BLUE};">
+        <div class="strip-label">🗞 Notizie</div>
+        <div class="strip-title">Da New Orleans</div>
+        <div class="home-news-links">
+            <a href="https://www.nola.com" target="_blank" rel="noopener">Times-Picayune →</a>
+            <a href="https://www.wwno.org" target="_blank" rel="noopener">WWNO Radio →</a>
+            <a href="https://thelensnola.org" target="_blank" rel="noopener">The Lens NOLA →</a>
+        </div>
+    </div>
+    <a href="https://open.spotify.com/playlist/0iMiZcvIy26MqHQln5kkrI" target="_blank" rel="noopener" class="strip-card" style="border-left-color:#1DB954;">
+        <div class="strip-label">🎧 Playlist</div>
+        <div class="strip-title">NOLA Sound</div>
+        <div class="strip-sub">Jazz, blues, bounce</div>
+    </a>
+</div>
+</div> <!-- /.home-section -->
+""", unsafe_allow_html=True)
+
 # ============================================================================
-# 👁 TEMI DEL VIAGGIO
+# 👁 TEMI DEL VIAGGIO (sfondo giallo tenue)
 # ============================================================================
 st.markdown(f"""
 <span id="temi" class="section-anchor"></span>
@@ -728,6 +818,7 @@ st.markdown(f"""
         Non categorie separate, ma prospettive da tenere sempre attive.
     </p>
 </div>
+<div class="section-body-yellow-light">
 """, unsafe_allow_html=True)
 
 svg_musica = f"""
@@ -832,49 +923,10 @@ for i, tema in enumerate(temi):
             </div>
             """, unsafe_allow_html=True)
 
-st.markdown(f"""
-<div style="display:flex;align-items:center;gap:1rem;margin:2rem 0 0.8rem;">
-    <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(19,0,137,0.2));"></div>
-    <div style="text-align:center;">
-        <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:{BRAND_BLUE};margin-bottom:0.2rem;opacity:0.7;">New Orleans vista da vicino</div>
-        <div style="font-family:'Lobster Two',cursive;font-style:italic;font-size:1.4rem;font-weight:700;color:{BRAND_BLUE};line-height:1;">Sguardi sulla città</div>
-    </div>
-    <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(19,0,137,0.2),transparent);"></div>
-</div>
-""", unsafe_allow_html=True)
-
-valid_items = [item for item in gallery_items if item["path"]]
-
-@st.fragment
-def galleria():
-    if "selected_home_image" not in st.session_state:
-        st.session_state.selected_home_image = 0
-    idx = min(st.session_state.selected_home_image, len(valid_items) - 1)
-    selected = valid_items[idx]
-    col_prev, col_img, col_next = st.columns([1, 14, 1])
-    with col_prev:
-        if st.button("←", key="prev_img"):
-            st.session_state.selected_home_image = (idx - 1) % len(valid_items)
-            st.rerun(scope="fragment")
-    with col_img:
-        st.image(selected["path"], use_container_width=True)
-    with col_next:
-        if st.button("→", key="next_img"):
-            st.session_state.selected_home_image = (idx + 1) % len(valid_items)
-            st.rerun(scope="fragment")
-    st.markdown(f'<div class="gallery-caption"><strong>{selected["title"]}</strong> — {selected["desc"]}</div>', unsafe_allow_html=True)
-    dots_html = '<div style="display:flex;justify-content:center;gap:6px;margin-bottom:0.8rem;">'
-    for i in range(len(valid_items)):
-        color = BRAND_YELLOW if i == idx else "rgba(19,0,137,0.2)"
-        dots_html += f'<div style="width:7px;height:7px;border-radius:50%;background:{color};"></div>'
-    dots_html += '</div>'
-    st.markdown(dots_html, unsafe_allow_html=True)
-
-if valid_items:
-    galleria()
+st.markdown('</div>', unsafe_allow_html=True)  # chiude section-body-yellow-light
 
 # ============================================================================
-# 📅 BRIEFING (sfondo blu pieno)
+# 📅 BRIEFING (sfondo blu brand pieno)
 # ============================================================================
 st.markdown(f"""
 <span id="briefing" class="section-anchor"></span>
@@ -887,7 +939,7 @@ st.markdown(f"""
         Non lezioni — conversazioni aperte su storia, geopolitica e società americana.
     </p>
 </div>
-<div class="section-body bg-blue brief-section">
+<div class="section-body-blue brief-section">
 """, unsafe_allow_html=True)
 
 briefing_full = [
@@ -974,20 +1026,157 @@ for i, (col, b) in enumerate(zip([c1, c2, c3], briefing_full)):
             st.rerun()
         st.markdown('</div>', unsafe_allow_html=True)
 
-st.markdown('</div>', unsafe_allow_html=True)  # chiude section-body
+st.markdown('</div>', unsafe_allow_html=True)  # chiude section-body-blue
 
 # ============================================================================
-# 📚 APPROFONDIMENTI (sfondo bianco)
+# 🗺 MAPPA (sfondo giallo tenue)
+# ============================================================================
+st.markdown(f"""
+<span id="mappe" class="section-anchor"></span>
+<div class="section-wrap bg-yellow-light">
+    <span class="section-eyebrow">03 · Orientarsi nella città</span>
+    <div class="section-title">Mappa di New Orleans</div>
+    <p class="section-desc">
+        I luoghi simbolici del viaggio, organizzati per tema.
+        Apri la mappa interattiva qui sotto per esplorare.
+    </p>
+</div>
+<div class="section-body-yellow-light">
+""", unsafe_allow_html=True)
+
+st.markdown(f"""
+<div style="display:flex;flex-wrap:wrap;gap:0.6rem;margin-bottom:1.2rem;">
+    <div style="display:flex;align-items:center;gap:0.4rem;background:white;padding:0.35rem 0.8rem;border-radius:999px;border:1px solid rgba(19,0,137,0.12);font-size:0.82rem;font-weight:600;color:{BRAND_BLUE};">
+        <div style="width:12px;height:12px;border-radius:50%;background:{BRAND_BLUE};flex-shrink:0;"></div> Identità e storia
+    </div>
+    <div style="display:flex;align-items:center;gap:0.4rem;background:white;padding:0.35rem 0.8rem;border-radius:999px;border:1px solid rgba(19,0,137,0.12);font-size:0.82rem;font-weight:600;color:{BRAND_BLUE};">
+        <div style="width:12px;height:12px;border-radius:50%;background:#e6b800;flex-shrink:0;"></div> Musica
+    </div>
+    <div style="display:flex;align-items:center;gap:0.4rem;background:white;padding:0.35rem 0.8rem;border-radius:999px;border:1px solid rgba(19,0,137,0.12);font-size:0.82rem;font-weight:600;color:{BRAND_BLUE};">
+        <div style="width:12px;height:12px;border-radius:50%;background:#4a3fb8;flex-shrink:0;"></div> Resilienza
+    </div>
+    <div style="display:flex;align-items:center;gap:0.4rem;background:white;padding:0.35rem 0.8rem;border-radius:999px;border:1px solid rgba(19,0,137,0.12);font-size:0.82rem;font-weight:600;color:{BRAND_BLUE};">
+        <div style="width:12px;height:12px;border-radius:50%;background:#b8860b;flex-shrink:0;"></div> Società
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+with st.expander("🗺 Apri la mappa interattiva", expanded=False):
+    @st.fragment
+    def mostra_mappa():
+        m = folium.Map(location=[29.950, -90.065], zoom_start=13, tiles="CartoDB positron")
+        for luogo in luoghi_dati:
+            folium.CircleMarker(
+                location=[luogo["lat"], luogo["lon"]], radius=11,
+                color=luogo["colore"], fill=True, fill_color=luogo["colore"], fill_opacity=0.88,
+                popup=folium.Popup(
+                    f"<b style='font-size:14px;color:{BRAND_BLUE}'>{luogo['nome']}</b><br>"
+                    f"<span style='font-size:12px;color:#444'>{luogo['desc']}</span>",
+                    max_width=250
+                ),
+                tooltip=folium.Tooltip(luogo["nome"], sticky=True)
+            ).add_to(m)
+        st_folium(m, width=None, height=480, use_container_width=True)
+    mostra_mappa()
+
+col_m1, col_m2 = st.columns(2)
+for i, luogo in enumerate(luoghi_dati):
+    with (col_m1 if i % 2 == 0 else col_m2):
+        st.markdown(f"""
+        <div class="legend-card" style="border-left:4px solid {luogo['colore']};margin-bottom:0.6rem;">
+            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.2rem;">
+                <div style="font-family:'Playfair Display',Georgia,serif;font-size:0.95rem;font-weight:800;color:{BRAND_BLUE};">{luogo['nome']}</div>
+            </div>
+            <div style="font-size:0.72rem;font-weight:700;color:{luogo['colore']};margin-bottom:0.2rem;">{luogo['tema']}</div>
+            <div class="note">{luogo['desc']}</div>
+        </div>""", unsafe_allow_html=True)
+
+st.markdown('</div>', unsafe_allow_html=True)  # chiude section-body-yellow-light
+
+# ============================================================================
+# 🗓 PROGRAMMA (sfondo blu tenue)
+# ============================================================================
+st.markdown(f"""
+<span id="programma" class="section-anchor"></span>
+<div class="section-wrap bg-blue-light">
+    <span class="section-eyebrow">04 · Il viaggio</span>
+    <div class="section-title">Programma</div>
+    <p class="section-desc">
+        Il programma dettagliato è in costruzione. Sarà aggiornato con tutte le tappe non appena il percorso sarà definito.
+    </p>
+</div>
+<div class="section-body-blue-light">
+    <div style="background:{BRAND_YELLOW_LIGHT};border:2px dashed {BRAND_YELLOW};border-radius:24px;padding:2.5rem 2rem;text-align:center;max-width:580px;margin:0 auto 1rem;">
+        <div style="font-size:2.5rem;margin-bottom:0.6rem;">🗓</div>
+        <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.5rem;font-weight:800;color:{BRAND_BLUE};margin-bottom:0.6rem;">Programma in definizione</div>
+        <div style="font-size:0.97rem;color:#5b6472;line-height:1.75;">
+            Questa sezione verrà aggiornata con tutte le tappe, gli appuntamenti e le attività non appena il percorso sarà definito.
+        </div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+# ============================================================================
+# 📂 DOCUMENTI (sfondo bianco con bordi blu+giallo)
+# ============================================================================
+st.markdown(f"""
+<span id="documenti" class="section-anchor"></span>
+<div class="section-wrap bg-white">
+    <span class="section-eyebrow">05 · Prima della partenza</span>
+    <div class="section-title">Materiali e documenti</div>
+    <p class="section-desc">
+        Documenti da consultare, compilare e consegnare in vista del viaggio.
+    </p>
+</div>
+<div class="section-body-white">
+    <div style="background:{BRAND_BLUE_LIGHT};border-left:4px solid {BRAND_YELLOW};border-radius:0 12px 12px 0;
+         padding:0.8rem 1.2rem;margin-bottom:1.4rem;font-size:0.88rem;color:{BRAND_BLUE};font-weight:500;">
+        📋 I documenti saranno caricati progressivamente nelle settimane prima della partenza.
+    </div>
+""", unsafe_allow_html=True)
+
+documenti = [
+    ("📋", "Modulo di adesione", "Da compilare e riconsegnare firmato dai genitori.", False),
+    ("🛂", "Copia documento d'identità", "Carta d'identità o passaporto in corso di validità.", False),
+    ("🏥", "Modulo sanitario", "Informazioni mediche e allergie da comunicare all'organizzazione.", False),
+    ("✈️", "Informazioni sul volo", "Orari, scalo, indicazioni per l'aeroporto di partenza.", False),
+    ("🏨", "Sistemazione", "Dettagli sull'alloggio a New Orleans.", False),
+    ("📱", "Contatti e riferimenti", "Numeri di emergenza, referenti locali, chat di gruppo.", False),
+]
+
+for icona, titolo, desc, completato in documenti:
+    colore_stato = BRAND_BLUE if completato else "#9aa3b0"
+    stato_testo = "✅ Disponibile" if completato else "⏳ In arrivo"
+    st.markdown(f"""
+    <div style="background:white;border-radius:14px;padding:0.9rem 1.1rem;margin-bottom:0.6rem;
+         display:flex;align-items:center;gap:1rem;
+         border:1px solid rgba(19,0,137,0.1);box-shadow:0 2px 8px rgba(19,0,137,0.04);">
+        <div style="font-size:1.5rem;flex-shrink:0;">{icona}</div>
+        <div style="flex:1;">
+            <div style="font-weight:800;color:{BRAND_BLUE};font-size:0.92rem;margin-bottom:0.1rem;">{titolo}</div>
+            <div style="font-size:0.8rem;color:#5b6472;">{desc}</div>
+        </div>
+        <div style="flex-shrink:0;">
+            <div style="font-size:0.72rem;font-weight:700;color:{colore_stato};">{stato_testo}</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+st.markdown('</div>', unsafe_allow_html=True)  # chiude section-body-white
+
+# ============================================================================
+# 📚 APPROFONDIMENTI / ALTRO (sfondo giallo tenue) — ora in fondo
 # ============================================================================
 st.markdown(f"""
 <span id="approfondimenti" class="section-anchor"></span>
-<div class="section-wrap bg-white">
-    <span class="section-eyebrow">03 · Per prepararsi</span>
-    <div class="section-title">Approfondimenti</div>
+<div class="section-wrap bg-yellow-light">
+    <span class="section-eyebrow">06 · Per prepararsi</span>
+    <div class="section-title">Altro da esplorare</div>
     <p class="section-desc">
         Libri, film, documentari e risorse online per arrivare a New Orleans con uno sguardo già allenato.
     </p>
 </div>
+<div class="section-body-yellow-light">
 """, unsafe_allow_html=True)
 
 tab1, tab2, tab3, tab4 = st.tabs(["📚 Libri", "🎬 Film e TV", "🎞 Documentari", "🌐 Risorse"])
@@ -1124,136 +1313,6 @@ with tab4:
         </a>
         """, unsafe_allow_html=True)
 
-# ============================================================================
-# 🗺 MAPPA (sfondo giallo tenue)
-# ============================================================================
-st.markdown(f"""
-<span id="mappe" class="section-anchor"></span>
-<div class="section-wrap bg-yellow-light">
-    <span class="section-eyebrow">04 · Orientarsi nella città</span>
-    <div class="section-title">Mappa di New Orleans</div>
-    <p class="section-desc">
-        I luoghi simbolici del viaggio, organizzati per tema.
-        Apri la mappa interattiva qui sotto per esplorare.
-    </p>
-</div>
-""", unsafe_allow_html=True)
-
-st.markdown(f"""
-<div style="display:flex;flex-wrap:wrap;gap:0.6rem;margin-bottom:1.2rem;">
-    <div style="display:flex;align-items:center;gap:0.4rem;background:white;padding:0.35rem 0.8rem;border-radius:999px;border:1px solid rgba(19,0,137,0.12);font-size:0.82rem;font-weight:600;color:{BRAND_BLUE};">
-        <div style="width:12px;height:12px;border-radius:50%;background:{BRAND_BLUE};flex-shrink:0;"></div> Identità e storia
-    </div>
-    <div style="display:flex;align-items:center;gap:0.4rem;background:white;padding:0.35rem 0.8rem;border-radius:999px;border:1px solid rgba(19,0,137,0.12);font-size:0.82rem;font-weight:600;color:{BRAND_BLUE};">
-        <div style="width:12px;height:12px;border-radius:50%;background:#e6b800;flex-shrink:0;"></div> Musica
-    </div>
-    <div style="display:flex;align-items:center;gap:0.4rem;background:white;padding:0.35rem 0.8rem;border-radius:999px;border:1px solid rgba(19,0,137,0.12);font-size:0.82rem;font-weight:600;color:{BRAND_BLUE};">
-        <div style="width:12px;height:12px;border-radius:50%;background:#4a3fb8;flex-shrink:0;"></div> Resilienza
-    </div>
-    <div style="display:flex;align-items:center;gap:0.4rem;background:white;padding:0.35rem 0.8rem;border-radius:999px;border:1px solid rgba(19,0,137,0.12);font-size:0.82rem;font-weight:600;color:{BRAND_BLUE};">
-        <div style="width:12px;height:12px;border-radius:50%;background:#b8860b;flex-shrink:0;"></div> Società
-    </div>
-</div>
-""", unsafe_allow_html=True)
-
-# MAPPA DENTRO EXPANDER — carica Folium solo quando l'utente apre
-with st.expander("🗺 Apri la mappa interattiva", expanded=False):
-    @st.fragment
-    def mostra_mappa():
-        m = folium.Map(location=[29.950, -90.065], zoom_start=13, tiles="CartoDB positron")
-        for luogo in luoghi_dati:
-            folium.CircleMarker(
-                location=[luogo["lat"], luogo["lon"]], radius=11,
-                color=luogo["colore"], fill=True, fill_color=luogo["colore"], fill_opacity=0.88,
-                popup=folium.Popup(
-                    f"<b style='font-size:14px;color:{BRAND_BLUE}'>{luogo['nome']}</b><br>"
-                    f"<span style='font-size:12px;color:#444'>{luogo['desc']}</span>",
-                    max_width=250
-                ),
-                tooltip=folium.Tooltip(luogo["nome"], sticky=True)
-            ).add_to(m)
-        st_folium(m, width=None, height=480, use_container_width=True)
-    mostra_mappa()
-
-col_m1, col_m2 = st.columns(2)
-for i, luogo in enumerate(luoghi_dati):
-    with (col_m1 if i % 2 == 0 else col_m2):
-        st.markdown(f"""
-        <div class="legend-card" style="border-left:4px solid {luogo['colore']};margin-bottom:0.6rem;">
-            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.2rem;">
-                <div style="font-family:'Playfair Display',Georgia,serif;font-size:0.95rem;font-weight:800;color:{BRAND_BLUE};">{luogo['nome']}</div>
-            </div>
-            <div style="font-size:0.72rem;font-weight:700;color:{luogo['colore']};margin-bottom:0.2rem;">{luogo['tema']}</div>
-            <div class="note">{luogo['desc']}</div>
-        </div>""", unsafe_allow_html=True)
-
-# ============================================================================
-# 🗓 PROGRAMMA (sfondo blu tenue)
-# ============================================================================
-st.markdown(f"""
-<span id="programma" class="section-anchor"></span>
-<div class="section-wrap bg-blue-light">
-    <span class="section-eyebrow">05 · Il viaggio</span>
-    <div class="section-title">Programma</div>
-    <p class="section-desc">
-        Il programma dettagliato è in costruzione. Sarà aggiornato con tutte le tappe non appena il percorso sarà definito.
-    </p>
-</div>
-<div class="section-body bg-blue-light">
-    <div style="background:{BRAND_YELLOW_LIGHT};border:2px dashed {BRAND_YELLOW};border-radius:24px;padding:2.5rem 2rem;text-align:center;max-width:580px;margin:0 auto 1rem;">
-        <div style="font-size:2.5rem;margin-bottom:0.6rem;">🗓</div>
-        <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.5rem;font-weight:800;color:{BRAND_BLUE};margin-bottom:0.6rem;">Programma in definizione</div>
-        <div style="font-size:0.97rem;color:#5b6472;line-height:1.75;">
-            Questa sezione verrà aggiornata con tutte le tappe, gli appuntamenti e le attività non appena il percorso sarà definito.
-        </div>
-    </div>
-</div>
-""", unsafe_allow_html=True)
-
-# ============================================================================
-# 📂 DOCUMENTI (sfondo bianco)
-# ============================================================================
-st.markdown(f"""
-<span id="documenti" class="section-anchor"></span>
-<div class="section-wrap bg-white">
-    <span class="section-eyebrow">06 · Prima della partenza</span>
-    <div class="section-title">Materiali e documenti</div>
-    <p class="section-desc">
-        Documenti da consultare, compilare e consegnare in vista del viaggio.
-    </p>
-</div>
-
-<div style="background:{BRAND_BLUE_LIGHT};border-left:4px solid {BRAND_YELLOW};border-radius:0 12px 12px 0;
-     padding:0.8rem 1.2rem;margin-bottom:1.4rem;font-size:0.88rem;color:{BRAND_BLUE};font-weight:500;">
-    📋 I documenti saranno caricati progressivamente nelle settimane prima della partenza.
-</div>
-""", unsafe_allow_html=True)
-
-documenti = [
-    ("📋", "Modulo di adesione", "Da compilare e riconsegnare firmato dai genitori.", False),
-    ("🛂", "Copia documento d'identità", "Carta d'identità o passaporto in corso di validità.", False),
-    ("🏥", "Modulo sanitario", "Informazioni mediche e allergie da comunicare all'organizzazione.", False),
-    ("✈️", "Informazioni sul volo", "Orari, scalo, indicazioni per l'aeroporto di partenza.", False),
-    ("🏨", "Sistemazione", "Dettagli sull'alloggio a New Orleans.", False),
-    ("📱", "Contatti e riferimenti", "Numeri di emergenza, referenti locali, chat di gruppo.", False),
-]
-
-for icona, titolo, desc, completato in documenti:
-    colore_stato = BRAND_BLUE if completato else "#9aa3b0"
-    stato_testo = "✅ Disponibile" if completato else "⏳ In arrivo"
-    st.markdown(f"""
-    <div style="background:white;border-radius:14px;padding:0.9rem 1.1rem;margin-bottom:0.6rem;
-         display:flex;align-items:center;gap:1rem;
-         border:1px solid rgba(19,0,137,0.1);box-shadow:0 2px 8px rgba(19,0,137,0.04);">
-        <div style="font-size:1.5rem;flex-shrink:0;">{icona}</div>
-        <div style="flex:1;">
-            <div style="font-weight:800;color:{BRAND_BLUE};font-size:0.92rem;margin-bottom:0.1rem;">{titolo}</div>
-            <div style="font-size:0.8rem;color:#5b6472;">{desc}</div>
-        </div>
-        <div style="flex-shrink:0;">
-            <div style="font-size:0.72rem;font-weight:700;color:{colore_stato};">{stato_testo}</div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+st.markdown('</div>', unsafe_allow_html=True)  # chiude section-body-yellow-light
 
 st.markdown(f"<div class='footer-box'>Peccioli Eyes to New Orleans · 2026 · Portale ragazzi</div>", unsafe_allow_html=True)
