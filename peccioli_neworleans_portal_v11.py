@@ -30,13 +30,13 @@ BRAND_BLUE_DARK = "#0a0052"
 BRAND_BLUE_LIGHT = "#f0eeff"
 BRAND_YELLOW_LIGHT = "#fffbe5"
 
-# Palette colori distintivi per header di sezione
-SEC_TEMI = "#fff7c2"         # giallo brand chiaro
+# Palette sezioni — tutto nel range blu/giallo brand
+SEC_TEMI = "#fff7c2"         # giallo chiaro
 SEC_BRIEFING = "#1a2f6c"     # blu navy profondo
 SEC_MAPPA = "#0a5a7a"        # blu petrolio
-SEC_PROGRAMMA = "#b24a3a"    # terracotta
-SEC_DOCUMENTI = "#4a2d7a"    # viola profondo
-SEC_ALTRO = "#2d5a3a"        # verde bottiglia
+SEC_PROGRAMMA = "#2a3f7a"    # blu medio (tenue ma scuro)
+SEC_DOCUMENTI = "#f0eeff"    # lavanda chiara (blu chiarissimo)
+SEC_ALTRO = "#fff7c2"        # giallo chiaro (apre e chiude con lo stesso colore di Temi)
 
 # ============================
 # UTILITY
@@ -201,7 +201,6 @@ button[title="View fullscreen"] {{ display: none !important; }}
         padding-left: 1rem !important;
         padding-right: 1rem !important;
     }}
-    /* Assicura che block-container non abbia spazi strani sopra l'hero su mobile */
     .main > div:first-child {{
         padding-top: 0 !important;
     }}
@@ -269,7 +268,6 @@ button[title="View fullscreen"] {{ display: none !important; }}
     }}
 }}
 
-/* Body di sezione = contenitore che continua il bg del wrap sopra */
 .section-body {{
     margin-left: -1rem;
     margin-right: -1rem;
@@ -305,26 +303,26 @@ button[title="View fullscreen"] {{ display: none !important; }}
 .sec-mappa .section-subtitle {{ color: {BRAND_YELLOW}; }}
 .sec-mappa .section-desc {{ color: rgba(255,255,255,0.82); }}
 
-/* Programma — terracotta */
+/* Programma — blu medio */
 .sec-programma {{ background: {SEC_PROGRAMMA}; color: white; }}
 .sec-programma .section-eyebrow {{ color: {BRAND_YELLOW}; }}
 .sec-programma .section-title {{ color: white; }}
 .sec-programma .section-subtitle {{ color: {BRAND_YELLOW}; }}
 .sec-programma .section-desc {{ color: rgba(255,255,255,0.85); }}
 
-/* Documenti — viola profondo */
-.sec-documenti {{ background: {SEC_DOCUMENTI}; color: white; }}
-.sec-documenti .section-eyebrow {{ color: {BRAND_YELLOW}; }}
-.sec-documenti .section-title {{ color: white; }}
-.sec-documenti .section-subtitle {{ color: {BRAND_YELLOW}; }}
-.sec-documenti .section-desc {{ color: rgba(255,255,255,0.82); }}
+/* Documenti — lavanda chiara, testo blu brand */
+.sec-documenti {{ background: {SEC_DOCUMENTI}; color: #3a4a5c; }}
+.sec-documenti .section-eyebrow {{ color: {BRAND_BLUE}; opacity: 0.75; }}
+.sec-documenti .section-title {{ color: {BRAND_BLUE}; }}
+.sec-documenti .section-subtitle {{ color: #4a3fb8; }}
+.sec-documenti .section-desc {{ color: #3a4a5c; }}
 
-/* Altro — verde bottiglia */
-.sec-altro {{ background: {SEC_ALTRO}; color: white; }}
-.sec-altro .section-eyebrow {{ color: {BRAND_YELLOW}; }}
-.sec-altro .section-title {{ color: white; }}
-.sec-altro .section-subtitle {{ color: {BRAND_YELLOW}; }}
-.sec-altro .section-desc {{ color: rgba(255,255,255,0.82); }}
+/* Altro — giallo chiaro (come Temi) */
+.sec-altro {{ background: {SEC_ALTRO}; color: #3a4a5c; }}
+.sec-altro .section-eyebrow {{ color: #6b5600; }}
+.sec-altro .section-title {{ color: {BRAND_BLUE}; }}
+.sec-altro .section-subtitle {{ color: #b38600; }}
+.sec-altro .section-desc {{ color: #3a4a5c; }}
 
 .section-eyebrow {{
     font-size: 0.68rem; font-weight: 700; letter-spacing: 0.18em;
@@ -361,7 +359,6 @@ button[title="View fullscreen"] {{ display: none !important; }}
     .hero-full {{ margin: -44px -3rem 0 -3rem; padding: 4.5rem 3rem 4rem; }}
 }}
 @media (max-width: 768px) {{
-    /* Sul mobile, compensa ulteriormente: l'hero si attacca alla topbar */
     .hero-full {{
         margin-top: -44px;
         margin-left: -1rem;
@@ -386,7 +383,7 @@ button[title="View fullscreen"] {{ display: none !important; }}
     border: 1px solid rgba(255,222,89,0.5); border-radius: 999px;
 }}
 
-/* HOME SECTION — sfondo bianco pulito */
+/* HOME SECTION */
 .home-section {{
     background: white;
     margin: 0 -1rem;
@@ -409,7 +406,7 @@ button[title="View fullscreen"] {{ display: none !important; }}
     font-size: 1rem; margin: 0.5rem 0 1.2rem; font-weight: 500;
 }}
 
-/* HOME STRIP compatta */
+/* HOME STRIP */
 .home-strip {{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -650,7 +647,7 @@ st.markdown(f"""
 <div class="home-section">
 """, unsafe_allow_html=True)
 
-# Countdown (senza spazio extra sopra — si attacca naturalmente all'hero)
+# Countdown
 import streamlit.components.v1 as components
 expert_paths = get_expert_paths()
 _morelli_path = expert_paths["morelli"]
@@ -1083,7 +1080,7 @@ for i, luogo in enumerate(luoghi_dati):
 st.markdown('</div>', unsafe_allow_html=True)
 
 # ============================================================================
-# 🗓 PROGRAMMA — TERRACOTTA
+# 🗓 PROGRAMMA — BLU MEDIO
 # ============================================================================
 st.markdown(f"""
 <span id="programma" class="section-anchor"></span>
@@ -1106,7 +1103,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # ============================================================================
-# 📂 DOCUMENTI — VIOLA PROFONDO
+# 📂 DOCUMENTI — LAVANDA CHIARA
 # ============================================================================
 st.markdown(f"""
 <span id="documenti" class="section-anchor"></span>
@@ -1118,8 +1115,8 @@ st.markdown(f"""
     </p>
 </div>
 <div class="section-body sec-documenti">
-    <div style="background:rgba(255,255,255,0.95);border-left:4px solid {BRAND_YELLOW};border-radius:0 12px 12px 0;
-         padding:0.8rem 1.2rem;margin-bottom:1.4rem;font-size:0.88rem;color:{SEC_DOCUMENTI};font-weight:500;">
+    <div style="background:white;border-left:4px solid {BRAND_YELLOW};border-radius:0 12px 12px 0;
+         padding:0.8rem 1.2rem;margin-bottom:1.4rem;font-size:0.88rem;color:{BRAND_BLUE};font-weight:500;box-shadow:0 2px 8px rgba(19,0,137,0.05);">
         📋 I documenti saranno caricati progressivamente nelle settimane prima della partenza.
     </div>
 """, unsafe_allow_html=True)
@@ -1134,19 +1131,19 @@ documenti = [
 ]
 
 for icona, titolo, desc, completato in documenti:
-    colore_stato = "#d4b300" if completato else "rgba(255,255,255,0.55)"
+    colore_stato = BRAND_BLUE if completato else "#9aa3b0"
     stato_testo = "✅ Disponibile" if completato else "⏳ In arrivo"
     st.markdown(f"""
     <div style="background:white;border-radius:14px;padding:0.9rem 1.1rem;margin-bottom:0.6rem;
          display:flex;align-items:center;gap:1rem;
-         box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+         border:1px solid rgba(19,0,137,0.08);box-shadow:0 2px 8px rgba(19,0,137,0.05);">
         <div style="font-size:1.5rem;flex-shrink:0;">{icona}</div>
         <div style="flex:1;">
-            <div style="font-weight:800;color:{SEC_DOCUMENTI};font-size:0.92rem;margin-bottom:0.1rem;">{titolo}</div>
+            <div style="font-weight:800;color:{BRAND_BLUE};font-size:0.92rem;margin-bottom:0.1rem;">{titolo}</div>
             <div style="font-size:0.8rem;color:#5b6472;">{desc}</div>
         </div>
         <div style="flex-shrink:0;">
-            <div style="font-size:0.72rem;font-weight:700;color:{('#b8860b' if completato else '#888')};">{stato_testo}</div>
+            <div style="font-size:0.72rem;font-weight:700;color:{colore_stato};">{stato_testo}</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -1154,7 +1151,7 @@ for icona, titolo, desc, completato in documenti:
 st.markdown('</div>', unsafe_allow_html=True)
 
 # ============================================================================
-# 📚 ALTRO — VERDE BOTTIGLIA
+# 📚 ALTRO — GIALLO CHIARO
 # ============================================================================
 st.markdown(f"""
 <span id="approfondimenti" class="section-anchor"></span>
@@ -1191,7 +1188,7 @@ with tab1:
             st.markdown(f"""
             <div style="background:white;border-radius:20px;padding:1.2rem 1.3rem;
                  border-top:4px solid {libro['colore']};
-                 box-shadow:0 4px 16px rgba(0,0,0,0.1);margin-bottom:1rem;">
+                 box-shadow:0 4px 16px rgba(19,0,137,0.06);margin-bottom:1rem;">
                 <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
                      color:{BRAND_BLUE};margin-bottom:0.3rem;opacity:0.7;">{libro['anno']}</div>
                 <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.05rem;font-weight:800;
@@ -1228,7 +1225,7 @@ with tab2:
         <div style="background:white;border-radius:18px;padding:1rem 1.2rem;margin-bottom:0.7rem;
              display:flex;align-items:center;gap:1rem;
              border-left:4px solid {f['colore']};
-             box-shadow:0 3px 12px rgba(0,0,0,0.1);">
+             box-shadow:0 3px 12px rgba(19,0,137,0.05);">
             <div style="flex:1;">
                 <div style="font-size:0.7rem;color:{BRAND_BLUE};font-weight:700;text-transform:uppercase;letter-spacing:0.08em;opacity:0.7;">{f['anno']}</div>
                 <div style="font-family:'Playfair Display',Georgia,serif;font-size:1rem;font-weight:800;color:{BRAND_BLUE};">{f['titolo']}</div>
@@ -1257,7 +1254,7 @@ with tab3:
     for d in docs:
         st.markdown(f"""
         <div style="background:white;border-radius:20px;padding:1.3rem 1.4rem;margin-bottom:0.8rem;
-             border-top:4px solid {d['colore']};box-shadow:0 4px 16px rgba(0,0,0,0.1);">
+             border-top:4px solid {d['colore']};box-shadow:0 4px 16px rgba(19,0,137,0.06);">
             <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;">
                 <div>
                     <div style="font-size:0.7rem;color:{BRAND_BLUE};font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.3rem;opacity:0.7;">{d['anno']}</div>
@@ -1290,7 +1287,8 @@ with tab4:
         <a href="{r['link']}" target="_blank" rel="noopener" style="text-decoration:none;">
             <div style="background:white;border-radius:18px;padding:1.1rem 1.3rem;margin-bottom:0.7rem;
                  display:flex;align-items:center;gap:1rem;
-                 box-shadow:0 3px 12px rgba(0,0,0,0.1);">
+                 border:1px solid rgba(19,0,137,0.1);
+                 box-shadow:0 3px 12px rgba(19,0,137,0.05);">
                 <div style="width:6px;height:40px;border-radius:3px;background:{r['colore']};flex-shrink:0;"></div>
                 <div>
                     <div style="font-size:0.95rem;font-weight:800;color:{BRAND_BLUE};">{r['titolo']}</div>
