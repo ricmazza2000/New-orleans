@@ -36,7 +36,7 @@ SEC_BRIEFING = "#1a2f6c"     # blu navy profondo
 SEC_MAPPA = "#0a5a7a"        # blu petrolio
 SEC_PROGRAMMA = "#2a3f7a"    # blu medio (tenue ma scuro)
 SEC_DOCUMENTI = "#f0eeff"    # lavanda chiara (blu chiarissimo)
-SEC_ALTRO = "#fff7c2"        # giallo chiaro (apre e chiude con lo stesso colore di Temi)
+SEC_ALTRO = "#fff3d1"        # giallo crema (leggermente più caldo di Temi)
 
 # ============================
 # UTILITY
@@ -241,7 +241,7 @@ button[title="View fullscreen"] {{ display: none !important; }}
         text-decoration:none; flex:1; padding:2px 1px; cursor:pointer;
     }}
     .bn-icon {{ font-size:1.1rem; line-height:1; }}
-    .bn-label {{ font-size:0.5rem; text-align:center; line-height:1.2; font-family:sans-serif; color:rgba(255,255,255,0.6); }}
+    .bn-label { font-size:0.48rem; text-align:center; line-height:1.2; font-family:sans-serif; color:rgba(255,255,255,0.6); letter-spacing:-0.01em; }
 }}
 
 /* Anchor per scroll */
@@ -612,9 +612,9 @@ st.markdown(f"""
     <a href="#mappe" class="bn-item"><span class="bn-icon">🗺</span><span class="bn-label">Mappa</span></a>
     <a href="#programma" class="bn-item"><span class="bn-icon">🗓</span><span class="bn-label">Progr.</span></a>
     <a href="#documenti" class="bn-item"><span class="bn-icon">📂</span><span class="bn-label">Doc.</span></a>
+    <a href="#approfondimenti" class="bn-item"><span class="bn-icon">📚</span><span class="bn-label">Altro</span></a>
 </div>
 """, unsafe_allow_html=True)
-
 # ============================
 # TOPBAR
 # ============================
