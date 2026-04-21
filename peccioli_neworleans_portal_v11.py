@@ -241,7 +241,7 @@ button[title="View fullscreen"] {{ display: none !important; }}
         text-decoration:none; flex:1; padding:2px 1px; cursor:pointer;
     }}
     .bn-icon {{ font-size:1.1rem; line-height:1; }}
-    .bn-label { font-size:0.48rem; text-align:center; line-height:1.2; font-family:sans-serif; color:rgba(255,255,255,0.6); letter-spacing:-0.01em; }
+   .bn-label {{ font-size:0.48rem; text-align:center; line-height:1.2; font-family:sans-serif; color:rgba(255,255,255,0.6); letter-spacing:-0.01em; }}
 }}
 
 /* Anchor per scroll */
