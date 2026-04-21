@@ -30,6 +30,14 @@ BRAND_BLUE_DARK = "#0a0052"
 BRAND_BLUE_LIGHT = "#f0eeff"
 BRAND_YELLOW_LIGHT = "#fffbe5"
 
+# Palette colori distintivi per header di sezione
+SEC_TEMI = "#fff7c2"         # giallo brand chiaro
+SEC_BRIEFING = "#1a2f6c"     # blu navy profondo
+SEC_MAPPA = "#0a5a7a"        # blu petrolio
+SEC_PROGRAMMA = "#b24a3a"    # terracotta
+SEC_DOCUMENTI = "#4a2d7a"    # viola profondo
+SEC_ALTRO = "#2d5a3a"        # verde bottiglia
+
 # ============================
 # UTILITY
 # ============================
@@ -142,6 +150,12 @@ html {{
 html, body, [class*="css"] {{
     font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }}
+
+/* FIX gap mobile: impedisce che il margine negativo dell'hero "trapeli" fuori dal container */
+.block-container, .main {{
+    overflow-x: clip;
+}}
+
 .block-container {{
     max-width: 1200px;
     padding-top: 44px !important;
@@ -173,14 +187,23 @@ button[title="View fullscreen"] {{ display: none !important; }}
 }}
 
 @media (max-width: 768px) {{
-    .block-container {{ padding-left: 1rem !important; padding-right: 1rem !important; }}
+    .block-container {{
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+        padding-top: 44px !important;
+    }}
     [data-testid="stSidebar"] {{ display: none !important; }}
     [data-testid="collapsedControl"] {{ display: none !important; }}
     [data-testid="stSidebarCollapsedControl"] {{ display: none !important; }}
     button[kind="header"] {{ display: none !important; }}
     .main .block-container {{
         padding-bottom: 75px !important;
-        padding-left: 1rem !important; padding-right: 1rem !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }}
+    /* Assicura che block-container non abbia spazi strani sopra l'hero su mobile */
+    .main > div:first-child {{
+        padding-top: 0 !important;
     }}
 }}
 
@@ -231,100 +254,83 @@ button[title="View fullscreen"] {{ display: none !important; }}
     height: 0;
 }}
 
-/* ── SEZIONI long-page — stacchi netti ── */
-/* ogni sezione è un blocco che sfonda i margini e occupa tutta la larghezza */
+/* ── SEZIONI long-page ── */
 .section-wrap {{
     position: relative;
     margin-left: -1rem;
     margin-right: -1rem;
-    padding: 3rem 1rem 2.8rem;
+    padding: 3rem 1rem 2.5rem;
 }}
 @media (min-width: 769px) {{
     .section-wrap {{
         margin-left: -3rem;
         margin-right: -3rem;
-        padding: 3.8rem 3rem 3.2rem;
-    }}
-}}
-.section-wrap.bg-blue {{ background: {BRAND_BLUE}; color: white; }}
-.section-wrap.bg-blue-light {{ background: {BRAND_BLUE_LIGHT}; }}
-.section-wrap.bg-yellow-light {{ background: {BRAND_YELLOW_LIGHT}; }}
-.section-wrap.bg-white {{
-    background: white;
-    /* striscia blu+giallo sopra e sotto per far risaltare la sezione bianca */
-    border-top: 3px solid {BRAND_BLUE};
-    border-bottom: 3px solid {BRAND_BLUE};
-    box-shadow:
-        inset 0 6px 0 {BRAND_YELLOW},
-        inset 0 -6px 0 {BRAND_YELLOW};
-    padding: 3.8rem 1rem 3.3rem;
-}}
-@media (min-width: 769px) {{
-    .section-wrap.bg-white {{
-        padding: 4.2rem 3rem 3.5rem;
+        padding: 3.5rem 3rem 2.8rem;
     }}
 }}
 
-/* corpo della sezione (contenuto streamlit che segue) con stesso background */
-.section-body-blue {{
-    background: {BRAND_BLUE};
-    margin: -2.8rem -1rem 0 -1rem;
-    padding: 0 1rem 3rem;
-    position: relative;
+/* Body di sezione = contenitore che continua il bg del wrap sopra */
+.section-body {{
+    margin-left: -1rem;
+    margin-right: -1rem;
+    padding: 0 1rem 2.5rem;
 }}
 @media (min-width: 769px) {{
-    .section-body-blue {{
-        margin: -3.2rem -3rem 0 -3rem;
-        padding: 0 3rem 3.5rem;
+    .section-body {{
+        margin-left: -3rem;
+        margin-right: -3rem;
+        padding: 0 3rem 3rem;
     }}
 }}
-.section-body-blue-light {{
-    background: {BRAND_BLUE_LIGHT};
-    margin: -2.8rem -1rem 0 -1rem;
-    padding: 0 1rem 3rem;
-}}
-@media (min-width: 769px) {{
-    .section-body-blue-light {{
-        margin: -3.2rem -3rem 0 -3rem;
-        padding: 0 3rem 3.5rem;
-    }}
-}}
-.section-body-yellow-light {{
-    background: {BRAND_YELLOW_LIGHT};
-    margin: -2.8rem -1rem 0 -1rem;
-    padding: 0 1rem 3rem;
-}}
-@media (min-width: 769px) {{
-    .section-body-yellow-light {{
-        margin: -3.2rem -3rem 0 -3rem;
-        padding: 0 3rem 3.5rem;
-    }}
-}}
-.section-body-white {{
-    background: white;
-    margin: -3.3rem -1rem 0 -1rem;
-    padding: 0 1rem 2rem;
-    border-bottom: 3px solid {BRAND_BLUE};
-    box-shadow: inset 0 -6px 0 {BRAND_YELLOW};
-}}
-@media (min-width: 769px) {{
-    .section-body-white {{
-        margin: -3.5rem -3rem 0 -3rem;
-        padding: 0 3rem 2.2rem;
-    }}
-}}
+
+/* ── Palette per sezione ── */
+/* Temi — giallo chiaro con testo blu */
+.sec-temi {{ background: {SEC_TEMI}; color: #3a4a5c; }}
+.sec-temi .section-eyebrow {{ color: #6b5600; }}
+.sec-temi .section-title {{ color: {BRAND_BLUE}; }}
+.sec-temi .section-subtitle {{ color: #b38600; }}
+.sec-temi .section-desc {{ color: #3a4a5c; }}
+
+/* Briefing — blu navy */
+.sec-briefing {{ background: {SEC_BRIEFING}; color: white; }}
+.sec-briefing .section-eyebrow {{ color: {BRAND_YELLOW}; }}
+.sec-briefing .section-title {{ color: white; }}
+.sec-briefing .section-subtitle {{ color: {BRAND_YELLOW}; }}
+.sec-briefing .section-desc {{ color: rgba(255,255,255,0.8); }}
+
+/* Mappa — blu petrolio */
+.sec-mappa {{ background: {SEC_MAPPA}; color: white; }}
+.sec-mappa .section-eyebrow {{ color: {BRAND_YELLOW}; }}
+.sec-mappa .section-title {{ color: white; }}
+.sec-mappa .section-subtitle {{ color: {BRAND_YELLOW}; }}
+.sec-mappa .section-desc {{ color: rgba(255,255,255,0.82); }}
+
+/* Programma — terracotta */
+.sec-programma {{ background: {SEC_PROGRAMMA}; color: white; }}
+.sec-programma .section-eyebrow {{ color: {BRAND_YELLOW}; }}
+.sec-programma .section-title {{ color: white; }}
+.sec-programma .section-subtitle {{ color: {BRAND_YELLOW}; }}
+.sec-programma .section-desc {{ color: rgba(255,255,255,0.85); }}
+
+/* Documenti — viola profondo */
+.sec-documenti {{ background: {SEC_DOCUMENTI}; color: white; }}
+.sec-documenti .section-eyebrow {{ color: {BRAND_YELLOW}; }}
+.sec-documenti .section-title {{ color: white; }}
+.sec-documenti .section-subtitle {{ color: {BRAND_YELLOW}; }}
+.sec-documenti .section-desc {{ color: rgba(255,255,255,0.82); }}
+
+/* Altro — verde bottiglia */
+.sec-altro {{ background: {SEC_ALTRO}; color: white; }}
+.sec-altro .section-eyebrow {{ color: {BRAND_YELLOW}; }}
+.sec-altro .section-title {{ color: white; }}
+.sec-altro .section-subtitle {{ color: {BRAND_YELLOW}; }}
+.sec-altro .section-desc {{ color: rgba(255,255,255,0.82); }}
 
 .section-eyebrow {{
     font-size: 0.68rem; font-weight: 700; letter-spacing: 0.18em;
-    text-transform: uppercase; color: {BRAND_YELLOW};
+    text-transform: uppercase;
     margin-bottom: 0.4rem;
     display: block;
-}}
-.section-wrap.bg-yellow-light .section-eyebrow,
-.section-wrap.bg-white .section-eyebrow,
-.section-wrap.bg-blue-light .section-eyebrow {{
-    color: {BRAND_BLUE};
-    opacity: 0.75;
 }}
 .section-title {{
     font-family: 'Playfair Display', Georgia, serif;
@@ -333,28 +339,15 @@ button[title="View fullscreen"] {{ display: none !important; }}
     line-height: 1.05;
     margin-bottom: 0.7rem;
     letter-spacing: -0.01em;
-    color: white;
-}}
-.section-wrap.bg-yellow-light .section-title,
-.section-wrap.bg-white .section-title,
-.section-wrap.bg-blue-light .section-title {{
-    color: {BRAND_BLUE};
 }}
 .section-subtitle {{
     font-family: 'Lobster Two', cursive; font-style: italic;
     font-size: 1.15rem; font-weight: 700;
-    color: {BRAND_YELLOW};
     margin-bottom: 1rem;
 }}
 .section-desc {{
     font-size: 0.95rem; line-height: 1.7;
     max-width: 640px;
-    color: rgba(255,255,255,0.8);
-}}
-.section-wrap.bg-yellow-light .section-desc,
-.section-wrap.bg-white .section-desc,
-.section-wrap.bg-blue-light .section-desc {{
-    color: #3a4a5c;
 }}
 
 /* HERO HOME */
@@ -366,6 +359,14 @@ button[title="View fullscreen"] {{ display: none !important; }}
 }}
 @media (min-width: 769px) {{
     .hero-full {{ margin: -44px -3rem 0 -3rem; padding: 4.5rem 3rem 4rem; }}
+}}
+@media (max-width: 768px) {{
+    /* Sul mobile, compensa ulteriormente: l'hero si attacca alla topbar */
+    .hero-full {{
+        margin-top: -44px;
+        margin-left: -1rem;
+        margin-right: -1rem;
+    }}
 }}
 .hero-title-main {{
     font-family: 'Playfair Display', Georgia, serif;
@@ -385,16 +386,14 @@ button[title="View fullscreen"] {{ display: none !important; }}
     border: 1px solid rgba(255,222,89,0.5); border-radius: 999px;
 }}
 
-/* HOME CONTAINER — è una "sezione home" che si distingue già visualmente */
+/* HOME SECTION — sfondo bianco pulito */
 .home-section {{
     background: white;
     margin: 0 -1rem;
-    padding: 2rem 1rem 3rem;
-    border-bottom: 3px solid {BRAND_BLUE};
-    box-shadow: inset 0 -6px 0 {BRAND_YELLOW};
+    padding: 1.8rem 1rem 2.8rem;
 }}
 @media (min-width: 769px) {{
-    .home-section {{ margin: 0 -3rem; padding: 2.2rem 3rem 3.3rem; }}
+    .home-section {{ margin: 0 -3rem; padding: 2rem 3rem 3rem; }}
 }}
 
 .legend-card {{
@@ -410,7 +409,7 @@ button[title="View fullscreen"] {{ display: none !important; }}
     font-size: 1rem; margin: 0.5rem 0 1.2rem; font-weight: 500;
 }}
 
-/* HOME LINK STRIP — webcam/news/spotify compatti in linea */
+/* HOME STRIP compatta */
 .home-strip {{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -444,7 +443,6 @@ button[title="View fullscreen"] {{ display: none !important; }}
 .strip-sub {{
     font-size: 0.7rem; color: #5b6472; line-height: 1.3;
 }}
-
 .home-news-links {{
     margin-top: 0.3rem;
     display: flex;
@@ -468,7 +466,7 @@ div[data-testid="stImage"] {{
     width: 90px !important;
     height: 90px !important;
     object-fit: cover !important;
-    border: 3px solid {BRAND_BLUE};
+    border: 3px solid {SEC_BRIEFING};
 }}
 div[data-testid="stDialog"] div[data-testid="stImage"] img {{
     border-radius: 16px !important;
@@ -649,14 +647,10 @@ st.markdown(f"""
     </div>
 </div>
 
-<!-- Home section bianca con stacchi netti -->
 <div class="home-section">
 """, unsafe_allow_html=True)
 
-# Spazio fra hero blu e countdown
-st.markdown('<div style="height:0.8rem;"></div>', unsafe_allow_html=True)
-
-# Countdown
+# Countdown (senza spazio extra sopra — si attacca naturalmente all'hero)
 import streamlit.components.v1 as components
 expert_paths = get_expert_paths()
 _morelli_path = expert_paths["morelli"]
@@ -728,17 +722,13 @@ setInterval(tick, 30000);
 """)
 components.html(countdown_html, height=120, scrolling=False)
 
-# Frase Peccioli Eyes
 st.markdown(f"""
 <div style="background:{BRAND_BLUE_LIGHT};border-radius:18px;padding:1.1rem 1.3rem;margin:1rem 0 1.2rem;border-left:4px solid {BRAND_YELLOW};">
     <p style="font-size:0.98rem;color:{BRAND_BLUE};line-height:1.65;margin:0;font-style:italic;">
         <strong style="font-style:normal;">Peccioli Eyes</strong> è uno sguardo che parte dal nostro piccolo territorio e si apre al mondo, mettendo al centro i giovani, la cultura e l'esperienza.
     </p>
 </div>
-""", unsafe_allow_html=True)
 
-# Gallery "Sguardi sulla città"
-st.markdown(f"""
 <div style="display:flex;align-items:center;gap:1rem;margin:0.8rem 0 0.8rem;">
     <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(19,0,137,0.2));"></div>
     <div style="text-align:center;">
@@ -779,7 +769,6 @@ def galleria():
 if valid_items:
     galleria()
 
-# Webcam + News + Spotify in striscia compatta 3-col
 st.markdown(f"""
 <div class="home-strip">
     <a href="https://www.earthcam.com/usa/louisiana/neworleans/bourbonstreet/" target="_blank" rel="noopener" class="strip-card">
@@ -793,7 +782,7 @@ st.markdown(f"""
         <div class="home-news-links">
             <a href="https://www.nola.com" target="_blank" rel="noopener">Times-Picayune →</a>
             <a href="https://www.wwno.org" target="_blank" rel="noopener">WWNO Radio →</a>
-            <a href="https://thelensnola.org" target="_blank" rel="noopener">The Lens NOLA →</a>
+            <a href="https://thelensnola.org" target="_blank" rel="noopener">The Lens NOLA</a>
         </div>
     </div>
     <a href="https://open.spotify.com/playlist/0iMiZcvIy26MqHQln5kkrI" target="_blank" rel="noopener" class="strip-card" style="border-left-color:#1DB954;">
@@ -802,15 +791,15 @@ st.markdown(f"""
         <div class="strip-sub">Jazz, blues, bounce</div>
     </a>
 </div>
-</div> <!-- /.home-section -->
+</div>
 """, unsafe_allow_html=True)
 
 # ============================================================================
-# 👁 TEMI DEL VIAGGIO (sfondo giallo tenue)
+# 👁 TEMI — GIALLO CHIARO
 # ============================================================================
 st.markdown(f"""
 <span id="temi" class="section-anchor"></span>
-<div class="section-wrap bg-yellow-light">
+<div class="section-wrap sec-temi">
     <span class="section-eyebrow">01 · Come guardare la città</span>
     <div class="section-title">Temi del viaggio</div>
     <p class="section-desc">
@@ -818,7 +807,7 @@ st.markdown(f"""
         Non categorie separate, ma prospettive da tenere sempre attive.
     </p>
 </div>
-<div class="section-body-yellow-light">
+<div class="section-body sec-temi">
 """, unsafe_allow_html=True)
 
 svg_musica = f"""
@@ -923,14 +912,14 @@ for i, tema in enumerate(temi):
             </div>
             """, unsafe_allow_html=True)
 
-st.markdown('</div>', unsafe_allow_html=True)  # chiude section-body-yellow-light
+st.markdown('</div>', unsafe_allow_html=True)
 
 # ============================================================================
-# 📅 BRIEFING (sfondo blu brand pieno)
+# 📅 BRIEFING — BLU NAVY
 # ============================================================================
 st.markdown(f"""
 <span id="briefing" class="section-anchor"></span>
-<div class="section-wrap bg-blue">
+<div class="section-wrap sec-briefing">
     <span class="section-eyebrow">02 · Prima del viaggio</span>
     <div class="section-title">Incontri propedeutici</div>
     <div class="section-subtitle">Tre esperti, tre sguardi</div>
@@ -939,7 +928,7 @@ st.markdown(f"""
         Non lezioni — conversazioni aperte su storia, geopolitica e società americana.
     </p>
 </div>
-<div class="section-body-blue brief-section">
+<div class="section-body sec-briefing brief-section">
 """, unsafe_allow_html=True)
 
 briefing_full = [
@@ -1005,7 +994,7 @@ for i, (col, b) in enumerate(zip([c1, c2, c3], briefing_full)):
     with col:
         st.markdown(f"""
         <div style="background:white;border-radius:22px;padding:1.4rem 1rem 0.3rem;
-             box-shadow:0 6px 22px rgba(0,0,0,0.12);
+             box-shadow:0 6px 22px rgba(0,0,0,0.18);
              text-align:center;margin-bottom:0.3rem;">
         """, unsafe_allow_html=True)
         if b["foto"]:
@@ -1013,11 +1002,11 @@ for i, (col, b) in enumerate(zip([c1, c2, c3], briefing_full)):
             with sp_img:
                 st.image(b["foto"], use_container_width=True)
         else:
-            st.markdown(f'<div style="width:90px;height:90px;border-radius:50%;background:{BRAND_BLUE};margin:0 auto 0.8rem;display:flex;align-items:center;justify-content:center;font-size:2rem;color:white;">{b["emoji"]}</div>', unsafe_allow_html=True)
+            st.markdown(f'<div style="width:90px;height:90px;border-radius:50%;background:{SEC_BRIEFING};margin:0 auto 0.8rem;display:flex;align-items:center;justify-content:center;font-size:2rem;color:white;">{b["emoji"]}</div>', unsafe_allow_html=True)
         st.markdown(f"""
         <div style="text-align:center;margin-top:0.3rem;">
-            <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:{BRAND_BLUE};margin-bottom:0.2rem;opacity:0.7;">{b['data']} · {b['ora']}</div>
-            <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:800;color:{BRAND_BLUE};line-height:1.2;margin-bottom:0.3rem;">{b['titolo']}</div>
+            <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:{SEC_BRIEFING};margin-bottom:0.2rem;opacity:0.85;">{b['data']} · {b['ora']}</div>
+            <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:800;color:{SEC_BRIEFING};line-height:1.2;margin-bottom:0.3rem;">{b['titolo']}</div>
             <div style="font-size:0.78rem;color:#5b6472;line-height:1.4;margin-bottom:0.6rem;">{b['ruolo']}</div>
         </div>
         """, unsafe_allow_html=True)
@@ -1026,14 +1015,14 @@ for i, (col, b) in enumerate(zip([c1, c2, c3], briefing_full)):
             st.rerun()
         st.markdown('</div>', unsafe_allow_html=True)
 
-st.markdown('</div>', unsafe_allow_html=True)  # chiude section-body-blue
+st.markdown('</div>', unsafe_allow_html=True)
 
 # ============================================================================
-# 🗺 MAPPA (sfondo giallo tenue)
+# 🗺 MAPPA — BLU PETROLIO
 # ============================================================================
 st.markdown(f"""
 <span id="mappe" class="section-anchor"></span>
-<div class="section-wrap bg-yellow-light">
+<div class="section-wrap sec-mappa">
     <span class="section-eyebrow">03 · Orientarsi nella città</span>
     <div class="section-title">Mappa di New Orleans</div>
     <p class="section-desc">
@@ -1041,21 +1030,21 @@ st.markdown(f"""
         Apri la mappa interattiva qui sotto per esplorare.
     </p>
 </div>
-<div class="section-body-yellow-light">
+<div class="section-body sec-mappa">
 """, unsafe_allow_html=True)
 
 st.markdown(f"""
 <div style="display:flex;flex-wrap:wrap;gap:0.6rem;margin-bottom:1.2rem;">
-    <div style="display:flex;align-items:center;gap:0.4rem;background:white;padding:0.35rem 0.8rem;border-radius:999px;border:1px solid rgba(19,0,137,0.12);font-size:0.82rem;font-weight:600;color:{BRAND_BLUE};">
+    <div style="display:flex;align-items:center;gap:0.4rem;background:white;padding:0.35rem 0.8rem;border-radius:999px;font-size:0.82rem;font-weight:600;color:{BRAND_BLUE};">
         <div style="width:12px;height:12px;border-radius:50%;background:{BRAND_BLUE};flex-shrink:0;"></div> Identità e storia
     </div>
-    <div style="display:flex;align-items:center;gap:0.4rem;background:white;padding:0.35rem 0.8rem;border-radius:999px;border:1px solid rgba(19,0,137,0.12);font-size:0.82rem;font-weight:600;color:{BRAND_BLUE};">
+    <div style="display:flex;align-items:center;gap:0.4rem;background:white;padding:0.35rem 0.8rem;border-radius:999px;font-size:0.82rem;font-weight:600;color:{BRAND_BLUE};">
         <div style="width:12px;height:12px;border-radius:50%;background:#e6b800;flex-shrink:0;"></div> Musica
     </div>
-    <div style="display:flex;align-items:center;gap:0.4rem;background:white;padding:0.35rem 0.8rem;border-radius:999px;border:1px solid rgba(19,0,137,0.12);font-size:0.82rem;font-weight:600;color:{BRAND_BLUE};">
+    <div style="display:flex;align-items:center;gap:0.4rem;background:white;padding:0.35rem 0.8rem;border-radius:999px;font-size:0.82rem;font-weight:600;color:{BRAND_BLUE};">
         <div style="width:12px;height:12px;border-radius:50%;background:#4a3fb8;flex-shrink:0;"></div> Resilienza
     </div>
-    <div style="display:flex;align-items:center;gap:0.4rem;background:white;padding:0.35rem 0.8rem;border-radius:999px;border:1px solid rgba(19,0,137,0.12);font-size:0.82rem;font-weight:600;color:{BRAND_BLUE};">
+    <div style="display:flex;align-items:center;gap:0.4rem;background:white;padding:0.35rem 0.8rem;border-radius:999px;font-size:0.82rem;font-weight:600;color:{BRAND_BLUE};">
         <div style="width:12px;height:12px;border-radius:50%;background:#b8860b;flex-shrink:0;"></div> Società
     </div>
 </div>
@@ -1091,24 +1080,24 @@ for i, luogo in enumerate(luoghi_dati):
             <div class="note">{luogo['desc']}</div>
         </div>""", unsafe_allow_html=True)
 
-st.markdown('</div>', unsafe_allow_html=True)  # chiude section-body-yellow-light
+st.markdown('</div>', unsafe_allow_html=True)
 
 # ============================================================================
-# 🗓 PROGRAMMA (sfondo blu tenue)
+# 🗓 PROGRAMMA — TERRACOTTA
 # ============================================================================
 st.markdown(f"""
 <span id="programma" class="section-anchor"></span>
-<div class="section-wrap bg-blue-light">
+<div class="section-wrap sec-programma">
     <span class="section-eyebrow">04 · Il viaggio</span>
     <div class="section-title">Programma</div>
     <p class="section-desc">
         Il programma dettagliato è in costruzione. Sarà aggiornato con tutte le tappe non appena il percorso sarà definito.
     </p>
 </div>
-<div class="section-body-blue-light">
-    <div style="background:{BRAND_YELLOW_LIGHT};border:2px dashed {BRAND_YELLOW};border-radius:24px;padding:2.5rem 2rem;text-align:center;max-width:580px;margin:0 auto 1rem;">
+<div class="section-body sec-programma">
+    <div style="background:rgba(255,255,255,0.95);border:2px dashed {BRAND_YELLOW};border-radius:24px;padding:2.5rem 2rem;text-align:center;max-width:580px;margin:0 auto 1rem;">
         <div style="font-size:2.5rem;margin-bottom:0.6rem;">🗓</div>
-        <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.5rem;font-weight:800;color:{BRAND_BLUE};margin-bottom:0.6rem;">Programma in definizione</div>
+        <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.5rem;font-weight:800;color:{SEC_PROGRAMMA};margin-bottom:0.6rem;">Programma in definizione</div>
         <div style="font-size:0.97rem;color:#5b6472;line-height:1.75;">
             Questa sezione verrà aggiornata con tutte le tappe, gli appuntamenti e le attività non appena il percorso sarà definito.
         </div>
@@ -1117,20 +1106,20 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # ============================================================================
-# 📂 DOCUMENTI (sfondo bianco con bordi blu+giallo)
+# 📂 DOCUMENTI — VIOLA PROFONDO
 # ============================================================================
 st.markdown(f"""
 <span id="documenti" class="section-anchor"></span>
-<div class="section-wrap bg-white">
+<div class="section-wrap sec-documenti">
     <span class="section-eyebrow">05 · Prima della partenza</span>
     <div class="section-title">Materiali e documenti</div>
     <p class="section-desc">
         Documenti da consultare, compilare e consegnare in vista del viaggio.
     </p>
 </div>
-<div class="section-body-white">
-    <div style="background:{BRAND_BLUE_LIGHT};border-left:4px solid {BRAND_YELLOW};border-radius:0 12px 12px 0;
-         padding:0.8rem 1.2rem;margin-bottom:1.4rem;font-size:0.88rem;color:{BRAND_BLUE};font-weight:500;">
+<div class="section-body sec-documenti">
+    <div style="background:rgba(255,255,255,0.95);border-left:4px solid {BRAND_YELLOW};border-radius:0 12px 12px 0;
+         padding:0.8rem 1.2rem;margin-bottom:1.4rem;font-size:0.88rem;color:{SEC_DOCUMENTI};font-weight:500;">
         📋 I documenti saranno caricati progressivamente nelle settimane prima della partenza.
     </div>
 """, unsafe_allow_html=True)
@@ -1145,38 +1134,38 @@ documenti = [
 ]
 
 for icona, titolo, desc, completato in documenti:
-    colore_stato = BRAND_BLUE if completato else "#9aa3b0"
+    colore_stato = "#d4b300" if completato else "rgba(255,255,255,0.55)"
     stato_testo = "✅ Disponibile" if completato else "⏳ In arrivo"
     st.markdown(f"""
     <div style="background:white;border-radius:14px;padding:0.9rem 1.1rem;margin-bottom:0.6rem;
          display:flex;align-items:center;gap:1rem;
-         border:1px solid rgba(19,0,137,0.1);box-shadow:0 2px 8px rgba(19,0,137,0.04);">
+         box-shadow:0 2px 8px rgba(0,0,0,0.15);">
         <div style="font-size:1.5rem;flex-shrink:0;">{icona}</div>
         <div style="flex:1;">
-            <div style="font-weight:800;color:{BRAND_BLUE};font-size:0.92rem;margin-bottom:0.1rem;">{titolo}</div>
+            <div style="font-weight:800;color:{SEC_DOCUMENTI};font-size:0.92rem;margin-bottom:0.1rem;">{titolo}</div>
             <div style="font-size:0.8rem;color:#5b6472;">{desc}</div>
         </div>
         <div style="flex-shrink:0;">
-            <div style="font-size:0.72rem;font-weight:700;color:{colore_stato};">{stato_testo}</div>
+            <div style="font-size:0.72rem;font-weight:700;color:{('#b8860b' if completato else '#888')};">{stato_testo}</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
 
-st.markdown('</div>', unsafe_allow_html=True)  # chiude section-body-white
+st.markdown('</div>', unsafe_allow_html=True)
 
 # ============================================================================
-# 📚 APPROFONDIMENTI / ALTRO (sfondo giallo tenue) — ora in fondo
+# 📚 ALTRO — VERDE BOTTIGLIA
 # ============================================================================
 st.markdown(f"""
 <span id="approfondimenti" class="section-anchor"></span>
-<div class="section-wrap bg-yellow-light">
+<div class="section-wrap sec-altro">
     <span class="section-eyebrow">06 · Per prepararsi</span>
     <div class="section-title">Altro da esplorare</div>
     <p class="section-desc">
         Libri, film, documentari e risorse online per arrivare a New Orleans con uno sguardo già allenato.
     </p>
 </div>
-<div class="section-body-yellow-light">
+<div class="section-body sec-altro">
 """, unsafe_allow_html=True)
 
 tab1, tab2, tab3, tab4 = st.tabs(["📚 Libri", "🎬 Film e TV", "🎞 Documentari", "🌐 Risorse"])
@@ -1202,7 +1191,7 @@ with tab1:
             st.markdown(f"""
             <div style="background:white;border-radius:20px;padding:1.2rem 1.3rem;
                  border-top:4px solid {libro['colore']};
-                 box-shadow:0 4px 16px rgba(19,0,137,0.06);margin-bottom:1rem;">
+                 box-shadow:0 4px 16px rgba(0,0,0,0.1);margin-bottom:1rem;">
                 <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
                      color:{BRAND_BLUE};margin-bottom:0.3rem;opacity:0.7;">{libro['anno']}</div>
                 <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.05rem;font-weight:800;
@@ -1239,7 +1228,7 @@ with tab2:
         <div style="background:white;border-radius:18px;padding:1rem 1.2rem;margin-bottom:0.7rem;
              display:flex;align-items:center;gap:1rem;
              border-left:4px solid {f['colore']};
-             box-shadow:0 3px 12px rgba(19,0,137,0.05);">
+             box-shadow:0 3px 12px rgba(0,0,0,0.1);">
             <div style="flex:1;">
                 <div style="font-size:0.7rem;color:{BRAND_BLUE};font-weight:700;text-transform:uppercase;letter-spacing:0.08em;opacity:0.7;">{f['anno']}</div>
                 <div style="font-family:'Playfair Display',Georgia,serif;font-size:1rem;font-weight:800;color:{BRAND_BLUE};">{f['titolo']}</div>
@@ -1268,7 +1257,7 @@ with tab3:
     for d in docs:
         st.markdown(f"""
         <div style="background:white;border-radius:20px;padding:1.3rem 1.4rem;margin-bottom:0.8rem;
-             border-top:4px solid {d['colore']};box-shadow:0 4px 16px rgba(19,0,137,0.06);">
+             border-top:4px solid {d['colore']};box-shadow:0 4px 16px rgba(0,0,0,0.1);">
             <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;">
                 <div>
                     <div style="font-size:0.7rem;color:{BRAND_BLUE};font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.3rem;opacity:0.7;">{d['anno']}</div>
@@ -1301,8 +1290,7 @@ with tab4:
         <a href="{r['link']}" target="_blank" rel="noopener" style="text-decoration:none;">
             <div style="background:white;border-radius:18px;padding:1.1rem 1.3rem;margin-bottom:0.7rem;
                  display:flex;align-items:center;gap:1rem;
-                 border:1px solid rgba(19,0,137,0.1);
-                 box-shadow:0 3px 12px rgba(19,0,137,0.05);">
+                 box-shadow:0 3px 12px rgba(0,0,0,0.1);">
                 <div style="width:6px;height:40px;border-radius:3px;background:{r['colore']};flex-shrink:0;"></div>
                 <div>
                     <div style="font-size:0.95rem;font-weight:800;color:{BRAND_BLUE};">{r['titolo']}</div>
@@ -1313,6 +1301,6 @@ with tab4:
         </a>
         """, unsafe_allow_html=True)
 
-st.markdown('</div>', unsafe_allow_html=True)  # chiude section-body-yellow-light
+st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown(f"<div class='footer-box'>Peccioli Eyes to New Orleans · 2026 · Portale ragazzi</div>", unsafe_allow_html=True)
