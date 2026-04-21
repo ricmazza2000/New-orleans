@@ -545,8 +545,7 @@ if pagina == "Home":
     </div>
     <div class="hero-full">
         {ponte_bg}
-        <div style="position:relative;z-index:1;">
-            <div class="hero-eyebrow">Comune di Peccioli · Progetto di viaggio</div>
+        <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;">
             {eyes_tag_hero}
             <div class="hero-title-main">Peccioli Eyes</div>
             <div class="hero-title-script">to New Orleans</div>
