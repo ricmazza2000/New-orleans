@@ -36,7 +36,7 @@ SEC_BRIEFING = "#1a2f6c"     # blu navy profondo
 SEC_MAPPA = "#0a5a7a"        # blu petrolio
 SEC_PROGRAMMA = "#2a3f7a"    # blu medio (tenue ma scuro)
 SEC_DOCUMENTI = "#f0eeff"    # lavanda chiara (blu chiarissimo)
-SEC_ALTRO = "#fff3d1"        # giallo crema (leggermente più caldo di Temi)
+SEC_ALTRO = "#fff7c2"        # giallo chiaro (apre e chiude con lo stesso colore di Temi)
 
 # ============================
 # UTILITY
@@ -190,7 +190,7 @@ button[title="View fullscreen"] {{ display: none !important; }}
     .block-container {{
         padding-left: 1rem !important;
         padding-right: 1rem !important;
-        padding-top: 0 !important;
+        padding-top: 44px !important;
     }}
     [data-testid="stSidebar"] {{ display: none !important; }}
     [data-testid="collapsedControl"] {{ display: none !important; }}
@@ -200,20 +200,12 @@ button[title="View fullscreen"] {{ display: none !important; }}
         padding-bottom: 75px !important;
         padding-left: 1rem !important;
         padding-right: 1rem !important;
-        padding-top: 0 !important;
     }}
     .main > div:first-child {{
         padding-top: 0 !important;
-        margin-top: 0 !important;
-    }}
-    /* L'hero su mobile parte da sotto la topbar e non ha margin negativo */
-    .hero-full {{
-        margin-top: 44px !important;
-        margin-left: -1rem !important;
-        margin-right: -1rem !important;
-        padding-top: 2rem !important;
     }}
 }}
+
 /* TOPBAR */
 .sticky-topbar {{
     position: fixed; top: 0; left: 0; right: 0;
@@ -249,7 +241,7 @@ button[title="View fullscreen"] {{ display: none !important; }}
         text-decoration:none; flex:1; padding:2px 1px; cursor:pointer;
     }}
     .bn-icon {{ font-size:1.1rem; line-height:1; }}
-   .bn-label {{ font-size:0.48rem; text-align:center; line-height:1.2; font-family:sans-serif; color:rgba(255,255,255,0.6); letter-spacing:-0.01em; }}
+    .bn-label {{ font-size:0.5rem; text-align:center; line-height:1.2; font-family:sans-serif; color:rgba(255,255,255,0.6); }}
 }}
 
 /* Anchor per scroll */
@@ -492,49 +484,67 @@ div[data-testid="stDialog"] div[data-testid="stImage"] img {{
 # ============================
 # DATI
 # ============================
+# Colori dei temi mappa
+COL_IDENTITA = BRAND_BLUE       # blu brand - Identità e storia
+COL_MUSICA = "#e6b800"          # oro - Musica
+COL_RESILIENZA = "#4a3fb8"      # viola indaco - Resilienza
+COL_SOCIETA = "#b8860b"         # bronzo - Società
+
+# Icone SVG per tema (usate nei marker della mappa)
+# Ogni icona è un path SVG 20x20, viene colorata via CSS
+SVG_IDENTITA = '<svg viewBox="0 0 24 24" width="14" height="14" fill="white"><path d="M12 2L2 7v2h20V7L12 2zm-8 9v8H2v2h20v-2h-2v-8h-2v8h-3v-8h-2v8h-2v-8H9v8H6v-8H4z"/></svg>'  # colonna/tempio (storia)
+SVG_MUSICA = '<svg viewBox="0 0 24 24" width="14" height="14" fill="white"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>'  # nota musicale
+SVG_RESILIENZA = '<svg viewBox="0 0 24 24" width="14" height="14" fill="white"><path d="M2 12c1.5-1.5 3-1.5 4.5 0S9 13.5 10.5 12 13.5 10.5 15 12s3 1.5 4.5 0S22 10.5 22 12s-1.5 1.5-3 0-3-1.5-4.5 0S12 13.5 10.5 12 7.5 10.5 6 12s-3 1.5-4 0z"/><path d="M2 17c1.5-1.5 3-1.5 4.5 0S9 18.5 10.5 17s3-1.5 4.5 0 3 1.5 4.5 0S22 15.5 22 17s-1.5 1.5-3 0-3-1.5-4.5 0S12 18.5 10.5 17s-3-1.5-4.5 0-3 1.5-4 0z"/></svg>'  # onde (acqua/resilienza)
+SVG_SOCIETA = '<svg viewBox="0 0 24 24" width="14" height="14" fill="white"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>'  # 3 persone
+
+# Luoghi con coordinate verificate (Google Places, aprile 2026)
 luoghi_dati = [
-    {"nome": "French Quarter", "lat": 29.9584, "lon": -90.0645,
+    # IDENTITÀ E STORIA (blu brand)
+    {"nome": "French Quarter", "lat": 29.9584426, "lon": -90.0644107,
      "desc": "Il quartiere più iconico, tra architettura storica, balconi in ferro battuto e stratificazioni culturali.",
-     "colore": BRAND_BLUE, "tema": "Identità e storia"},
-    {"nome": "Jackson Square", "lat": 29.9623, "lon": -90.0637,
+     "colore": COL_IDENTITA, "tema": "Identità e storia", "icona": SVG_IDENTITA},
+    {"nome": "Jackson Square", "lat": 29.9574024, "lon": -90.0629495,
      "desc": "Piazza centrale e simbolica: la Cattedrale di San Luigi, artisti di strada e identità storica.",
-     "colore": BRAND_BLUE, "tema": "Identità e storia"},
-    {"nome": "St. Louis Cemetery", "lat": 29.9647, "lon": -90.0706,
+     "colore": COL_IDENTITA, "tema": "Identità e storia", "icona": SVG_IDENTITA},
+    {"nome": "St. Louis Cemetery", "lat": 29.9598326, "lon": -90.0707266,
      "desc": "Il cimitero più antico di New Orleans, con le tombe sopraelevate e la leggenda di Marie Laveau.",
-     "colore": BRAND_BLUE, "tema": "Identità e storia"},
-    {"nome": "Garden District", "lat": 29.9277, "lon": -90.0972,
+     "colore": COL_IDENTITA, "tema": "Identità e storia", "icona": SVG_IDENTITA},
+    {"nome": "Garden District", "lat": 29.9292146, "lon": -90.0828533,
      "desc": "Quartiere delle grandi ville antebellum, simbolo della storia americana del Sud.",
-     "colore": BRAND_BLUE, "tema": "Identità e storia"},
-    {"nome": "Frenchmen Street", "lat": 29.9608, "lon": -90.0519,
+     "colore": COL_IDENTITA, "tema": "Identità e storia", "icona": SVG_IDENTITA},
+    # MUSICA (oro)
+    {"nome": "Frenchmen Street", "lat": 29.9641512, "lon": -90.0578074,
      "desc": "La strada più autentica per il jazz dal vivo, lontana dal turismo di Bourbon Street.",
-     "colore": "#e6b800", "tema": "Musica"},
-    {"nome": "Congo Square", "lat": 29.9596, "lon": -90.0773,
+     "colore": COL_MUSICA, "tema": "Musica", "icona": SVG_MUSICA},
+    {"nome": "Congo Square", "lat": 29.9612773, "lon": -90.0686699,
      "desc": "Luogo simbolico delle radici africane della musica americana: qui si danzava e suonava già nel '700.",
-     "colore": "#e6b800", "tema": "Musica"},
-    {"nome": "Louis Armstrong Park", "lat": 29.9608, "lon": -90.0736,
+     "colore": COL_MUSICA, "tema": "Musica", "icona": SVG_MUSICA},
+    {"nome": "Louis Armstrong Park", "lat": 29.9627574, "lon": -90.0677536,
      "desc": "Il parco dedicato al più celebre musicista di New Orleans, nel cuore del quartiere Tremé.",
-     "colore": "#e6b800", "tema": "Musica"},
-    {"nome": "Preservation Hall", "lat": 29.9576, "lon": -90.0659,
+     "colore": COL_MUSICA, "tema": "Musica", "icona": SVG_MUSICA},
+    {"nome": "Preservation Hall", "lat": 29.9582893, "lon": -90.0653897,
      "desc": "La sala concerti storica nel French Quarter, tempio vivente del jazz tradizionale di New Orleans.",
-     "colore": "#e6b800", "tema": "Musica"},
-    {"nome": "Lower Ninth Ward", "lat": 29.9214, "lon": -90.0310,
+     "colore": COL_MUSICA, "tema": "Musica", "icona": SVG_MUSICA},
+    # RESILIENZA (viola indaco)
+    {"nome": "Lower Ninth Ward", "lat": 29.9682712, "lon": -90.0139908,
      "desc": "Il quartiere più colpito da Katrina nel 2005. Simbolo della resilienza e della lentezza della ricostruzione.",
-     "colore": "#4a3fb8", "tema": "Resilienza"},
-    {"nome": "Lake Pontchartrain", "lat": 30.0500, "lon": -90.1000,
+     "colore": COL_RESILIENZA, "tema": "Resilienza", "icona": SVG_RESILIENZA},
+    {"nome": "Lake Pontchartrain", "lat": 30.020, "lon": -90.100,
      "desc": "Il lago ai cui argini fallirono le dighe durante Katrina, causando l'inondazione della città.",
-     "colore": "#4a3fb8", "tema": "Resilienza"},
-    {"nome": "Make It Right Houses", "lat": 29.9230, "lon": -90.0320,
+     "colore": COL_RESILIENZA, "tema": "Resilienza", "icona": SVG_RESILIENZA},
+    {"nome": "Make It Right Houses", "lat": 29.9736938, "lon": -90.019238,
      "desc": "Le case colorate costruite da Brad Pitt dopo Katrina per i residenti del Lower Ninth Ward.",
-     "colore": "#4a3fb8", "tema": "Resilienza"},
-    {"nome": "Tremé", "lat": 29.9636, "lon": -90.0760,
+     "colore": COL_RESILIENZA, "tema": "Resilienza", "icona": SVG_RESILIENZA},
+    # SOCIETÀ (bronzo)
+    {"nome": "Tremé", "lat": 29.9690775, "lon": -90.0732223,
      "desc": "Il quartiere afroamericano più antico degli USA, culla della cultura creola e della comunità nera.",
-     "colore": "#b8860b", "tema": "Società"},
-    {"nome": "Warehouse District", "lat": 29.9449, "lon": -90.0715,
+     "colore": COL_SOCIETA, "tema": "Società", "icona": SVG_SOCIETA},
+    {"nome": "Warehouse District", "lat": 29.9467923, "lon": -90.0753832,
      "desc": "Zona di musei e gallerie che mostra la trasformazione urbana e le nuove tensioni sociali della città.",
-     "colore": "#b8860b", "tema": "Società"},
-    {"nome": "Bywater", "lat": 29.9527, "lon": -90.0394,
+     "colore": COL_SOCIETA, "tema": "Società", "icona": SVG_SOCIETA},
+    {"nome": "Bywater", "lat": 29.9633867, "lon": -90.0403757,
      "desc": "Quartiere creativo e in gentrificazione: murales, artisti e contraddizioni della New Orleans contemporanea.",
-     "colore": "#b8860b", "tema": "Società"},
+     "colore": COL_SOCIETA, "tema": "Società", "icona": SVG_SOCIETA},
 ]
 
 # ============================
@@ -620,9 +630,9 @@ st.markdown(f"""
     <a href="#mappe" class="bn-item"><span class="bn-icon">🗺</span><span class="bn-label">Mappa</span></a>
     <a href="#programma" class="bn-item"><span class="bn-icon">🗓</span><span class="bn-label">Progr.</span></a>
     <a href="#documenti" class="bn-item"><span class="bn-icon">📂</span><span class="bn-label">Doc.</span></a>
-    <a href="#approfondimenti" class="bn-item"><span class="bn-icon">📚</span><span class="bn-label">Altro</span></a>
 </div>
 """, unsafe_allow_html=True)
+
 # ============================
 # TOPBAR
 # ============================
@@ -1031,8 +1041,8 @@ st.markdown(f"""
     <span class="section-eyebrow">03 · Orientarsi nella città</span>
     <div class="section-title">Mappa di New Orleans</div>
     <p class="section-desc">
-        I luoghi simbolici del viaggio, organizzati per tema.
-        Apri la mappa interattiva qui sotto per esplorare.
+        14 luoghi simbolici organizzati per tema. Esplora la mappa interattiva qui sotto
+        o scorri le schede per conoscerli uno a uno.
     </p>
 </div>
 <div class="section-body sec-mappa">
@@ -1055,33 +1065,151 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-with st.expander("🗺 Apri la mappa interattiva", expanded=False):
-    @st.fragment
-    def mostra_mappa():
-        m = folium.Map(location=[29.950, -90.065], zoom_start=13, tiles="CartoDB positron")
-        for luogo in luoghi_dati:
-            folium.CircleMarker(
-                location=[luogo["lat"], luogo["lon"]], radius=11,
-                color=luogo["colore"], fill=True, fill_color=luogo["colore"], fill_opacity=0.88,
-                popup=folium.Popup(
-                    f"<b style='font-size:14px;color:{BRAND_BLUE}'>{luogo['nome']}</b><br>"
-                    f"<span style='font-size:12px;color:#444'>{luogo['desc']}</span>",
-                    max_width=250
-                ),
-                tooltip=folium.Tooltip(luogo["nome"], sticky=True)
-            ).add_to(m)
-        st_folium(m, width=None, height=480, use_container_width=True)
-    mostra_mappa()
+@st.fragment
+def mostra_mappa():
+    # Vista centrale tra tutti i punti - zoom ampio per vedere anche Lake Pontchartrain
+    m = folium.Map(
+        location=[29.975, -90.065],
+        zoom_start=12,
+        tiles="CartoDB positron",
+        control_scale=True,
+    )
 
-col_m1, col_m2 = st.columns(2)
-for i, luogo in enumerate(luoghi_dati):
-    with (col_m1 if i % 2 == 0 else col_m2):
-        st.markdown(f"""
-        <div class="legend-card" style="border-left:4px solid {luogo['colore']};margin-bottom:0.6rem;">
-            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.2rem;">
-                <div style="font-family:'Playfair Display',Georgia,serif;font-size:0.95rem;font-weight:800;color:{BRAND_BLUE};">{luogo['nome']}</div>
+    # Aree semi-trasparenti per tema (cluster visivi)
+    # Disegnate PRIMA dei marker così stanno sotto
+    # Identità: raggruppa French Quarter, Jackson Square, St. Louis Cemetery
+    folium.Circle(
+        location=[29.958, -90.067], radius=650,
+        color=COL_IDENTITA, fill=True, fill_color=COL_IDENTITA,
+        fill_opacity=0.08, opacity=0.25, weight=1,
+    ).add_to(m)
+    # Musica: raggruppa Frenchmen Street + Congo Square + Armstrong Park + Preservation Hall
+    folium.Circle(
+        location=[29.961, -90.063], radius=700,
+        color=COL_MUSICA, fill=True, fill_color=COL_MUSICA,
+        fill_opacity=0.08, opacity=0.25, weight=1,
+    ).add_to(m)
+    # Resilienza: Lower Ninth + Make It Right
+    folium.Circle(
+        location=[29.971, -90.017], radius=550,
+        color=COL_RESILIENZA, fill=True, fill_color=COL_RESILIENZA,
+        fill_opacity=0.08, opacity=0.25, weight=1,
+    ).add_to(m)
+
+    # Marker custom con icone tematiche SVG
+    for i, luogo in enumerate(luoghi_dati, start=1):
+        icon_html = f'''
+        <div style="
+            position: relative;
+            width: 34px; height: 34px;
+            background: {luogo["colore"]};
+            border: 2.5px solid white;
+            border-radius: 50%;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: translate(-17px, -17px);
+        ">
+            <div style="display:flex;align-items:center;justify-content:center;">
+                {luogo["icona"]}
             </div>
-            <div style="font-size:0.72rem;font-weight:700;color:{luogo['colore']};margin-bottom:0.2rem;">{luogo['tema']}</div>
+            <div style="
+                position: absolute;
+                top: -7px; right: -7px;
+                width: 18px; height: 18px;
+                background: white;
+                color: {luogo["colore"]};
+                border-radius: 50%;
+                font-size: 11px;
+                font-weight: 800;
+                font-family: 'Playfair Display', Georgia, serif;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            ">{i}</div>
+        </div>
+        '''
+
+        popup_html = f'''
+        <div style="font-family: 'Inter', sans-serif; min-width: 220px; max-width: 260px;">
+            <div style="
+                background: {luogo["colore"]};
+                color: white;
+                padding: 0.5rem 0.8rem;
+                margin: -10px -10px 0.6rem -10px;
+                border-radius: 6px 6px 0 0;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 0.5rem;
+            ">
+                <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;opacity:0.9;">
+                    {luogo["tema"]}
+                </div>
+                <div style="
+                    width: 22px; height: 22px;
+                    background: white;
+                    color: {luogo["colore"]};
+                    border-radius: 50%;
+                    font-size: 12px;
+                    font-weight: 800;
+                    font-family: 'Playfair Display', Georgia, serif;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                ">{i}</div>
+            </div>
+            <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.05rem;font-weight:800;color:{BRAND_BLUE};margin-bottom:0.4rem;line-height:1.2;">
+                {luogo["nome"]}
+            </div>
+            <div style="font-size:0.82rem;color:#3a4a5c;line-height:1.55;">
+                {luogo["desc"]}
+            </div>
+        </div>
+        '''
+
+        folium.Marker(
+            location=[luogo["lat"], luogo["lon"]],
+            icon=folium.DivIcon(
+                html=icon_html,
+                icon_size=(0, 0),
+                icon_anchor=(0, 0),
+            ),
+            popup=folium.Popup(popup_html, max_width=280),
+            tooltip=folium.Tooltip(f"<b>{i}.</b> {luogo['nome']}", sticky=True),
+        ).add_to(m)
+
+    st_folium(m, width=None, height=520, use_container_width=True, returned_objects=[])
+
+mostra_mappa()
+
+st.markdown(f"""
+<div style="margin-top:0.5rem;margin-bottom:1.2rem;font-size:0.82rem;color:rgba(255,255,255,0.8);font-style:italic;">
+    Clicca sui marker per scoprire ciascun luogo. I numeri corrispondono alle schede qui sotto.
+</div>
+""", unsafe_allow_html=True)
+
+# Cards dei luoghi con numerazione corrispondente
+col_m1, col_m2 = st.columns(2)
+for i, luogo in enumerate(luoghi_dati, start=1):
+    with (col_m1 if (i - 1) % 2 == 0 else col_m2):
+        st.markdown(f"""
+        <div class="legend-card" style="border-left:4px solid {luogo['colore']};margin-bottom:0.6rem;position:relative;">
+            <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.3rem;">
+                <div style="
+                    flex-shrink:0;
+                    width:28px;height:28px;
+                    background:{luogo['colore']};
+                    color:white;
+                    border-radius:50%;
+                    display:flex;align-items:center;justify-content:center;
+                    font-family:'Playfair Display',Georgia,serif;font-weight:800;font-size:0.85rem;
+                ">{i}</div>
+                <div style="font-family:'Playfair Display',Georgia,serif;font-size:0.98rem;font-weight:800;color:{BRAND_BLUE};line-height:1.2;">{luogo['nome']}</div>
+            </div>
+            <div style="font-size:0.72rem;font-weight:700;color:{luogo['colore']};margin-bottom:0.35rem;letter-spacing:0.05em;text-transform:uppercase;">{luogo['tema']}</div>
             <div class="note">{luogo['desc']}</div>
         </div>""", unsafe_allow_html=True)
 
