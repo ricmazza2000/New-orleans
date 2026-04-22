@@ -1326,15 +1326,21 @@ with tab1:
         {"titolo": "Una banda di idioti", "autore": "John Kennedy Toole", "anno": "1980 · Pulitzer",
          "desc": "Capolavoro ambientato nella New Orleans degli anni '60. Satira geniale e irresistibile — il modo più divertente per entrare nell'anima della città.",
          "link": "https://it.wikipedia.org/wiki/Una_banda_di_idioti", "colore": BRAND_YELLOW},
+        {"titolo": "Intervista col vampiro", "autore": "Anne Rice", "anno": "1976 · Gothic horror",
+         "desc": "Il romanzo d'esordio di Anne Rice, nata a New Orleans. Louis, vampiro bicentenario, racconta la sua vita tra piantagioni della Louisiana e il French Quarter. 8+ milioni di copie vendute, ha inaugurato le Vampire Chronicles.",
+         "link": "https://it.wikipedia.org/wiki/Intervista_col_vampiro_(romanzo)", "colore": "#4a3fb8"},
         {"titolo": "Blues Highway", "autore": "Rob Siebert", "anno": "Reportage narrativo",
          "desc": "Viaggio da Chicago a New Orleans sulle tracce delle origini della musica americana: blues, jazz, gospel. Per capire il legame tra musica e territorio.",
          "link": "https://marcosymarcos.com/libri/gli-alianti/blues-highway/", "colore": BRAND_BLUE},
+        {"titolo": "Il giorno dei morti", "autore": "Ray Celestin", "anno": "2014 · Thriller storico",
+         "desc": "New Orleans, 1919: un serial killer firma i delitti con spartiti di jazz. Thriller avvincente e divertente tra mafia italiana, jazz nascente e un giovane Louis Armstrong. CWA New Blood Dagger Award, primo di una quadrilogia di successo.",
+         "link": "https://it.wikipedia.org/wiki/Il_giorno_dei_morti_(Celestin)", "colore": "#e6b800"},
         {"titolo": "The Moviegoer", "autore": "Walker Percy", "anno": "1961 · National Book Award",
          "desc": "Romanzo ambientato a New Orleans, vincitore del National Book Award. Racconta l'alienazione e la ricerca di senso di un giovane creolo nella città del Mardi Gras.",
-         "link": "https://it.wikipedia.org/wiki/Walker_Percy", "colore": "#e6b800"},
+         "link": "https://it.wikipedia.org/wiki/Walker_Percy", "colore": BRAND_BLUE},
         {"titolo": "Zeitoun", "autore": "Dave Eggers", "anno": "2009 · Non fiction",
          "desc": "La storia vera di un siriano-americano rimasto a New Orleans durante Katrina. Un racconto potente su resilienza, razzismo e fallimento istituzionale dopo la catastrofe.",
-         "link": "https://it.wikipedia.org/wiki/Zeitoun_(libro)", "colore": "#4a3fb8"},
+         "link": "https://it.wikipedia.org/wiki/Zeitoun_(libro)", "colore": BRAND_YELLOW},
     ]
     for i, libro in enumerate(libri):
         with (col_l1 if i % 2 == 0 else col_l2):
