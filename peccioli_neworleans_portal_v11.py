@@ -1318,7 +1318,7 @@ st.markdown(f"""
 <div class="section-body sec-altro">
 """, unsafe_allow_html=True)
 
-tab1, tab2, tab3, tab4 = st.tabs(["📚 Libri", "🎬 Film e TV", "🎞 Documentari", "🌐 Risorse"])
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["📚 Libri", "🎬 Film e TV", "🎞 Documentari", "▶️ YouTube", "🌐 Risorse"])
 
 with tab1:
     col_l1, col_l2 = st.columns(2)
@@ -1436,6 +1436,75 @@ with tab3:
         """, unsafe_allow_html=True)
 
 with tab4:
+    st.markdown(f"""
+    <div style="background:white;border-left:4px solid {BRAND_YELLOW};border-radius:0 12px 12px 0;
+         padding:0.8rem 1.2rem;margin-bottom:1.4rem;font-size:0.88rem;color:{BRAND_BLUE};font-weight:500;box-shadow:0 2px 8px rgba(19,0,137,0.05);">
+        ▶️ Quattro video per entrare nell'atmosfera della città — geografia, cibo, musica e vita locale.
+    </div>
+    """, unsafe_allow_html=True)
+
+    youtube_videos = [
+        {"titolo": "New Orleans Map, Explained",
+         "canale": "Geography Now style · in inglese",
+         "desc": "Guida visuale alla geografia di New Orleans: quartieri, fiume, lago, argini. Per orientarsi prima di partire.",
+         "link": "https://www.youtube.com/watch?v=dC3CD7Ht0ek",
+         "thumb": "https://img.youtube.com/vi/dC3CD7Ht0ek/hqdefault.jpg",
+         "colore": BRAND_BLUE},
+        {"titolo": "I Ate Everything in New Orleans",
+         "canale": "Food tour · in inglese",
+         "desc": "Tour gastronomico completo tra po' boy, beignet, gumbo, jambalaya. La città attraverso i suoi sapori iconici.",
+         "link": "https://www.youtube.com/watch?v=76YO8Cs00Kk",
+         "thumb": "https://img.youtube.com/vi/76YO8Cs00Kk/hqdefault.jpg",
+         "colore": "#e6b800"},
+        {"titolo": "Billie Holiday & Louis Armstrong — New Orleans",
+         "canale": "Musica · 1947",
+         "desc": "Scena musicale dal film 'New Orleans' (1947): due leggende del jazz insieme. L'anima musicale della città in meno di 5 minuti.",
+         "link": "https://www.youtube.com/watch?v=m4jU8IQK5b0",
+         "thumb": "https://img.youtube.com/vi/m4jU8IQK5b0/hqdefault.jpg",
+         "colore": "#4a3fb8"},
+        {"titolo": "How to Experience New Orleans Like a Local",
+         "canale": "Condé Nast Traveler · in inglese",
+         "desc": "Internet vs Expert: due viaggiatori a confronto su come vivere davvero New Orleans, lontano dai cliché turistici.",
+         "link": "https://www.youtube.com/watch?v=CiXF3IMwac4",
+         "thumb": "https://img.youtube.com/vi/CiXF3IMwac4/hqdefault.jpg",
+         "colore": BRAND_YELLOW},
+    ]
+
+    col_y1, col_y2 = st.columns(2)
+    for i, v in enumerate(youtube_videos):
+        with (col_y1 if i % 2 == 0 else col_y2):
+            st.markdown(f"""
+            <a href="{v['link']}" target="_blank" rel="noopener" style="text-decoration:none;">
+                <div style="background:white;border-radius:18px;overflow:hidden;margin-bottom:1rem;
+                     box-shadow:0 4px 16px rgba(19,0,137,0.08);
+                     border-top:4px solid {v['colore']};">
+                    <div style="position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:#000;">
+                        <img src="{v['thumb']}" alt="{v['titolo']}"
+                             style="width:100%;height:100%;object-fit:cover;display:block;">
+                        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+                             width:56px;height:56px;border-radius:50%;
+                             background:rgba(255,0,0,0.9);
+                             display:flex;align-items:center;justify-content:center;
+                             box-shadow:0 3px 12px rgba(0,0,0,0.4);">
+                            <div style="width:0;height:0;
+                                 border-left:18px solid white;
+                                 border-top:11px solid transparent;
+                                 border-bottom:11px solid transparent;
+                                 margin-left:4px;"></div>
+                        </div>
+                    </div>
+                    <div style="padding:1rem 1.2rem 1.1rem;">
+                        <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+                             color:{v['colore']};margin-bottom:0.3rem;">{v['canale']}</div>
+                        <div style="font-family:'Playfair Display',Georgia,serif;font-size:1rem;font-weight:800;
+                             color:{BRAND_BLUE};line-height:1.25;margin-bottom:0.45rem;">{v['titolo']}</div>
+                        <div style="font-size:0.83rem;color:#3a4a5c;line-height:1.55;">{v['desc']}</div>
+                    </div>
+                </div>
+            </a>
+            """, unsafe_allow_html=True)
+
+with tab5:
     risorse = [
         {"titolo": "New Orleans — Wikipedia italiana",
          "desc": "Panoramica su storia, cultura, musica e geografia. Ottimo punto di partenza.",
