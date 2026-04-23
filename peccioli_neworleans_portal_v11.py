@@ -237,11 +237,11 @@ button[title="View fullscreen"] {{ display: none !important; }}
         justify-content: space-around; align-items: flex-end;
     }}
     .bn-item {{
-        display:flex; flex-direction:column; align-items:center; gap:2px;
-        text-decoration:none; flex:1; padding:2px 1px; cursor:pointer;
+        display:flex; flex-direction:column; align-items:center; gap:1px;
+        text-decoration:none; flex:1; padding:2px 0; cursor:pointer; min-width: 0;
     }}
-    .bn-icon {{ font-size:1.1rem; line-height:1; }}
-    .bn-label {{ font-size:0.5rem; text-align:center; line-height:1.2; font-family:sans-serif; color:rgba(255,255,255,0.6); }}
+    .bn-icon {{ font-size:1rem; line-height:1; }}
+    .bn-label {{ font-size:0.48rem; text-align:center; line-height:1.1; font-family:sans-serif; color:rgba(255,255,255,0.65); white-space: nowrap; }}
 }}
 
 /* Anchor per scroll */
@@ -641,10 +641,11 @@ st.markdown(f"""
 <div class="bottom-nav">
     <a href="#home" class="bn-item"><span class="bn-icon">🏠</span><span class="bn-label">Home</span></a>
     <a href="#temi" class="bn-item"><span class="bn-icon">👁</span><span class="bn-label">Temi</span></a>
-    <a href="#briefing" class="bn-item"><span class="bn-icon">📅</span><span class="bn-label">Briefing</span></a>
+    <a href="#briefing" class="bn-item"><span class="bn-icon">📅</span><span class="bn-label">Brief.</span></a>
     <a href="#mappe" class="bn-item"><span class="bn-icon">🗺</span><span class="bn-label">Mappa</span></a>
     <a href="#programma" class="bn-item"><span class="bn-icon">🗓</span><span class="bn-label">Progr.</span></a>
     <a href="#documenti" class="bn-item"><span class="bn-icon">📂</span><span class="bn-label">Doc.</span></a>
+    <a href="#approfondimenti" class="bn-item"><span class="bn-icon">📚</span><span class="bn-label">Altro</span></a>
 </div>
 """, unsafe_allow_html=True)
 
