@@ -10,3 +10,10 @@ gatherUsageStats = false
 
 [ui]
 hideTopBar = true
+[theme]
+base = "light"
+primaryColor = "#130089"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F5F5F7"
+textColor = "#130089"
+font = "sans serif"
