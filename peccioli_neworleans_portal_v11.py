@@ -1047,9 +1047,9 @@ timeline_css = f"""
 .brief-timeline::before {{
     content: "";
     position: absolute;
-    left: 40px;
-    top: 24px;
-    bottom: 24px;
+    left: 48px;
+    top: 40px;
+    bottom: 40px;
     width: 3px;
     background: linear-gradient(to bottom,
         {BRAND_YELLOW} 0%,
@@ -1057,10 +1057,11 @@ timeline_css = f"""
         rgba(255,222,89,0.5) 75%,
         rgba(255,222,89,0.2) 100%);
     border-radius: 2px;
+    z-index: 0;
 }}
 .brief-step {{
     position: relative;
-    padding-left: 95px;
+    padding-left: 120px;
     margin-bottom: 2.2rem;
 }}
 .brief-step:last-child {{
@@ -1068,21 +1069,34 @@ timeline_css = f"""
 }}
 .brief-marker {{
     position: absolute;
-    left: 18px;
-    top: 0;
-    width: 48px;
-    height: 48px;
+    left: 10px;
+    top: 10px;
+    width: 78px;
+    height: 78px;
     border-radius: 50%;
     background: {BRAND_YELLOW};
     color: {BRAND_BLUE};
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-family: 'Playfair Display', Georgia, serif;
-    font-weight: 800;
-    font-size: 1.5rem;
     box-shadow: 0 0 0 4px {SEC_BRIEFING}, 0 4px 14px rgba(0,0,0,0.25);
     z-index: 2;
+    line-height: 1;
+    padding-top: 3px;
+}}
+.brief-marker .marker-day {{
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 800;
+    font-size: 2rem;
+    line-height: 1;
+}}
+.brief-marker .marker-month {{
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 4px;
 }}
 .brief-card {{
     background: white;
@@ -1113,33 +1127,6 @@ timeline_css = f"""
     justify-content: center;
     font-size: 3.5rem;
     color: {BRAND_YELLOW};
-}}
-.brief-date-badge {{
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    background: {BRAND_YELLOW};
-    color: {BRAND_BLUE};
-    padding: 0.3rem 0.75rem 0.4rem;
-    border-radius: 10px;
-    text-align: center;
-    line-height: 1;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.25);
-    z-index: 1;
-}}
-.brief-date-badge .day {{
-    font-family: 'Playfair Display', Georgia, serif;
-    font-weight: 800;
-    font-size: 1.35rem;
-    display: block;
-}}
-.brief-date-badge .month {{
-    font-size: 0.58rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-top: 2px;
-    display: block;
 }}
 .brief-content {{
     padding: 1.3rem 1.5rem 1.3rem;
@@ -1180,15 +1167,17 @@ timeline_css = f"""
     flex: 1;
 }}
 @media (max-width: 720px) {{
-    .brief-timeline::before {{ left: 20px; }}
-    .brief-step {{ padding-left: 58px; margin-bottom: 1.6rem; }}
+    .brief-timeline::before {{ left: 30px; top: 30px; bottom: 30px; }}
+    .brief-step {{ padding-left: 75px; margin-bottom: 1.6rem; }}
     .brief-marker {{
         left: 0;
-        width: 40px;
-        height: 40px;
-        font-size: 1.2rem;
+        top: 6px;
+        width: 60px;
+        height: 60px;
         box-shadow: 0 0 0 3px {SEC_BRIEFING}, 0 3px 10px rgba(0,0,0,0.2);
     }}
+    .brief-marker .marker-day {{ font-size: 1.5rem; }}
+    .brief-marker .marker-month {{ font-size: 0.52rem; margin-top: 2px; }}
     .brief-card {{
         grid-template-columns: 1fr;
         min-height: auto;
@@ -1197,7 +1186,6 @@ timeline_css = f"""
     .brief-photo {{
         height: 180px;
     }}
-    .brief-date-badge .day {{ font-size: 1.2rem; }}
     .brief-content {{ padding: 1rem 1.1rem 1.1rem; }}
     .brief-name {{ font-size: 1.2rem; }}
     .brief-role {{ font-size: 0.78rem; }}
@@ -1211,6 +1199,9 @@ st.markdown(timeline_css, unsafe_allow_html=True)
 # Rendering timeline: parte HTML + pulsanti Streamlit sottostanti
 st.markdown('<div class="brief-timeline">', unsafe_allow_html=True)
 
+# Abbreviazioni mesi per il pallino (maiuscolo)
+month_abbr = {"Maggio": "MAG", "Giugno": "GIU", "Luglio": "LUG", "Aprile": "APR", "Settembre": "SET", "Ottobre": "OTT", "Novembre": "NOV", "Dicembre": "DIC", "Gennaio": "GEN", "Febbraio": "FEB", "Marzo": "MAR", "Agosto": "AGO"}
+
 for i, b in enumerate(briefing_full):
     # Foto: uso base64 se disponibile, altrimenti emoji placeholder
     if b["foto_b64"]:
@@ -1218,15 +1209,16 @@ for i, b in enumerate(briefing_full):
     else:
         photo_block = f'<div class="brief-photo-emoji">{b["emoji"]}</div>'
 
+    month_short = month_abbr.get(b["month"], b["month"][:3].upper())
+
     st.markdown(f"""
     <div class="brief-step">
-        <div class="brief-marker">{i+1}</div>
+        <div class="brief-marker">
+            <span class="marker-day">{b["day_num"]}</span>
+            <span class="marker-month">{month_short}</span>
+        </div>
         <div class="brief-card">
             <div class="brief-photo">
-                <div class="brief-date-badge">
-                    <span class="day">{b["day_num"]}</span>
-                    <span class="month">{b["month"]}</span>
-                </div>
                 {photo_block}
             </div>
             <div class="brief-content">
