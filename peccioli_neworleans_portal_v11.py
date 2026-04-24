@@ -688,6 +688,11 @@ _morelli_path = expert_paths["morelli"]
 morelli_b64_cd, morelli_mime_cd = img_to_base64(_morelli_path, max_width=100, quality=75) if _morelli_path else (None, None)
 prossimo_foto = f'<img src="data:{morelli_mime_cd};base64,{morelli_b64_cd}" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid {BRAND_YELLOW};flex-shrink:0;">' if morelli_b64_cd else f'<div style="width:44px;height:44px;border-radius:50%;background:{BRAND_YELLOW};flex-shrink:0;"></div>'
 
+# Foto esperti per timeline briefing (medium size)
+morelli_b64_tl, morelli_mime_tl = img_to_base64(expert_paths["morelli"], max_width=500, quality=75) if expert_paths["morelli"] else (None, None)
+gardner_b64_tl, gardner_mime_tl = img_to_base64(expert_paths["gardner"], max_width=500, quality=75) if expert_paths["gardner"] else (None, None)
+costa_b64_tl, costa_mime_tl = img_to_base64(expert_paths["costa"], max_width=500, quality=75) if expert_paths["costa"] else (None, None)
+
 countdown_html = ("""
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -964,28 +969,37 @@ st.markdown(f"""
 
 briefing_full = [
     {
-        "data": "7 maggio", "ora": "ore 21",
+        "data": "7 maggio", "ora": "ore 21", "giorno": "Giovedì",
+        "day_num": "7", "month": "Maggio",
         "titolo": "Elia Morelli",
         "ruolo": "Ricercatore in storia moderna · Università di Pisa",
         "bio": "Ricercatore in storia moderna all'Università di Pisa. Come analista geopolitico, scrive per Domino, rivista edita da Enrico Mentana. Membro della Società Italiana per la Storia dell'Età Moderna, della Società Italiana per lo Studio della Storia Contemporanea e della Renaissance Society of America.",
         "tema": "Storia culturale, politico-economica e geopolitica di New Orleans e della Louisiana.",
-        "foto": expert_paths["morelli"], "emoji": "🏛", "colore": BRAND_YELLOW,
+        "foto": expert_paths["morelli"],
+        "foto_b64": morelli_b64_tl, "foto_mime": morelli_mime_tl,
+        "emoji": "🏛", "colore": BRAND_YELLOW,
     },
     {
-        "data": "21 maggio", "ora": "ore 21",
+        "data": "21 maggio", "ora": "ore 21", "giorno": "Giovedì",
+        "day_num": "21", "month": "Maggio",
         "titolo": "Anthony Gardner",
         "ruolo": "Ex ambasciatore USA all'UE · Consiglio di sicurezza nazionale",
         "bio": "Ex ambasciatore degli Stati Uniti presso l'Unione Europea dal 2014 al 2017 su nomina del presidente Obama. Ha lavorato per oltre vent'anni sulle relazioni tra USA ed Europa, su temi come i negoziati commerciali transatlantici, la privacy dei dati, l'economia digitale e la sicurezza energetica.",
         "tema": "Sguardo istituzionale e geopolitico: il ruolo di New Orleans e il rapporto tra USA ed Europa.",
-        "foto": expert_paths["gardner"], "emoji": "🌐", "colore": BRAND_YELLOW,
+        "foto": expert_paths["gardner"],
+        "foto_b64": gardner_b64_tl, "foto_mime": gardner_mime_tl,
+        "emoji": "🌐", "colore": BRAND_YELLOW,
     },
     {
-        "data": "18 giugno", "ora": "ore 21",
+        "data": "18 giugno", "ora": "ore 21", "giorno": "Giovedì",
+        "day_num": "18", "month": "Giugno",
         "titolo": "Francesco Costa",
         "ruolo": "Giornalista · Direttore de Il Post",
         "bio": "Direttore responsabile de Il Post. Tra i principali divulgatori italiani sulla società e politica americana, autore di libri e progetti dedicati agli Stati Uniti. Dal 2021 al 2025 ha condotto per il Post il podcast giornaliero Morning, una rassegna stampa commentata che è stata definita \"il primo vero podcast daily italiano\".",
         "tema": "Punto di vista sociale, narrativo e attuale sugli Stati Uniti: leggere l'America oltre gli stereotipi.",
-        "foto": expert_paths["costa"], "emoji": "📰", "colore": BRAND_YELLOW,
+        "foto": expert_paths["costa"],
+        "foto_b64": costa_b64_tl, "foto_mime": costa_mime_tl,
+        "emoji": "📰", "colore": BRAND_YELLOW,
     },
 ]
 
@@ -1020,31 +1034,222 @@ if st.session_state.dialog_idx is not None:
     mostra_relatore(st.session_state.dialog_idx)
     st.session_state.dialog_idx = None
 
-c1, c2, c3 = st.columns(3)
-for i, (col, b) in enumerate(zip([c1, c2, c3], briefing_full)):
-    with col:
-        st.markdown(f"""
-        <div style="background:white;border-radius:22px;padding:1.4rem 1rem 0.3rem;
-             box-shadow:0 6px 22px rgba(0,0,0,0.18);
-             text-align:center;margin-bottom:0.3rem;">
-        """, unsafe_allow_html=True)
-        if b["foto"]:
-            sp1, sp_img, sp2 = st.columns([1, 2, 1])
-            with sp_img:
-                st.image(b["foto"], use_container_width=True)
-        else:
-            st.markdown(f'<div style="width:90px;height:90px;border-radius:50%;background:{SEC_BRIEFING};margin:0 auto 0.8rem;display:flex;align-items:center;justify-content:center;font-size:2rem;color:white;">{b["emoji"]}</div>', unsafe_allow_html=True)
-        st.markdown(f"""
-        <div style="text-align:center;margin-top:0.3rem;">
-            <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:{SEC_BRIEFING};margin-bottom:0.2rem;opacity:0.85;">{b['data']} · {b['ora']}</div>
-            <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:800;color:{SEC_BRIEFING};line-height:1.2;margin-bottom:0.3rem;">{b['titolo']}</div>
-            <div style="font-size:0.78rem;color:#5b6472;line-height:1.4;margin-bottom:0.6rem;">{b['ruolo']}</div>
+# === TIMELINE HTML ===
+# CSS della timeline (definito una volta)
+timeline_css = f"""
+<style>
+.brief-timeline {{
+    position: relative;
+    max-width: 860px;
+    margin: 0 auto;
+    padding-left: 0;
+}}
+.brief-timeline::before {{
+    content: "";
+    position: absolute;
+    left: 40px;
+    top: 24px;
+    bottom: 24px;
+    width: 3px;
+    background: linear-gradient(to bottom,
+        {BRAND_YELLOW} 0%,
+        {BRAND_YELLOW} 40%,
+        rgba(255,222,89,0.5) 75%,
+        rgba(255,222,89,0.2) 100%);
+    border-radius: 2px;
+}}
+.brief-step {{
+    position: relative;
+    padding-left: 95px;
+    margin-bottom: 2.2rem;
+}}
+.brief-step:last-child {{
+    margin-bottom: 0;
+}}
+.brief-marker {{
+    position: absolute;
+    left: 18px;
+    top: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: {BRAND_YELLOW};
+    color: {BRAND_BLUE};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 800;
+    font-size: 1.5rem;
+    box-shadow: 0 0 0 4px {SEC_BRIEFING}, 0 4px 14px rgba(0,0,0,0.25);
+    z-index: 2;
+}}
+.brief-card {{
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.22);
+    color: {BRAND_BLUE};
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    min-height: 220px;
+}}
+.brief-photo {{
+    position: relative;
+    background: linear-gradient(135deg, {BRAND_BLUE}, {SEC_BRIEFING});
+    overflow: hidden;
+}}
+.brief-photo img {{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}}
+.brief-photo-emoji {{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.5rem;
+    color: {BRAND_YELLOW};
+}}
+.brief-date-badge {{
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: {BRAND_YELLOW};
+    color: {BRAND_BLUE};
+    padding: 0.3rem 0.75rem 0.4rem;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 1;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+    z-index: 1;
+}}
+.brief-date-badge .day {{
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 800;
+    font-size: 1.35rem;
+    display: block;
+}}
+.brief-date-badge .month {{
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 2px;
+    display: block;
+}}
+.brief-content {{
+    padding: 1.3rem 1.5rem 1.3rem;
+    display: flex;
+    flex-direction: column;
+}}
+.brief-time {{
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #667;
+    margin-bottom: 0.25rem;
+}}
+.brief-name {{
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 800;
+    font-size: 1.4rem;
+    line-height: 1.15;
+    margin-bottom: 0.3rem;
+    color: {BRAND_BLUE};
+}}
+.brief-role {{
+    font-size: 0.8rem;
+    color: #5b6472;
+    margin-bottom: 0.85rem;
+    line-height: 1.4;
+}}
+.brief-tema {{
+    font-size: 0.84rem;
+    color: #3a4a5c;
+    line-height: 1.55;
+    padding: 0.7rem 0.95rem;
+    background: {BRAND_BLUE_LIGHT};
+    border-left: 3px solid {BRAND_YELLOW};
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 0.3rem;
+    flex: 1;
+}}
+@media (max-width: 720px) {{
+    .brief-timeline::before {{ left: 20px; }}
+    .brief-step {{ padding-left: 58px; margin-bottom: 1.6rem; }}
+    .brief-marker {{
+        left: 0;
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+        box-shadow: 0 0 0 3px {SEC_BRIEFING}, 0 3px 10px rgba(0,0,0,0.2);
+    }}
+    .brief-card {{
+        grid-template-columns: 1fr;
+        min-height: auto;
+        border-radius: 16px;
+    }}
+    .brief-photo {{
+        height: 180px;
+    }}
+    .brief-date-badge .day {{ font-size: 1.2rem; }}
+    .brief-content {{ padding: 1rem 1.1rem 1.1rem; }}
+    .brief-name {{ font-size: 1.2rem; }}
+    .brief-role {{ font-size: 0.78rem; }}
+    .brief-tema {{ font-size: 0.82rem; padding: 0.6rem 0.8rem; }}
+}}
+</style>
+"""
+
+st.markdown(timeline_css, unsafe_allow_html=True)
+
+# Rendering timeline: parte HTML + pulsanti Streamlit sottostanti
+st.markdown('<div class="brief-timeline">', unsafe_allow_html=True)
+
+for i, b in enumerate(briefing_full):
+    # Foto: uso base64 se disponibile, altrimenti emoji placeholder
+    if b["foto_b64"]:
+        photo_block = f'<img src="data:{b["foto_mime"]};base64,{b["foto_b64"]}" alt="{b["titolo"]}">'
+    else:
+        photo_block = f'<div class="brief-photo-emoji">{b["emoji"]}</div>'
+
+    st.markdown(f"""
+    <div class="brief-step">
+        <div class="brief-marker">{i+1}</div>
+        <div class="brief-card">
+            <div class="brief-photo">
+                <div class="brief-date-badge">
+                    <span class="day">{b["day_num"]}</span>
+                    <span class="month">{b["month"]}</span>
+                </div>
+                {photo_block}
+            </div>
+            <div class="brief-content">
+                <div class="brief-time">{b["giorno"]} · {b["ora"]}</div>
+                <div class="brief-name">{b["titolo"]}</div>
+                <div class="brief-role">{b["ruolo"]}</div>
+                <div class="brief-tema">{b["tema"]}</div>
+            </div>
         </div>
-        """, unsafe_allow_html=True)
-        if st.button(f"Scopri {b['titolo'].split()[0]}", key=f"dialog_{i}", use_container_width=True):
+    </div>
+    """, unsafe_allow_html=True)
+
+st.markdown('</div>', unsafe_allow_html=True)
+
+# Pulsanti "Scopri di più" sotto (stile coerente con la timeline)
+st.markdown('<div style="max-width:860px;margin:1.5rem auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:0.7rem;">', unsafe_allow_html=True)
+btn_cols = st.columns(3)
+for i, (col, b) in enumerate(zip(btn_cols, briefing_full)):
+    with col:
+        if st.button(f"▸ Scopri {b['titolo'].split()[0]}", key=f"dialog_{i}", use_container_width=True):
             st.session_state.dialog_idx = i
             st.rerun()
-        st.markdown('</div>', unsafe_allow_html=True)
+st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown('</div>', unsafe_allow_html=True)
 
