@@ -355,7 +355,11 @@ button[title="View fullscreen"] {{ display: none !important; }}
 /* HERO HOME */
 .hero-full {{
     position: relative; overflow: hidden;
-    background: {BRAND_BLUE};
+    background-color: {BRAND_BLUE};
+    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%201200%20700%22%20preserveAspectRatio%3D%22xMidYMid%20slice%22%3E%3Cg%20fill%3D%22%23FFDE59%22%20opacity%3D%220.18%22%3E%3Cg%20transform%3D%22translate%2880%2C80%29%22%3E%3Cellipse%20rx%3D%2235%22%20ry%3D%2222%22/%3E%3Ccircle%20r%3D%2211%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28220%2C60%29%20rotate%288%29%22%3E%3Cellipse%20rx%3D%2228%22%20ry%3D%2218%22/%3E%3Ccircle%20r%3D%229%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%224%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28370%2C100%29%20rotate%28-5%29%22%3E%3Cellipse%20rx%3D%2240%22%20ry%3D%2225%22/%3E%3Ccircle%20r%3D%2213%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%226%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28540%2C70%29%20rotate%283%29%22%3E%3Cellipse%20rx%3D%2230%22%20ry%3D%2219%22/%3E%3Ccircle%20r%3D%2210%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%224%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28720%2C90%29%20rotate%28-8%29%22%3E%3Cellipse%20rx%3D%2238%22%20ry%3D%2224%22/%3E%3Ccircle%20r%3D%2212%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28880%2C60%29%20rotate%285%29%22%3E%3Cellipse%20rx%3D%2232%22%20ry%3D%2220%22/%3E%3Ccircle%20r%3D%2210%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%224%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%281060%2C80%29%20rotate%28-3%29%22%3E%3Cellipse%20rx%3D%2236%22%20ry%3D%2223%22/%3E%3Ccircle%20r%3D%2211%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%2850%2C240%29%20rotate%28-2%29%22%3E%3Cellipse%20rx%3D%2232%22%20ry%3D%2220%22/%3E%3Ccircle%20r%3D%2210%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%224%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28180%2C220%29%20rotate%287%29%22%3E%3Cellipse%20rx%3D%2238%22%20ry%3D%2224%22/%3E%3Ccircle%20r%3D%2212%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28340%2C250%29%20rotate%28-4%29%22%3E%3Cellipse%20rx%3D%2230%22%20ry%3D%2219%22/%3E%3Ccircle%20r%3D%2210%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%224%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28870%2C240%29%20rotate%286%29%22%3E%3Cellipse%20rx%3D%2234%22%20ry%3D%2222%22/%3E%3Ccircle%20r%3D%2211%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%281020%2C220%29%20rotate%28-7%29%22%3E%3Cellipse%20rx%3D%2238%22%20ry%3D%2224%22/%3E%3Ccircle%20r%3D%2212%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%281140%2C250%29%20rotate%282%29%22%3E%3Cellipse%20rx%3D%2228%22%20ry%3D%2218%22/%3E%3Ccircle%20r%3D%229%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%224%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%2880%2C420%29%20rotate%284%29%22%3E%3Cellipse%20rx%3D%2236%22%20ry%3D%2223%22/%3E%3Ccircle%20r%3D%2211%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28240%2C440%29%20rotate%28-6%29%22%3E%3Cellipse%20rx%3D%2230%22%20ry%3D%2219%22/%3E%3Ccircle%20r%3D%2210%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%224%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28940%2C430%29%20rotate%283%29%22%3E%3Cellipse%20rx%3D%2232%22%20ry%3D%2220%22/%3E%3Ccircle%20r%3D%2210%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%224%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%281100%2C460%29%20rotate%28-3%29%22%3E%3Cellipse%20rx%3D%2236%22%20ry%3D%2223%22/%3E%3Ccircle%20r%3D%2211%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%2860%2C580%29%20rotate%28-5%29%22%3E%3Cellipse%20rx%3D%2240%22%20ry%3D%2225%22/%3E%3Ccircle%20r%3D%2213%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%226%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28220%2C600%29%20rotate%287%29%22%3E%3Cellipse%20rx%3D%2232%22%20ry%3D%2220%22/%3E%3Ccircle%20r%3D%2210%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%224%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28390%2C580%29%20rotate%28-2%29%22%3E%3Cellipse%20rx%3D%2234%22%20ry%3D%2222%22/%3E%3Ccircle%20r%3D%2211%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28580%2C610%29%20rotate%285%29%22%3E%3Cellipse%20rx%3D%2230%22%20ry%3D%2219%22/%3E%3Ccircle%20r%3D%2210%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%224%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28770%2C590%29%20rotate%28-4%29%22%3E%3Cellipse%20rx%3D%2236%22%20ry%3D%2223%22/%3E%3Ccircle%20r%3D%2211%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28950%2C620%29%20rotate%286%29%22%3E%3Cellipse%20rx%3D%2234%22%20ry%3D%2222%22/%3E%3Ccircle%20r%3D%2211%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%281120%2C590%29%20rotate%28-7%29%22%3E%3Cellipse%20rx%3D%2238%22%20ry%3D%2224%22/%3E%3Ccircle%20r%3D%2212%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     margin: -44px -1rem 0 -1rem;
     padding: 4rem 2rem 3.5rem; text-align: center;
 }}
@@ -668,43 +672,9 @@ st.markdown(f"""
 # ============================================================================
 # 🏠 HERO + HOME
 # ============================================================================
-# Pattern SVG di occhi stilizzati come sfondo hero (richiama l'opera "Sguardi" di Peccioli)
-eyes_pattern_svg = f'''
-<svg viewBox="0 0 1200 700" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"
-     style="position:absolute;inset:0;width:100%;height:100%;opacity:0.18;pointer-events:none;">
-  <g fill="{BRAND_YELLOW}">
-    <g transform="translate(80,80)"><ellipse cx="0" cy="0" rx="35" ry="22"/><circle cx="0" cy="0" r="11" fill="white"/><circle cx="0" cy="0" r="5" fill="{BRAND_BLUE}"/></g>
-    <g transform="translate(220,60) rotate(8)"><ellipse cx="0" cy="0" rx="28" ry="18"/><circle cx="0" cy="0" r="9" fill="white"/><circle cx="0" cy="0" r="4" fill="{BRAND_BLUE}"/></g>
-    <g transform="translate(370,100) rotate(-5)"><ellipse cx="0" cy="0" rx="40" ry="25"/><circle cx="0" cy="0" r="13" fill="white"/><circle cx="0" cy="0" r="6" fill="{BRAND_BLUE}"/></g>
-    <g transform="translate(540,70) rotate(3)"><ellipse cx="0" cy="0" rx="30" ry="19"/><circle cx="0" cy="0" r="10" fill="white"/><circle cx="0" cy="0" r="4" fill="{BRAND_BLUE}"/></g>
-    <g transform="translate(720,90) rotate(-8)"><ellipse cx="0" cy="0" rx="38" ry="24"/><circle cx="0" cy="0" r="12" fill="white"/><circle cx="0" cy="0" r="5" fill="{BRAND_BLUE}"/></g>
-    <g transform="translate(880,60) rotate(5)"><ellipse cx="0" cy="0" rx="32" ry="20"/><circle cx="0" cy="0" r="10" fill="white"/><circle cx="0" cy="0" r="4" fill="{BRAND_BLUE}"/></g>
-    <g transform="translate(1060,80) rotate(-3)"><ellipse cx="0" cy="0" rx="36" ry="23"/><circle cx="0" cy="0" r="11" fill="white"/><circle cx="0" cy="0" r="5" fill="{BRAND_BLUE}"/></g>
-    <g transform="translate(50,240) rotate(-2)"><ellipse cx="0" cy="0" rx="32" ry="20"/><circle cx="0" cy="0" r="10" fill="white"/><circle cx="0" cy="0" r="4" fill="{BRAND_BLUE}"/></g>
-    <g transform="translate(180,220) rotate(7)"><ellipse cx="0" cy="0" rx="38" ry="24"/><circle cx="0" cy="0" r="12" fill="white"/><circle cx="0" cy="0" r="5" fill="{BRAND_BLUE}"/></g>
-    <g transform="translate(340,250) rotate(-4)"><ellipse cx="0" cy="0" rx="30" ry="19"/><circle cx="0" cy="0" r="10" fill="white"/><circle cx="0" cy="0" r="4" fill="{BRAND_BLUE}"/></g>
-    <g transform="translate(870,240) rotate(6)"><ellipse cx="0" cy="0" rx="34" ry="22"/><circle cx="0" cy="0" r="11" fill="white"/><circle cx="0" cy="0" r="5" fill="{BRAND_BLUE}"/></g>
-    <g transform="translate(1020,220) rotate(-7)"><ellipse cx="0" cy="0" rx="38" ry="24"/><circle cx="0" cy="0" r="12" fill="white"/><circle cx="0" cy="0" r="5" fill="{BRAND_BLUE}"/></g>
-    <g transform="translate(1140,250) rotate(2)"><ellipse cx="0" cy="0" rx="28" ry="18"/><circle cx="0" cy="0" r="9" fill="white"/><circle cx="0" cy="0" r="4" fill="{BRAND_BLUE}"/></g>
-    <g transform="translate(80,420) rotate(4)"><ellipse cx="0" cy="0" rx="36" ry="23"/><circle cx="0" cy="0" r="11" fill="white"/><circle cx="0" cy="0" r="5" fill="{BRAND_BLUE}"/></g>
-    <g transform="translate(240,440) rotate(-6)"><ellipse cx="0" cy="0" rx="30" ry="19"/><circle cx="0" cy="0" r="10" fill="white"/><circle cx="0" cy="0" r="4" fill="{BRAND_BLUE}"/></g>
-    <g transform="translate(940,430) rotate(3)"><ellipse cx="0" cy="0" rx="32" ry="20"/><circle cx="0" cy="0" r="10" fill="white"/><circle cx="0" cy="0" r="4" fill="{BRAND_BLUE}"/></g>
-    <g transform="translate(1100,460) rotate(-3)"><ellipse cx="0" cy="0" rx="36" ry="23"/><circle cx="0" cy="0" r="11" fill="white"/><circle cx="0" cy="0" r="5" fill="{BRAND_BLUE}"/></g>
-    <g transform="translate(60,580) rotate(-5)"><ellipse cx="0" cy="0" rx="40" ry="25"/><circle cx="0" cy="0" r="13" fill="white"/><circle cx="0" cy="0" r="6" fill="{BRAND_BLUE}"/></g>
-    <g transform="translate(220,600) rotate(7)"><ellipse cx="0" cy="0" rx="32" ry="20"/><circle cx="0" cy="0" r="10" fill="white"/><circle cx="0" cy="0" r="4" fill="{BRAND_BLUE}"/></g>
-    <g transform="translate(390,580) rotate(-2)"><ellipse cx="0" cy="0" rx="34" ry="22"/><circle cx="0" cy="0" r="11" fill="white"/><circle cx="0" cy="0" r="5" fill="{BRAND_BLUE}"/></g>
-    <g transform="translate(580,610) rotate(5)"><ellipse cx="0" cy="0" rx="30" ry="19"/><circle cx="0" cy="0" r="10" fill="white"/><circle cx="0" cy="0" r="4" fill="{BRAND_BLUE}"/></g>
-    <g transform="translate(770,590) rotate(-4)"><ellipse cx="0" cy="0" rx="36" ry="23"/><circle cx="0" cy="0" r="11" fill="white"/><circle cx="0" cy="0" r="5" fill="{BRAND_BLUE}"/></g>
-    <g transform="translate(950,620) rotate(6)"><ellipse cx="0" cy="0" rx="34" ry="22"/><circle cx="0" cy="0" r="11" fill="white"/><circle cx="0" cy="0" r="5" fill="{BRAND_BLUE}"/></g>
-    <g transform="translate(1120,590) rotate(-7)"><ellipse cx="0" cy="0" rx="38" ry="24"/><circle cx="0" cy="0" r="12" fill="white"/><circle cx="0" cy="0" r="5" fill="{BRAND_BLUE}"/></g>
-  </g>
-</svg>
-'''
-
 st.markdown(f"""
 <span id="home" class="section-anchor"></span>
 <div class="hero-full">
-    {eyes_pattern_svg}
     <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;">
         {eyes_tag_hero}
         <div class="hero-title-main">Peccioli Eyes</div>
