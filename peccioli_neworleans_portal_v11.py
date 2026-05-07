@@ -368,9 +368,10 @@ button[title="View fullscreen"] {{ display: none !important; }}
 }}
 @media (max-width: 768px) {{
     .hero-full {{
-        margin-top: -44px;
+        margin-top: -80px;
         margin-left: -1rem;
         margin-right: -1rem;
+        padding-top: 5rem;
     }}
 }}
 .hero-title-main {{
