@@ -92,6 +92,10 @@ ponte_b64, ponte_mime = img_to_base64(ponte_path, max_width=800, quality=60) if 
 eyes_logo_yellow_path = find_img("peccioli_eyes_logo_yellow.png")
 eyes_logo_white_path = find_img("peccioli_eyes_logo_white.png")
 
+# Foto Muro degli Occhi (opera "Sguardi" di Peccioli)
+sguardi_path = find_img("sguardi_peccioli.jpg", "sguardi_peccioli.jpeg", "sguardi_peccioli.png", "muro_occhi.jpg", "muro_occhi.jpeg", "muro_occhi.png")
+sguardi_b64, sguardi_mime = img_to_base64(sguardi_path, max_width=1000, quality=80) if sguardi_path else (None, None)
+
 eyes_logo_yellow_b64, eyes_logo_yellow_mime = img_to_base64_raw(eyes_logo_yellow_path)
 eyes_logo_white_b64, eyes_logo_white_mime = img_to_base64_raw(eyes_logo_white_path)
 
@@ -664,12 +668,43 @@ st.markdown(f"""
 # ============================================================================
 # 🏠 HERO + HOME
 # ============================================================================
-ponte_bg = f'<img src="data:{ponte_mime};base64,{ponte_b64}" style="position:absolute;bottom:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:0.08;pointer-events:none;filter:invert(1);">' if ponte_b64 else ""
+# Pattern SVG di occhi stilizzati come sfondo hero (richiama l'opera "Sguardi" di Peccioli)
+eyes_pattern_svg = f'''
+<svg viewBox="0 0 1200 700" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"
+     style="position:absolute;inset:0;width:100%;height:100%;opacity:0.18;pointer-events:none;">
+  <g fill="{BRAND_YELLOW}">
+    <g transform="translate(80,80)"><ellipse cx="0" cy="0" rx="35" ry="22"/><circle cx="0" cy="0" r="11" fill="white"/><circle cx="0" cy="0" r="5" fill="{BRAND_BLUE}"/></g>
+    <g transform="translate(220,60) rotate(8)"><ellipse cx="0" cy="0" rx="28" ry="18"/><circle cx="0" cy="0" r="9" fill="white"/><circle cx="0" cy="0" r="4" fill="{BRAND_BLUE}"/></g>
+    <g transform="translate(370,100) rotate(-5)"><ellipse cx="0" cy="0" rx="40" ry="25"/><circle cx="0" cy="0" r="13" fill="white"/><circle cx="0" cy="0" r="6" fill="{BRAND_BLUE}"/></g>
+    <g transform="translate(540,70) rotate(3)"><ellipse cx="0" cy="0" rx="30" ry="19"/><circle cx="0" cy="0" r="10" fill="white"/><circle cx="0" cy="0" r="4" fill="{BRAND_BLUE}"/></g>
+    <g transform="translate(720,90) rotate(-8)"><ellipse cx="0" cy="0" rx="38" ry="24"/><circle cx="0" cy="0" r="12" fill="white"/><circle cx="0" cy="0" r="5" fill="{BRAND_BLUE}"/></g>
+    <g transform="translate(880,60) rotate(5)"><ellipse cx="0" cy="0" rx="32" ry="20"/><circle cx="0" cy="0" r="10" fill="white"/><circle cx="0" cy="0" r="4" fill="{BRAND_BLUE}"/></g>
+    <g transform="translate(1060,80) rotate(-3)"><ellipse cx="0" cy="0" rx="36" ry="23"/><circle cx="0" cy="0" r="11" fill="white"/><circle cx="0" cy="0" r="5" fill="{BRAND_BLUE}"/></g>
+    <g transform="translate(50,240) rotate(-2)"><ellipse cx="0" cy="0" rx="32" ry="20"/><circle cx="0" cy="0" r="10" fill="white"/><circle cx="0" cy="0" r="4" fill="{BRAND_BLUE}"/></g>
+    <g transform="translate(180,220) rotate(7)"><ellipse cx="0" cy="0" rx="38" ry="24"/><circle cx="0" cy="0" r="12" fill="white"/><circle cx="0" cy="0" r="5" fill="{BRAND_BLUE}"/></g>
+    <g transform="translate(340,250) rotate(-4)"><ellipse cx="0" cy="0" rx="30" ry="19"/><circle cx="0" cy="0" r="10" fill="white"/><circle cx="0" cy="0" r="4" fill="{BRAND_BLUE}"/></g>
+    <g transform="translate(870,240) rotate(6)"><ellipse cx="0" cy="0" rx="34" ry="22"/><circle cx="0" cy="0" r="11" fill="white"/><circle cx="0" cy="0" r="5" fill="{BRAND_BLUE}"/></g>
+    <g transform="translate(1020,220) rotate(-7)"><ellipse cx="0" cy="0" rx="38" ry="24"/><circle cx="0" cy="0" r="12" fill="white"/><circle cx="0" cy="0" r="5" fill="{BRAND_BLUE}"/></g>
+    <g transform="translate(1140,250) rotate(2)"><ellipse cx="0" cy="0" rx="28" ry="18"/><circle cx="0" cy="0" r="9" fill="white"/><circle cx="0" cy="0" r="4" fill="{BRAND_BLUE}"/></g>
+    <g transform="translate(80,420) rotate(4)"><ellipse cx="0" cy="0" rx="36" ry="23"/><circle cx="0" cy="0" r="11" fill="white"/><circle cx="0" cy="0" r="5" fill="{BRAND_BLUE}"/></g>
+    <g transform="translate(240,440) rotate(-6)"><ellipse cx="0" cy="0" rx="30" ry="19"/><circle cx="0" cy="0" r="10" fill="white"/><circle cx="0" cy="0" r="4" fill="{BRAND_BLUE}"/></g>
+    <g transform="translate(940,430) rotate(3)"><ellipse cx="0" cy="0" rx="32" ry="20"/><circle cx="0" cy="0" r="10" fill="white"/><circle cx="0" cy="0" r="4" fill="{BRAND_BLUE}"/></g>
+    <g transform="translate(1100,460) rotate(-3)"><ellipse cx="0" cy="0" rx="36" ry="23"/><circle cx="0" cy="0" r="11" fill="white"/><circle cx="0" cy="0" r="5" fill="{BRAND_BLUE}"/></g>
+    <g transform="translate(60,580) rotate(-5)"><ellipse cx="0" cy="0" rx="40" ry="25"/><circle cx="0" cy="0" r="13" fill="white"/><circle cx="0" cy="0" r="6" fill="{BRAND_BLUE}"/></g>
+    <g transform="translate(220,600) rotate(7)"><ellipse cx="0" cy="0" rx="32" ry="20"/><circle cx="0" cy="0" r="10" fill="white"/><circle cx="0" cy="0" r="4" fill="{BRAND_BLUE}"/></g>
+    <g transform="translate(390,580) rotate(-2)"><ellipse cx="0" cy="0" rx="34" ry="22"/><circle cx="0" cy="0" r="11" fill="white"/><circle cx="0" cy="0" r="5" fill="{BRAND_BLUE}"/></g>
+    <g transform="translate(580,610) rotate(5)"><ellipse cx="0" cy="0" rx="30" ry="19"/><circle cx="0" cy="0" r="10" fill="white"/><circle cx="0" cy="0" r="4" fill="{BRAND_BLUE}"/></g>
+    <g transform="translate(770,590) rotate(-4)"><ellipse cx="0" cy="0" rx="36" ry="23"/><circle cx="0" cy="0" r="11" fill="white"/><circle cx="0" cy="0" r="5" fill="{BRAND_BLUE}"/></g>
+    <g transform="translate(950,620) rotate(6)"><ellipse cx="0" cy="0" rx="34" ry="22"/><circle cx="0" cy="0" r="11" fill="white"/><circle cx="0" cy="0" r="5" fill="{BRAND_BLUE}"/></g>
+    <g transform="translate(1120,590) rotate(-7)"><ellipse cx="0" cy="0" rx="38" ry="24"/><circle cx="0" cy="0" r="12" fill="white"/><circle cx="0" cy="0" r="5" fill="{BRAND_BLUE}"/></g>
+  </g>
+</svg>
+'''
 
 st.markdown(f"""
 <span id="home" class="section-anchor"></span>
 <div class="hero-full">
-    {ponte_bg}
+    {eyes_pattern_svg}
     <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;">
         {eyes_tag_hero}
         <div class="hero-title-main">Peccioli Eyes</div>
@@ -828,6 +863,141 @@ st.markdown(f"""
     </a>
 </div>
 </div>
+""", unsafe_allow_html=True)
+
+# ============================================================================
+# 👁 L'OPERA CHE CI ISPIRA — bianco/avorio (sezione Sguardi)
+# ============================================================================
+sguardi_img_block = ""
+if sguardi_b64:
+    sguardi_img_block = f'<img src="data:{sguardi_mime};base64,{sguardi_b64}" alt="Sguardi - Muro degli Occhi a Peccioli" style="width:100%;height:100%;object-fit:cover;display:block;">'
+else:
+    sguardi_img_block = f'<div style="display:flex;align-items:center;justify-content:center;height:100%;background:linear-gradient(135deg,{BRAND_BLUE},#1a2f6c);color:{BRAND_YELLOW};font-family:\'Playfair Display\',Georgia,serif;font-style:italic;font-size:1rem;text-align:center;padding:2rem;">📷 Foto del Muro degli Occhi<br><span style="font-size:0.75rem;opacity:0.75;font-style:normal;">(da caricare nel repo come sguardi_peccioli.jpg)</span></div>'
+
+st.markdown(f"""
+<style>
+.ispira-section {{
+    background: #fafafa;
+    padding: 4rem 0 4.5rem;
+    margin: 0 -1rem;
+    border-top: 1px solid rgba(19,0,137,0.06);
+}}
+.ispira-wrap {{
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 3rem;
+    align-items: center;
+}}
+.ispira-photo {{
+    position: relative;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 16px 48px rgba(19,0,137,0.18);
+    aspect-ratio: 4/3;
+    background: #ddd;
+}}
+.photo-tag {{
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    background: {BRAND_BLUE};
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+    z-index: 2;
+}}
+.photo-tag .tag-yellow {{ color: {BRAND_YELLOW}; }}
+.ispira-text {{ color: {BRAND_BLUE}; }}
+.ispira-eyebrow {{
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: {BRAND_BLUE};
+    background: {BRAND_YELLOW};
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    margin-bottom: 1rem;
+}}
+.ispira-title {{
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 800;
+    font-size: clamp(1.6rem, 3.2vw, 2.3rem);
+    line-height: 1.1;
+    margin-bottom: 0.3rem;
+    color: {BRAND_BLUE};
+}}
+.ispira-subtitle {{
+    font-family: 'Lobster Two', cursive;
+    font-style: italic;
+    font-size: clamp(1.1rem, 2.4vw, 1.4rem);
+    color: {BRAND_BLUE};
+    margin-bottom: 1.4rem;
+    opacity: 0.7;
+}}
+.ispira-paragraph {{
+    font-size: 0.98rem;
+    line-height: 1.7;
+    color: #2a3140;
+    margin-bottom: 1rem;
+}}
+.ispira-paragraph strong {{ color: {BRAND_BLUE}; }}
+.ispira-quote {{
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: {BRAND_BLUE};
+    border-left: 4px solid {BRAND_YELLOW};
+    padding: 0.5rem 0 0.5rem 1.2rem;
+    margin-top: 1.2rem;
+}}
+@media (max-width: 800px) {{
+    .ispira-wrap {{
+        grid-template-columns: 1fr;
+        gap: 1.6rem;
+    }}
+    .ispira-section {{ padding: 2.5rem 0 3rem; }}
+    .ispira-quote {{ font-size: 1rem; }}
+}}
+</style>
+
+<section class="ispira-section">
+    <div class="ispira-wrap">
+        <div class="ispira-photo">
+            {sguardi_img_block}
+            <div class="photo-tag">"Sguardi" · <span class="tag-yellow">Peccioli</span></div>
+        </div>
+        <div class="ispira-text">
+            <span class="ispira-eyebrow">L'opera che ci ispira</span>
+            <h2 class="ispira-title">Da quegli sguardi</h2>
+            <div class="ispira-subtitle">nasce il nome del progetto</div>
+            <p class="ispira-paragraph">
+                Camminando per Peccioli, su un muro all'ingresso del centro storico,
+                un'installazione espone decine di volti — solo i loro occhi —
+                di abitanti, visitatori, viandanti. Ognuno racconta una storia diversa,
+                tutti insieme raccontano Peccioli.
+            </p>
+            <p class="ispira-paragraph">
+                Quegli sguardi sono diventati il <strong>simbolo della nostra capacità
+                di osservare e farci osservare</strong>. È da loro che parte il nostro
+                viaggio: 80 sguardi che andranno a New Orleans, e ne torneranno cambiati.
+            </p>
+            <div class="ispira-quote">
+                Ogni occhio è una storia. Ogni storia è un ponte.
+            </div>
+        </div>
+    </div>
+</section>
 """, unsafe_allow_html=True)
 
 # ============================================================================
