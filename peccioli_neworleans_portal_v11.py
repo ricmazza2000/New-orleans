@@ -682,137 +682,6 @@ st.markdown(f"""
         <div class="hero-year">2026</div>
     </div>
 </div>
-""", unsafe_allow_html=True)
-
-# ============================================================================
-# 👁 L'OPERA CHE CI ISPIRA — subito dopo l'hero, prima del countdown
-# ============================================================================
-sguardi_img_block = ""
-if sguardi_b64:
-    sguardi_img_block = f'<img src="data:{sguardi_mime};base64,{sguardi_b64}" alt="Sguardi - Muro degli Occhi a Peccioli" style="width:100%;height:100%;object-fit:cover;display:block;">'
-else:
-    sguardi_img_block = f'<div style="display:flex;align-items:center;justify-content:center;height:100%;background:linear-gradient(135deg,{BRAND_BLUE},#1a2f6c);color:{BRAND_YELLOW};font-family:\'Playfair Display\',Georgia,serif;font-style:italic;font-size:1rem;text-align:center;padding:2rem;">📷 Foto del Muro degli Occhi<br><span style="font-size:0.75rem;opacity:0.75;font-style:normal;">(da caricare nel repo come sguardi_peccioli.jpg)</span></div>'
-
-st.markdown(f"""
-<style>
-.ispira-section {{
-    background: #fafafa;
-    padding: 3.5rem 0 4rem;
-    margin: 0 -1rem;
-    border-bottom: 1px solid rgba(19,0,137,0.06);
-}}
-.ispira-wrap {{
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
-    display: grid;
-    grid-template-columns: 1.05fr 1fr;
-    gap: 3rem;
-    align-items: center;
-}}
-.ispira-photo {{
-    position: relative;
-    border-radius: 22px;
-    overflow: hidden;
-    box-shadow: 0 16px 48px rgba(19,0,137,0.18);
-    aspect-ratio: 4/3;
-    background: #ddd;
-}}
-.photo-tag {{
-    position: absolute;
-    bottom: 16px;
-    left: 16px;
-    background: {BRAND_BLUE};
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 999px;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
-    z-index: 2;
-}}
-.photo-tag .tag-yellow {{ color: {BRAND_YELLOW}; }}
-.ispira-text {{ color: {BRAND_BLUE}; }}
-.ispira-eyebrow {{
-    display: inline-block;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: {BRAND_BLUE};
-    background: {BRAND_YELLOW};
-    padding: 0.4rem 0.9rem;
-    border-radius: 999px;
-    margin-bottom: 1rem;
-}}
-.ispira-title {{
-    font-family: 'Playfair Display', Georgia, serif;
-    font-weight: 800;
-    font-size: clamp(1.6rem, 3.2vw, 2.3rem);
-    line-height: 1.1;
-    margin-bottom: 0.3rem;
-    color: {BRAND_BLUE};
-}}
-.ispira-subtitle {{
-    font-family: 'Lobster Two', cursive;
-    font-style: italic;
-    font-size: clamp(1.1rem, 2.4vw, 1.4rem);
-    color: {BRAND_BLUE};
-    margin-bottom: 1.4rem;
-    opacity: 0.7;
-}}
-.ispira-paragraph {{
-    font-size: 0.98rem;
-    line-height: 1.65;
-    color: #2a3140;
-    margin-bottom: 0.5rem;
-}}
-.ispira-paragraph strong {{ color: {BRAND_BLUE}; }}
-.ispira-quote {{
-    font-family: 'Playfair Display', Georgia, serif;
-    font-style: italic;
-    font-size: 1.05rem;
-    line-height: 1.5;
-    color: {BRAND_BLUE};
-    border-left: 4px solid {BRAND_YELLOW};
-    padding: 0.4rem 0 0.4rem 1.2rem;
-    margin-top: 1.1rem;
-}}
-@media (max-width: 800px) {{
-    .ispira-wrap {{
-        grid-template-columns: 1fr;
-        gap: 1.6rem;
-    }}
-    .ispira-section {{ padding: 2.5rem 0 3rem; }}
-    .ispira-quote {{ font-size: 0.98rem; }}
-}}
-</style>
-
-<section class="ispira-section">
-    <div class="ispira-wrap">
-        <div class="ispira-photo">
-            {sguardi_img_block}
-            <div class="photo-tag">"Sguardi" · <span class="tag-yellow">Peccioli</span></div>
-        </div>
-        <div class="ispira-text">
-            <span class="ispira-eyebrow">L'opera che ci ispira</span>
-            <h2 class="ispira-title">Da quegli sguardi</h2>
-            <div class="ispira-subtitle">nasce il nome del progetto</div>
-            <p class="ispira-paragraph">
-                Camminando per Peccioli, su un muro all'ingresso del centro storico,
-                decine di volti — solo i loro occhi — guardano chi passa.
-                Da quegli sguardi prende il nome il nostro progetto:
-                <strong>80 ragazzi che andranno a New Orleans con occhi attenti, 
-                e ne torneranno cambiati.</strong>
-            </p>
-            <div class="ispira-quote">
-                Ogni occhio è una storia. Ogni storia è un ponte.
-            </div>
-        </div>
-    </div>
-</section>
 
 <div class="home-section">
 """, unsafe_allow_html=True)
@@ -894,12 +763,130 @@ setInterval(tick, 30000);
 """)
 components.html(countdown_html, height=120, scrolling=False)
 
+# ============================================================================
+# 👁 L'OPERA CHE CI ISPIRA — dopo countdown + prossimo incontro
+# ============================================================================
+sguardi_img_block = ""
+if sguardi_b64:
+    sguardi_img_block = f'<img src="data:{sguardi_mime};base64,{sguardi_b64}" alt="Sguardi - Muro degli Occhi a Peccioli" style="width:100%;height:100%;object-fit:cover;display:block;">'
+else:
+    sguardi_img_block = f'<div style="display:flex;align-items:center;justify-content:center;height:100%;background:linear-gradient(135deg,{BRAND_BLUE},#1a2f6c);color:{BRAND_YELLOW};font-family:\'Playfair Display\',Georgia,serif;font-style:italic;font-size:1rem;text-align:center;padding:2rem;">📷 Foto del Muro degli Occhi<br><span style="font-size:0.75rem;opacity:0.75;font-style:normal;">(da caricare nel repo come sguardi_peccioli.jpg)</span></div>'
+
 st.markdown(f"""
-<div style="background:{BRAND_BLUE_LIGHT};border-radius:18px;padding:1.1rem 1.3rem;margin:1rem 0 1.2rem;border-left:4px solid {BRAND_YELLOW};">
-    <p style="font-size:0.98rem;color:{BRAND_BLUE};line-height:1.65;margin:0;font-style:italic;">
-        <strong style="font-style:normal;">Peccioli Eyes</strong> è uno sguardo che parte dal nostro piccolo territorio e si apre al mondo, mettendo al centro i giovani, la cultura e l'esperienza.
-    </p>
-</div>
+<style>
+.ispira-section {{
+    padding: 2rem 0 2.5rem;
+    margin: 1rem 0 0;
+}}
+.ispira-wrap {{
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 2.5rem;
+    align-items: center;
+}}
+.ispira-photo {{
+    position: relative;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 16px 48px rgba(19,0,137,0.18);
+    aspect-ratio: 3/2;
+    background: #ddd;
+}}
+.photo-tag {{
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    background: {BRAND_BLUE};
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+    z-index: 2;
+}}
+.photo-tag .tag-yellow {{ color: {BRAND_YELLOW}; }}
+.ispira-text {{ color: {BRAND_BLUE}; }}
+.ispira-eyebrow {{
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: {BRAND_BLUE};
+    background: {BRAND_YELLOW};
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    margin-bottom: 1rem;
+}}
+.ispira-title {{
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 800;
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+    line-height: 1.1;
+    margin-bottom: 0.3rem;
+    color: {BRAND_BLUE};
+}}
+.ispira-subtitle {{
+    font-family: 'Lobster Two', cursive;
+    font-style: italic;
+    font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+    color: {BRAND_BLUE};
+    margin-bottom: 1.2rem;
+    opacity: 0.7;
+}}
+.ispira-paragraph {{
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: #2a3140;
+    margin-bottom: 0.5rem;
+}}
+.ispira-paragraph strong {{ color: {BRAND_BLUE}; }}
+.ispira-quote {{
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: {BRAND_BLUE};
+    border-left: 4px solid {BRAND_YELLOW};
+    padding: 0.4rem 0 0.4rem 1.1rem;
+    margin-top: 1rem;
+}}
+@media (max-width: 800px) {{
+    .ispira-wrap {{
+        grid-template-columns: 1fr;
+        gap: 1.4rem;
+    }}
+    .ispira-section {{ padding: 1rem 0 2rem; }}
+    .ispira-quote {{ font-size: 0.95rem; }}
+}}
+</style>
+
+<section class="ispira-section">
+    <div class="ispira-wrap">
+        <div class="ispira-photo">
+            {sguardi_img_block}
+            <div class="photo-tag">"Sguardi" · <span class="tag-yellow">Peccioli</span></div>
+        </div>
+        <div class="ispira-text">
+            <span class="ispira-eyebrow">L'opera che ci ispira</span>
+            <h2 class="ispira-title">Da quegli sguardi</h2>
+            <div class="ispira-subtitle">nasce il nome del progetto</div>
+            <p class="ispira-paragraph">
+                Camminando per Peccioli, su un muro all'ingresso del centro storico,
+                decine di volti — solo i loro occhi — guardano chi passa.
+                Da quegli sguardi prende il nome il nostro progetto:
+                <strong>80 ragazzi che andranno a New Orleans con occhi attenti,
+                e ne torneranno cambiati.</strong>
+            </p>
+            <div class="ispira-quote">
+                Ogni occhio è una storia. Ogni storia è un ponte.
+            </div>
+        </div>
+    </div>
+</section>
 
 <div style="display:flex;align-items:center;gap:1rem;margin:0.8rem 0 0.8rem;">
     <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(19,0,137,0.2));"></div>
