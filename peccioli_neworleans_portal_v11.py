@@ -690,9 +690,9 @@ st.markdown(f"""
 # Countdown
 import streamlit.components.v1 as components
 expert_paths = get_expert_paths()
-_morelli_path = expert_paths["morelli"]
-morelli_b64_cd, morelli_mime_cd = img_to_base64(_morelli_path, max_width=100, quality=75) if _morelli_path else (None, None)
-prossimo_foto = f'<img src="data:{morelli_mime_cd};base64,{morelli_b64_cd}" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid {BRAND_YELLOW};flex-shrink:0;">' if morelli_b64_cd else f'<div style="width:44px;height:44px;border-radius:50%;background:{BRAND_YELLOW};flex-shrink:0;"></div>'
+_gardner_path = expert_paths["gardner"]
+gardner_b64_cd, gardner_mime_cd = img_to_base64(_gardner_path, max_width=100, quality=75) if _gardner_path else (None, None)
+prossimo_foto = f'<img src="data:{gardner_mime_cd};base64,{gardner_b64_cd}" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid {BRAND_YELLOW};flex-shrink:0;">' if gardner_b64_cd else f'<div style="width:44px;height:44px;border-radius:50%;background:{BRAND_YELLOW};flex-shrink:0;"></div>'
 
 # Foto esperti per timeline briefing (medium size)
 morelli_b64_tl, morelli_mime_tl = img_to_base64(expert_paths["morelli"], max_width=500, quality=75) if expert_paths["morelli"] else (None, None)
@@ -738,8 +738,8 @@ html, body { overflow:hidden; background:transparent; }
         <div style="display:flex;align-items:center;gap:0.5rem;">
             """ + prossimo_foto + """
             <div>
-                <div style="font-size:0.82rem;font-weight:700;color:""" + BRAND_BLUE + """;line-height:1.2;">Elia Morelli</div>
-                <div style="font-size:0.72rem;color:#5b6472;margin-top:0.1rem;">7 maggio 2026</div>
+                <div style="font-size:0.82rem;font-weight:700;color:""" + BRAND_BLUE + """;line-height:1.2;">Anthony Gardner</div>
+                <div style="font-size:0.72rem;color:#5b6472;margin-top:0.1rem;">21 maggio 2026</div>
             </div>
         </div>
     </div>
