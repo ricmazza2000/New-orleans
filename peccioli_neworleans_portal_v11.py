@@ -889,9 +889,6 @@ st.markdown(f"""
     </div>
     <div class="menu-footer">Peccioli Eyes · 2026</div>
 </div>
-
-<!-- Bottone Torna su -->
-<button class="back-to-top" id="backToTop" aria-label="Torna su" type="button">↑</button>
 """, unsafe_allow_html=True)
 
 # JavaScript del menu (deve essere in components.html per essere eseguito da Streamlit)
@@ -1010,14 +1007,23 @@ components.html("""
 
     // ============================================
     // BACK TO TOP - SAFE MODE
-    // Bottone parte già nel DOM, JS aggiunge solo il listener
+    // Crea il bottone via JS e lo aggiunge al body parent
     // ============================================
     function setupBackToTop() {
-        const btn = window.parent.document.getElementById('backToTop');
-        if (!btn || btn.dataset.btReady === '1') return;
-        btn.dataset.btReady = '1';
-
+        const parentDoc = window.parent.document;
         const parentWin = window.parent;
+
+        // Se già esiste, esci
+        if (parentDoc.getElementById('backToTop')) return;
+
+        // Crea il bottone
+        const btn = parentDoc.createElement('button');
+        btn.id = 'backToTop';
+        btn.className = 'back-to-top';
+        btn.setAttribute('aria-label', 'Torna su');
+        btn.setAttribute('type', 'button');
+        btn.innerHTML = '&uarr;';
+        parentDoc.body.appendChild(btn);
 
         function onScroll() {
             if (parentWin.scrollY > 400) {
@@ -1028,7 +1034,7 @@ components.html("""
         }
 
         parentWin.addEventListener('scroll', onScroll, { passive: true });
-        onScroll();  // check iniziale
+        onScroll();
 
         btn.addEventListener('click', (e) => {
             e.preventDefault();
