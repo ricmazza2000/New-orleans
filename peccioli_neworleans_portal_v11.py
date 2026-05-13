@@ -214,6 +214,17 @@ section[data-testid="stSidebar"] {{ display: none !important; }}
 }}
 
 /* TOPBAR */
+
+/* FADE-IN sezioni (applicato dinamicamente da JS - default invisibile) */
+.fade-in-ready {{
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}}
+.fade-in-ready.fade-in-visible {{
+    opacity: 1;
+    transform: translateY(0);
+}}
 .sticky-topbar {{
     position: fixed; top: 0; left: 0; right: 0;
     height: 44px; background: {BRAND_BLUE};
@@ -905,6 +916,55 @@ components.html("""
         window.parent.document.addEventListener('DOMContentLoaded', setupMenu);
     } else {
         setupMenu();
+    }
+
+    // ============================================
+    // FADE-IN sezioni - SAFE MODE
+    // Applica opacity:0 SOLO se IntersectionObserver funziona,
+    // altrimenti le sezioni restano sempre visibili (no rischio schermo bianco)
+    // ============================================
+    function setupFadeIn() {
+        // Verifica supporto IntersectionObserver
+        if (!('IntersectionObserver' in window)) return;
+
+        const targetIds = ['temi', 'briefing', 'mappe', 'programma', 'documenti', 'approfondimenti'];
+        const sections = [];
+
+        targetIds.forEach(id => {
+            const anchor = window.parent.document.getElementById(id);
+            if (!anchor) return;
+            // Prendi l'elemento DIV subito dopo lo span anchor
+            const wrap = anchor.nextElementSibling;
+            if (wrap && !wrap.classList.contains('fade-in-ready')) {
+                wrap.classList.add('fade-in-ready');
+                sections.push(wrap);
+            }
+        });
+
+        if (sections.length === 0) return;
+
+        // Safety net: dopo 4 secondi forza visibile tutto (anche se observer non scatta)
+        const safetyTimeout = setTimeout(() => {
+            sections.forEach(s => s.classList.add('fade-in-visible'));
+        }, 4000);
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        sections.forEach(s => observer.observe(s));
+    }
+
+    // Avvia fade-in dopo che il DOM è completamente carico (con piccola attesa per sicurezza)
+    if (window.parent.document.readyState === 'complete') {
+        setTimeout(setupFadeIn, 600);
+    } else {
+        window.parent.addEventListener('load', () => setTimeout(setupFadeIn, 600));
     }
 })();
 </script>
