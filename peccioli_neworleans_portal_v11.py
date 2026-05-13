@@ -2451,4 +2451,186 @@ with tab5:
 
 st.markdown('</div>', unsafe_allow_html=True)
 
+# ============================================================================
+# 📤 CONDIVIDI IL PROGETTO
+# ============================================================================
+st.markdown(f"""
+<style>
+.share-section {{
+    margin: 3rem 0 2rem;
+    text-align: center;
+    padding: 2rem 1rem;
+    background: linear-gradient(165deg, #f8f7ff 0%, #fff 100%);
+    border-radius: 20px;
+    border: 1px solid rgba(19,0,137,0.08);
+}}
+.share-eyebrow {{
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: {BRAND_BLUE};
+    opacity: 0.6;
+    margin-bottom: 0.4rem;
+}}
+.share-title {{
+    font-family: 'Lobster Two', cursive;
+    font-style: italic;
+    font-size: 1.5rem;
+    color: {BRAND_BLUE};
+    margin-bottom: 0.4rem;
+    line-height: 1;
+}}
+.share-sub {{
+    font-size: 0.85rem;
+    color: #5b6472;
+    margin-bottom: 1.6rem;
+}}
+.share-buttons {{
+    display: flex;
+    justify-content: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    max-width: 500px;
+    margin: 0 auto;
+}}
+.share-btn {{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.2rem;
+    border-radius: 999px;
+    border: 1px solid rgba(19,0,137,0.15);
+    background: white;
+    color: {BRAND_BLUE};
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(19,0,137,0.05);
+    font-family: 'Inter', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}}
+.share-btn:hover {{
+    background: {BRAND_BLUE};
+    color: white;
+    border-color: {BRAND_BLUE};
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(19,0,137,0.2);
+}}
+.share-btn.copied {{
+    background: #2d9d3d;
+    color: white;
+    border-color: #2d9d3d;
+}}
+.share-btn-icon {{
+    font-size: 1.05rem;
+}}
+@media (max-width: 600px) {{
+    .share-section {{ padding: 1.5rem 0.8rem; }}
+    .share-buttons {{ gap: 0.5rem; }}
+    .share-btn {{ padding: 0.6rem 1rem; font-size: 0.8rem; }}
+    .share-title {{ font-size: 1.3rem; }}
+}}
+</style>
+
+<div class="share-section">
+    <div class="share-eyebrow">Fai conoscere il progetto</div>
+    <div class="share-title">Condividi Peccioli Eyes</div>
+    <div class="share-sub">Dillo a chi ti sta a cuore — famiglia, amici, prof</div>
+    <div class="share-buttons">
+        <a class="share-btn"
+           href="https://wa.me/?text=Guarda%20il%20portale%20di%20%27Peccioli%20Eyes%20to%20New%20Orleans%202026%27%20%E2%80%94%2080%20ragazzi%20da%20Peccioli%20a%20New%20Orleans%20%F0%9F%91%81%20https%3A%2F%2Fnew-orleans.onrender.com"
+           target="_blank" rel="noopener">
+            <span class="share-btn-icon">💬</span>WhatsApp
+        </a>
+        <a class="share-btn" id="shareInstagram"
+           href="https://www.instagram.com/"
+           target="_blank" rel="noopener">
+            <span class="share-btn-icon">📷</span>Instagram
+        </a>
+        <a class="share-btn"
+           href="mailto:?subject=Peccioli%20Eyes%20to%20New%20Orleans%202026&body=Ciao%2C%0A%0Avoglio%20farti%20vedere%20il%20portale%20del%20progetto%20%27Peccioli%20Eyes%20to%20New%20Orleans%27%3A%20un%20viaggio%20di%2080%20ragazzi%20da%20Peccioli%20a%20New%20Orleans%2C%20a%20settembre%202026.%0A%0Ahttps%3A%2F%2Fnew-orleans.onrender.com%0A%0AA%20presto%21">
+            <span class="share-btn-icon">✉️</span>Email
+        </a>
+        <button class="share-btn" id="shareCopyBtn" type="button">
+            <span class="share-btn-icon">🔗</span><span id="shareCopyLabel">Copia link</span>
+        </button>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+# JavaScript per Copia link e Instagram (copia link + apri IG)
+components.html("""
+<script>
+(function() {
+    function setupShare() {
+        const doc = window.parent.document;
+        const copyBtn = doc.getElementById('shareCopyBtn');
+        const copyLabel = doc.getElementById('shareCopyLabel');
+        const igBtn = doc.getElementById('shareInstagram');
+        if (!copyBtn || copyBtn.dataset.ready === '1') return;
+        copyBtn.dataset.ready = '1';
+
+        const portalUrl = 'https://new-orleans.onrender.com';
+
+        function copyToClipboard(text) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                return navigator.clipboard.writeText(text);
+            }
+            // Fallback per browser vecchi
+            const ta = doc.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            doc.body.appendChild(ta);
+            ta.select();
+            try {
+                doc.execCommand('copy');
+                doc.body.removeChild(ta);
+                return Promise.resolve();
+            } catch (e) {
+                doc.body.removeChild(ta);
+                return Promise.reject(e);
+            }
+        }
+
+        function showCopied() {
+            const original = copyLabel.textContent;
+            copyBtn.classList.add('copied');
+            copyLabel.textContent = '✓ Link copiato';
+            setTimeout(() => {
+                copyBtn.classList.remove('copied');
+                copyLabel.textContent = original;
+            }, 2000);
+        }
+
+        copyBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            copyToClipboard(portalUrl).then(showCopied).catch(() => {
+                copyLabel.textContent = '⚠ Riprova';
+                setTimeout(() => copyLabel.textContent = 'Copia link', 2000);
+            });
+        });
+
+        // Instagram: copia il link prima di aprire IG (così l'utente lo incolla nelle Storie)
+        if (igBtn) {
+            igBtn.addEventListener('click', (e) => {
+                copyToClipboard(portalUrl).catch(() => {});
+                // Lascia che il link apra normalmente Instagram
+            });
+        }
+    }
+
+    if (window.parent.document.readyState === 'complete') {
+        setTimeout(setupShare, 400);
+    } else {
+        window.parent.addEventListener('load', () => setTimeout(setupShare, 400));
+    }
+})();
+</script>
+""", height=0)
+
 st.markdown(f"<div class='footer-box'>Peccioli Eyes to New Orleans · 2026 · Portale ragazzi</div>", unsafe_allow_html=True)
