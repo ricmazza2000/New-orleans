@@ -16,7 +16,7 @@ st.set_page_config(
     page_title="Peccioli Eyes to New Orleans",
     page_icon="👁",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"
 )
 
 BASE_DIR = Path(__file__).parent
@@ -176,11 +176,12 @@ html, body, [class*="css"] {{
 div[class*="StatusWidget"], div[class*="viewerBadge"],
 button[title="View fullscreen"] {{ display: none !important; }}
 
-[data-testid="stSidebar"] {{
-    background: {BRAND_BLUE};
-    border-right: 1px solid rgba(255,255,255,0.1);
-}}
-[data-testid="stSidebar"] * {{ color: white !important; }}
+/* Sidebar Streamlit COMPLETAMENTE rimossa su tutti i device */
+[data-testid="stSidebar"] {{ display: none !important; }}
+[data-testid="collapsedControl"] {{ display: none !important; }}
+[data-testid="stSidebarCollapsedControl"] {{ display: none !important; }}
+button[kind="header"] {{ display: none !important; }}
+section[data-testid="stSidebar"] {{ display: none !important; }}
 
 .stButton>button {{
     background: {BRAND_BLUE} !important; color: white !important;
@@ -197,10 +198,6 @@ button[title="View fullscreen"] {{ display: none !important; }}
         padding-right: 1rem !important;
         padding-top: 44px !important;
     }}
-    [data-testid="stSidebar"] {{ display: none !important; }}
-    [data-testid="collapsedControl"] {{ display: none !important; }}
-    [data-testid="stSidebarCollapsedControl"] {{ display: none !important; }}
-    button[kind="header"] {{ display: none !important; }}
     .main .block-container {{
         padding-bottom: 75px !important;
         padding-left: 1rem !important;
@@ -573,83 +570,16 @@ luoghi_dati = [
 ]
 
 # ============================
-# SIDEBAR
 # ============================
-with st.sidebar:
-    if logo_path:
-        st.image(logo_path, width=100)
-    st.markdown(f"""
-    <div style="margin-top:0.2rem;margin-bottom:1.4rem;">
-        <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.25rem;">Comune di Peccioli</div>
-        <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.4rem;font-weight:800;color:white;line-height:1;letter-spacing:-0.01em;">PECCIOLI EYES</div>
-        <div style="font-family:'Lobster Two',cursive;font-style:italic;font-size:1.05rem;color:{BRAND_YELLOW};line-height:1.1;margin-top:0.15rem;">to New Orleans</div>
-        <div style="font-size:0.7rem;color:rgba(255,255,255,0.4);margin-top:0.3rem;letter-spacing:0.1em;">2026</div>
-    </div>
-    <div style="height:1px;background:rgba(255,255,255,0.1);margin-bottom:1.2rem;"></div>
-    <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.8rem;">Naviga</div>
-
-    <style>
-    .sidebar-nav a {{
-        display:block;
-        padding: 0.55rem 0.8rem;
-        color: rgba(255,255,255,0.85) !important;
-        text-decoration: none;
-        border-radius: 8px;
-        font-size: 0.92rem;
-        font-weight: 500;
-        margin-bottom: 0.15rem;
-        border-left: 2px solid transparent;
-        transition: all 0.15s;
-    }}
-    .sidebar-nav a:hover {{
-        background: rgba(255,222,89,0.12);
-        color: {BRAND_YELLOW} !important;
-        border-left-color: {BRAND_YELLOW};
-    }}
-    </style>
-    <div class="sidebar-nav">
-        <a href="#home">🏠 &nbsp; Home</a>
-        <a href="#temi">👁 &nbsp; Temi del viaggio</a>
-        <a href="#briefing">📅 &nbsp; Briefing</a>
-        <a href="#mappe">🗺 &nbsp; Mappa</a>
-        <a href="#programma">🗓 &nbsp; Programma</a>
-        <a href="#documenti">📂 &nbsp; Documenti</a>
-        <a href="#approfondimenti">📚 &nbsp; Altro</a>
-    </div>
-
-    <div style="height:1px;background:rgba(255,255,255,0.1);margin:1.2rem 0;"></div>
-    <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.8rem;">Il viaggio</div>
-    <div style="display:flex;flex-direction:column;gap:0.55rem;">
-        <div style="display:flex;align-items:center;gap:0.6rem;">
-            <span style="font-size:1rem;">📅</span>
-            <div>
-                <div style="font-size:0.72rem;color:rgba(255,255,255,0.55);">Date</div>
-                <div style="font-size:0.88rem;font-weight:600;color:white;">21–28 settembre 2026</div>
-            </div>
-        </div>
-        <div style="display:flex;align-items:center;gap:0.6rem;">
-            <span style="font-size:1rem;">📍</span>
-            <div>
-                <div style="font-size:0.72rem;color:rgba(255,255,255,0.55);">Destinazione</div>
-                <div style="font-size:0.88rem;font-weight:600;color:white;">New Orleans, Louisiana</div>
-            </div>
-        </div>
-        <div style="display:flex;align-items:center;gap:0.6rem;">
-            <span style="font-size:1rem;">👥</span>
-            <div>
-                <div style="font-size:0.72rem;color:rgba(255,255,255,0.55);">Partecipanti</div>
-                <div style="font-size:0.88rem;font-weight:600;color:white;">80 giovani</div>
-            </div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+# SIDEBAR (rimossa - sostituita da hamburger menu su tutti i device)
+# ============================
 
 # ============================
 # HAMBURGER MENU MOBILE (sostituisce la bottom bar)
 # ============================
 st.markdown(f"""
 <style>
-/* Bottone hamburger (visibile solo su mobile) */
+/* Bottone hamburger - mobile: solo icona, desktop: pillola con testo */
 .hamburger-btn {{
     display: none;
     position: fixed;
@@ -664,29 +594,92 @@ st.markdown(f"""
     z-index: 2147483647;
     box-shadow: 0 4px 14px rgba(0,0,0,0.35);
     padding: 0;
-    transition: transform 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    color: {BRAND_BLUE};
 }}
 .hamburger-btn:active {{ transform: scale(0.94); }}
 
-.hamburger-btn span {{
+.hamburger-btn .hb-lines {{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}}
+.hamburger-btn .hb-lines span {{
     display: block;
     width: 18px;
     height: 2.5px;
     background: {BRAND_BLUE};
     border-radius: 2px;
-    margin: 4px auto;
+    margin: 2px 0;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}}
+.hamburger-btn .hb-text {{
+    display: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
 }}
 
 /* Stato aperto: hamburger diventa X */
-.hamburger-btn.open span:nth-child(1) {{
+.hamburger-btn.open .hb-lines span:nth-child(1) {{
     transform: translateY(6.5px) rotate(45deg);
 }}
-.hamburger-btn.open span:nth-child(2) {{
+.hamburger-btn.open .hb-lines span:nth-child(2) {{
     opacity: 0;
 }}
-.hamburger-btn.open span:nth-child(3) {{
+.hamburger-btn.open .hb-lines span:nth-child(3) {{
     transform: translateY(-6.5px) rotate(-45deg);
+}}
+
+/* Su desktop (>768px): bottone pillola con testo "MENU" */
+@media (min-width: 769px) {{
+    .hamburger-btn {{
+        display: flex !important;
+        align-items: center;
+        gap: 0.5rem;
+        top: 10px;
+        right: 20px;
+        width: auto;
+        height: 38px;
+        padding: 0 1rem 0 0.7rem;
+        border-radius: 999px;
+        border: none;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.2);
+    }}
+    .hamburger-btn:hover {{
+        background: white;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+        transform: translateY(-1px);
+    }}
+    .hamburger-btn .hb-text {{
+        display: inline-block;
+    }}
+    .hamburger-btn .hb-lines {{
+        width: 18px;
+        height: auto;
+        flex-direction: column;
+    }}
+    .hamburger-btn .hb-lines span {{
+        width: 18px;
+        margin: 2px 0;
+    }}
+    .hamburger-btn.open .hb-lines span:nth-child(1) {{
+        transform: translateY(6.5px) rotate(45deg);
+    }}
+}}
+
+/* Su mobile: pulsante quadrato con solo icona */
+@media (max-width: 768px) {{
+    .hamburger-btn {{
+        display: flex !important;
+    }}
+    /* Nascondi bottom bar legacy */
+    .bottom-nav {{ display: none !important; }}
 }}
 
 /* Overlay tendina */
@@ -782,16 +775,11 @@ st.markdown(f"""
     .main .block-container {{ padding-bottom: 1rem !important; }}
 }}
 
-/* Su desktop: hamburger e tendina mai visibili */
-@media (min-width: 769px) {{
-    .hamburger-btn, .menu-drawer {{ display: none !important; }}
-}}
 </style>
 
 <button class="hamburger-btn" id="hamburgerBtn" aria-label="Apri menu">
-    <span></span>
-    <span></span>
-    <span></span>
+    <span class="hb-lines"><span></span><span></span><span></span></span>
+    <span class="hb-text">Menu</span>
 </button>
 
 <div class="menu-drawer" id="menuDrawer">
