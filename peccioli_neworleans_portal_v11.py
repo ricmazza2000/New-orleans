@@ -1117,9 +1117,9 @@ html, body { overflow:hidden; background:transparent; }
 }
 .cd-label { font-size:0.65rem; font-weight:700; letter-spacing:0.12em;
     text-transform:uppercase; color:""" + BRAND_YELLOW + """; margin-bottom:0.3rem; }
-.cd-num { font-size:1.5rem; font-weight:800; color:white; line-height:1.2; }
+.cd-num { font-size:1.5rem; font-weight:800; color:white; line-height:1.2; white-space:nowrap; }
 .cd-num .cd-sec { 
-    display:inline-block; min-width:1.6em; text-align:left;
+    display:inline-block;
     transition: color 0.2s;
 }
 .cd-num .cd-sec.tick { color:""" + BRAND_YELLOW + """; }
@@ -1134,9 +1134,9 @@ html, body { overflow:hidden; background:transparent; }
     .cd-wrap { overflow-x:auto; scroll-snap-type:x mandatory;
         -webkit-overflow-scrolling:touch; gap:0.6rem; height:100px; }
     .cd-wrap::-webkit-scrollbar { display:none; }
-    .cd-main { min-width:210px; scroll-snap-align:start; padding:0.85rem 1rem; }
+    .cd-main { min-width:230px; scroll-snap-align:start; padding:0.85rem 0.9rem; }
     .cd-box { min-width:180px; scroll-snap-align:start; }
-    .cd-num { font-size:1.25rem; }
+    .cd-num { font-size:1.15rem; }
 }
 </style>
 <div class="cd-wrap">
@@ -1168,10 +1168,10 @@ function tick() {
     // Padding 0 sui secondi (sempre 2 cifre per stabilità visiva)
     var sStr = s < 10 ? '0' + s : s;
     el.innerHTML =
-        "<span style='font-size:1.5rem;font-weight:800;'>" + d + "</span><span style='font-size:0.78rem;opacity:0.6;margin:0 0.25rem 0 0.12rem;'>g</span>" +
-        "<span style='font-size:1.5rem;font-weight:800;'>" + h + "</span><span style='font-size:0.78rem;opacity:0.6;margin:0 0.25rem 0 0.12rem;'>h</span>" +
-        "<span style='font-size:1.5rem;font-weight:800;'>" + m + "</span><span style='font-size:0.78rem;opacity:0.6;margin:0 0.25rem 0 0.12rem;'>m</span>" +
-        "<span class='cd-sec' style='font-size:1.5rem;font-weight:800;'>" + sStr + "</span><span style='font-size:0.78rem;opacity:0.6;margin-left:0.12rem;'>s</span>";
+        "<span style='font-size:1.5rem;font-weight:800;'>" + d + "</span><span style='font-size:0.78rem;opacity:0.6;margin:0 0.35rem 0 0.05rem;'>g</span>" +
+        "<span style='font-size:1.5rem;font-weight:800;'>" + h + "</span><span style='font-size:0.78rem;opacity:0.6;margin:0 0.35rem 0 0.05rem;'>h</span>" +
+        "<span style='font-size:1.5rem;font-weight:800;'>" + m + "</span><span style='font-size:0.78rem;opacity:0.6;margin:0 0.35rem 0 0.05rem;'>m</span>" +
+        "<span class='cd-sec' style='font-size:1.5rem;font-weight:800;'>" + sStr + "</span><span style='font-size:0.78rem;opacity:0.6;margin-left:0.05rem;'>s</span>";
     
     // Effetto "tick" giallo sui secondi
     var secEl = el.querySelector('.cd-sec');
@@ -1285,6 +1285,150 @@ def galleria():
 
 if valid_items:
     galleria()
+
+# ============================================================================
+# 📊 STATISTICHE DEL VIAGGIO
+# ============================================================================
+st.markdown(f"""
+<style>
+.stats-section {{
+    margin: 2rem 0 1.5rem;
+}}
+.stats-eyebrow {{
+    text-align: center;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: {BRAND_BLUE};
+    opacity: 0.6;
+    margin-bottom: 0.4rem;
+}}
+.stats-title {{
+    text-align: center;
+    font-family: 'Lobster Two', cursive;
+    font-style: italic;
+    font-size: 1.6rem;
+    color: {BRAND_BLUE};
+    margin-bottom: 1.2rem;
+    line-height: 1;
+}}
+.stats-grid {{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin: 0 auto;
+}}
+.stat-card {{
+    background: white;
+    border-radius: 18px;
+    padding: 1.1rem 1rem 1rem;
+    text-align: center;
+    border: 1px solid rgba(19,0,137,0.08);
+    box-shadow: 0 4px 14px rgba(19,0,137,0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+}}
+.stat-card:hover {{
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(19,0,137,0.12);
+}}
+.stat-card::before {{
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: {BRAND_YELLOW};
+}}
+.stat-icon {{
+    font-size: 1.5rem;
+    margin-bottom: 0.3rem;
+    display: block;
+}}
+.stat-value {{
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: {BRAND_BLUE};
+    line-height: 1;
+    margin-bottom: 0.2rem;
+}}
+.stat-value-suffix {{
+    font-size: 0.78rem;
+    color: #5b6472;
+    font-weight: 600;
+    margin-left: 0.15rem;
+}}
+.stat-label {{
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #667;
+    margin-top: 0.25rem;
+}}
+.stat-sub {{
+    font-size: 0.7rem;
+    color: #8b8b9a;
+    margin-top: 0.2rem;
+    line-height: 1.3;
+}}
+@media (max-width: 700px) {{
+    .stats-grid {{
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.6rem;
+    }}
+    .stat-card {{ padding: 0.9rem 0.7rem 0.8rem; }}
+    .stat-value {{ font-size: 1.35rem; }}
+    .stat-icon {{ font-size: 1.3rem; }}
+    .stats-title {{ font-size: 1.35rem; }}
+}}
+</style>
+
+<div class="stats-section">
+    <div class="stats-eyebrow">Il viaggio in numeri</div>
+    <div class="stats-title">8.234 km verso il jazz</div>
+    <div class="stats-grid">
+        <div class="stat-card">
+            <span class="stat-icon">✈️</span>
+            <div class="stat-value">8.234<span class="stat-value-suffix">km</span></div>
+            <div class="stat-label">Distanza</div>
+            <div class="stat-sub">Da Peccioli a New Orleans</div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-icon">🕐</span>
+            <div class="stat-value">−7<span class="stat-value-suffix">h</span></div>
+            <div class="stat-label">Fuso orario</div>
+            <div class="stat-sub">Quando da noi è mezzogiorno, lì sono le 5 del mattino</div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-icon">🛫</span>
+            <div class="stat-value">~12<span class="stat-value-suffix">h</span></div>
+            <div class="stat-label">Volo</div>
+            <div class="stat-sub">Pisa → Roma → New Orleans</div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-icon">👥</span>
+            <div class="stat-value">376<span class="stat-value-suffix">mila</span></div>
+            <div class="stat-label">Abitanti NOLA</div>
+            <div class="stat-sub">Peccioli ne ha ~4.500</div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-icon">🌡️</span>
+            <div class="stat-value">28°<span class="stat-value-suffix">C</span></div>
+            <div class="stat-label">Temperatura</div>
+            <div class="stat-sub">Media a settembre, umidità alta</div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-icon">🎷</span>
+            <div class="stat-value">8<span class="stat-value-suffix">giorni</span></div>
+            <div class="stat-label">Durata viaggio</div>
+            <div class="stat-sub">21 → 28 settembre 2026</div>
+        </div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
 st.markdown(f"""
 <div class="home-strip">
