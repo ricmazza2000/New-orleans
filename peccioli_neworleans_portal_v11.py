@@ -1117,7 +1117,12 @@ html, body { overflow:hidden; background:transparent; }
 }
 .cd-label { font-size:0.65rem; font-weight:700; letter-spacing:0.12em;
     text-transform:uppercase; color:""" + BRAND_YELLOW + """; margin-bottom:0.3rem; }
-.cd-num { font-size:1.65rem; font-weight:800; color:white; line-height:1.2; }
+.cd-num { font-size:1.5rem; font-weight:800; color:white; line-height:1.2; }
+.cd-num .cd-sec { 
+    display:inline-block; min-width:1.6em; text-align:left;
+    transition: color 0.2s;
+}
+.cd-num .cd-sec.tick { color:""" + BRAND_YELLOW + """; }
 .cd-box {
     flex:1; min-width:0; background:white; border-radius:18px;
     padding:0.85rem 1rem; border:1px solid rgba(19,0,137,0.1);
@@ -1129,9 +1134,9 @@ html, body { overflow:hidden; background:transparent; }
     .cd-wrap { overflow-x:auto; scroll-snap-type:x mandatory;
         -webkit-overflow-scrolling:touch; gap:0.6rem; height:100px; }
     .cd-wrap::-webkit-scrollbar { display:none; }
-    .cd-main { min-width:190px; scroll-snap-align:start; padding:0.85rem 1rem; }
+    .cd-main { min-width:210px; scroll-snap-align:start; padding:0.85rem 1rem; }
     .cd-box { min-width:180px; scroll-snap-align:start; }
-    .cd-num { font-size:1.4rem; }
+    .cd-num { font-size:1.25rem; }
 }
 </style>
 <div class="cd-wrap">
@@ -1159,13 +1164,24 @@ function tick() {
     var d = Math.floor(t / 86400000);
     var h = Math.floor((t % 86400000) / 3600000);
     var m = Math.floor((t % 3600000) / 60000);
+    var s = Math.floor((t % 60000) / 1000);
+    // Padding 0 sui secondi (sempre 2 cifre per stabilità visiva)
+    var sStr = s < 10 ? '0' + s : s;
     el.innerHTML =
-        "<span style='font-size:1.65rem;font-weight:800;'>" + d + "</span><span style='font-size:0.82rem;opacity:0.6;margin:0 0.3rem 0 0.15rem;'>g</span>" +
-        "<span style='font-size:1.65rem;font-weight:800;'>" + h + "</span><span style='font-size:0.82rem;opacity:0.6;margin:0 0.3rem 0 0.15rem;'>h</span>" +
-        "<span style='font-size:1.65rem;font-weight:800;'>" + m + "</span><span style='font-size:0.82rem;opacity:0.6;margin-left:0.15rem;'>min</span>";
+        "<span style='font-size:1.5rem;font-weight:800;'>" + d + "</span><span style='font-size:0.78rem;opacity:0.6;margin:0 0.25rem 0 0.12rem;'>g</span>" +
+        "<span style='font-size:1.5rem;font-weight:800;'>" + h + "</span><span style='font-size:0.78rem;opacity:0.6;margin:0 0.25rem 0 0.12rem;'>h</span>" +
+        "<span style='font-size:1.5rem;font-weight:800;'>" + m + "</span><span style='font-size:0.78rem;opacity:0.6;margin:0 0.25rem 0 0.12rem;'>m</span>" +
+        "<span class='cd-sec' style='font-size:1.5rem;font-weight:800;'>" + sStr + "</span><span style='font-size:0.78rem;opacity:0.6;margin-left:0.12rem;'>s</span>";
+    
+    // Effetto "tick" giallo sui secondi
+    var secEl = el.querySelector('.cd-sec');
+    if (secEl) {
+        secEl.classList.add('tick');
+        setTimeout(function() { secEl.classList.remove('tick'); }, 150);
+    }
 }
 tick();
-setInterval(tick, 30000);
+setInterval(tick, 1000);
 </script>
 """)
 components.html(countdown_html, height=120, scrolling=False)
