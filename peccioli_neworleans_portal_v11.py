@@ -644,18 +644,219 @@ with st.sidebar:
     """, unsafe_allow_html=True)
 
 # ============================
-# BOTTOM BAR MOBILE
+# HAMBURGER MENU MOBILE (sostituisce la bottom bar)
 # ============================
 st.markdown(f"""
-<div class="bottom-nav">
-    <a href="#home" class="bn-item"><span class="bn-icon">🏠</span><span class="bn-label">Home</span></a>
-    <a href="#temi" class="bn-item"><span class="bn-icon">👁</span><span class="bn-label">Temi</span></a>
-    <a href="#briefing" class="bn-item"><span class="bn-icon">📅</span><span class="bn-label">Brief.</span></a>
-    <a href="#mappe" class="bn-item"><span class="bn-icon">🗺</span><span class="bn-label">Mappa</span></a>
-    <a href="#programma" class="bn-item"><span class="bn-icon">🗓</span><span class="bn-label">Progr.</span></a>
-    <a href="#documenti" class="bn-item"><span class="bn-icon">📂</span><span class="bn-label">Doc.</span></a>
-    <a href="#approfondimenti" class="bn-item"><span class="bn-icon">📚</span><span class="bn-label">Altro</span></a>
+<style>
+/* Bottone hamburger (visibile solo su mobile) */
+.hamburger-btn {{
+    display: none;
+    position: fixed;
+    top: 10px;
+    right: 12px;
+    width: 38px;
+    height: 38px;
+    background: {BRAND_YELLOW};
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    z-index: 100000;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.25);
+    padding: 0;
+    transition: transform 0.2s;
+}}
+.hamburger-btn:active {{ transform: scale(0.94); }}
+
+.hamburger-btn span {{
+    display: block;
+    width: 18px;
+    height: 2.5px;
+    background: {BRAND_BLUE};
+    border-radius: 2px;
+    margin: 4px auto;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}}
+
+/* Stato aperto: hamburger diventa X */
+.hamburger-btn.open span:nth-child(1) {{
+    transform: translateY(6.5px) rotate(45deg);
+}}
+.hamburger-btn.open span:nth-child(2) {{
+    opacity: 0;
+}}
+.hamburger-btn.open span:nth-child(3) {{
+    transform: translateY(-6.5px) rotate(-45deg);
+}}
+
+/* Overlay tendina */
+.menu-drawer {{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(165deg, #0a0052 0%, {BRAND_BLUE} 50%, #1a0fb8 100%);
+    z-index: 99999;
+    overflow-y: auto;
+    padding: 70px 1.5rem 2rem;
+    opacity: 0;
+    transform: translateY(-30px);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}}
+.menu-drawer.open {{
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}}
+
+.menu-eyebrow {{
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: {BRAND_YELLOW};
+    opacity: 0.7;
+    margin: 0.5rem 0 1.2rem;
+    text-align: center;
+}}
+
+.menu-list {{
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    max-width: 400px;
+    margin: 0 auto;
+}}
+
+.menu-item {{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.2rem;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,222,89,0.15);
+    border-radius: 14px;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.05rem;
+    transition: all 0.2s;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}}
+.menu-item:active {{
+    background: rgba(255,222,89,0.2);
+    transform: scale(0.98);
+}}
+.menu-item .menu-icon {{
+    font-size: 1.6rem;
+    width: 36px;
+    text-align: center;
+    flex-shrink: 0;
+}}
+.menu-item .menu-label {{
+    flex: 1;
+}}
+.menu-item .menu-arrow {{
+    color: {BRAND_YELLOW};
+    opacity: 0.6;
+    font-size: 1.2rem;
+}}
+
+.menu-footer {{
+    text-align: center;
+    color: rgba(255,255,255,0.4);
+    font-size: 0.7rem;
+    margin-top: 2rem;
+    letter-spacing: 0.05em;
+}}
+
+/* Solo mobile */
+@media (max-width: 768px) {{
+    .hamburger-btn {{ display: block; }}
+    /* Nascondi bottom bar */
+    .bottom-nav {{ display: none !important; }}
+    /* Riduci padding bottom del block-container (era spazio per la bottom bar) */
+    .main .block-container {{ padding-bottom: 1rem !important; }}
+}}
+
+/* Su desktop: hamburger e tendina mai visibili */
+@media (min-width: 769px) {{
+    .hamburger-btn, .menu-drawer {{ display: none !important; }}
+}}
+</style>
+
+<button class="hamburger-btn" id="hamburgerBtn" aria-label="Apri menu">
+    <span></span>
+    <span></span>
+    <span></span>
+</button>
+
+<div class="menu-drawer" id="menuDrawer">
+    <div class="menu-eyebrow">Naviga il portale</div>
+    <div class="menu-list">
+        <a class="menu-item" data-target="home"><span class="menu-icon">🏠</span><span class="menu-label">Home</span><span class="menu-arrow">›</span></a>
+        <a class="menu-item" data-target="temi"><span class="menu-icon">👁</span><span class="menu-label">Temi del viaggio</span><span class="menu-arrow">›</span></a>
+        <a class="menu-item" data-target="briefing"><span class="menu-icon">📅</span><span class="menu-label">Briefing</span><span class="menu-arrow">›</span></a>
+        <a class="menu-item" data-target="mappe"><span class="menu-icon">🗺</span><span class="menu-label">Mappa</span><span class="menu-arrow">›</span></a>
+        <a class="menu-item" data-target="programma"><span class="menu-icon">🗓</span><span class="menu-label">Programma</span><span class="menu-arrow">›</span></a>
+        <a class="menu-item" data-target="documenti"><span class="menu-icon">📂</span><span class="menu-label">Documenti</span><span class="menu-arrow">›</span></a>
+        <a class="menu-item" data-target="approfondimenti"><span class="menu-icon">📚</span><span class="menu-label">Approfondimenti</span><span class="menu-arrow">›</span></a>
+    </div>
+    <div class="menu-footer">Peccioli Eyes · 2026</div>
 </div>
+
+<script>
+(function() {{
+    const btn = document.getElementById('hamburgerBtn');
+    const drawer = document.getElementById('menuDrawer');
+    if (!btn || !drawer) return;
+
+    function toggleMenu() {{
+        const isOpen = drawer.classList.contains('open');
+        if (isOpen) {{
+            drawer.classList.remove('open');
+            btn.classList.remove('open');
+            document.body.style.overflow = '';
+        }} else {{
+            drawer.classList.add('open');
+            btn.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }}
+    }}
+
+    btn.addEventListener('click', toggleMenu);
+
+    // Click su voce: chiude menu e scrolla alla sezione
+    drawer.querySelectorAll('.menu-item').forEach(item => {{
+        item.addEventListener('click', (e) => {{
+            e.preventDefault();
+            const target = item.getAttribute('data-target');
+            // Chiudi menu
+            drawer.classList.remove('open');
+            btn.classList.remove('open');
+            document.body.style.overflow = '';
+            // Scrolla alla sezione (con piccolo delay per fluidità)
+            setTimeout(() => {{
+                const el = document.getElementById(target);
+                if (el) {{
+                    el.scrollIntoView({{ behavior: 'smooth', block: 'start' }});
+                }} else {{
+                    window.location.hash = '#' + target;
+                }}
+            }}, 250);
+        }});
+    }});
+
+    // ESC chiude il menu
+    document.addEventListener('keydown', (e) => {{
+        if (e.key === 'Escape' && drawer.classList.contains('open')) {{
+            toggleMenu();
+        }}
+    }});
+}})();
+</script>
 """, unsafe_allow_html=True)
 
 # ============================
