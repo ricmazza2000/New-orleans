@@ -652,16 +652,16 @@ st.markdown(f"""
 .hamburger-btn {{
     display: none;
     position: fixed;
-    top: 10px;
+    top: 52px;
     right: 12px;
-    width: 38px;
-    height: 38px;
+    width: 42px;
+    height: 42px;
     background: {BRAND_YELLOW};
-    border: none;
-    border-radius: 10px;
+    border: 2px solid {BRAND_BLUE};
+    border-radius: 12px;
     cursor: pointer;
-    z-index: 100000;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.25);
+    z-index: 2147483647;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.35);
     padding: 0;
     transition: transform 0.2s;
 }}
@@ -697,7 +697,7 @@ st.markdown(f"""
     right: 0;
     bottom: 0;
     background: linear-gradient(165deg, #0a0052 0%, {BRAND_BLUE} 50%, #1a0fb8 100%);
-    z-index: 99999;
+    z-index: 2147483646;
     overflow-y: auto;
     padding: 70px 1.5rem 2rem;
     opacity: 0;
