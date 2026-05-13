@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 import folium
 from streamlit_folium import st_folium
 from pathlib import Path
@@ -920,7 +921,6 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # Countdown
-import streamlit.components.v1 as components
 expert_paths = get_expert_paths()
 _gardner_path = expert_paths["gardner"]
 gardner_b64_cd, gardner_mime_cd = img_to_base64(_gardner_path, max_width=100, quality=75) if _gardner_path else (None, None)
