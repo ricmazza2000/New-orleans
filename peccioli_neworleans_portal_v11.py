@@ -213,133 +213,6 @@ section[data-testid="stSidebar"] {{ display: none !important; }}
     }}
 }}
 
-/* BACK TO TOP - bottone freccia in basso a destra */
-.back-to-top {{
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    width: 48px;
-    height: 48px;
-    background: {BRAND_BLUE};
-    color: {BRAND_YELLOW};
-    border: 2px solid {BRAND_YELLOW};
-    border-radius: 50%;
-    font-size: 1.3rem;
-    font-weight: 800;
-    cursor: pointer;
-    z-index: 99997;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease-out;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    line-height: 1;
-}}
-.back-to-top.visible {{
-    opacity: 1;
-    visibility: visible;
-}}
-.back-to-top:hover {{
-    background: {BRAND_YELLOW};
-    color: {BRAND_BLUE};
-    transform: translateY(-2px);
-    box-shadow: 0 8px 22px rgba(0,0,0,0.35);
-}}
-@media (max-width: 768px) {{
-    .back-to-top {{
-        bottom: 18px;
-        right: 18px;
-        width: 42px;
-        height: 42px;
-        font-size: 1.15rem;
-    }}
-}}
-
-/* FADE-IN animation per sezioni che entrano nel viewport */
-.fade-in-section {{
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
-    /* Fallback: dopo 3s diventa visibile comunque se JS fallisce */
-    animation: fadeInFallback 0.7s ease-out 3s forwards;
-}}
-.fade-in-section.visible {{
-    opacity: 1;
-    transform: translateY(0);
-    animation: none;
-}}
-@keyframes fadeInFallback {{
-    to {{
-        opacity: 1;
-        transform: translateY(0);
-    }}
-}}
-
-/* LIGHTBOX per galleria foto */
-.lightbox-overlay {{
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.92);
-    z-index: 2147483645;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-    opacity: 0;
-    transition: opacity 0.3s ease-out;
-}}
-.lightbox-overlay.open {{
-    display: flex;
-    opacity: 1;
-}}
-.lightbox-img {{
-    max-width: 95%;
-    max-height: 85%;
-    object-fit: contain;
-    border-radius: 10px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-}}
-.lightbox-close {{
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 44px;
-    height: 44px;
-    background: {BRAND_YELLOW};
-    color: {BRAND_BLUE};
-    border: none;
-    border-radius: 50%;
-    font-size: 1.3rem;
-    font-weight: 800;
-    cursor: pointer;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
-    padding: 0;
-}}
-.lightbox-close:hover {{
-    transform: rotate(90deg);
-}}
-.lightbox-caption {{
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
-    font-size: 0.9rem;
-    font-weight: 500;
-    text-align: center;
-    background: rgba(0,0,0,0.6);
-    padding: 0.5rem 1rem;
-    border-radius: 999px;
-    max-width: 90%;
-}}
-
 /* TOPBAR */
 .sticky-topbar {{
     position: fixed; top: 0; left: 0; right: 0;
@@ -390,20 +263,6 @@ section[data-testid="stSidebar"] {{ display: none !important; }}
     background: rgba(255,222,89,0.08);
 }}
 .topbar-nav a:hover::after {{
-    content: "";
-    position: absolute;
-    bottom: -2px;
-    left: 0.85rem;
-    right: 0.85rem;
-    height: 2px;
-    background: {BRAND_YELLOW};
-    border-radius: 2px;
-}}
-.topbar-nav a.active {{
-    color: {BRAND_YELLOW};
-    background: rgba(255,222,89,0.12);
-}}
-.topbar-nav a.active::after {{
     content: "";
     position: absolute;
     bottom: -2px;
@@ -974,228 +833,78 @@ st.markdown(f"""
     </div>
     <div class="menu-footer">Peccioli Eyes · 2026</div>
 </div>
-
-<!-- Bottone Torna su -->
-<button class="back-to-top" id="backToTop" aria-label="Torna su">↑</button>
-
-<!-- Lightbox per foto -->
-<div class="lightbox-overlay" id="lightboxOverlay">
-    <button class="lightbox-close" id="lightboxClose" aria-label="Chiudi">✕</button>
-    <img class="lightbox-img" id="lightboxImg" src="" alt="">
-    <div class="lightbox-caption" id="lightboxCaption"></div>
-</div>
 """, unsafe_allow_html=True)
 
-# JavaScript del menu + nav active + back-to-top + fade-in + lightbox
+# JavaScript del menu (deve essere in components.html per essere eseguito da Streamlit)
 components.html("""
 <script>
 (function() {
-    // Helper per accedere al parent document (la pagina Streamlit)
-    function pDoc() {
-        try { return window.parent.document; } catch(e) { return null; }
+    function findInParent(selector) {
+        try {
+            return window.parent.document.querySelector(selector);
+        } catch(e) { return null; }
     }
-    function pWin() {
-        try { return window.parent; } catch(e) { return null; }
+    function findAllInParent(selector) {
+        try {
+            return window.parent.document.querySelectorAll(selector);
+        } catch(e) { return []; }
     }
 
-    const doc = pDoc();
-    const win = pWin();
-    if (!doc || !win) return;
-
-    // ============================================
-    // 0. MENU HAMBURGER (mobile)
-    // ============================================
     function setupMenu() {
-        const btn = doc.getElementById('hamburgerBtn');
-        const drawer = doc.getElementById('menuDrawer');
-        if (!btn || !drawer || btn.dataset.ready === '1') return;
-        btn.dataset.ready = '1';
+        const btn = findInParent('#hamburgerBtn');
+        const drawer = findInParent('#menuDrawer');
+        if (!btn || !drawer) {
+            setTimeout(setupMenu, 500);
+            return;
+        }
+        if (btn.dataset.menuReady === '1') return;
+        btn.dataset.menuReady = '1';
 
         function closeMenu() {
             drawer.classList.remove('open');
             btn.classList.remove('open');
-            doc.body.style.overflow = '';
+            window.parent.document.body.style.overflow = '';
         }
         function openMenu() {
             drawer.classList.add('open');
             btn.classList.add('open');
-            doc.body.style.overflow = 'hidden';
+            window.parent.document.body.style.overflow = 'hidden';
         }
-        btn.addEventListener('click', () => {
+        function toggleMenu() {
             if (drawer.classList.contains('open')) closeMenu();
             else openMenu();
-        });
-        drawer.querySelectorAll('.menu-item').forEach(item => {
+        }
+
+        btn.addEventListener('click', toggleMenu);
+
+        const items = findAllInParent('#menuDrawer .menu-item');
+        items.forEach(item => {
             item.addEventListener('click', (e) => {
                 e.preventDefault();
                 const target = item.getAttribute('data-target');
                 closeMenu();
                 setTimeout(() => {
-                    const el = doc.getElementById(target);
-                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    const el = window.parent.document.getElementById(target);
+                    if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    } else {
+                        window.parent.location.hash = '#' + target;
+                    }
                 }, 250);
             });
         });
-        doc.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && drawer.classList.contains('open')) closeMenu();
-        });
-    }
 
-    // ============================================
-    // 1. ACTIVE STATE TOP NAV
-    // ============================================
-    function setupActiveNav() {
-        const navLinks = doc.querySelectorAll('.topbar-nav a');
-        if (!navLinks || navLinks.length === 0) return;
-
-        const navMap = {};
-        navLinks.forEach(link => {
-            const href = link.getAttribute('href');
-            if (href && href.startsWith('#')) {
-                navMap[href.substring(1)] = link;
+        window.parent.document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && drawer.classList.contains('open')) {
+                closeMenu();
             }
         });
-
-        const sectionIds = Object.keys(navMap);
-        if (sectionIds.length === 0) return;
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const id = entry.target.id;
-                    navLinks.forEach(l => l.classList.remove('active'));
-                    if (navMap[id]) navMap[id].classList.add('active');
-                }
-            });
-        }, { rootMargin: '-30% 0px -55% 0px', threshold: 0 });
-
-        sectionIds.forEach(id => {
-            const section = doc.getElementById(id);
-            if (section) observer.observe(section);
-        });
     }
 
-    // ============================================
-    // 2. BACK TO TOP
-    // ============================================
-    function setupBackToTop() {
-        const btn = doc.getElementById('backToTop');
-        if (!btn || btn.dataset.ready === '1') return;
-        btn.dataset.ready = '1';
-
-        function onScroll() {
-            if (win.scrollY > 400) btn.classList.add('visible');
-            else btn.classList.remove('visible');
-        }
-        win.addEventListener('scroll', onScroll, { passive: true });
-        onScroll();
-        btn.addEventListener('click', () => {
-            win.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    }
-
-    // ============================================
-    // 3. FADE-IN sezioni (solo container con id specifici)
-    // ============================================
-    function setupFadeIn() {
-        const targetIds = ['temi', 'briefing', 'mappe', 'programma', 'documenti', 'approfondimenti'];
-        const sections = [];
-        targetIds.forEach(id => {
-            const el = doc.getElementById(id);
-            if (!el) return;
-            // Trova section-wrap più vicino
-            let target = el.parentElement;
-            let safety = 0;
-            while (target && target.tagName !== 'BODY' && safety < 10) {
-                if (target.classList && target.classList.contains('section-wrap')) break;
-                target = target.parentElement;
-                safety++;
-            }
-            if (target && target.classList && !target.classList.contains('fade-in-section')) {
-                target.classList.add('fade-in-section');
-                sections.push(target);
-            }
-        });
-        if (sections.length === 0) return;
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
-
-        sections.forEach(s => observer.observe(s));
-    }
-
-    // ============================================
-    // 4. LIGHTBOX galleria
-    // ============================================
-    function setupLightbox() {
-        const overlay = doc.getElementById('lightboxOverlay');
-        const img = doc.getElementById('lightboxImg');
-        const caption = doc.getElementById('lightboxCaption');
-        const closeBtn = doc.getElementById('lightboxClose');
-        if (!overlay || !img || !closeBtn || overlay.dataset.ready === '1') return;
-        overlay.dataset.ready = '1';
-
-        function openLightbox(src, alt) {
-            img.src = src;
-            img.alt = alt || '';
-            caption.textContent = alt || '';
-            caption.style.display = alt ? 'block' : 'none';
-            overlay.classList.add('open');
-            doc.body.style.overflow = 'hidden';
-        }
-        function closeLightbox() {
-            overlay.classList.remove('open');
-            doc.body.style.overflow = '';
-            setTimeout(() => { img.src = ''; }, 300);
-        }
-
-        closeBtn.addEventListener('click', closeLightbox);
-        overlay.addEventListener('click', (e) => {
-            if (e.target === overlay) closeLightbox();
-        });
-        doc.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && overlay.classList.contains('open')) closeLightbox();
-        });
-
-        // Attach a immagini gallery (solo .gallery-grid img per essere safe)
-        function attachToImages() {
-            const galleryImgs = doc.querySelectorAll('.gallery-grid img');
-            galleryImgs.forEach(im => {
-                if (im.dataset.lbReady === '1') return;
-                im.dataset.lbReady = '1';
-                im.style.cursor = 'zoom-in';
-                im.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    openLightbox(im.src, im.alt);
-                });
-            });
-        }
-        attachToImages();
-    }
-
-    // ============================================
-    // INIT con un singolo retry sicuro
-    // ============================================
-    function initAll() {
-        setupMenu();
-        setupActiveNav();
-        setupBackToTop();
-        setupFadeIn();
-        setupLightbox();
-    }
-
-    // Attesa singola - 800ms dopo il load
-    if (doc.readyState === 'complete') {
-        setTimeout(initAll, 800);
+    if (window.parent.document.readyState === 'loading') {
+        window.parent.document.addEventListener('DOMContentLoaded', setupMenu);
     } else {
-        win.addEventListener('load', () => setTimeout(initAll, 800));
+        setupMenu();
     }
 })();
 </script>
