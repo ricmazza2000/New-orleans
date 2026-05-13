@@ -806,58 +806,89 @@ st.markdown(f"""
     </div>
     <div class="menu-footer">Peccioli Eyes · 2026</div>
 </div>
+""", unsafe_allow_html=True)
 
+# JavaScript del menu (deve essere in components.html per essere eseguito da Streamlit)
+components.html("""
 <script>
-(function() {{
-    const btn = document.getElementById('hamburgerBtn');
-    const drawer = document.getElementById('menuDrawer');
-    if (!btn || !drawer) return;
+(function() {
+    // Funzione per cercare gli elementi nel documento parent (la pagina Streamlit)
+    function findInParent(selector) {
+        try {
+            return window.parent.document.querySelector(selector);
+        } catch(e) { return null; }
+    }
+    function findAllInParent(selector) {
+        try {
+            return window.parent.document.querySelectorAll(selector);
+        } catch(e) { return []; }
+    }
 
-    function toggleMenu() {{
-        const isOpen = drawer.classList.contains('open');
-        if (isOpen) {{
+    function setupMenu() {
+        const btn = findInParent('#hamburgerBtn');
+        const drawer = findInParent('#menuDrawer');
+        if (!btn || !drawer) {
+            // Riprova dopo un po' se gli elementi non sono ancora nel DOM
+            setTimeout(setupMenu, 500);
+            return;
+        }
+
+        // Se già configurato, evita di duplicare i listener
+        if (btn.dataset.menuReady === '1') return;
+        btn.dataset.menuReady = '1';
+
+        function closeMenu() {
             drawer.classList.remove('open');
             btn.classList.remove('open');
-            document.body.style.overflow = '';
-        }} else {{
+            window.parent.document.body.style.overflow = '';
+        }
+        function openMenu() {
             drawer.classList.add('open');
             btn.classList.add('open');
-            document.body.style.overflow = 'hidden';
-        }}
-    }}
+            window.parent.document.body.style.overflow = 'hidden';
+        }
+        function toggleMenu() {
+            if (drawer.classList.contains('open')) closeMenu();
+            else openMenu();
+        }
 
-    btn.addEventListener('click', toggleMenu);
+        btn.addEventListener('click', toggleMenu);
 
-    // Click su voce: chiude menu e scrolla alla sezione
-    drawer.querySelectorAll('.menu-item').forEach(item => {{
-        item.addEventListener('click', (e) => {{
-            e.preventDefault();
-            const target = item.getAttribute('data-target');
-            // Chiudi menu
-            drawer.classList.remove('open');
-            btn.classList.remove('open');
-            document.body.style.overflow = '';
-            // Scrolla alla sezione (con piccolo delay per fluidità)
-            setTimeout(() => {{
-                const el = document.getElementById(target);
-                if (el) {{
-                    el.scrollIntoView({{ behavior: 'smooth', block: 'start' }});
-                }} else {{
-                    window.location.hash = '#' + target;
-                }}
-            }}, 250);
-        }});
-    }});
+        // Click su voci del menu
+        const items = findAllInParent('#menuDrawer .menu-item');
+        items.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = item.getAttribute('data-target');
+                closeMenu();
+                setTimeout(() => {
+                    const el = window.parent.document.getElementById(target);
+                    if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    } else {
+                        window.parent.location.hash = '#' + target;
+                    }
+                }, 250);
+            });
+        });
 
-    // ESC chiude il menu
-    document.addEventListener('keydown', (e) => {{
-        if (e.key === 'Escape' && drawer.classList.contains('open')) {{
-            toggleMenu();
-        }}
-    }});
-}})();
+        // ESC chiude
+        window.parent.document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && drawer.classList.contains('open')) {
+                closeMenu();
+            }
+        });
+    }
+
+    // Avvia setup quando il DOM parent è pronto
+    if (window.parent.document.readyState === 'loading') {
+        window.parent.document.addEventListener('DOMContentLoaded', setupMenu);
+    } else {
+        setupMenu();
+    }
+})();
 </script>
-""", unsafe_allow_html=True)
+""", height=0)
 
 # ============================
 # TOPBAR
