@@ -263,10 +263,19 @@ section[data-testid="stSidebar"] {{ display: none !important; }}
     opacity: 0;
     transform: translateY(24px);
     transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    /* Fallback: dopo 3s diventa visibile comunque se JS fallisce */
+    animation: fadeInFallback 0.7s ease-out 3s forwards;
 }}
 .fade-in-section.visible {{
     opacity: 1;
     transform: translateY(0);
+    animation: none;
+}}
+@keyframes fadeInFallback {{
+    to {{
+        opacity: 1;
+        transform: translateY(0);
+    }}
 }}
 
 /* LIGHTBOX per galleria foto */
@@ -977,89 +986,68 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# JavaScript del menu (deve essere in components.html per essere eseguito da Streamlit)
+# JavaScript del menu + nav active + back-to-top + fade-in + lightbox
 components.html("""
 <script>
 (function() {
-    // Funzione per cercare gli elementi nel documento parent (la pagina Streamlit)
-    function findInParent(selector) {
-        try {
-            return window.parent.document.querySelector(selector);
-        } catch(e) { return null; }
+    // Helper per accedere al parent document (la pagina Streamlit)
+    function pDoc() {
+        try { return window.parent.document; } catch(e) { return null; }
     }
-    function findAllInParent(selector) {
-        try {
-            return window.parent.document.querySelectorAll(selector);
-        } catch(e) { return []; }
+    function pWin() {
+        try { return window.parent; } catch(e) { return null; }
     }
 
+    const doc = pDoc();
+    const win = pWin();
+    if (!doc || !win) return;
+
+    // ============================================
+    // 0. MENU HAMBURGER (mobile)
+    // ============================================
     function setupMenu() {
-        const btn = findInParent('#hamburgerBtn');
-        const drawer = findInParent('#menuDrawer');
-        if (!btn || !drawer) {
-            // Riprova dopo un po' se gli elementi non sono ancora nel DOM
-            setTimeout(setupMenu, 500);
-            return;
-        }
-
-        // Se già configurato, evita di duplicare i listener
-        if (btn.dataset.menuReady === '1') return;
-        btn.dataset.menuReady = '1';
+        const btn = doc.getElementById('hamburgerBtn');
+        const drawer = doc.getElementById('menuDrawer');
+        if (!btn || !drawer || btn.dataset.ready === '1') return;
+        btn.dataset.ready = '1';
 
         function closeMenu() {
             drawer.classList.remove('open');
             btn.classList.remove('open');
-            window.parent.document.body.style.overflow = '';
+            doc.body.style.overflow = '';
         }
         function openMenu() {
             drawer.classList.add('open');
             btn.classList.add('open');
-            window.parent.document.body.style.overflow = 'hidden';
+            doc.body.style.overflow = 'hidden';
         }
-        function toggleMenu() {
+        btn.addEventListener('click', () => {
             if (drawer.classList.contains('open')) closeMenu();
             else openMenu();
-        }
-
-        btn.addEventListener('click', toggleMenu);
-
-        // Click su voci del menu
-        const items = findAllInParent('#menuDrawer .menu-item');
-        items.forEach(item => {
+        });
+        drawer.querySelectorAll('.menu-item').forEach(item => {
             item.addEventListener('click', (e) => {
                 e.preventDefault();
                 const target = item.getAttribute('data-target');
                 closeMenu();
                 setTimeout(() => {
-                    const el = window.parent.document.getElementById(target);
-                    if (el) {
-                        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    } else {
-                        window.parent.location.hash = '#' + target;
-                    }
+                    const el = doc.getElementById(target);
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }, 250);
             });
         });
-
-        // ESC chiude
-        window.parent.document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && drawer.classList.contains('open')) {
-                closeMenu();
-            }
+        doc.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && drawer.classList.contains('open')) closeMenu();
         });
     }
 
     // ============================================
-    // 1. ACTIVE STATE TOP NAV (sezione visibile = link giallo)
+    // 1. ACTIVE STATE TOP NAV
     // ============================================
-    function setupActiveNavTracking() {
-        const navLinks = findAllInParent('.topbar-nav a');
-        if (!navLinks || navLinks.length === 0) {
-            setTimeout(setupActiveNavTracking, 500);
-            return;
-        }
+    function setupActiveNav() {
+        const navLinks = doc.querySelectorAll('.topbar-nav a');
+        if (!navLinks || navLinks.length === 0) return;
 
-        // Mappa href -> link DOM
         const navMap = {};
         navLinks.forEach(link => {
             const href = link.getAttribute('href');
@@ -1071,82 +1059,64 @@ components.html("""
         const sectionIds = Object.keys(navMap);
         if (sectionIds.length === 0) return;
 
-        // IntersectionObserver: rileva sezione visibile
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const id = entry.target.id;
-                    // Rimuovi active da tutti
                     navLinks.forEach(l => l.classList.remove('active'));
-                    // Aggiungi al corrente
-                    if (navMap[id]) {
-                        navMap[id].classList.add('active');
-                    }
+                    if (navMap[id]) navMap[id].classList.add('active');
                 }
             });
         }, { rootMargin: '-30% 0px -55% 0px', threshold: 0 });
 
         sectionIds.forEach(id => {
-            const section = window.parent.document.getElementById(id);
+            const section = doc.getElementById(id);
             if (section) observer.observe(section);
         });
     }
 
     // ============================================
-    // 2. BACK TO TOP - bottone che appare scrollando
+    // 2. BACK TO TOP
     // ============================================
     function setupBackToTop() {
-        const btn = findInParent('#backToTop');
-        if (!btn) {
-            setTimeout(setupBackToTop, 500);
-            return;
-        }
-        if (btn.dataset.ready === '1') return;
+        const btn = doc.getElementById('backToTop');
+        if (!btn || btn.dataset.ready === '1') return;
         btn.dataset.ready = '1';
 
-        const parentWin = window.parent;
         function onScroll() {
-            if (parentWin.scrollY > 400) {
-                btn.classList.add('visible');
-            } else {
-                btn.classList.remove('visible');
-            }
+            if (win.scrollY > 400) btn.classList.add('visible');
+            else btn.classList.remove('visible');
         }
-        parentWin.addEventListener('scroll', onScroll, { passive: true });
+        win.addEventListener('scroll', onScroll, { passive: true });
         onScroll();
-
         btn.addEventListener('click', () => {
-            parentWin.scrollTo({ top: 0, behavior: 'smooth' });
+            win.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
 
     // ============================================
-    // 3. FADE-IN sezioni quando entrano nel viewport
+    // 3. FADE-IN sezioni (solo container con id specifici)
     // ============================================
-    function setupFadeInSections() {
-        const parentDoc = window.parent.document;
-        // Marca sezioni come fade-in (solo quelle con id principale)
+    function setupFadeIn() {
         const targetIds = ['temi', 'briefing', 'mappe', 'programma', 'documenti', 'approfondimenti'];
         const sections = [];
         targetIds.forEach(id => {
-            const el = parentDoc.getElementById(id);
-            if (el) {
-                // Aggiungi classe alla parent section o all'elemento più vicino
-                let target = el.parentElement;
-                while (target && target.tagName !== 'BODY' && !target.classList.contains('section-wrap')) {
-                    target = target.parentElement;
-                }
-                if (target && !target.classList.contains('fade-in-section')) {
-                    target.classList.add('fade-in-section');
-                    sections.push(target);
-                }
+            const el = doc.getElementById(id);
+            if (!el) return;
+            // Trova section-wrap più vicino
+            let target = el.parentElement;
+            let safety = 0;
+            while (target && target.tagName !== 'BODY' && safety < 10) {
+                if (target.classList && target.classList.contains('section-wrap')) break;
+                target = target.parentElement;
+                safety++;
+            }
+            if (target && target.classList && !target.classList.contains('fade-in-section')) {
+                target.classList.add('fade-in-section');
+                sections.push(target);
             }
         });
-
-        if (sections.length === 0) {
-            setTimeout(setupFadeInSections, 800);
-            return;
-        }
+        if (sections.length === 0) return;
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -1161,20 +1131,14 @@ components.html("""
     }
 
     // ============================================
-    // 4. LIGHTBOX galleria foto
+    // 4. LIGHTBOX galleria
     // ============================================
     function setupLightbox() {
-        const parentDoc = window.parent.document;
-        const overlay = findInParent('#lightboxOverlay');
-        const img = findInParent('#lightboxImg');
-        const caption = findInParent('#lightboxCaption');
-        const closeBtn = findInParent('#lightboxClose');
-
-        if (!overlay || !img || !closeBtn) {
-            setTimeout(setupLightbox, 500);
-            return;
-        }
-        if (overlay.dataset.ready === '1') return;
+        const overlay = doc.getElementById('lightboxOverlay');
+        const img = doc.getElementById('lightboxImg');
+        const caption = doc.getElementById('lightboxCaption');
+        const closeBtn = doc.getElementById('lightboxClose');
+        if (!overlay || !img || !closeBtn || overlay.dataset.ready === '1') return;
         overlay.dataset.ready = '1';
 
         function openLightbox(src, alt) {
@@ -1183,12 +1147,11 @@ components.html("""
             caption.textContent = alt || '';
             caption.style.display = alt ? 'block' : 'none';
             overlay.classList.add('open');
-            parentDoc.body.style.overflow = 'hidden';
+            doc.body.style.overflow = 'hidden';
         }
-
         function closeLightbox() {
             overlay.classList.remove('open');
-            parentDoc.body.style.overflow = '';
+            doc.body.style.overflow = '';
             setTimeout(() => { img.src = ''; }, 300);
         }
 
@@ -1196,16 +1159,13 @@ components.html("""
         overlay.addEventListener('click', (e) => {
             if (e.target === overlay) closeLightbox();
         });
-        parentDoc.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && overlay.classList.contains('open')) {
-                closeLightbox();
-            }
+        doc.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && overlay.classList.contains('open')) closeLightbox();
         });
 
-        // Trova foto galleria home e rendi cliccabili
+        // Attach a immagini gallery (solo .gallery-grid img per essere safe)
         function attachToImages() {
-            // Cerco le immagini gallery (home gallery + sezione strip + foto sezioni)
-            const galleryImgs = parentDoc.querySelectorAll('.gallery-grid img, .home-strip img, [class*="gallery"] img');
+            const galleryImgs = doc.querySelectorAll('.gallery-grid img');
             galleryImgs.forEach(im => {
                 if (im.dataset.lbReady === '1') return;
                 im.dataset.lbReady = '1';
@@ -1218,23 +1178,24 @@ components.html("""
             });
         }
         attachToImages();
-        // Ri-attacca periodicamente perché Streamlit può ricaricare il DOM
-        setInterval(attachToImages, 2000);
     }
 
-    // Avvia setup quando il DOM parent è pronto
+    // ============================================
+    // INIT con un singolo retry sicuro
+    // ============================================
     function initAll() {
         setupMenu();
-        setupActiveNavTracking();
+        setupActiveNav();
         setupBackToTop();
-        setupFadeInSections();
+        setupFadeIn();
         setupLightbox();
     }
 
-    if (window.parent.document.readyState === 'loading') {
-        window.parent.document.addEventListener('DOMContentLoaded', initAll);
+    // Attesa singola - 800ms dopo il load
+    if (doc.readyState === 'complete') {
+        setTimeout(initAll, 800);
     } else {
-        initAll();
+        win.addEventListener('load', () => setTimeout(initAll, 800));
     }
 })();
 </script>
