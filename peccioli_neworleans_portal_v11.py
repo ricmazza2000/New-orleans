@@ -1287,37 +1287,88 @@ if valid_items:
     galleria()
 
 # ============================================================================
-# 📊 STATISTICHE DEL VIAGGIO
+# 📊 STATISTICHE DEL VIAGGIO (collassabili)
 # ============================================================================
 st.markdown(f"""
 <style>
 .stats-section {{
-    margin: 2rem 0 1.5rem;
+    margin: 1.5rem 0 1.5rem;
 }}
-.stats-eyebrow {{
-    text-align: center;
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
+.stats-toggle {{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
+    padding: 0.7rem 1.2rem;
+    background: white;
+    border: 1px solid rgba(19,0,137,0.12);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
     color: {BRAND_BLUE};
-    opacity: 0.6;
-    margin-bottom: 0.4rem;
+    box-shadow: 0 2px 8px rgba(19,0,137,0.05);
+    -webkit-tap-highlight-color: transparent;
 }}
-.stats-title {{
-    text-align: center;
+.stats-toggle:hover {{
+    background: {BRAND_YELLOW_LIGHT};
+    border-color: {BRAND_YELLOW};
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(19,0,137,0.1);
+}}
+.stats-toggle-icon {{
+    font-size: 1rem;
+}}
+.stats-toggle-text {{
     font-family: 'Lobster Two', cursive;
     font-style: italic;
-    font-size: 1.6rem;
+    font-size: 1.1rem;
+    font-weight: 700;
     color: {BRAND_BLUE};
-    margin-bottom: 1.2rem;
+    flex: 1;
+    text-align: left;
+}}
+.stats-toggle-eyebrow {{
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: {BRAND_BLUE};
+    opacity: 0.55;
+    margin-bottom: 0.1rem;
     line-height: 1;
 }}
+.stats-toggle-arrow {{
+    font-size: 1rem;
+    color: {BRAND_BLUE};
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}}
+.stats-toggle.open .stats-toggle-arrow {{
+    transform: rotate(180deg);
+}}
+
+.stats-content {{
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.45s ease-out, margin-top 0.3s ease-out;
+    margin-top: 0;
+}}
+.stats-content.open {{
+    max-height: 1200px;
+    margin-top: 1rem;
+}}
+
 .stats-grid {{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 0.75rem;
-    margin: 0 auto;
 }}
 .stat-card {{
     background: white;
@@ -1382,53 +1433,95 @@ st.markdown(f"""
     .stat-card {{ padding: 0.9rem 0.7rem 0.8rem; }}
     .stat-value {{ font-size: 1.35rem; }}
     .stat-icon {{ font-size: 1.3rem; }}
-    .stats-title {{ font-size: 1.35rem; }}
+    .stats-toggle-text {{ font-size: 1rem; }}
 }}
 </style>
 
 <div class="stats-section">
-    <div class="stats-eyebrow">Il viaggio in numeri</div>
-    <div class="stats-title">8.234 km verso il jazz</div>
-    <div class="stats-grid">
-        <div class="stat-card">
-            <span class="stat-icon">✈️</span>
-            <div class="stat-value">8.234<span class="stat-value-suffix">km</span></div>
-            <div class="stat-label">Distanza</div>
-            <div class="stat-sub">Da Peccioli a New Orleans</div>
-        </div>
-        <div class="stat-card">
-            <span class="stat-icon">🕐</span>
-            <div class="stat-value">−7<span class="stat-value-suffix">h</span></div>
-            <div class="stat-label">Fuso orario</div>
-            <div class="stat-sub">Quando da noi è mezzogiorno, lì sono le 5 del mattino</div>
-        </div>
-        <div class="stat-card">
-            <span class="stat-icon">🛫</span>
-            <div class="stat-value">~12<span class="stat-value-suffix">h</span></div>
-            <div class="stat-label">Volo</div>
-            <div class="stat-sub">Pisa → Roma → New Orleans</div>
-        </div>
-        <div class="stat-card">
-            <span class="stat-icon">👥</span>
-            <div class="stat-value">376<span class="stat-value-suffix">mila</span></div>
-            <div class="stat-label">Abitanti NOLA</div>
-            <div class="stat-sub">Peccioli ne ha ~4.500</div>
-        </div>
-        <div class="stat-card">
-            <span class="stat-icon">🌡️</span>
-            <div class="stat-value">28°<span class="stat-value-suffix">C</span></div>
-            <div class="stat-label">Temperatura</div>
-            <div class="stat-sub">Media a settembre, umidità alta</div>
-        </div>
-        <div class="stat-card">
-            <span class="stat-icon">🎷</span>
-            <div class="stat-value">8<span class="stat-value-suffix">giorni</span></div>
-            <div class="stat-label">Durata viaggio</div>
-            <div class="stat-sub">21 → 28 settembre 2026</div>
+    <button class="stats-toggle" id="statsToggle" type="button" aria-expanded="false">
+        <span class="stats-toggle-icon">📊</span>
+        <span class="stats-toggle-text">
+            <span class="stats-toggle-eyebrow">Il viaggio in numeri</span>
+            8.234 km verso il jazz
+        </span>
+        <span class="stats-toggle-arrow">▾</span>
+    </button>
+    <div class="stats-content" id="statsContent">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-icon">✈️</span>
+                <div class="stat-value">8.234<span class="stat-value-suffix">km</span></div>
+                <div class="stat-label">Distanza</div>
+                <div class="stat-sub">Da Peccioli a New Orleans</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">🕐</span>
+                <div class="stat-value">−7<span class="stat-value-suffix">h</span></div>
+                <div class="stat-label">Fuso orario</div>
+                <div class="stat-sub">Quando da noi è mezzogiorno, lì sono le 5 del mattino</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">🛫</span>
+                <div class="stat-value">~12<span class="stat-value-suffix">h</span></div>
+                <div class="stat-label">Volo</div>
+                <div class="stat-sub">Pisa → Roma → New Orleans</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">👥</span>
+                <div class="stat-value">376<span class="stat-value-suffix">mila</span></div>
+                <div class="stat-label">Abitanti NOLA</div>
+                <div class="stat-sub">Peccioli ne ha ~4.500</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">🌡️</span>
+                <div class="stat-value">28°<span class="stat-value-suffix">C</span></div>
+                <div class="stat-label">Temperatura</div>
+                <div class="stat-sub">Media a settembre, umidità alta</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">🎷</span>
+                <div class="stat-value">8<span class="stat-value-suffix">giorni</span></div>
+                <div class="stat-label">Durata viaggio</div>
+                <div class="stat-sub">21 → 28 settembre 2026</div>
+            </div>
         </div>
     </div>
 </div>
 """, unsafe_allow_html=True)
+
+# JavaScript per il toggle delle statistiche
+components.html("""
+<script>
+(function() {
+    function setupStatsToggle() {
+        const doc = window.parent.document;
+        const btn = doc.getElementById('statsToggle');
+        const content = doc.getElementById('statsContent');
+        if (!btn || !content || btn.dataset.ready === '1') return;
+        btn.dataset.ready = '1';
+
+        btn.addEventListener('click', () => {
+            const isOpen = btn.classList.contains('open');
+            if (isOpen) {
+                btn.classList.remove('open');
+                content.classList.remove('open');
+                btn.setAttribute('aria-expanded', 'false');
+            } else {
+                btn.classList.add('open');
+                content.classList.add('open');
+                btn.setAttribute('aria-expanded', 'true');
+            }
+        });
+    }
+
+    if (window.parent.document.readyState === 'complete') {
+        setTimeout(setupStatsToggle, 400);
+    } else {
+        window.parent.addEventListener('load', () => setTimeout(setupStatsToggle, 400));
+    }
+})();
+</script>
+""", height=0)
 
 st.markdown(f"""
 <div class="home-strip">
