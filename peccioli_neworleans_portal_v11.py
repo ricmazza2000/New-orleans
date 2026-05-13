@@ -163,8 +163,13 @@ html, body, [class*="css"] {{
 
 .block-container {{
     max-width: 1200px;
-    padding-top: 44px !important;
+    padding-top: 56px !important;
     padding-bottom: 2rem;
+}}
+@media (max-width: 768px) {{
+    .block-container {{
+        padding-top: 44px !important;
+    }}
 }}
 
 #MainMenu, header[data-testid="stHeader"], footer,
@@ -225,6 +230,66 @@ section[data-testid="stSidebar"] {{ display: none !important; }}
     font-family: 'Lobster Two', cursive; font-style: italic;
     font-weight: 600; color: {BRAND_YELLOW};
     text-transform: none; letter-spacing: 0; margin-left: 0.3rem;
+}}
+
+/* Top nav orizzontale (desktop) */
+.topbar-nav {{
+    display: none;
+    align-items: center;
+    gap: 0.2rem;
+}}
+.topbar-nav a {{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.4rem 0.85rem;
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.18s ease;
+    position: relative;
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}}
+.topbar-nav a .nav-icon {{
+    font-size: 0.95rem;
+    line-height: 1;
+}}
+.topbar-nav a:hover {{
+    color: {BRAND_YELLOW};
+    background: rgba(255,222,89,0.08);
+}}
+.topbar-nav a:hover::after {{
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0.85rem;
+    right: 0.85rem;
+    height: 2px;
+    background: {BRAND_YELLOW};
+    border-radius: 2px;
+}}
+
+/* Desktop: topbar diventa layout titolo + nav */
+@media (min-width: 769px) {{
+    .sticky-topbar {{
+        height: 56px;
+        justify-content: space-between;
+        padding: 0 2rem;
+    }}
+    .sticky-topbar-title {{
+        font-size: 0.95rem;
+        flex-shrink: 0;
+    }}
+    .sticky-topbar-title em {{
+        font-size: 1rem;
+    }}
+    .topbar-nav {{
+        display: flex;
+    }}
 }}
 
 /* BOTTOM NAV MOBILE */
@@ -636,40 +701,13 @@ st.markdown(f"""
     transform: translateY(-6.5px) rotate(-45deg);
 }}
 
-/* Su desktop (>768px): bottone pillola con testo "MENU" */
+/* Su desktop (>768px): hamburger NASCOSTO (c'è la top nav nella topbar) */
 @media (min-width: 769px) {{
     .hamburger-btn {{
-        display: flex !important;
-        align-items: center;
-        gap: 0.5rem;
-        top: 10px;
-        right: 20px;
-        width: auto;
-        height: 38px;
-        padding: 0 1rem 0 0.7rem;
-        border-radius: 999px;
-        border: none;
-        box-shadow: 0 3px 12px rgba(0,0,0,0.2);
+        display: none !important;
     }}
-    .hamburger-btn:hover {{
-        background: white;
-        box-shadow: 0 6px 18px rgba(0,0,0,0.3);
-        transform: translateY(-1px);
-    }}
-    .hamburger-btn .hb-text {{
-        display: inline-block;
-    }}
-    .hamburger-btn .hb-lines {{
-        width: 18px;
-        height: auto;
-        flex-direction: column;
-    }}
-    .hamburger-btn .hb-lines span {{
-        width: 18px;
-        margin: 2px 0;
-    }}
-    .hamburger-btn.open .hb-lines span:nth-child(1) {{
-        transform: translateY(6.5px) rotate(45deg);
+    .menu-drawer {{
+        display: none !important;
     }}
 }}
 
@@ -888,6 +926,15 @@ eyes_tag_hero = f'<img src="data:{eyes_logo_white_mime};base64,{eyes_logo_white_
 st.markdown(f"""
 <div class="sticky-topbar">
     <div class="sticky-topbar-title">{eyes_tag_topbar}PECCIOLI EYES<em>to New Orleans</em></div>
+    <nav class="topbar-nav">
+        <a href="#home"><span class="nav-icon">🏠</span>Home</a>
+        <a href="#temi"><span class="nav-icon">👁</span>Temi</a>
+        <a href="#briefing"><span class="nav-icon">📅</span>Briefing</a>
+        <a href="#mappe"><span class="nav-icon">🗺</span>Mappa</a>
+        <a href="#programma"><span class="nav-icon">🗓</span>Programma</a>
+        <a href="#documenti"><span class="nav-icon">📂</span>Documenti</a>
+        <a href="#approfondimenti"><span class="nav-icon">📚</span>Altro</a>
+    </nav>
 </div>
 """, unsafe_allow_html=True)
 
