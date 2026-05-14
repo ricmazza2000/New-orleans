@@ -1028,7 +1028,6 @@ st.markdown(f"""
         <a class="menu-item" data-target="briefing"><span class="menu-icon">📅</span><span class="menu-label">Briefing</span><span class="menu-arrow">›</span></a>
         <a class="menu-item" data-target="mappe"><span class="menu-icon">🗺</span><span class="menu-label">Mappa</span><span class="menu-arrow">›</span></a>
         <a class="menu-item" data-target="programma"><span class="menu-icon">🗓</span><span class="menu-label">Programma</span><span class="menu-arrow">›</span></a>
-        <a class="menu-item" data-target="sguardo"><span class="menu-icon">🎨</span><span class="menu-label">Il mio sguardo</span><span class="menu-arrow">›</span></a>
         <a class="menu-item" data-target="documenti"><span class="menu-icon">📂</span><span class="menu-label">Documenti</span><span class="menu-arrow">›</span></a>
         <a class="menu-item" data-target="approfondimenti"><span class="menu-icon">📚</span><span class="menu-label">Approfondimenti</span><span class="menu-arrow">›</span></a>
     </div>
@@ -1216,8 +1215,7 @@ st.markdown(f"""
         <a href="#briefing"><span class="nav-icon">📅</span>Briefing</a>
         <a href="#mappe"><span class="nav-icon">🗺</span>Mappa</a>
         <a href="#programma"><span class="nav-icon">🗓</span>Programma</a>
-        <a href="#sguardo"><span class="nav-icon">🎨</span>Sguardo</a>
-        <a href="#documenti"><span class="nav-icon">📂</span>Doc</a>
+        <a href="#documenti"><span class="nav-icon">📂</span>Documenti</a>
         <a href="#approfondimenti"><span class="nav-icon">📚</span>Altro</a>
     </nav>
 </div>
@@ -1390,6 +1388,99 @@ with col_btn_center:
     if st.button("👁  Da dove viene il nome \"Peccioli Eyes\"?", key="btn_opera_ispira", use_container_width=True):
         st.session_state.show_opera = True
         st.rerun()
+
+# Mini CTA per il prototipo avatar (sguardi personali)
+PROTOTYPE_URL = "https://peccioli-eyes-prototype-hvspx7kxrj6fabdqe6w8tr.streamlit.app"
+st.markdown(f"""
+<style>
+.mini-sguardo-cta {{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 1rem auto 0.5rem;
+    max-width: 600px;
+    background: linear-gradient(135deg, rgba(19,0,137,0.04), rgba(255,222,89,0.08));
+    border: 1px solid rgba(255,222,89,0.4);
+    border-radius: 14px;
+    padding: 0.85rem 1.1rem;
+    transition: all 0.2s;
+}}
+.mini-sguardo-cta:hover {{
+    background: linear-gradient(135deg, rgba(19,0,137,0.08), rgba(255,222,89,0.15));
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(19,0,137,0.08);
+}}
+.mini-sguardo-text {{
+    flex: 1;
+    min-width: 0;
+}}
+.mini-sguardo-title {{
+    font-family: 'Lobster Two', cursive;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: {BRAND_BLUE};
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 0.15rem;
+}}
+.mini-sguardo-sub {{
+    font-size: 0.78rem;
+    color: #5b6472;
+    line-height: 1.3;
+}}
+.mini-sguardo-actions {{
+    display: flex;
+    gap: 0.4rem;
+    flex-shrink: 0;
+}}
+.mini-sguardo-btn {{
+    background: {BRAND_BLUE};
+    color: white !important;
+    text-decoration: none !important;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 0.5rem 0.85rem;
+    border-radius: 999px;
+    transition: all 0.2s;
+    white-space: nowrap;
+}}
+.mini-sguardo-btn:hover {{
+    background: {BRAND_YELLOW};
+    color: {BRAND_BLUE} !important;
+    transform: translateY(-1px);
+}}
+.mini-sguardo-btn.outline {{
+    background: transparent;
+    color: {BRAND_BLUE} !important;
+    border: 1.5px solid {BRAND_BLUE};
+}}
+.mini-sguardo-btn.outline:hover {{
+    background: {BRAND_BLUE};
+    color: white !important;
+}}
+@media (max-width: 600px) {{
+    .mini-sguardo-cta {{
+        flex-direction: column;
+        text-align: center;
+        padding: 1rem 0.9rem;
+    }}
+    .mini-sguardo-actions {{ width: 100%; }}
+    .mini-sguardo-btn {{ flex: 1; text-align: center; }}
+}}
+</style>
+
+<div class="mini-sguardo-cta">
+    <div class="mini-sguardo-text">
+        <div class="mini-sguardo-title">Crea il tuo sguardo personale</div>
+        <div class="mini-sguardo-sub">Scegli forma, colori, simbolo e sfondo. Vedi quelli degli altri ragazzi</div>
+    </div>
+    <div class="mini-sguardo-actions">
+        <a href="{PROTOTYPE_URL}" target="_blank" rel="noopener" class="mini-sguardo-btn outline">🖼 Galleria</a>
+        <a href="{PROTOTYPE_URL}" target="_blank" rel="noopener" class="mini-sguardo-btn">👁 Crea</a>
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
 st.markdown(f"""
 <div style="display:flex;align-items:center;gap:1rem;margin:1.5rem 0 0.8rem;">
@@ -2316,149 +2407,6 @@ st.markdown(f"""
     </div>
 </div>
 """, unsafe_allow_html=True)
-
-# ============================================================================
-# 🎨 IL MIO SGUARDO — LINK AL PROTOTIPO AVATAR
-# ============================================================================
-st.markdown(f"""
-<span id="sguardo" class="section-anchor"></span>
-<div class="section-wrap sec-sguardo">
-    <span class="section-eyebrow">05 · La tua identità visiva</span>
-    <div class="section-title">Il mio sguardo</div>
-    <p class="section-desc">
-        Ogni partecipante avrà il proprio sguardo personale: un occhio stilizzato
-        che racconta chi è e cosa porta in questo viaggio. Crea il tuo, scopri quelli degli altri.
-    </p>
-</div>
-
-<style>
-.sguardo-card {{
-    background: linear-gradient(165deg, #0a0052 0%, {BRAND_BLUE} 50%, #1a0fb8 100%);
-    border-radius: 24px;
-    padding: 2.5rem 2rem;
-    text-align: center;
-    color: white;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 12px 40px rgba(19,0,137,0.25);
-    margin-bottom: 2rem;
-}}
-.sguardo-card::before {{
-    content: "";
-    position: absolute;
-    top: -50px;
-    right: -50px;
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle, rgba(255,222,89,0.2) 0%, transparent 70%);
-    border-radius: 50%;
-}}
-.sguardo-eye-deco {{
-    font-size: 3.5rem;
-    margin-bottom: 1rem;
-    line-height: 1;
-}}
-.sguardo-h1 {{
-    font-family: 'Playfair Display', Georgia, serif;
-    font-weight: 800;
-    font-size: 1.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.01em;
-    line-height: 1.1;
-    margin-bottom: 0.4rem;
-}}
-.sguardo-h2 {{
-    font-family: 'Lobster Two', cursive;
-    font-style: italic;
-    font-weight: 700;
-    color: {BRAND_YELLOW};
-    font-size: 1.4rem;
-    margin-bottom: 1.3rem;
-}}
-.sguardo-desc {{
-    color: rgba(255,255,255,0.85);
-    font-size: 0.95rem;
-    line-height: 1.5;
-    max-width: 480px;
-    margin: 0 auto 1.6rem;
-}}
-.sguardo-features {{
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-    margin: 1.5rem 0 2rem;
-}}
-.sguardo-feat {{
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    color: rgba(255,255,255,0.75);
-    font-size: 0.83rem;
-    font-weight: 500;
-}}
-.sguardo-feat-icon {{
-    font-size: 1.1rem;
-    color: {BRAND_YELLOW};
-}}
-.sguardo-btn {{
-    display: inline-block;
-    background: {BRAND_YELLOW};
-    color: {BRAND_BLUE};
-    font-family: 'Inter', sans-serif;
-    font-weight: 800;
-    font-size: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    padding: 0.9rem 2rem;
-    border-radius: 999px;
-    text-decoration: none;
-    transition: all 0.2s;
-    box-shadow: 0 6px 18px rgba(255,222,89,0.3);
-}}
-.sguardo-btn:hover {{
-    background: white;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 24px rgba(255,222,89,0.45);
-}}
-.sguardo-note {{
-    color: rgba(255,255,255,0.5);
-    font-size: 0.75rem;
-    margin-top: 1rem;
-    letter-spacing: 0.03em;
-}}
-@media (max-width: 600px) {{
-    .sguardo-card {{ padding: 2rem 1.2rem; }}
-    .sguardo-h1 {{ font-size: 1.45rem; }}
-    .sguardo-h2 {{ font-size: 1.15rem; }}
-    .sguardo-features {{ gap: 0.8rem; flex-direction: column; align-items: center; }}
-    .sguardo-btn {{ font-size: 0.92rem; padding: 0.8rem 1.5rem; }}
-}}
-</style>
-
-<div class="sguardo-card">
-    <div class="sguardo-eye-deco">👁</div>
-    <div class="sguardo-h1">Crea il tuo sguardo</div>
-    <div class="sguardo-h2">Personale, unico, condiviso</div>
-    <div class="sguardo-desc">
-        Scegli forma, colori, simbolo e sfondo. Il tuo occhio entrerà nella galleria collettiva,
-        dove vedrai gli sguardi di tutti gli 80 partecipanti.
-    </div>
-    <div class="sguardo-features">
-        <div class="sguardo-feat"><span class="sguardo-feat-icon">⭐</span> 18 simboli</div>
-        <div class="sguardo-feat"><span class="sguardo-feat-icon">🎨</span> 12 colori</div>
-        <div class="sguardo-feat"><span class="sguardo-feat-icon">🌄</span> 12 sfondi</div>
-        <div class="sguardo-feat"><span class="sguardo-feat-icon">🖼</span> Galleria collettiva</div>
-    </div>
-    <a href="https://peccioli-eyes-prototype-hvspx7kxrj6fabdqe6w8tr.streamlit.app" target="_blank" rel="noopener" class="sguardo-btn">
-        👁 Crea il mio sguardo
-    </a>
-    <div class="sguardo-note">
-        Il primo accesso richiede di scegliere uno username e una password personali
-    </div>
-</div>
-""", unsafe_allow_html=True)
-
 
 # ============================================================================
 # 📂 DOCUMENTI — LAVANDA CHIARA
