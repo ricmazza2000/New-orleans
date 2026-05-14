@@ -19,6 +19,150 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
+# ============================
+# CODICE ACCESSO PORTALE
+# ============================
+ACCESS_CODE = "peccioli2026"  # ← CAMBIA QUESTO CODICE QUANDO VUOI
+
+# Inizializza stato accesso
+if "portal_access" not in st.session_state:
+    st.session_state.portal_access = False
+
+# Auto-accesso se in URL c'è ?access=<codice>
+try:
+    qp = st.query_params
+    if qp.get("access") == ACCESS_CODE:
+        st.session_state.portal_access = True
+except Exception:
+    pass
+
+if not st.session_state.portal_access:
+    # CSS schermata gate
+    st.markdown("""
+    <style>
+    .stApp { background: linear-gradient(165deg, #0a0052 0%, #130089 50%, #1a0fb8 100%); }
+    [data-testid="stHeader"] { display: none !important; }
+    .block-container { padding-top: 3rem !important; max-width: 480px !important; }
+    .gate-card {
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,222,89,0.2);
+        border-radius: 24px;
+        padding: 2.5rem 2rem;
+        text-align: center;
+        backdrop-filter: blur(10px);
+        margin-top: 2rem;
+    }
+    .gate-logo {
+        font-size: 3rem;
+        margin-bottom: 0.5rem;
+    }
+    .gate-title {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-weight: 800;
+        font-size: 2rem;
+        color: white;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+        line-height: 1;
+    }
+    .gate-script {
+        font-family: 'Lobster Two', cursive;
+        font-style: italic;
+        font-weight: 700;
+        color: #FFDE59;
+        font-size: 1.4rem;
+        margin-top: 0.3rem;
+    }
+    .gate-year {
+        display: inline-block;
+        background: #FFDE59;
+        color: #130089;
+        padding: 0.3rem 0.85rem;
+        border-radius: 999px;
+        font-weight: 800;
+        font-size: 0.85rem;
+        margin-top: 0.9rem;
+    }
+    .gate-desc {
+        color: rgba(255,255,255,0.75);
+        font-size: 0.9rem;
+        margin: 1.5rem 0 1.8rem;
+        line-height: 1.5;
+    }
+    .gate-eyebrow {
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: rgba(255,222,89,0.7);
+        margin-bottom: 0.6rem;
+    }
+    .stTextInput input {
+        background: rgba(255,255,255,0.1) !important;
+        border: 1px solid rgba(255,222,89,0.3) !important;
+        color: white !important;
+        font-size: 1rem !important;
+        text-align: center !important;
+        letter-spacing: 0.1em !important;
+        font-weight: 600 !important;
+        padding: 0.8rem !important;
+    }
+    .stTextInput input::placeholder {
+        color: rgba(255,255,255,0.4) !important;
+    }
+    .stTextInput input:focus {
+        border-color: #FFDE59 !important;
+        box-shadow: 0 0 0 2px rgba(255,222,89,0.2) !important;
+    }
+    .stButton button {
+        background: #FFDE59 !important;
+        color: #130089 !important;
+        font-weight: 800 !important;
+        border: none !important;
+        padding: 0.85rem 1rem !important;
+        font-size: 1rem !important;
+        letter-spacing: 0.05em !important;
+        text-transform: uppercase !important;
+    }
+    .stButton button:hover {
+        background: white !important;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 18px rgba(255,222,89,0.3);
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="gate-card">
+        <div class="gate-logo">👁</div>
+        <div class="gate-title">Peccioli Eyes</div>
+        <div class="gate-script">to New Orleans</div>
+        <div class="gate-year">2026</div>
+        <div class="gate-desc">
+            Inserisci il codice di accesso ricevuto<br>
+            per entrare nel portale dei ragazzi
+        </div>
+        <div class="gate-eyebrow">Codice di accesso</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    code_input = st.text_input("Codice", key="access_code_input", placeholder="••••••••", label_visibility="collapsed", type="password")
+
+    if st.button("👁 Entra nel portale", use_container_width=True):
+        if code_input and code_input.strip().lower() == ACCESS_CODE.lower():
+            st.session_state.portal_access = True
+            st.rerun()
+        else:
+            st.error("Codice errato. Riprova o chiedi a chi ha condiviso il portale.")
+
+    st.markdown("""
+    <div style="text-align:center;color:rgba(255,255,255,0.35);font-size:0.75rem;margin-top:2rem;letter-spacing:0.1em;">
+        Comune di Peccioli · 80 ragazzi · 21-28 settembre 2026
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.stop()
+
 BASE_DIR = Path(__file__).parent
 
 # ============================
@@ -884,6 +1028,7 @@ st.markdown(f"""
         <a class="menu-item" data-target="briefing"><span class="menu-icon">📅</span><span class="menu-label">Briefing</span><span class="menu-arrow">›</span></a>
         <a class="menu-item" data-target="mappe"><span class="menu-icon">🗺</span><span class="menu-label">Mappa</span><span class="menu-arrow">›</span></a>
         <a class="menu-item" data-target="programma"><span class="menu-icon">🗓</span><span class="menu-label">Programma</span><span class="menu-arrow">›</span></a>
+        <a class="menu-item" data-target="sguardo"><span class="menu-icon">🎨</span><span class="menu-label">Il mio sguardo</span><span class="menu-arrow">›</span></a>
         <a class="menu-item" data-target="documenti"><span class="menu-icon">📂</span><span class="menu-label">Documenti</span><span class="menu-arrow">›</span></a>
         <a class="menu-item" data-target="approfondimenti"><span class="menu-icon">📚</span><span class="menu-label">Approfondimenti</span><span class="menu-arrow">›</span></a>
     </div>
@@ -1071,7 +1216,8 @@ st.markdown(f"""
         <a href="#briefing"><span class="nav-icon">📅</span>Briefing</a>
         <a href="#mappe"><span class="nav-icon">🗺</span>Mappa</a>
         <a href="#programma"><span class="nav-icon">🗓</span>Programma</a>
-        <a href="#documenti"><span class="nav-icon">📂</span>Documenti</a>
+        <a href="#sguardo"><span class="nav-icon">🎨</span>Sguardo</a>
+        <a href="#documenti"><span class="nav-icon">📂</span>Doc</a>
         <a href="#approfondimenti"><span class="nav-icon">📚</span>Altro</a>
     </nav>
 </div>
@@ -2170,6 +2316,149 @@ st.markdown(f"""
     </div>
 </div>
 """, unsafe_allow_html=True)
+
+# ============================================================================
+# 🎨 IL MIO SGUARDO — LINK AL PROTOTIPO AVATAR
+# ============================================================================
+st.markdown(f"""
+<span id="sguardo" class="section-anchor"></span>
+<div class="section-wrap sec-sguardo">
+    <span class="section-eyebrow">05 · La tua identità visiva</span>
+    <div class="section-title">Il mio sguardo</div>
+    <p class="section-desc">
+        Ogni partecipante avrà il proprio sguardo personale: un occhio stilizzato
+        che racconta chi è e cosa porta in questo viaggio. Crea il tuo, scopri quelli degli altri.
+    </p>
+</div>
+
+<style>
+.sguardo-card {{
+    background: linear-gradient(165deg, #0a0052 0%, {BRAND_BLUE} 50%, #1a0fb8 100%);
+    border-radius: 24px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(19,0,137,0.25);
+    margin-bottom: 2rem;
+}}
+.sguardo-card::before {{
+    content: "";
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(255,222,89,0.2) 0%, transparent 70%);
+    border-radius: 50%;
+}}
+.sguardo-eye-deco {{
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    line-height: 1;
+}}
+.sguardo-h1 {{
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 800;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 1.1;
+    margin-bottom: 0.4rem;
+}}
+.sguardo-h2 {{
+    font-family: 'Lobster Two', cursive;
+    font-style: italic;
+    font-weight: 700;
+    color: {BRAND_YELLOW};
+    font-size: 1.4rem;
+    margin-bottom: 1.3rem;
+}}
+.sguardo-desc {{
+    color: rgba(255,255,255,0.85);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    max-width: 480px;
+    margin: 0 auto 1.6rem;
+}}
+.sguardo-features {{
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin: 1.5rem 0 2rem;
+}}
+.sguardo-feat {{
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: rgba(255,255,255,0.75);
+    font-size: 0.83rem;
+    font-weight: 500;
+}}
+.sguardo-feat-icon {{
+    font-size: 1.1rem;
+    color: {BRAND_YELLOW};
+}}
+.sguardo-btn {{
+    display: inline-block;
+    background: {BRAND_YELLOW};
+    color: {BRAND_BLUE};
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.9rem 2rem;
+    border-radius: 999px;
+    text-decoration: none;
+    transition: all 0.2s;
+    box-shadow: 0 6px 18px rgba(255,222,89,0.3);
+}}
+.sguardo-btn:hover {{
+    background: white;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(255,222,89,0.45);
+}}
+.sguardo-note {{
+    color: rgba(255,255,255,0.5);
+    font-size: 0.75rem;
+    margin-top: 1rem;
+    letter-spacing: 0.03em;
+}}
+@media (max-width: 600px) {{
+    .sguardo-card {{ padding: 2rem 1.2rem; }}
+    .sguardo-h1 {{ font-size: 1.45rem; }}
+    .sguardo-h2 {{ font-size: 1.15rem; }}
+    .sguardo-features {{ gap: 0.8rem; flex-direction: column; align-items: center; }}
+    .sguardo-btn {{ font-size: 0.92rem; padding: 0.8rem 1.5rem; }}
+}}
+</style>
+
+<div class="sguardo-card">
+    <div class="sguardo-eye-deco">👁</div>
+    <div class="sguardo-h1">Crea il tuo sguardo</div>
+    <div class="sguardo-h2">Personale, unico, condiviso</div>
+    <div class="sguardo-desc">
+        Scegli forma, colori, simbolo e sfondo. Il tuo occhio entrerà nella galleria collettiva,
+        dove vedrai gli sguardi di tutti gli 80 partecipanti.
+    </div>
+    <div class="sguardo-features">
+        <div class="sguardo-feat"><span class="sguardo-feat-icon">⭐</span> 18 simboli</div>
+        <div class="sguardo-feat"><span class="sguardo-feat-icon">🎨</span> 12 colori</div>
+        <div class="sguardo-feat"><span class="sguardo-feat-icon">🌄</span> 12 sfondi</div>
+        <div class="sguardo-feat"><span class="sguardo-feat-icon">🖼</span> Galleria collettiva</div>
+    </div>
+    <a href="https://peccioli-eyes-prototype.streamlit.app" target="_blank" rel="noopener" class="sguardo-btn">
+        👁 Crea il mio sguardo
+    </a>
+    <div class="sguardo-note">
+        Il primo accesso richiede di scegliere uno username e una password personali
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
 
 # ============================================================================
 # 📂 DOCUMENTI — LAVANDA CHIARA
