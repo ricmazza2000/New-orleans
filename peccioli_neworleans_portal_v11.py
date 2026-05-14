@@ -2450,7 +2450,7 @@ st.markdown(f"""
         <div class="sguardo-feat"><span class="sguardo-feat-icon">🌄</span> 12 sfondi</div>
         <div class="sguardo-feat"><span class="sguardo-feat-icon">🖼</span> Galleria collettiva</div>
     </div>
-    <a href="https://peccioli-eyes-prototype.streamlit.app" target="_blank" rel="noopener" class="sguardo-btn">
+    <a href="https://peccioli-eyes-prototype-hvspx7kxrj6fabdqe6w8tr.streamlit.app" target="_blank" rel="noopener" class="sguardo-btn">
         👁 Crea il mio sguardo
     </a>
     <div class="sguardo-note">
