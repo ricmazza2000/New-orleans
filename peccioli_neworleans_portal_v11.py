@@ -1223,7 +1223,7 @@ def mostra_opera_ispira():
             L'opera di Vittorio Corsini è stata esposta anche a <strong style="color:{BRAND_BLUE};">New York</strong>,
             portando lo sguardo di Peccioli oltre i confini italiani.
             Ed è proprio da quest'opera che nasce il nostro progetto:
-            <strong style="color:{BRAND_BLUE};">80 ragazzi che, partendo dagli occhi di Peccioli,
+            <strong style="color:{BRAND_BLUE};">tanti ragazzi che, partendo dagli occhi di Peccioli,
             si aprono al mondo e arrivano fino a New Orleans</strong> —
             con sguardi attenti, curiosi, pronti a tornare cambiati.
         </p>
@@ -2548,7 +2548,7 @@ st.markdown(f"""
     <div class="share-sub">Dillo a chi ti sta a cuore — famiglia, amici, prof</div>
     <div class="share-buttons">
         <a class="share-btn"
-           href="https://wa.me/?text=Guarda%20il%20portale%20di%20%27Peccioli%20Eyes%20to%20New%20Orleans%202026%27%20%E2%80%94%2080%20ragazzi%20da%20Peccioli%20a%20New%20Orleans%20%F0%9F%91%81%20https%3A%2F%2Fnew-orleans.onrender.com"
+           href="https://wa.me/?text=Guarda%20il%20portale%20di%20%27Peccioli%20Eyes%20to%20New%20Orleans%202026%27%20%E2%80%94%20un%20viaggio%20da%20Peccioli%20a%20New%20Orleans%20%F0%9F%91%81%20https%3A%2F%2Fnew-orleans.onrender.com"
            target="_blank" rel="noopener">
             <span class="share-btn-icon">💬</span>WhatsApp
         </a>
@@ -2558,7 +2558,7 @@ st.markdown(f"""
             <span class="share-btn-icon">📷</span>Instagram
         </a>
         <a class="share-btn"
-           href="mailto:?subject=Peccioli%20Eyes%20to%20New%20Orleans%202026&body=Ciao%2C%0A%0Avoglio%20farti%20vedere%20il%20portale%20del%20progetto%20%27Peccioli%20Eyes%20to%20New%20Orleans%27%3A%20un%20viaggio%20di%2080%20ragazzi%20da%20Peccioli%20a%20New%20Orleans%2C%20a%20settembre%202026.%0A%0Ahttps%3A%2F%2Fnew-orleans.onrender.com%0A%0AA%20presto%21">
+           href="mailto:?subject=Peccioli%20Eyes%20to%20New%20Orleans%202026&body=Ciao%2C%0A%0Avoglio%20farti%20vedere%20il%20portale%20del%20progetto%20%27Peccioli%20Eyes%20to%20New%20Orleans%27%3A%20un%20viaggio%20da%20Peccioli%20a%20New%20Orleans%2C%20a%20settembre%202026.%0A%0Ahttps%3A%2F%2Fnew-orleans.onrender.com%0A%0AA%20presto%21">
             <span class="share-btn-icon">✉️</span>Email
         </a>
         <button class="share-btn" id="shareCopyBtn" type="button">
