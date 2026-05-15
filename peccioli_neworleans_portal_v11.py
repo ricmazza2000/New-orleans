@@ -97,6 +97,11 @@ eyes_logo_white_path = find_img("peccioli_eyes_logo_white.png")
 sguardi_path = find_img("sguardi_peccioli.jpg", "sguardi_peccioli.jpeg", "sguardi_peccioli.png", "muro_occhi.jpg", "muro_occhi.jpeg", "muro_occhi.png", " sguardi_peccioli.jpg", "_sguardi_peccioli.jpg")
 sguardi_b64, sguardi_mime = img_to_base64(sguardi_path, max_width=1000, quality=80) if sguardi_path else (None, None)
 
+# Foto hero (Bourbon Street, NOLA - temporanea, da sostituire con foto royalty-free)
+hero_bg_path = find_img("hero_nola_bourbon.jpg", "hero_nola_bourbon.jpeg", "hero_nola_bourbon.png", "hero_nola.jpg", "hero_bourbon.jpg")
+hero_bg_b64, hero_bg_mime = img_to_base64(hero_bg_path, max_width=1600, quality=82) if hero_bg_path else (None, None)
+HERO_BG_DATAURL = f"data:{hero_bg_mime};base64,{hero_bg_b64}" if hero_bg_b64 else ""
+
 eyes_logo_yellow_b64, eyes_logo_yellow_mime = img_to_base64_raw(eyes_logo_yellow_path)
 eyes_logo_white_b64, eyes_logo_white_mime = img_to_base64_raw(eyes_logo_white_path)
 
@@ -475,40 +480,81 @@ section[data-testid="stSidebar"] {{ display: none !important; }}
 .hero-full {{
     position: relative; overflow: hidden;
     background-color: {BRAND_BLUE};
-    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%201200%20700%22%20preserveAspectRatio%3D%22xMidYMid%20slice%22%3E%3Cg%20fill%3D%22%23FFDE59%22%20opacity%3D%220.18%22%3E%3Cg%20transform%3D%22translate%2880%2C80%29%22%3E%3Cellipse%20rx%3D%2235%22%20ry%3D%2222%22/%3E%3Ccircle%20r%3D%2211%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28220%2C60%29%20rotate%288%29%22%3E%3Cellipse%20rx%3D%2228%22%20ry%3D%2218%22/%3E%3Ccircle%20r%3D%229%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%224%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28370%2C100%29%20rotate%28-5%29%22%3E%3Cellipse%20rx%3D%2240%22%20ry%3D%2225%22/%3E%3Ccircle%20r%3D%2213%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%226%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28540%2C70%29%20rotate%283%29%22%3E%3Cellipse%20rx%3D%2230%22%20ry%3D%2219%22/%3E%3Ccircle%20r%3D%2210%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%224%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28720%2C90%29%20rotate%28-8%29%22%3E%3Cellipse%20rx%3D%2238%22%20ry%3D%2224%22/%3E%3Ccircle%20r%3D%2212%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28880%2C60%29%20rotate%285%29%22%3E%3Cellipse%20rx%3D%2232%22%20ry%3D%2220%22/%3E%3Ccircle%20r%3D%2210%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%224%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%281060%2C80%29%20rotate%28-3%29%22%3E%3Cellipse%20rx%3D%2236%22%20ry%3D%2223%22/%3E%3Ccircle%20r%3D%2211%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%2850%2C240%29%20rotate%28-2%29%22%3E%3Cellipse%20rx%3D%2232%22%20ry%3D%2220%22/%3E%3Ccircle%20r%3D%2210%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%224%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28180%2C220%29%20rotate%287%29%22%3E%3Cellipse%20rx%3D%2238%22%20ry%3D%2224%22/%3E%3Ccircle%20r%3D%2212%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28340%2C250%29%20rotate%28-4%29%22%3E%3Cellipse%20rx%3D%2230%22%20ry%3D%2219%22/%3E%3Ccircle%20r%3D%2210%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%224%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28870%2C240%29%20rotate%286%29%22%3E%3Cellipse%20rx%3D%2234%22%20ry%3D%2222%22/%3E%3Ccircle%20r%3D%2211%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%281020%2C220%29%20rotate%28-7%29%22%3E%3Cellipse%20rx%3D%2238%22%20ry%3D%2224%22/%3E%3Ccircle%20r%3D%2212%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%281140%2C250%29%20rotate%282%29%22%3E%3Cellipse%20rx%3D%2228%22%20ry%3D%2218%22/%3E%3Ccircle%20r%3D%229%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%224%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%2880%2C420%29%20rotate%284%29%22%3E%3Cellipse%20rx%3D%2236%22%20ry%3D%2223%22/%3E%3Ccircle%20r%3D%2211%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28240%2C440%29%20rotate%28-6%29%22%3E%3Cellipse%20rx%3D%2230%22%20ry%3D%2219%22/%3E%3Ccircle%20r%3D%2210%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%224%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28940%2C430%29%20rotate%283%29%22%3E%3Cellipse%20rx%3D%2232%22%20ry%3D%2220%22/%3E%3Ccircle%20r%3D%2210%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%224%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%281100%2C460%29%20rotate%28-3%29%22%3E%3Cellipse%20rx%3D%2236%22%20ry%3D%2223%22/%3E%3Ccircle%20r%3D%2211%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%2860%2C580%29%20rotate%28-5%29%22%3E%3Cellipse%20rx%3D%2240%22%20ry%3D%2225%22/%3E%3Ccircle%20r%3D%2213%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%226%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28220%2C600%29%20rotate%287%29%22%3E%3Cellipse%20rx%3D%2232%22%20ry%3D%2220%22/%3E%3Ccircle%20r%3D%2210%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%224%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28390%2C580%29%20rotate%28-2%29%22%3E%3Cellipse%20rx%3D%2234%22%20ry%3D%2222%22/%3E%3Ccircle%20r%3D%2211%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28580%2C610%29%20rotate%285%29%22%3E%3Cellipse%20rx%3D%2230%22%20ry%3D%2219%22/%3E%3Ccircle%20r%3D%2210%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%224%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28770%2C590%29%20rotate%28-4%29%22%3E%3Cellipse%20rx%3D%2236%22%20ry%3D%2223%22/%3E%3Ccircle%20r%3D%2211%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28950%2C620%29%20rotate%286%29%22%3E%3Cellipse%20rx%3D%2234%22%20ry%3D%2222%22/%3E%3Ccircle%20r%3D%2211%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%281120%2C590%29%20rotate%28-7%29%22%3E%3Cellipse%20rx%3D%2238%22%20ry%3D%2224%22/%3E%3Ccircle%20r%3D%2212%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    background-image: url("{HERO_BG_DATAURL}"), url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%201200%20700%22%20preserveAspectRatio%3D%22xMidYMid%20slice%22%3E%3Cg%20fill%3D%22%23FFDE59%22%20opacity%3D%220.18%22%3E%3Cg%20transform%3D%22translate%2880%2C80%29%22%3E%3Cellipse%20rx%3D%2235%22%20ry%3D%2222%22/%3E%3Ccircle%20r%3D%2211%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28220%2C60%29%20rotate%288%29%22%3E%3Cellipse%20rx%3D%2228%22%20ry%3D%2218%22/%3E%3Ccircle%20r%3D%229%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%224%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28370%2C100%29%20rotate%28-5%29%22%3E%3Cellipse%20rx%3D%2240%22%20ry%3D%2225%22/%3E%3Ccircle%20r%3D%2213%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%226%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28540%2C70%29%20rotate%283%29%22%3E%3Cellipse%20rx%3D%2230%22%20ry%3D%2219%22/%3E%3Ccircle%20r%3D%2210%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%224%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28720%2C90%29%20rotate%28-8%29%22%3E%3Cellipse%20rx%3D%2238%22%20ry%3D%2224%22/%3E%3Ccircle%20r%3D%2212%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28880%2C60%29%20rotate%285%29%22%3E%3Cellipse%20rx%3D%2232%22%20ry%3D%2220%22/%3E%3Ccircle%20r%3D%2210%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%224%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%281060%2C80%29%20rotate%28-3%29%22%3E%3Cellipse%20rx%3D%2236%22%20ry%3D%2223%22/%3E%3Ccircle%20r%3D%2211%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%2850%2C240%29%20rotate%28-2%29%22%3E%3Cellipse%20rx%3D%2232%22%20ry%3D%2220%22/%3E%3Ccircle%20r%3D%2210%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%224%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28180%2C220%29%20rotate%287%29%22%3E%3Cellipse%20rx%3D%2238%22%20ry%3D%2224%22/%3E%3Ccircle%20r%3D%2212%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28340%2C250%29%20rotate%28-4%29%22%3E%3Cellipse%20rx%3D%2230%22%20ry%3D%2219%22/%3E%3Ccircle%20r%3D%2210%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%224%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28870%2C240%29%20rotate%286%29%22%3E%3Cellipse%20rx%3D%2234%22%20ry%3D%2222%22/%3E%3Ccircle%20r%3D%2211%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%281020%2C220%29%20rotate%28-7%29%22%3E%3Cellipse%20rx%3D%2238%22%20ry%3D%2224%22/%3E%3Ccircle%20r%3D%2212%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%281140%2C250%29%20rotate%282%29%22%3E%3Cellipse%20rx%3D%2228%22%20ry%3D%2218%22/%3E%3Ccircle%20r%3D%229%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%224%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%2880%2C420%29%20rotate%284%29%22%3E%3Cellipse%20rx%3D%2236%22%20ry%3D%2223%22/%3E%3Ccircle%20r%3D%2211%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28240%2C440%29%20rotate%28-6%29%22%3E%3Cellipse%20rx%3D%2230%22%20ry%3D%2219%22/%3E%3Ccircle%20r%3D%2210%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%224%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28940%2C430%29%20rotate%283%29%22%3E%3Cellipse%20rx%3D%2232%22%20ry%3D%2220%22/%3E%3Ccircle%20r%3D%2210%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%224%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%281100%2C460%29%20rotate%28-3%29%22%3E%3Cellipse%20rx%3D%2236%22%20ry%3D%2223%22/%3E%3Ccircle%20r%3D%2211%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%2860%2C580%29%20rotate%28-5%29%22%3E%3Cellipse%20rx%3D%2240%22%20ry%3D%2225%22/%3E%3Ccircle%20r%3D%2213%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%226%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28220%2C600%29%20rotate%287%29%22%3E%3Cellipse%20rx%3D%2232%22%20ry%3D%2220%22/%3E%3Ccircle%20r%3D%2210%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%224%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28390%2C580%29%20rotate%28-2%29%22%3E%3Cellipse%20rx%3D%2234%22%20ry%3D%2222%22/%3E%3Ccircle%20r%3D%2211%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28580%2C610%29%20rotate%285%29%22%3E%3Cellipse%20rx%3D%2230%22%20ry%3D%2219%22/%3E%3Ccircle%20r%3D%2210%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%224%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28770%2C590%29%20rotate%28-4%29%22%3E%3Cellipse%20rx%3D%2236%22%20ry%3D%2223%22/%3E%3Ccircle%20r%3D%2211%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28950%2C620%29%20rotate%286%29%22%3E%3Cellipse%20rx%3D%2234%22%20ry%3D%2222%22/%3E%3Ccircle%20r%3D%2211%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%281120%2C590%29%20rotate%28-7%29%22%3E%3Cellipse%20rx%3D%2238%22%20ry%3D%2224%22/%3E%3Ccircle%20r%3D%2212%22%20fill%3D%22white%22/%3E%3Ccircle%20r%3D%225%22%20fill%3D%22%23130089%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background-size: cover, cover;
+    background-position: center, center;
+    background-repeat: no-repeat, no-repeat;
     margin: -44px -1rem 0 -1rem;
-    padding: 4rem 2rem 3.5rem; text-align: center;
+    padding: 4rem 2rem 4rem; text-align: center;
+    min-height: 92vh;
+    display: flex; align-items: center; justify-content: center;
+}}
+/* Overlay scuro per leggibilita del testo sopra la foto */
+.hero-full::before {{
+    content: "";
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(180deg, rgba(10,0,82,0.55) 0%, rgba(19,0,137,0.65) 50%, rgba(10,0,82,0.85) 100%);
+    z-index: 0;
 }}
 @media (min-width: 769px) {{
-    .hero-full {{ margin: -44px -3rem 0 -3rem; padding: 4.5rem 3rem 4rem; }}
+    .hero-full {{
+        margin: -44px -3rem 0 -3rem;
+        padding: 5rem 3rem 5rem;
+        min-height: 92vh;
+    }}
 }}
 @media (max-width: 768px) {{
     .hero-full {{
         margin-top: -120px;
         margin-left: -1rem;
         margin-right: -1rem;
-        padding-top: 7rem;
+        padding-top: 8rem;
+        padding-bottom: 3.5rem;
+        min-height: 65vh;
     }}
+}}
+/* Freccia animata scroll giu */
+.hero-scroll-arrow {{
+    position: absolute;
+    bottom: 1.5rem; left: 50%;
+    transform: translateX(-50%);
+    color: {BRAND_YELLOW};
+    font-size: 1.8rem;
+    opacity: 0.85;
+    animation: bounceDown 2s infinite;
+    z-index: 2;
+    text-decoration: none;
+    line-height: 1;
+}}
+.hero-scroll-arrow:hover {{ opacity: 1; transform: translateX(-50%) scale(1.15); }}
+@keyframes bounceDown {{
+    0%, 20%, 50%, 80%, 100% {{ transform: translateX(-50%) translateY(0); }}
+    40% {{ transform: translateX(-50%) translateY(-12px); }}
+    60% {{ transform: translateX(-50%) translateY(-6px); }}
+}}
+@media (max-width: 768px) {{
+    .hero-scroll-arrow {{ display: none; }}
 }}
 .hero-title-main {{
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: clamp(2.3rem, 7vw, 4rem); font-weight: 800;
+    font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 800;
     color: white; line-height: 0.95;
     letter-spacing: 0.02em; text-transform: uppercase;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.4);
 }}
 .hero-title-script {{
     font-family: 'Lobster Two', cursive; font-style: italic; font-weight: 700;
-    font-size: clamp(1.5rem, 4.5vw, 2.6rem);
-    color: {BRAND_YELLOW}; line-height: 1.1; margin-top: 0.2rem;
+    font-size: clamp(1.6rem, 5vw, 3rem);
+    color: {BRAND_YELLOW}; line-height: 1.1; margin-top: 0.3rem;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.4);
 }}
 .hero-year {{
-    display:inline-block; margin-top: 1rem;
-    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.3em;
-    color: rgba(255,255,255,0.6); padding: 0.35rem 0.9rem;
-    border: 1px solid rgba(255,222,89,0.5); border-radius: 999px;
+    display:inline-block; margin-top: 1.2rem;
+    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.3em;
+    color: {BRAND_BLUE}; background: {BRAND_YELLOW};
+    padding: 0.45rem 1.1rem;
+    border-radius: 999px;
+    box-shadow: 0 4px 16px rgba(255,222,89,0.4);
 }}
 
 /* HOME SECTION */
@@ -1089,6 +1135,7 @@ st.markdown(f"""
         <div class="hero-title-script">to New Orleans</div>
         <div class="hero-year">2026</div>
     </div>
+    <a href="#temi" class="hero-scroll-arrow" aria-label="Scorri verso il basso">▾</a>
 </div>
 
 <div class="home-section">
