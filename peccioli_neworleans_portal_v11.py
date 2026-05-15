@@ -1233,6 +1233,28 @@ function tick() {
 }
 tick();
 setInterval(tick, 1000);
+
+// Resize iframe in base all'altezza reale del contenuto
+function resizeIframe() {
+    try {
+        var wrap = document.querySelector('.cd-wrap');
+        if (!wrap) return;
+        var h = wrap.offsetHeight + 10; // +10px di margine
+        // Trova l'iframe nel parent e ne aggiorna l'altezza
+        var iframes = window.parent.document.querySelectorAll('iframe');
+        for (var i = 0; i < iframes.length; i++) {
+            if (iframes[i].contentWindow === window) {
+                iframes[i].style.height = h + 'px';
+                iframes[i].height = h;
+                break;
+            }
+        }
+    } catch (e) {}
+}
+window.addEventListener('load', resizeIframe);
+window.addEventListener('resize', resizeIframe);
+setTimeout(resizeIframe, 100);
+setTimeout(resizeIframe, 500);
 </script>
 """)
 components.html(countdown_html, height=220, scrolling=False)
