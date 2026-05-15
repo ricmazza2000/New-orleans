@@ -1178,13 +1178,12 @@ html, body { overflow:hidden; background:transparent; }
     display:flex; flex-direction:column; justify-content:center; flex-shrink:0;
 }
 @media (max-width:600px) {
-    html, body { overflow-x:auto; }
-    .cd-wrap { overflow-x:auto; scroll-snap-type:x mandatory;
-        -webkit-overflow-scrolling:touch; gap:0.6rem; height:100px; }
-    .cd-wrap::-webkit-scrollbar { display:none; }
-    .cd-main { min-width:230px; scroll-snap-align:start; padding:0.85rem 0.9rem; }
-    .cd-box { min-width:180px; scroll-snap-align:start; }
-    .cd-num { font-size:1.15rem; }
+    html, body { overflow:hidden; }
+    .cd-wrap { flex-direction:column; gap:0.55rem; height:auto; }
+    .cd-main { padding:0.7rem 1rem; border-radius:14px; }
+    .cd-label { font-size:0.6rem; margin-bottom:0.2rem; }
+    .cd-num { font-size:1.15rem !important; }
+    .cd-box { padding:0.7rem 0.9rem; border-radius:14px; }
 }
 </style>
 <div class="cd-wrap">
@@ -1215,11 +1214,15 @@ function tick() {
     var s = Math.floor((t % 60000) / 1000);
     // Padding 0 sui secondi (sempre 2 cifre per stabilità visiva)
     var sStr = s < 10 ? '0' + s : s;
+    // Su mobile usa font piu piccolo via classe
+    var isMobile = window.innerWidth <= 600;
+    var bigSize = isMobile ? "1.15rem" : "1.5rem";
+    var smallSize = isMobile ? "0.65rem" : "0.78rem";
     el.innerHTML =
-        "<span style='font-size:1.5rem;font-weight:800;'>" + d + "</span><span style='font-size:0.78rem;opacity:0.6;margin:0 0.35rem 0 0.05rem;'>g</span>" +
-        "<span style='font-size:1.5rem;font-weight:800;'>" + h + "</span><span style='font-size:0.78rem;opacity:0.6;margin:0 0.35rem 0 0.05rem;'>h</span>" +
-        "<span style='font-size:1.5rem;font-weight:800;'>" + m + "</span><span style='font-size:0.78rem;opacity:0.6;margin:0 0.35rem 0 0.05rem;'>m</span>" +
-        "<span class='cd-sec' style='font-size:1.5rem;font-weight:800;'>" + sStr + "</span><span style='font-size:0.78rem;opacity:0.6;margin-left:0.05rem;'>s</span>";
+        "<span style='font-size:" + bigSize + ";font-weight:800;'>" + d + "</span><span style='font-size:" + smallSize + ";opacity:0.6;margin:0 0.3rem 0 0.05rem;'>g</span>" +
+        "<span style='font-size:" + bigSize + ";font-weight:800;'>" + h + "</span><span style='font-size:" + smallSize + ";opacity:0.6;margin:0 0.3rem 0 0.05rem;'>h</span>" +
+        "<span style='font-size:" + bigSize + ";font-weight:800;'>" + m + "</span><span style='font-size:" + smallSize + ";opacity:0.6;margin:0 0.3rem 0 0.05rem;'>m</span>" +
+        "<span class='cd-sec' style='font-size:" + bigSize + ";font-weight:800;'>" + sStr + "</span><span style='font-size:" + smallSize + ";opacity:0.6;margin-left:0.05rem;'>s</span>";
     
     // Effetto "tick" giallo sui secondi
     var secEl = el.querySelector('.cd-sec');
@@ -1232,7 +1235,7 @@ tick();
 setInterval(tick, 1000);
 </script>
 """)
-components.html(countdown_html, height=120, scrolling=False)
+components.html(countdown_html, height=220, scrolling=False)
 
 # Dialog "L'opera che ci ispira" (popup quando si clicca sul bottone sotto)
 @st.dialog(" ", width="large")
