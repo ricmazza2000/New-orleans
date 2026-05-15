@@ -1146,7 +1146,7 @@ st.markdown(f"""
 expert_paths = get_expert_paths()
 _gardner_path = expert_paths["gardner"]
 gardner_b64_cd, gardner_mime_cd = img_to_base64(_gardner_path, max_width=100, quality=75) if _gardner_path else (None, None)
-prossimo_foto = f'<img src="data:{gardner_mime_cd};base64,{gardner_b64_cd}" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid {BRAND_YELLOW};flex-shrink:0;">' if gardner_b64_cd else f'<div style="width:44px;height:44px;border-radius:50%;background:{BRAND_YELLOW};flex-shrink:0;"></div>'
+prossimo_foto = f'<img class="cd-meeting-photo" src="data:{gardner_mime_cd};base64,{gardner_b64_cd}" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid {BRAND_YELLOW};flex-shrink:0;">' if gardner_b64_cd else f'<div class="cd-meeting-photo" style="width:44px;height:44px;border-radius:50%;background:{BRAND_YELLOW};flex-shrink:0;"></div>'
 
 # Foto esperti per timeline briefing (medium size)
 morelli_b64_tl, morelli_mime_tl = img_to_base64(expert_paths["morelli"], max_width=500, quality=75) if expert_paths["morelli"] else (None, None)
@@ -1179,11 +1179,15 @@ html, body { overflow:hidden; background:transparent; }
 }
 @media (max-width:600px) {
     html, body { overflow:hidden; }
-    .cd-wrap { flex-direction:column; gap:0.55rem; height:auto; }
-    .cd-main { padding:0.7rem 1rem; border-radius:14px; }
-    .cd-label { font-size:0.6rem; margin-bottom:0.2rem; }
-    .cd-num { font-size:1.15rem !important; }
-    .cd-box { padding:0.7rem 0.9rem; border-radius:14px; }
+    .cd-wrap { flex-direction:column; gap:0.7rem; height:auto; }
+    .cd-main { padding:1rem 1.2rem; border-radius:16px; }
+    .cd-label { font-size:0.68rem; margin-bottom:0.35rem; }
+    .cd-num { font-size:1.4rem !important; }
+    .cd-box { padding:0.95rem 1.1rem; border-radius:16px; }
+    .cd-meeting-label { font-size:0.7rem !important; margin-bottom:0.55rem !important; }
+    .cd-meeting-name { font-size:0.95rem !important; }
+    .cd-meeting-date { font-size:0.78rem !important; }
+    .cd-meeting-photo { width:48px !important; height:48px !important; }
 }
 </style>
 <div class="cd-wrap">
@@ -1192,12 +1196,12 @@ html, body { overflow:hidden; background:transparent; }
         <div class="cd-num" id="cd">&#8212;</div>
     </div>
     <div class="cd-box">
-        <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:""" + BRAND_BLUE + """;margin-bottom:0.45rem;">&#128197; Prossimo incontro</div>
-        <div style="display:flex;align-items:center;gap:0.5rem;">
+        <div class="cd-meeting-label" style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:""" + BRAND_BLUE + """;margin-bottom:0.45rem;">&#128197; Prossimo incontro</div>
+        <div style="display:flex;align-items:center;gap:0.6rem;">
             """ + prossimo_foto + """
             <div>
-                <div style="font-size:0.82rem;font-weight:700;color:""" + BRAND_BLUE + """;line-height:1.2;">Anthony Gardner</div>
-                <div style="font-size:0.72rem;color:#5b6472;margin-top:0.1rem;">21 maggio 2026</div>
+                <div class="cd-meeting-name" style="font-size:0.82rem;font-weight:700;color:""" + BRAND_BLUE + """;line-height:1.2;">Anthony Gardner</div>
+                <div class="cd-meeting-date" style="font-size:0.72rem;color:#5b6472;margin-top:0.15rem;">21 maggio 2026</div>
             </div>
         </div>
     </div>
@@ -1216,8 +1220,8 @@ function tick() {
     var sStr = s < 10 ? '0' + s : s;
     // Su mobile usa font piu piccolo via classe
     var isMobile = window.innerWidth <= 600;
-    var bigSize = isMobile ? "1.15rem" : "1.5rem";
-    var smallSize = isMobile ? "0.65rem" : "0.78rem";
+    var bigSize = isMobile ? "1.4rem" : "1.5rem";
+    var smallSize = isMobile ? "0.72rem" : "0.78rem";
     el.innerHTML =
         "<span style='font-size:" + bigSize + ";font-weight:800;'>" + d + "</span><span style='font-size:" + smallSize + ";opacity:0.6;margin:0 0.3rem 0 0.05rem;'>g</span>" +
         "<span style='font-size:" + bigSize + ";font-weight:800;'>" + h + "</span><span style='font-size:" + smallSize + ";opacity:0.6;margin:0 0.3rem 0 0.05rem;'>h</span>" +
