@@ -510,7 +510,7 @@ section[data-testid="stSidebar"] {{ display: none !important; }}
         margin-right: -1rem;
         padding-top: 8rem;
         padding-bottom: 3.5rem;
-        min-height: 80vh;
+        min-height: 65vh;
     }}
 }}
 /* Freccia animata scroll giu */
