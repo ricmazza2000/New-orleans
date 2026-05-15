@@ -485,8 +485,8 @@ section[data-testid="stSidebar"] {{ display: none !important; }}
     background-position: center, center;
     background-repeat: no-repeat, no-repeat;
     margin: -44px -1rem 0 -1rem;
-    padding: 4rem 2rem 4rem; text-align: center;
-    min-height: 92vh;
+    padding: 3rem 2rem 3rem; text-align: center;
+    min-height: 70vh;
     display: flex; align-items: center; justify-content: center;
 }}
 /* Overlay scuro per leggibilita del testo sopra la foto */
@@ -499,8 +499,8 @@ section[data-testid="stSidebar"] {{ display: none !important; }}
 @media (min-width: 769px) {{
     .hero-full {{
         margin: -44px -3rem 0 -3rem;
-        padding: 5rem 3rem 5rem;
-        min-height: 92vh;
+        padding: 3.5rem 3rem 3.5rem;
+        min-height: 70vh;
     }}
 }}
 @media (max-width: 768px) {{
@@ -508,9 +508,9 @@ section[data-testid="stSidebar"] {{ display: none !important; }}
         margin-top: -120px;
         margin-left: -1rem;
         margin-right: -1rem;
-        padding-top: 8rem;
-        padding-bottom: 3.5rem;
-        min-height: 65vh;
+        padding-top: 7rem;
+        padding-bottom: 2.5rem;
+        min-height: 55vh;
     }}
 }}
 /* Freccia animata scroll giu */
@@ -1135,9 +1135,10 @@ st.markdown(f"""
         <div class="hero-title-script">to New Orleans</div>
         <div class="hero-year">2026</div>
     </div>
-    <a href="#temi" class="hero-scroll-arrow" aria-label="Scorri verso il basso">▾</a>
+    <a href="#scopri" class="hero-scroll-arrow" aria-label="Scopri di piu">▾</a>
 </div>
 
+<span id="scopri" class="section-anchor"></span>
 <div class="home-section">
 """, unsafe_allow_html=True)
 
