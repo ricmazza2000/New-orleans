@@ -509,7 +509,7 @@ section[data-testid="stSidebar"] {{ display: none !important; }}
         margin-left: -1rem;
         margin-right: -1rem;
         padding-top: 8rem;
-        padding-bottom: 3.5rem;
+        padding-bottom: 2rem;
         min-height: 65vh;
     }}
 }}
@@ -561,7 +561,7 @@ section[data-testid="stSidebar"] {{ display: none !important; }}
 .home-section {{
     background: white;
     margin: 0 -1rem;
-    padding: 1.8rem 1rem 2.8rem;
+    padding: 0.8rem 1rem 2.8rem;
 }}
 @media (min-width: 769px) {{
     .home-section {{ margin: 0 -3rem; padding: 2rem 3rem 3rem; }}
