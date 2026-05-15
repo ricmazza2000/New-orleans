@@ -1245,99 +1245,6 @@ with col_btn_center:
         st.session_state.show_opera = True
         st.rerun()
 
-# Mini CTA per il prototipo avatar (sguardi personali)
-PROTOTYPE_URL = "https://peccioli-eyes-prototype-hvspx7kxrj6fabdqe6w8tr.streamlit.app"
-st.markdown(f"""
-<style>
-.mini-sguardo-cta {{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    margin: 1rem auto 0.5rem;
-    max-width: 600px;
-    background: linear-gradient(135deg, rgba(19,0,137,0.04), rgba(255,222,89,0.08));
-    border: 1px solid rgba(255,222,89,0.4);
-    border-radius: 14px;
-    padding: 0.85rem 1.1rem;
-    transition: all 0.2s;
-}}
-.mini-sguardo-cta:hover {{
-    background: linear-gradient(135deg, rgba(19,0,137,0.08), rgba(255,222,89,0.15));
-    transform: translateY(-1px);
-    box-shadow: 0 6px 18px rgba(19,0,137,0.08);
-}}
-.mini-sguardo-text {{
-    flex: 1;
-    min-width: 0;
-}}
-.mini-sguardo-title {{
-    font-family: 'Lobster Two', cursive;
-    font-style: italic;
-    font-size: 1.05rem;
-    color: {BRAND_BLUE};
-    font-weight: 700;
-    line-height: 1.1;
-    margin-bottom: 0.15rem;
-}}
-.mini-sguardo-sub {{
-    font-size: 0.78rem;
-    color: #5b6472;
-    line-height: 1.3;
-}}
-.mini-sguardo-actions {{
-    display: flex;
-    gap: 0.4rem;
-    flex-shrink: 0;
-}}
-.mini-sguardo-btn {{
-    background: {BRAND_BLUE};
-    color: white !important;
-    text-decoration: none !important;
-    font-size: 0.78rem;
-    font-weight: 700;
-    padding: 0.5rem 0.85rem;
-    border-radius: 999px;
-    transition: all 0.2s;
-    white-space: nowrap;
-}}
-.mini-sguardo-btn:hover {{
-    background: {BRAND_YELLOW};
-    color: {BRAND_BLUE} !important;
-    transform: translateY(-1px);
-}}
-.mini-sguardo-btn.outline {{
-    background: transparent;
-    color: {BRAND_BLUE} !important;
-    border: 1.5px solid {BRAND_BLUE};
-}}
-.mini-sguardo-btn.outline:hover {{
-    background: {BRAND_BLUE};
-    color: white !important;
-}}
-@media (max-width: 600px) {{
-    .mini-sguardo-cta {{
-        flex-direction: column;
-        text-align: center;
-        padding: 1rem 0.9rem;
-    }}
-    .mini-sguardo-actions {{ width: 100%; }}
-    .mini-sguardo-btn {{ flex: 1; text-align: center; }}
-}}
-</style>
-
-<div class="mini-sguardo-cta">
-    <div class="mini-sguardo-text">
-        <div class="mini-sguardo-title">Crea il tuo sguardo personale</div>
-        <div class="mini-sguardo-sub">Scegli forma, colori, simbolo e sfondo. Vedi quelli degli altri ragazzi</div>
-    </div>
-    <div class="mini-sguardo-actions">
-        <a href="{PROTOTYPE_URL}" target="_blank" rel="noopener" class="mini-sguardo-btn outline">🖼 Galleria</a>
-        <a href="{PROTOTYPE_URL}" target="_blank" rel="noopener" class="mini-sguardo-btn">👁 Crea</a>
-    </div>
-</div>
-""", unsafe_allow_html=True)
-
 st.markdown(f"""
 <div style="display:flex;align-items:center;gap:1rem;margin:1.5rem 0 0.8rem;">
     <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(19,0,137,0.2));"></div>
@@ -1535,7 +1442,7 @@ st.markdown(f"""
         <span class="stats-toggle-icon">📊</span>
         <span class="stats-toggle-text">
             <span class="stats-toggle-eyebrow">Il viaggio in numeri</span>
-            8.234 km verso il jazz
+            Scopri di più
         </span>
         <span class="stats-toggle-arrow">▾</span>
     </button>
@@ -1572,10 +1479,10 @@ st.markdown(f"""
                 <div class="stat-sub">Media a settembre, umidità alta</div>
             </div>
             <div class="stat-card">
-                <span class="stat-icon">🎷</span>
-                <div class="stat-value">8<span class="stat-value-suffix">giorni</span></div>
-                <div class="stat-label">Durata viaggio</div>
-                <div class="stat-sub">21 → 28 settembre 2026</div>
+                <span class="stat-icon">⚜️</span>
+                <div class="stat-value">1718</div>
+                <div class="stat-label">Fondazione NOLA</div>
+                <div class="stat-sub">Più antica degli Stati Uniti, fondata dai francesi</div>
             </div>
         </div>
     </div>
