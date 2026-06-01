@@ -13,7 +13,7 @@ except ImportError:
     HAS_PIL = False
 
 st.set_page_config(
-    page_title="Peccioli Eyes to New Orleans",
+    page_title="Peccioli Eyes on New Orleans",
     page_icon="👁",
     layout="wide",
     initial_sidebar_state="collapsed"
@@ -927,7 +927,7 @@ st.markdown(f"""
     <div class="menu-list">
         <a class="menu-item" data-target="home"><span class="menu-icon">🏠</span><span class="menu-label">Home</span><span class="menu-arrow">›</span></a>
         <a class="menu-item" data-target="temi"><span class="menu-icon">👁</span><span class="menu-label">Temi del viaggio</span><span class="menu-arrow">›</span></a>
-        <a class="menu-item" data-target="briefing"><span class="menu-icon">📅</span><span class="menu-label">Briefing</span><span class="menu-arrow">›</span></a>
+        <a class="menu-item" data-target="briefing"><span class="menu-icon">📅</span><span class="menu-label">Calendario</span><span class="menu-arrow">›</span></a>
         <a class="menu-item" data-target="mappe"><span class="menu-icon">🗺</span><span class="menu-label">Mappa</span><span class="menu-arrow">›</span></a>
         <a class="menu-item" data-target="programma"><span class="menu-icon">🗓</span><span class="menu-label">Programma</span><span class="menu-arrow">›</span></a>
         <a class="menu-item" data-target="documenti"><span class="menu-icon">📂</span><span class="menu-label">Documenti</span><span class="menu-arrow">›</span></a>
@@ -1110,11 +1110,11 @@ eyes_tag_hero = f'<img src="data:{eyes_logo_white_mime};base64,{eyes_logo_white_
 
 st.markdown(f"""
 <div class="sticky-topbar">
-    <div class="sticky-topbar-title">{eyes_tag_topbar}PECCIOLI EYES<em>to New Orleans</em></div>
+    <div class="sticky-topbar-title">{eyes_tag_topbar}PECCIOLI EYES<em>on New Orleans</em></div>
     <nav class="topbar-nav">
         <a href="#home"><span class="nav-icon">🏠</span>Home</a>
         <a href="#temi"><span class="nav-icon">👁</span>Temi</a>
-        <a href="#briefing"><span class="nav-icon">📅</span>Briefing</a>
+        <a href="#briefing"><span class="nav-icon">📅</span>Calendario</a>
         <a href="#mappe"><span class="nav-icon">🗺</span>Mappa</a>
         <a href="#programma"><span class="nav-icon">🗓</span>Programma</a>
         <a href="#documenti"><span class="nav-icon">📂</span>Documenti</a>
@@ -1132,7 +1132,7 @@ st.markdown(f"""
     <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;">
         {eyes_tag_hero}
         <div class="hero-title-main">Peccioli Eyes</div>
-        <div class="hero-title-script">to New Orleans</div>
+        <div class="hero-title-script">on New Orleans</div>
         <div class="hero-year">2026</div>
     </div>
     <a href="#scopri" class="hero-scroll-arrow" aria-label="Scopri di piu">▾</a>
@@ -1761,8 +1761,8 @@ st.markdown(f"""
     <div class="section-title">Incontri propedeutici</div>
     <div class="section-subtitle">Tre esperti, tre sguardi</div>
     <p class="section-desc">
-        Tre serate per arrivare a New Orleans con strumenti culturali già solidi.
-        Non lezioni — conversazioni aperte su storia, geopolitica e società americana.
+        Tre serate per arrivare a New Orleans con strumenti culturali già solidi:
+        conversazioni aperte su storia, geopolitica e società americana.
     </p>
 </div>
 <div class="section-body sec-briefing brief-section">
@@ -1802,6 +1802,24 @@ briefing_full = [
         "foto_b64": costa_b64_tl, "foto_mime": costa_mime_tl,
         "emoji": "📰", "colore": BRAND_YELLOW,
     },
+    # =====================================================================
+    # PER AGGIUNGERE NUOVE DATE / INCONTRI / SCADENZE:
+    # Copia uno dei blocchi sopra e modifica i valori. Esempio sotto.
+    # Per nascondere temporaneamente un evento, commenta tutto il blocco
+    # mettendo # davanti a ogni riga (oppure cancellalo).
+    # =====================================================================
+    # ESEMPIO SCADENZA (decommentare per attivare):
+    # {
+    #     "data": "15 luglio", "ora": "entro le 23:59", "giorno": "Martedì",
+    #     "day_num": "15", "month": "Luglio",
+    #     "titolo": "Scadenza documenti",
+    #     "ruolo": "Consegna documenti firmati al Comune",
+    #     "bio": "Tutti i documenti firmati dai genitori devono essere consegnati all'ufficio del Comune di Peccioli entro questa data.",
+    #     "tema": "Modulo adesione, copia documento d'identità, modulo sanitario.",
+    #     "foto": None,
+    #     "foto_b64": None, "foto_mime": None,
+    #     "emoji": "📋", "colore": BRAND_YELLOW,
+    # },
 ]
 
 @st.dialog(" ")
@@ -2035,14 +2053,21 @@ for i, b in enumerate(briefing_full):
 st.markdown('</div>', unsafe_allow_html=True)
 
 # Pulsanti "Scopri di più" sotto (stile coerente con la timeline)
-st.markdown('<div style="max-width:860px;margin:1.5rem auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:0.7rem;">', unsafe_allow_html=True)
-btn_cols = st.columns(3)
-for i, (col, b) in enumerate(zip(btn_cols, briefing_full)):
-    with col:
-        if st.button(f"▸ Scopri {b['titolo'].split()[0]}", key=f"dialog_{i}", use_container_width=True):
-            st.session_state.dialog_idx = i
-            st.rerun()
-st.markdown('</div>', unsafe_allow_html=True)
+# Solo per eventi che hanno una bio completa (esperti, non scadenze generiche)
+eventi_con_bio = [b for b in briefing_full if b.get("bio") and b.get("foto") is not None]
+if eventi_con_bio:
+    n_eventi = len(eventi_con_bio)
+    grid_cols = min(n_eventi, 4)  # max 4 per riga su desktop
+    st.markdown(f'<div style="max-width:860px;margin:1.5rem auto 0;display:grid;grid-template-columns:repeat({grid_cols},1fr);gap:0.7rem;">', unsafe_allow_html=True)
+    btn_cols = st.columns(grid_cols)
+    for i, b in enumerate(eventi_con_bio):
+        with btn_cols[i % grid_cols]:
+            # Ricavo l'indice originale per riferirsi al dialog corretto
+            idx_originale = briefing_full.index(b)
+            if st.button(f"▸ Scopri {b['titolo'].split()[0]}", key=f"dialog_{idx_originale}", use_container_width=True):
+                st.session_state.dialog_idx = idx_originale
+                st.rerun()
+    st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown('</div>', unsafe_allow_html=True)
 
@@ -2261,7 +2286,7 @@ st.markdown(f"""
 <span id="documenti" class="section-anchor"></span>
 <div class="section-wrap sec-documenti">
     <span class="section-eyebrow">05 · Prima della partenza</span>
-    <div class="section-title">Materiali e documenti</div>
+    <div class="section-title">Risorse utili</div>
     <p class="section-desc">
         Documenti da consultare, compilare e consegnare in vista del viaggio.
     </p>
@@ -2274,9 +2299,8 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 documenti = [
-    ("📋", "Modulo di adesione", "Da compilare e riconsegnare firmato dai genitori.", False),
-    ("🛂", "Copia documento d'identità", "Carta d'identità o passaporto in corso di validità.", False),
-    ("🏥", "Modulo sanitario", "Informazioni mediche e allergie da comunicare all'organizzazione.", False),
+    ("🎥", "Registrazioni incontri", "Video integrale degli incontri con gli esperti (Morelli, Gardner, Costa).", False),
+    ("📊", "Slide degli incontri", "Presentazioni mostrate dagli esperti durante le serate propedeutiche.", False),
     ("✈️", "Informazioni sul volo", "Orari, scalo, indicazioni per l'aeroporto di partenza.", False),
     ("🏨", "Sistemazione", "Dettagli sull'alloggio a New Orleans.", False),
     ("📱", "Contatti e riferimenti", "Numeri di emergenza, referenti locali, chat di gruppo.", False),
@@ -2535,19 +2559,18 @@ with tab5:
 st.markdown('</div>', unsafe_allow_html=True)
 
 # ============================================================================
-# 📤 CONDIVIDI IL PROGETTO
+# 📞 CONTATTI UTILI
 # ============================================================================
 st.markdown(f"""
 <style>
-.share-section {{
+.contatti-section {{
     margin: 3rem 0 2rem;
-    text-align: center;
-    padding: 2rem 1rem;
+    padding: 2.2rem 2rem;
     background: linear-gradient(165deg, #f8f7ff 0%, #fff 100%);
     border-radius: 20px;
     border: 1px solid rgba(19,0,137,0.08);
 }}
-.share-eyebrow {{
+.contatti-eyebrow {{
     font-size: 0.65rem;
     font-weight: 700;
     letter-spacing: 0.22em;
@@ -2555,165 +2578,134 @@ st.markdown(f"""
     color: {BRAND_BLUE};
     opacity: 0.6;
     margin-bottom: 0.4rem;
+    text-align: center;
 }}
-.share-title {{
+.contatti-title {{
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 800;
+    font-size: 1.8rem;
+    color: {BRAND_BLUE};
+    margin-bottom: 0.3rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}}
+.contatti-sub {{
     font-family: 'Lobster Two', cursive;
     font-style: italic;
-    font-size: 1.5rem;
+    font-size: 1.1rem;
     color: {BRAND_BLUE};
-    margin-bottom: 0.4rem;
-    line-height: 1;
+    opacity: 0.7;
+    margin-bottom: 2rem;
+    text-align: center;
 }}
-.share-sub {{
-    font-size: 0.85rem;
-    color: #5b6472;
-    margin-bottom: 1.6rem;
-}}
-.share-buttons {{
-    display: flex;
-    justify-content: center;
-    gap: 0.6rem;
-    flex-wrap: wrap;
-    max-width: 500px;
+.contatti-grid {{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    max-width: 800px;
     margin: 0 auto;
 }}
-.share-btn {{
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 0.65rem 1.2rem;
-    border-radius: 999px;
-    border: 1px solid rgba(19,0,137,0.15);
+.contatto-card {{
     background: white;
-    color: {BRAND_BLUE};
-    font-size: 0.85rem;
-    font-weight: 600;
-    text-decoration: none;
-    cursor: pointer;
+    border-radius: 16px;
+    padding: 1.4rem 1.3rem;
+    border: 1px solid rgba(19,0,137,0.1);
+    box-shadow: 0 2px 10px rgba(19,0,137,0.05);
     transition: all 0.2s;
-    box-shadow: 0 2px 8px rgba(19,0,137,0.05);
-    font-family: 'Inter', sans-serif;
-    -webkit-tap-highlight-color: transparent;
 }}
-.share-btn:hover {{
-    background: {BRAND_BLUE};
-    color: white;
-    border-color: {BRAND_BLUE};
+.contatto-card:hover {{
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(19,0,137,0.2);
+    box-shadow: 0 6px 20px rgba(19,0,137,0.1);
 }}
-.share-btn.copied {{
-    background: #2d9d3d;
-    color: white;
-    border-color: #2d9d3d;
+.contatto-icon {{
+    font-size: 1.6rem;
+    margin-bottom: 0.6rem;
+    display: block;
 }}
-.share-btn-icon {{
+.contatto-org {{
+    font-weight: 800;
+    color: {BRAND_BLUE};
     font-size: 1.05rem;
+    margin-bottom: 0.15rem;
+    line-height: 1.2;
 }}
-@media (max-width: 600px) {{
-    .share-section {{ padding: 1.5rem 0.8rem; }}
-    .share-buttons {{ gap: 0.5rem; }}
-    .share-btn {{ padding: 0.6rem 1rem; font-size: 0.8rem; }}
-    .share-title {{ font-size: 1.3rem; }}
+.contatto-name {{
+    font-size: 0.88rem;
+    color: #5b6472;
+    margin-bottom: 0.85rem;
+    font-style: italic;
+}}
+.contatto-row {{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.35rem;
+    font-size: 0.86rem;
+    color: #2a3140;
+}}
+.contatto-row-icon {{
+    color: {BRAND_BLUE};
+    opacity: 0.7;
+    flex-shrink: 0;
+    width: 16px;
+    text-align: center;
+}}
+.contatto-row a {{
+    color: {BRAND_BLUE};
+    text-decoration: none;
+    font-weight: 500;
+}}
+.contatto-row a:hover {{
+    text-decoration: underline;
+}}
+@media (max-width: 700px) {{
+    .contatti-grid {{ grid-template-columns: 1fr; gap: 1rem; }}
+    .contatti-section {{ padding: 1.8rem 1.1rem; }}
+    .contatti-title {{ font-size: 1.45rem; }}
+    .contatti-sub {{ font-size: 0.98rem; }}
 }}
 </style>
 
-<div class="share-section">
-    <div class="share-eyebrow">Fai conoscere il progetto</div>
-    <div class="share-title">Condividi Peccioli Eyes</div>
-    <div class="share-sub">Dillo a chi ti sta a cuore — famiglia, amici, prof</div>
-    <div class="share-buttons">
-        <a class="share-btn"
-           href="https://wa.me/?text=Guarda%20il%20portale%20di%20%27Peccioli%20Eyes%20to%20New%20Orleans%202026%27%20%E2%80%94%20un%20viaggio%20da%20Peccioli%20a%20New%20Orleans%20%F0%9F%91%81%20https%3A%2F%2Fnew-orleans.onrender.com"
-           target="_blank" rel="noopener">
-            <span class="share-btn-icon">💬</span>WhatsApp
-        </a>
-        <a class="share-btn" id="shareInstagram"
-           href="https://www.instagram.com/"
-           target="_blank" rel="noopener">
-            <span class="share-btn-icon">📷</span>Instagram
-        </a>
-        <a class="share-btn"
-           href="mailto:?subject=Peccioli%20Eyes%20to%20New%20Orleans%202026&body=Ciao%2C%0A%0Avoglio%20farti%20vedere%20il%20portale%20del%20progetto%20%27Peccioli%20Eyes%20to%20New%20Orleans%27%3A%20un%20viaggio%20da%20Peccioli%20a%20New%20Orleans%2C%20a%20settembre%202026.%0A%0Ahttps%3A%2F%2Fnew-orleans.onrender.com%0A%0AA%20presto%21">
-            <span class="share-btn-icon">✉️</span>Email
-        </a>
-        <button class="share-btn" id="shareCopyBtn" type="button">
-            <span class="share-btn-icon">🔗</span><span id="shareCopyLabel">Copia link</span>
-        </button>
+<div class="contatti-section">
+    <div class="contatti-eyebrow">Per qualsiasi domanda</div>
+    <div class="contatti-title">Contatti utili</div>
+    <div class="contatti-sub">Siamo qui per te</div>
+    
+    <div class="contatti-grid">
+        <div class="contatto-card">
+            <span class="contatto-icon">🏛</span>
+            <div class="contatto-org">Comune di Peccioli</div>
+            <div class="contatto-name">Ufficio di riferimento</div>
+            <div class="contatto-row">
+                <span class="contatto-row-icon">✉</span>
+                <a href="mailto:info@comune.peccioli.pi.it">info@comune.peccioli.pi.it</a>
+            </div>
+            <div class="contatto-row">
+                <span class="contatto-row-icon">☎</span>
+                <a href="tel:+390587672602">0587 672602</a>
+            </div>
+            <div class="contatto-row">
+                <span class="contatto-row-icon">💬</span>
+                <a href="https://wa.me/393355710746" target="_blank" rel="noopener">WhatsApp 335 5710746</a>
+            </div>
+        </div>
+        
+        <div class="contatto-card">
+            <span class="contatto-icon">✈</span>
+            <div class="contatto-org">Equipe Viaggi</div>
+            <div class="contatto-name">Simone Turini</div>
+            <div class="contatto-row">
+                <span class="contatto-row-icon">✉</span>
+                <a href="mailto:s.turini@equipeviaggi.it">s.turini@equipeviaggi.it</a>
+            </div>
+            <div class="contatto-row">
+                <span class="contatto-row-icon">☎</span>
+                <a href="tel:+390571387070">0571 387070</a>
+            </div>
+        </div>
     </div>
 </div>
 """, unsafe_allow_html=True)
 
-# JavaScript per Copia link e Instagram (copia link + apri IG)
-components.html("""
-<script>
-(function() {
-    function setupShare() {
-        const doc = window.parent.document;
-        const copyBtn = doc.getElementById('shareCopyBtn');
-        const copyLabel = doc.getElementById('shareCopyLabel');
-        const igBtn = doc.getElementById('shareInstagram');
-        if (!copyBtn || copyBtn.dataset.ready === '1') return;
-        copyBtn.dataset.ready = '1';
-
-        const portalUrl = 'https://new-orleans.onrender.com';
-
-        function copyToClipboard(text) {
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                return navigator.clipboard.writeText(text);
-            }
-            // Fallback per browser vecchi
-            const ta = doc.createElement('textarea');
-            ta.value = text;
-            ta.style.position = 'fixed';
-            ta.style.opacity = '0';
-            doc.body.appendChild(ta);
-            ta.select();
-            try {
-                doc.execCommand('copy');
-                doc.body.removeChild(ta);
-                return Promise.resolve();
-            } catch (e) {
-                doc.body.removeChild(ta);
-                return Promise.reject(e);
-            }
-        }
-
-        function showCopied() {
-            const original = copyLabel.textContent;
-            copyBtn.classList.add('copied');
-            copyLabel.textContent = '✓ Link copiato';
-            setTimeout(() => {
-                copyBtn.classList.remove('copied');
-                copyLabel.textContent = original;
-            }, 2000);
-        }
-
-        copyBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            copyToClipboard(portalUrl).then(showCopied).catch(() => {
-                copyLabel.textContent = '⚠ Riprova';
-                setTimeout(() => copyLabel.textContent = 'Copia link', 2000);
-            });
-        });
-
-        // Instagram: copia il link prima di aprire IG (così l'utente lo incolla nelle Storie)
-        if (igBtn) {
-            igBtn.addEventListener('click', (e) => {
-                copyToClipboard(portalUrl).catch(() => {});
-                // Lascia che il link apra normalmente Instagram
-            });
-        }
-    }
-
-    if (window.parent.document.readyState === 'complete') {
-        setTimeout(setupShare, 400);
-    } else {
-        window.parent.addEventListener('load', () => setTimeout(setupShare, 400));
-    }
-})();
-</script>
-""", height=0)
-
-st.markdown(f"<div class='footer-box'>Peccioli Eyes to New Orleans · 2026 · Portale ragazzi</div>", unsafe_allow_html=True)
+st.markdown(f"<div class='footer-box'>Peccioli Eyes on New Orleans · 2026</div>", unsafe_allow_html=True)
