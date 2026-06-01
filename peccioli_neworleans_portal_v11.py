@@ -2602,41 +2602,39 @@ st.markdown(f"""
     </div>
 """, unsafe_allow_html=True)
 
-import base64 as _base64
+# Verifica esistenza file nel repo: se presente, mostra link diretto a GitHub raw
+# (molto più efficiente del base64 embedding, che renderebbe la pagina pesantissima)
+GITHUB_RAW_BASE = "https://raw.githubusercontent.com/ricmazza2000/New-orleans/main/"
 
-def file_to_b64(filename):
-    """Carica un file dalla cartella del repo e lo restituisce come base64 per il download."""
-    p = BASE_DIR / filename
-    if p.exists():
-        with open(p, "rb") as f:
-            return _base64.b64encode(f.read()).decode("ascii")
-    return None
+def file_exists_locally(filename):
+    """Controlla se il file esiste nella cartella del repo."""
+    return (BASE_DIR / filename).exists()
 
 # Lista documenti. Ogni voce ha:
 #   - icona, titolo, descrizione
-#   - filename: nome del file da caricare nel repo (None se non ancora disponibile)
-#   - mime: tipo MIME del file (necessario per il download)
-# Quando filename esiste nel repo, la card mostra un bottone "Scarica" cliccabile.
+#   - filename: nome del file caricato nel repo (None se non ancora disponibile)
+# Quando filename esiste nel repo, la card mostra un bottone "Scarica" che linka direttamente
+# al file su GitHub raw (download immediato, niente embedding base64 nella pagina).
 # Quando filename è None o il file non esiste, mostra "In arrivo".
 documenti = [
     {"icona": "📊", "titolo": "Presentazione dell'incontro introduttivo", 
      "desc": "Slide del primo incontro di presentazione del progetto.",
-     "filename": "doc_presentazione_introduttivo.pdf", "mime": "application/pdf"},
+     "filename": "doc_presentazione_introduttivo.pdf"},
     {"icona": "📊", "titolo": "Presentazione di Elia Morelli", 
      "desc": "Slide dell'incontro con Elia Morelli sulla storia di New Orleans.",
-     "filename": "doc_slide_morelli.pdf", "mime": "application/pdf"},
+     "filename": "doc_slide_morelli.pdf"},
     {"icona": "🎧", "titolo": "Registrazione incontro Morelli",
      "desc": "Audio integrale dell'incontro con Elia Morelli (7 maggio 2026).",
-     "filename": "audio_morelli.mp3", "mime": "audio/mpeg"},
+     "filename": "audio_morelli.mp3"},
     {"icona": "🎧", "titolo": "Registrazione incontro Gardner",
      "desc": "Audio integrale dell'incontro con Anthony Gardner (21 maggio 2026).",
-     "filename": "audio_gardner.mp3", "mime": "audio/mpeg"},
+     "filename": "audio_gardner.mp3"},
     {"icona": "✈️", "titolo": "Prime informazioni sul viaggio",
      "desc": "Dettagli su volo, scalo e sistemazione a New Orleans.",
-     "filename": "doc_info_viaggio.pdf", "mime": "application/pdf"},
+     "filename": "doc_info_viaggio.pdf"},
     {"icona": "📱", "titolo": "Contatti e riferimenti",
      "desc": "Numeri di emergenza, referenti locali, chat di gruppo.",
-     "filename": None, "mime": None},
+     "filename": None},
 ]
 
 for doc in documenti:
@@ -2644,14 +2642,10 @@ for doc in documenti:
     titolo = doc["titolo"]
     desc = doc["desc"]
     
-    # Controllo se il file esiste e genero blocco di download
-    file_b64 = file_to_b64(doc["filename"]) if doc["filename"] else None
-    
-    if file_b64:
-        # File presente: mostro bottone "Scarica" cliccabile
-        # Estrae estensione per il nome del file scaricato
-        download_filename = doc["filename"]
-        stato_html = f'<a href="data:{doc["mime"]};base64,{file_b64}" download="{download_filename}" style="display:inline-block;background:{BRAND_BLUE};color:white;text-decoration:none;padding:0.45rem 0.95rem;border-radius:999px;font-size:0.72rem;font-weight:700;letter-spacing:0.04em;">⬇ Scarica</a>'
+    # File disponibile: linko a GitHub raw (download diretto)
+    if doc["filename"] and file_exists_locally(doc["filename"]):
+        url = GITHUB_RAW_BASE + doc["filename"]
+        stato_html = f'<a href="{url}" download="{doc["filename"]}" target="_blank" rel="noopener" style="display:inline-block;background:{BRAND_BLUE};color:white;text-decoration:none;padding:0.45rem 0.95rem;border-radius:999px;font-size:0.72rem;font-weight:700;letter-spacing:0.04em;">⬇ Scarica</a>'
     else:
         # File non ancora caricato
         stato_html = f'<div style="font-size:0.72rem;font-weight:700;color:#9aa3b0;">⏳ In arrivo</div>'
