@@ -102,6 +102,10 @@ hero_bg_path = find_img("hero_nola_bourbon.jpg", "hero_nola_bourbon.jpeg", "hero
 hero_bg_b64, hero_bg_mime = img_to_base64(hero_bg_path, max_width=1600, quality=82) if hero_bg_path else (None, None)
 HERO_BG_DATAURL = f"data:{hero_bg_mime};base64,{hero_bg_b64}" if hero_bg_b64 else ""
 
+# Logo Jazz Peccioli (per la card evento nel calendario)
+jazz_logo_path = find_img("jazz_peccioli_logo.png", "jazz_peccioli.png", "jazz_peccioli_logo.jpg")
+jazz_logo_b64, jazz_logo_mime = img_to_base64(jazz_logo_path, max_width=400, quality=88) if jazz_logo_path else (None, None)
+
 eyes_logo_yellow_b64, eyes_logo_yellow_mime = img_to_base64_raw(eyes_logo_yellow_path)
 eyes_logo_white_b64, eyes_logo_white_mime = img_to_base64_raw(eyes_logo_white_path)
 
@@ -1758,11 +1762,10 @@ st.markdown(f"""
 <span id="briefing" class="section-anchor"></span>
 <div class="section-wrap sec-briefing">
     <span class="section-eyebrow">02 · Prima del viaggio</span>
-    <div class="section-title">Incontri propedeutici</div>
-    <div class="section-subtitle">Tre esperti, tre sguardi</div>
+    <div class="section-title">Calendario</div>
+    <div class="section-subtitle">Incontri, eventi e appuntamenti</div>
     <p class="section-desc">
-        Tre serate per arrivare a New Orleans con strumenti culturali già solidi:
-        conversazioni aperte su storia, geopolitica e società americana.
+        Tutte le date che ci accompagnano fino alla partenza: tre serate con esperti per arrivare a New Orleans con strumenti culturali già solidi, ed eventi sul territorio che aprono un ponte vivo tra Peccioli e la Louisiana.
     </p>
 </div>
 <div class="section-body sec-briefing brief-section">
@@ -1810,8 +1813,8 @@ briefing_full = [
         "ruolo": "Festival jazz · Peccioli ↔ New Orleans",
         "bio": "Dal 7 all'11 luglio Peccioli si riempirà di musica e suoni aprendo un ponte simbolico e culturale con New Orleans. Il festival, nato dal gemellaggio ufficiale tra il Comune di Peccioli e New Orleans, vedrà protagonista la New Orleans Jazz Orchestra, affiancata da artisti di rilievo internazionale. Le parate quotidiane della LSU Brass Band animeranno il centro con l'energia inconfondibile della tradizione second line.",
         "tema": "Concerti, parate, workshop. Un'anteprima dal vivo di NOLA, qui a Peccioli.",
-        "foto": None,
-        "foto_b64": None, "foto_mime": None,
+        "foto": jazz_logo_path,
+        "foto_b64": jazz_logo_b64, "foto_mime": jazz_logo_mime,
         "emoji": "🎺", "colore": BRAND_YELLOW,
         "link_sito": "https://www.jazzpeccioli.com",
         "link_instagram": "https://www.instagram.com/jazzpeccioli/",
@@ -1983,6 +1986,22 @@ timeline_css = f"""
     font-size: 4.5rem;
     filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
 }}
+/* Logo evento (es. Jazz Peccioli) - mantenuto intero, sfondo bianco */
+.evento-logo-wrap {{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    padding: 1.2rem;
+}}
+.evento-logo {{
+    max-width: 80%;
+    max-height: 80%;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 14px rgba(0,0,0,0.15));
+}}
 .brief-card.evento .brief-time {{
     color: {BRAND_YELLOW};
     opacity: 0.95;
@@ -2113,9 +2132,16 @@ st.markdown('<div class="brief-timeline">', unsafe_allow_html=True)
 month_abbr = {"Maggio": "MAG", "Giugno": "GIU", "Luglio": "LUG", "Aprile": "APR", "Settembre": "SET", "Ottobre": "OTT", "Novembre": "NOV", "Dicembre": "DIC", "Gennaio": "GEN", "Febbraio": "FEB", "Marzo": "MAR", "Agosto": "AGO"}
 
 for i, b in enumerate(briefing_full):
-    # Foto: uso base64 se disponibile, altrimenti emoji placeholder
+    tipo_card = b.get("tipo", "esperto")
+    
+    # Foto: logica diversa per evento (logo contained) vs esperto (foto cover)
     if b["foto_b64"]:
-        photo_block = f'<img src="data:{b["foto_mime"]};base64,{b["foto_b64"]}" alt="{b["titolo"]}">'
+        if tipo_card == "evento":
+            # Logo: sfondo bianco, contenuto centrato, non tagliato
+            photo_block = f'<div class="evento-logo-wrap"><img src="data:{b["foto_mime"]};base64,{b["foto_b64"]}" alt="{b["titolo"]}" class="evento-logo"></div>'
+        else:
+            # Foto persona: cover, riempie tutto
+            photo_block = f'<img src="data:{b["foto_mime"]};base64,{b["foto_b64"]}" alt="{b["titolo"]}">'
     else:
         photo_block = f'<div class="brief-photo-emoji">{b["emoji"]}</div>'
 
@@ -2124,8 +2150,7 @@ for i, b in enumerate(briefing_full):
     # Classe per giorno (range tipo "7-11" usa font ridotto)
     day_class = "marker-day range" if "-" in str(b["day_num"]) else "marker-day"
     
-    # Determina tipo di card (esperto/evento/scadenza)
-    tipo_card = b.get("tipo", "esperto")
+    # Card class + badge + links per tipo evento
     card_class = "brief-card"
     badge_html = ""
     links_html = ""
@@ -2167,8 +2192,8 @@ for i, b in enumerate(briefing_full):
 st.markdown('</div>', unsafe_allow_html=True)
 
 # Pulsanti "Scopri di più" sotto (stile coerente con la timeline)
-# Solo per eventi che hanno una bio completa (esperti, non scadenze generiche)
-eventi_con_bio = [b for b in briefing_full if b.get("bio") and b.get("foto") is not None]
+# Solo per ESPERTI (escludo eventi e scadenze)
+eventi_con_bio = [b for b in briefing_full if b.get("bio") and b.get("foto") is not None and b.get("tipo", "esperto") == "esperto"]
 if eventi_con_bio:
     n_eventi = len(eventi_con_bio)
     grid_cols = min(n_eventi, 4)  # max 4 per riga su desktop
