@@ -1802,6 +1802,20 @@ briefing_full = [
         "foto_b64": costa_b64_tl, "foto_mime": costa_mime_tl,
         "emoji": "📰", "colore": BRAND_YELLOW,
     },
+    {
+        "tipo": "evento",
+        "data": "7-11 luglio", "ora": "5 giorni", "giorno": "Mar-Sab",
+        "day_num": "7-11", "month": "Luglio",
+        "titolo": "Jazz Peccioli 2026",
+        "ruolo": "Festival jazz · Peccioli ↔ New Orleans",
+        "bio": "Dal 7 all'11 luglio Peccioli si riempirà di musica e suoni aprendo un ponte simbolico e culturale con New Orleans. Il festival, nato dal gemellaggio ufficiale tra il Comune di Peccioli e New Orleans, vedrà protagonista la New Orleans Jazz Orchestra, affiancata da artisti di rilievo internazionale. Le parate quotidiane della LSU Brass Band animeranno il centro con l'energia inconfondibile della tradizione second line.",
+        "tema": "Concerti, parate, workshop. Un'anteprima dal vivo di NOLA, qui a Peccioli.",
+        "foto": None,
+        "foto_b64": None, "foto_mime": None,
+        "emoji": "🎺", "colore": BRAND_YELLOW,
+        "link_sito": "https://www.jazzpeccioli.com",
+        "link_instagram": "https://www.instagram.com/jazzpeccioli/",
+    },
     # =====================================================================
     # PER AGGIUNGERE NUOVE DATE / INCONTRI / SCADENZE:
     # Copia uno dei blocchi sopra e modifica i valori. Esempio sotto.
@@ -1810,6 +1824,7 @@ briefing_full = [
     # =====================================================================
     # ESEMPIO SCADENZA (decommentare per attivare):
     # {
+    #     "tipo": "scadenza",
     #     "data": "15 luglio", "ora": "entro le 23:59", "giorno": "Martedì",
     #     "day_num": "15", "month": "Luglio",
     #     "titolo": "Scadenza documenti",
@@ -1910,6 +1925,11 @@ timeline_css = f"""
     font-size: 2rem;
     line-height: 1;
 }}
+/* Range di date (es. "7-11") con font ridotto */
+.brief-marker .marker-day.range {{
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
+}}
 .brief-marker .marker-month {{
     font-size: 0.6rem;
     font-weight: 700;
@@ -1946,6 +1966,77 @@ timeline_css = f"""
     justify-content: center;
     font-size: 3.5rem;
     color: {BRAND_YELLOW};
+}}
+
+/* === STILE CARD TIPO "EVENTO" (differenziato dagli esperti) === */
+.brief-card.evento {{
+    background: linear-gradient(135deg, {BRAND_BLUE} 0%, #1a0fb8 100%);
+    color: white;
+    border: 2px solid {BRAND_YELLOW};
+}}
+.brief-card.evento .brief-photo {{
+    background: linear-gradient(135deg, {BRAND_BLUE_DARK} 0%, {BRAND_BLUE} 100%);
+    position: relative;
+}}
+.brief-card.evento .brief-photo-emoji {{
+    color: {BRAND_YELLOW};
+    font-size: 4.5rem;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+}}
+.brief-card.evento .brief-time {{
+    color: {BRAND_YELLOW};
+    opacity: 0.95;
+}}
+.brief-card.evento .brief-name {{
+    color: white;
+}}
+.brief-card.evento .brief-role {{
+    color: rgba(255,255,255,0.8);
+}}
+.brief-card.evento .brief-tema {{
+    background: rgba(255,222,89,0.15);
+    color: white;
+    border-left-color: {BRAND_YELLOW};
+}}
+.evento-badge {{
+    position: absolute;
+    top: 0.7rem;
+    left: 0.7rem;
+    background: {BRAND_YELLOW};
+    color: {BRAND_BLUE};
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.65rem;
+    border-radius: 999px;
+    z-index: 2;
+}}
+.evento-links {{
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.9rem;
+    flex-wrap: wrap;
+}}
+.evento-link {{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,222,89,0.4);
+    color: white !important;
+    text-decoration: none !important;
+    padding: 0.45rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    transition: all 0.2s;
+}}
+.evento-link:hover {{
+    background: {BRAND_YELLOW};
+    color: {BRAND_BLUE} !important;
+    border-color: {BRAND_YELLOW};
+    transform: translateY(-2px);
 }}
 .brief-content {{
     padding: 1.3rem 1.5rem 1.3rem;
@@ -2029,15 +2120,37 @@ for i, b in enumerate(briefing_full):
         photo_block = f'<div class="brief-photo-emoji">{b["emoji"]}</div>'
 
     month_short = month_abbr.get(b["month"], b["month"][:3].upper())
+    
+    # Classe per giorno (range tipo "7-11" usa font ridotto)
+    day_class = "marker-day range" if "-" in str(b["day_num"]) else "marker-day"
+    
+    # Determina tipo di card (esperto/evento/scadenza)
+    tipo_card = b.get("tipo", "esperto")
+    card_class = "brief-card"
+    badge_html = ""
+    links_html = ""
+    
+    if tipo_card == "evento":
+        card_class = "brief-card evento"
+        badge_html = '<div class="evento-badge">🎺 Festival</div>'
+        # Link Instagram + sito se presenti
+        link_parts = []
+        if b.get("link_sito"):
+            link_parts.append(f'<a class="evento-link" href="{b["link_sito"]}" target="_blank" rel="noopener">🌐 Sito ufficiale</a>')
+        if b.get("link_instagram"):
+            link_parts.append(f'<a class="evento-link" href="{b["link_instagram"]}" target="_blank" rel="noopener">📷 Instagram</a>')
+        if link_parts:
+            links_html = '<div class="evento-links">' + "".join(link_parts) + '</div>'
 
     st.markdown(f"""
     <div class="brief-step">
         <div class="brief-marker">
-            <span class="marker-day">{b["day_num"]}</span>
+            <span class="{day_class}">{b["day_num"]}</span>
             <span class="marker-month">{month_short}</span>
         </div>
-        <div class="brief-card">
+        <div class="{card_class}">
             <div class="brief-photo">
+                {badge_html}
                 {photo_block}
             </div>
             <div class="brief-content">
@@ -2045,6 +2158,7 @@ for i, b in enumerate(briefing_full):
                 <div class="brief-name">{b["titolo"]}</div>
                 <div class="brief-role">{b["ruolo"]}</div>
                 <div class="brief-tema">{b["tema"]}</div>
+                {links_html}
             </div>
         </div>
     </div>
