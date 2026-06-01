@@ -1686,68 +1686,77 @@ st.markdown(f"""
 <div class="section-body sec-temi">
 """, unsafe_allow_html=True)
 
-# CSS specifico per le card "Sguardi"
+# CSS specifico per le card "Sguardi" — versione snella ed elegante
 st.markdown("""
 <style>
 .sguardo-card {
     position: relative;
     background: white;
-    border-radius: 18px;
-    padding: 1.4rem 1.3rem 1.2rem;
-    border: 1px solid rgba(19,0,137,0.1);
-    box-shadow: 0 4px 16px rgba(19,0,137,0.06);
+    border-radius: 20px;
+    padding: 1.8rem 1.6rem 1.6rem;
+    border: 1px solid rgba(19,0,137,0.08);
+    box-shadow: 0 6px 20px rgba(19,0,137,0.05);
     overflow: hidden;
     height: 100%;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.25s, box-shadow 0.25s;
+    margin-bottom: 1rem;
 }
 .sguardo-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(19,0,137,0.1);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(19,0,137,0.12);
 }
 .sguardo-card.dark {
     background: linear-gradient(160deg, #130089 0%, #1a0fb8 100%);
     color: white;
-    border: 1px solid rgba(255,222,89,0.3);
+    border: 1px solid rgba(255,222,89,0.25);
 }
+/* Numero gigante decorativo sullo sfondo */
 .sguardo-numero {
     position: absolute;
-    top: -22px;
-    right: 14px;
+    top: -28px;
+    right: 8px;
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 7rem;
+    font-size: 10rem;
     font-weight: 800;
     color: #130089;
-    opacity: 0.06;
+    opacity: 0.05;
     line-height: 1;
     pointer-events: none;
     user-select: none;
+    letter-spacing: -0.04em;
 }
 .sguardo-card.dark .sguardo-numero {
     color: #FFDE59;
-    opacity: 0.12;
+    opacity: 0.11;
+}
+/* Header: icona + label inline */
+.sguardo-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.1rem;
+    position: relative;
+    z-index: 1;
 }
 .sguardo-icona {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 48px; height: 48px;
-    border-radius: 12px;
+    width: 52px; height: 52px;
+    border-radius: 14px;
     background: #FFDE59;
-    font-size: 1.6rem;
-    margin-bottom: 0.9rem;
-    box-shadow: 0 4px 10px rgba(255,222,89,0.4);
-}
-.sguardo-card.dark .sguardo-icona {
-    background: #FFDE59;
+    font-size: 1.7rem;
+    flex-shrink: 0;
+    box-shadow: 0 4px 14px rgba(255,222,89,0.45);
 }
 .sguardo-eyebrow {
     font-size: 0.62rem;
     font-weight: 800;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
     color: #130089;
-    opacity: 0.55;
-    margin-bottom: 0.3rem;
+    opacity: 0.5;
+    line-height: 1;
 }
 .sguardo-card.dark .sguardo-eyebrow {
     color: #FFDE59;
@@ -1755,11 +1764,14 @@ st.markdown("""
 }
 .sguardo-titolo {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 1.5rem;
+    font-size: 1.65rem;
     font-weight: 800;
     color: #130089;
-    line-height: 1.1;
-    margin-bottom: 0.25rem;
+    line-height: 1.05;
+    margin-bottom: 0.3rem;
+    position: relative;
+    z-index: 1;
+    letter-spacing: -0.01em;
 }
 .sguardo-card.dark .sguardo-titolo {
     color: white;
@@ -1767,141 +1779,115 @@ st.markdown("""
 .sguardo-sub {
     font-family: 'Lobster Two', cursive;
     font-style: italic;
-    font-size: 0.95rem;
+    font-size: 1.05rem;
     color: #130089;
-    opacity: 0.7;
-    margin-bottom: 1rem;
+    opacity: 0.65;
+    margin-bottom: 1.3rem;
     line-height: 1.3;
+    position: relative;
+    z-index: 1;
 }
 .sguardo-card.dark .sguardo-sub {
     color: #FFDE59;
-    opacity: 0.9;
+    opacity: 0.92;
 }
-.sguardo-row {
-    display: flex;
-    gap: 0.65rem;
-    align-items: flex-start;
-    margin-top: 0.7rem;
-    font-size: 0.83rem;
-    line-height: 1.55;
+/* Linea divisoria gialla */
+.sguardo-divider {
+    width: 36px;
+    height: 2px;
+    background: #FFDE59;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+    border-radius: 2px;
 }
-.sguardo-row-icon {
-    flex-shrink: 0;
-    width: 22px;
-    text-align: center;
-    font-size: 0.95rem;
-    line-height: 1.4;
-    opacity: 0.7;
+/* Blocchi di testo: label piccola + paragrafo */
+.sguardo-block {
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
 }
-.sguardo-row-text strong {
-    color: #130089;
+.sguardo-block:last-child {
+    margin-bottom: 0;
+}
+.sguardo-label {
+    font-size: 0.6rem;
     font-weight: 800;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #130089;
+    opacity: 0.55;
+    margin-bottom: 0.3rem;
 }
-.sguardo-card.dark .sguardo-row-text strong {
+.sguardo-card.dark .sguardo-label {
     color: #FFDE59;
+    opacity: 0.85;
 }
-.sguardo-row-text {
-    flex: 1;
+.sguardo-text {
+    font-size: 0.92rem;
+    line-height: 1.55;
     color: #3a4a5c;
 }
-.sguardo-card.dark .sguardo-row-text {
-    color: rgba(255,255,255,0.88);
-}
-.sguardo-esperto {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    margin-top: 1rem;
-    padding: 0.6rem 0.8rem;
-    background: rgba(19,0,137,0.05);
-    border-left: 3px solid #FFDE59;
-    border-radius: 0 8px 8px 0;
-    font-size: 0.75rem;
-    line-height: 1.35;
-    color: #130089;
-}
-.sguardo-card.dark .sguardo-esperto {
-    background: rgba(255,255,255,0.08);
-    color: white;
-}
-.sguardo-esperto strong {
-    font-weight: 800;
+.sguardo-card.dark .sguardo-text {
+    color: rgba(255,255,255,0.92);
 }
 @media (max-width: 720px) {
-    .sguardo-numero { font-size: 5rem; top: -14px; }
-    .sguardo-titolo { font-size: 1.3rem; }
+    .sguardo-numero { font-size: 7rem; top: -18px; }
+    .sguardo-titolo { font-size: 1.4rem; }
+    .sguardo-card { padding: 1.5rem 1.3rem 1.3rem; }
+    .sguardo-icona { width: 46px; height: 46px; font-size: 1.5rem; }
 }
 </style>
 """, unsafe_allow_html=True)
 
-# Definizione degli 8 sguardi
+# Definizione degli 8 sguardi — versione snella
 sguardi = [
     {
         "n": "01", "icona": "🏛️", "titolo": "Sguardo Storico", "sub": "Le radici",
         "focus": "La stratificazione coloniale, il quartiere francese, l'eredità spagnola e africana.",
         "missione": "Trovare le tracce del passato che sopravvivono nel presente.",
-        "luoghi": "French Quarter · St. Louis Cemetery · Jackson Square",
-        "esperto": "Elia Morelli",
-        "esperto_desc": "L'incontro con Morelli trasforma la storia accademica in archeologia urbana per i social.",
         "dark": False,
     },
     {
         "n": "02", "icona": "🌊", "titolo": "Sguardo Politico", "sub": "Il potere e il fiume",
         "focus": "Il porto di New Orleans, il ruolo del Mississippi nell'economia globale, le relazioni internazionali.",
         "missione": "Raccontare come una città del Sud parli al mondo intero.",
-        "luoghi": "Port of New Orleans · Mississippi River · Federal Reserve Branch",
-        "esperto": "Anthony Gardner",
-        "esperto_desc": "Con Gardner si documenta New Orleans come hub geopolitico e punto di contatto USA-Europa.",
         "dark": True,
     },
     {
         "n": "03", "icona": "🤝", "titolo": "Sguardo Sociale", "sub": "Contrasti americani",
         "focus": "Le contraddizioni della società americana: ricchezza e povertà, gentrificazione, questioni razziali.",
         "missione": "Osservare le due Americhe che convivono nello stesso isolato.",
-        "luoghi": "Tremé · Garden District · Lower Ninth Ward",
-        "esperto": "Francesco Costa",
-        "esperto_desc": "Costa offre la chiave per leggere gli USA di oggi oltre gli stereotipi, cercando storie reali.",
         "dark": False,
     },
     {
         "n": "04", "icona": "🎷", "titolo": "Sguardo Sonoro", "sub": "Il ritmo del Delta",
         "focus": "Jazz, blues, second lines, musicisti di strada di Frenchmen Street.",
-        "missione": "Catturare il rumore della città. Non solo musica, ma interviste a chi la vive come lavoro.",
-        "luoghi": "Frenchmen Street · Congo Square · Preservation Hall",
-        "output": "Playlist «Sguardi Sonori» su Spotify · Reels ritmici",
+        "missione": "Catturare il rumore della città. Non solo musica, ma chi la vive come lavoro.",
         "dark": True,
     },
     {
         "n": "05", "icona": "🏚️", "titolo": "Sguardo Resiliente", "sub": "L'acqua e la ricostruzione",
-        "focus": "L'eredità di Katrina, il cambiamento climatico, l'architettura della sopravvivenza (le case rialzate).",
+        "focus": "L'eredità di Katrina, il cambiamento climatico, l'architettura della sopravvivenza.",
         "missione": "Raccontare come una comunità si rialza dopo il disastro.",
-        "luoghi": "Lower Ninth Ward · Argini del Mississippi · Lakeview",
-        "output": "Documentare il rapporto simbiotico e pericoloso tra città e acqua.",
         "dark": False,
     },
     {
         "n": "06", "icona": "🍲", "titolo": "Sguardo Gastronomico", "sub": "Il melting pot nel piatto",
         "focus": "Cucina Creole e Cajun, il rito del gumbo e dei beignets, i mercati locali.",
-        "missione": "Spiegare la cultura attraverso il cibo, inteso come fusione di popoli — francesi, africani, caraibici.",
-        "luoghi": "French Market · Café du Monde · Dooky Chase's",
-        "output": "Recensioni antropologiche dei piatti tipici.",
+        "missione": "Spiegare la cultura attraverso il cibo, come fusione di popoli.",
         "dark": True,
     },
     {
         "n": "07", "icona": "🔮", "titolo": "Sguardo Mistico", "sub": "Spiritualità e tradizioni",
-        "focus": "Il voodoo, i cimiteri monumentali (le «Città dei Morti»), il Mardi Gras, il folklore.",
-        "missione": "Indagare la parte invisibile di New Orleans — quella legata alla magia e ai riti comunitari.",
-        "luoghi": "St. Louis Cemetery · Voodoo Museum · Marie Laveau's Tomb",
-        "output": "Foto d'atmosfera, dettagli artistici e simbolismo.",
+        "focus": "Il voodoo, i cimiteri monumentali, il Mardi Gras, il folklore.",
+        "missione": "Indagare la parte invisibile di New Orleans — magia e riti comunitari.",
         "dark": False,
     },
     {
         "n": "08", "icona": "👁️", "titolo": "Sguardo Umano", "sub": "Humans of NOLA",
         "focus": "I volti delle persone, l'accoglienza del Sud, le storie individuali.",
-        "missione": "La squadra più vicina al concetto dell'installazione di Peccioli: incrociare lo sguardo dei locali.",
-        "luoghi": "Ovunque · per strada · nei caffè · nei negozi",
-        "output": "Ritratti fotografici di alta qualità accompagnati da una citazione o una micro-storia.",
+        "missione": "La squadra più vicina all'installazione di Peccioli: incrociare lo sguardo dei locali.",
         "dark": True,
     },
 ]
@@ -1911,43 +1897,26 @@ col_s1, col_s2 = st.columns(2, gap="small")
 
 for i, s in enumerate(sguardi):
     target_col = col_s1 if i % 2 == 0 else col_s2
-    
-    # Costruisco le righe di contenuto
-    rows_html = (
-        f'<div class="sguardo-row"><div class="sguardo-row-icon">🎯</div>'
-        f'<div class="sguardo-row-text"><strong>Focus.</strong> {s["focus"]}</div></div>'
-        f'<div class="sguardo-row"><div class="sguardo-row-icon">🧭</div>'
-        f'<div class="sguardo-row-text"><strong>Missione.</strong> {s["missione"]}</div></div>'
-        f'<div class="sguardo-row"><div class="sguardo-row-icon">📍</div>'
-        f'<div class="sguardo-row-text"><strong>Luoghi.</strong> {s["luoghi"]}</div></div>'
-    )
-    if s.get("output"):
-        rows_html += (
-            f'<div class="sguardo-row"><div class="sguardo-row-icon">✨</div>'
-            f'<div class="sguardo-row-text"><strong>Output creativo.</strong> {s["output"]}</div></div>'
-        )
-    
-    # Blocco esperto se presente
-    esperto_html = ""
-    if s.get("esperto"):
-        esperto_html = (
-            f'<div class="sguardo-esperto">'
-            f'<div style="font-size:1.1rem;">🎓</div>'
-            f'<div><strong>Esperto di riferimento: {s["esperto"]}.</strong> {s["esperto_desc"]}</div>'
-            f'</div>'
-        )
-    
     card_class = "sguardo-card dark" if s.get("dark") else "sguardo-card"
     
     card_html = (
-        f'<div class="{card_class}" style="margin-bottom:1rem;">'
+        f'<div class="{card_class}">'
         f'<div class="sguardo-numero">{s["n"]}</div>'
+        f'<div class="sguardo-header">'
         f'<div class="sguardo-icona">{s["icona"]}</div>'
         f'<div class="sguardo-eyebrow">Sguardo {s["n"]}</div>'
+        f'</div>'
         f'<div class="sguardo-titolo">{s["titolo"]}</div>'
         f'<div class="sguardo-sub">«{s["sub"]}»</div>'
-        f'{rows_html}'
-        f'{esperto_html}'
+        f'<div class="sguardo-divider"></div>'
+        f'<div class="sguardo-block">'
+        f'<div class="sguardo-label">Focus</div>'
+        f'<div class="sguardo-text">{s["focus"]}</div>'
+        f'</div>'
+        f'<div class="sguardo-block">'
+        f'<div class="sguardo-label">Missione</div>'
+        f'<div class="sguardo-text">{s["missione"]}</div>'
+        f'</div>'
         f'</div>'
     )
     
@@ -2863,10 +2832,10 @@ with tab4:
          "link": "https://www.youtube.com/watch?v=grN4Oacu1fM",
          "thumb": "https://img.youtube.com/vi/grN4Oacu1fM/hqdefault.jpg",
          "colore": "#4a3fb8"},
-        {"titolo": "Storie da New Orleans",
-         "canale": "Reportage video",
-         "desc": "Uno sguardo dentro la città: voci, luoghi e atmosfere di New Orleans raccontate attraverso le immagini.",
-         "link": "https://youtu.be/Y1HJvVVAZpg",
+        {"titolo": "La schiavitù senza filtri: 12 Anni Schiavo",
+         "canale": "Analisi · cinema e storia",
+         "desc": "Analisi del film di Steve McQueen sulla tratta degli schiavi: l'eredità più dolorosa della Louisiana raccontata attraverso il cinema.",
+         "link": "https://www.youtube.com/watch?v=Y1HJvVVAZpg&t=206s",
          "thumb": "https://img.youtube.com/vi/Y1HJvVVAZpg/hqdefault.jpg",
          "colore": BRAND_YELLOW},
         {"titolo": "Billie Holiday & Louis Armstrong — New Orleans",
