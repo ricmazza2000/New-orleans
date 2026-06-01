@@ -1148,14 +1148,47 @@ st.markdown(f"""
 
 # Countdown
 expert_paths = get_expert_paths()
-_gardner_path = expert_paths["gardner"]
-gardner_b64_cd, gardner_mime_cd = img_to_base64(_gardner_path, max_width=100, quality=75) if _gardner_path else (None, None)
-prossimo_foto = f'<img class="cd-meeting-photo" src="data:{gardner_mime_cd};base64,{gardner_b64_cd}" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid {BRAND_YELLOW};flex-shrink:0;">' if gardner_b64_cd else f'<div class="cd-meeting-photo" style="width:44px;height:44px;border-radius:50%;background:{BRAND_YELLOW};flex-shrink:0;"></div>'
 
 # Foto esperti per timeline briefing (medium size)
 morelli_b64_tl, morelli_mime_tl = img_to_base64(expert_paths["morelli"], max_width=500, quality=75) if expert_paths["morelli"] else (None, None)
 gardner_b64_tl, gardner_mime_tl = img_to_base64(expert_paths["gardner"], max_width=500, quality=75) if expert_paths["gardner"] else (None, None)
 costa_b64_tl, costa_mime_tl = img_to_base64(expert_paths["costa"], max_width=500, quality=75) if expert_paths["costa"] else (None, None)
+
+# === LOGICA AUTOMATICA: PROSSIMO EVENTO ===
+# Lista di TUTTI gli eventi del calendario con data effettiva.
+# Per aggiungere/modificare eventi, basta editare anche questa lista
+# (deve restare allineata con `briefing_full` più in basso).
+from datetime import date
+
+eventi_calendario = [
+    {"data": date(2026, 5, 7),  "titolo": "Elia Morelli",      "data_str": "7 maggio 2026",   "foto_b64": morelli_b64_tl, "foto_mime": morelli_mime_tl},
+    {"data": date(2026, 5, 21), "titolo": "Anthony Gardner",   "data_str": "21 maggio 2026",  "foto_b64": gardner_b64_tl, "foto_mime": gardner_mime_tl},
+    {"data": date(2026, 6, 18), "titolo": "Francesco Costa",   "data_str": "18 giugno 2026",  "foto_b64": costa_b64_tl,   "foto_mime": costa_mime_tl},
+    {"data": date(2026, 7, 7),  "titolo": "Jazz Peccioli 2026","data_str": "7-11 luglio 2026","foto_b64": jazz_logo_b64,  "foto_mime": jazz_logo_mime},
+]
+
+# Trova il primo evento >= oggi
+oggi = date.today()
+prossimi = [e for e in eventi_calendario if e["data"] >= oggi]
+
+if prossimi:
+    prossimo_evento = prossimi[0]
+    prossimo_titolo = prossimo_evento["titolo"]
+    prossimo_data_str = prossimo_evento["data_str"]
+    prossimo_b64 = prossimo_evento["foto_b64"]
+    prossimo_mime = prossimo_evento["foto_mime"]
+else:
+    # Tutti gli eventi sono passati: mostro placeholder generico
+    prossimo_titolo = "Partenza per New Orleans"
+    prossimo_data_str = "21 settembre 2026"
+    prossimo_b64 = None
+    prossimo_mime = None
+
+# Costruisco l'HTML della foto del prossimo evento
+if prossimo_b64:
+    prossimo_foto = f'<img class="cd-meeting-photo" src="data:{prossimo_mime};base64,{prossimo_b64}" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid {BRAND_YELLOW};flex-shrink:0;">'
+else:
+    prossimo_foto = f'<div class="cd-meeting-photo" style="width:44px;height:44px;border-radius:50%;background:{BRAND_YELLOW};flex-shrink:0;"></div>'
 
 countdown_html = ("""
 <style>
@@ -1204,8 +1237,8 @@ html, body { overflow:hidden; background:transparent; }
         <div style="display:flex;align-items:center;gap:0.6rem;">
             """ + prossimo_foto + """
             <div>
-                <div class="cd-meeting-name" style="font-size:0.82rem;font-weight:700;color:""" + BRAND_BLUE + """;line-height:1.2;">Anthony Gardner</div>
-                <div class="cd-meeting-date" style="font-size:0.72rem;color:#5b6472;margin-top:0.15rem;">21 maggio 2026</div>
+                <div class="cd-meeting-name" style="font-size:0.82rem;font-weight:700;color:""" + BRAND_BLUE + """;line-height:1.2;">""" + prossimo_titolo + """</div>
+                <div class="cd-meeting-date" style="font-size:0.72rem;color:#5b6472;margin-top:0.15rem;">""" + prossimo_data_str + """</div>
             </div>
         </div>
     </div>
