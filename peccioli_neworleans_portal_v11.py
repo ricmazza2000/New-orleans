@@ -1686,37 +1686,49 @@ st.markdown(f"""
 <div class="section-body sec-temi">
 """, unsafe_allow_html=True)
 
-# CSS specifico per le card "Sguardi" — versione snella ed elegante
+# CSS specifico per le card "Sguardi" — versione espandibile, CSS Grid
 st.markdown("""
 <style>
+/* Grid container: 2 colonne desktop, 1 colonna mobile (mantiene ordine 01→02→03...) */
+.sguardi-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem;
+    align-items: start;
+    margin-top: 0.5rem;
+}
+@media (max-width: 720px) {
+    .sguardi-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Card = elemento <details> */
 .sguardo-card {
     position: relative;
     background: white;
-    border-radius: 20px;
-    padding: 1.8rem 1.6rem 1.6rem;
+    border-radius: 18px;
     border: 1px solid rgba(19,0,137,0.08);
-    box-shadow: 0 6px 20px rgba(19,0,137,0.05);
+    box-shadow: 0 4px 14px rgba(19,0,137,0.05);
     overflow: hidden;
-    height: 100%;
-    transition: transform 0.25s, box-shadow 0.25s;
-    margin-bottom: 1rem;
+    transition: box-shadow 0.25s;
 }
 .sguardo-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(19,0,137,0.12);
+    box-shadow: 0 8px 22px rgba(19,0,137,0.1);
 }
 .sguardo-card.dark {
     background: linear-gradient(160deg, #130089 0%, #1a0fb8 100%);
     color: white;
     border: 1px solid rgba(255,222,89,0.25);
 }
-/* Numero gigante decorativo sullo sfondo */
+
+/* Numero gigante watermark */
 .sguardo-numero {
     position: absolute;
-    top: -28px;
+    top: -22px;
     right: 8px;
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 10rem;
+    font-size: 8rem;
     font-weight: 800;
     color: #130089;
     opacity: 0.05;
@@ -1724,53 +1736,85 @@ st.markdown("""
     pointer-events: none;
     user-select: none;
     letter-spacing: -0.04em;
+    z-index: 0;
 }
 .sguardo-card.dark .sguardo-numero {
     color: #FFDE59;
     opacity: 0.11;
 }
-/* Header: icona + label inline */
+
+/* Summary = parte sempre visibile (clickabile) */
+.sguardo-card summary {
+    cursor: pointer;
+    padding: 1.4rem 1.4rem 1.2rem;
+    list-style: none;
+    position: relative;
+    z-index: 1;
+    user-select: none;
+}
+.sguardo-card summary::-webkit-details-marker { display: none; }
+.sguardo-card summary::marker { content: ''; }
+
 .sguardo-header {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    margin-bottom: 1.1rem;
-    position: relative;
-    z-index: 1;
+    margin-bottom: 0.95rem;
 }
 .sguardo-icona {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 52px; height: 52px;
-    border-radius: 14px;
+    width: 48px; height: 48px;
+    border-radius: 13px;
     background: #FFDE59;
-    font-size: 1.7rem;
+    font-size: 1.55rem;
     flex-shrink: 0;
-    box-shadow: 0 4px 14px rgba(255,222,89,0.45);
+    box-shadow: 0 4px 12px rgba(255,222,89,0.45);
 }
 .sguardo-eyebrow {
-    font-size: 0.62rem;
+    font-size: 0.6rem;
     font-weight: 800;
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: #130089;
     opacity: 0.5;
     line-height: 1;
+    flex: 1;
 }
 .sguardo-card.dark .sguardo-eyebrow {
     color: #FFDE59;
     opacity: 0.85;
 }
+/* Chevron animato a destra */
+.sguardo-chevron {
+    flex-shrink: 0;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: rgba(19,0,137,0.08);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    color: #130089;
+    transition: transform 0.3s ease;
+    font-weight: 800;
+}
+.sguardo-card.dark .sguardo-chevron {
+    background: rgba(255,222,89,0.15);
+    color: #FFDE59;
+}
+details[open] .sguardo-chevron {
+    transform: rotate(180deg);
+}
+
 .sguardo-titolo {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 1.65rem;
+    font-size: 1.45rem;
     font-weight: 800;
     color: #130089;
     line-height: 1.05;
-    margin-bottom: 0.3rem;
-    position: relative;
-    z-index: 1;
+    margin-bottom: 0.25rem;
     letter-spacing: -0.01em;
 }
 .sguardo-card.dark .sguardo-titolo {
@@ -1779,39 +1823,37 @@ st.markdown("""
 .sguardo-sub {
     font-family: 'Lobster Two', cursive;
     font-style: italic;
-    font-size: 1.05rem;
+    font-size: 1rem;
     color: #130089;
     opacity: 0.65;
-    margin-bottom: 1.3rem;
     line-height: 1.3;
-    position: relative;
-    z-index: 1;
 }
 .sguardo-card.dark .sguardo-sub {
     color: #FFDE59;
     opacity: 0.92;
 }
-/* Linea divisoria gialla */
+
+/* Contenuto espanso */
+.sguardo-body {
+    padding: 0 1.4rem 1.4rem;
+    position: relative;
+    z-index: 1;
+}
 .sguardo-divider {
     width: 36px;
     height: 2px;
     background: #FFDE59;
     margin-bottom: 1rem;
-    position: relative;
-    z-index: 1;
     border-radius: 2px;
 }
-/* Blocchi di testo: label piccola + paragrafo */
 .sguardo-block {
     margin-bottom: 1rem;
-    position: relative;
-    z-index: 1;
 }
 .sguardo-block:last-child {
     margin-bottom: 0;
 }
 .sguardo-label {
-    font-size: 0.6rem;
+    font-size: 0.58rem;
     font-weight: 800;
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -1824,18 +1866,20 @@ st.markdown("""
     opacity: 0.85;
 }
 .sguardo-text {
-    font-size: 0.92rem;
+    font-size: 0.9rem;
     line-height: 1.55;
     color: #3a4a5c;
 }
 .sguardo-card.dark .sguardo-text {
     color: rgba(255,255,255,0.92);
 }
+
 @media (max-width: 720px) {
-    .sguardo-numero { font-size: 7rem; top: -18px; }
-    .sguardo-titolo { font-size: 1.4rem; }
-    .sguardo-card { padding: 1.5rem 1.3rem 1.3rem; }
-    .sguardo-icona { width: 46px; height: 46px; font-size: 1.5rem; }
+    .sguardo-numero { font-size: 6rem; top: -14px; }
+    .sguardo-titolo { font-size: 1.3rem; }
+    .sguardo-card summary { padding: 1.2rem 1.2rem 1rem; }
+    .sguardo-body { padding: 0 1.2rem 1.2rem; }
+    .sguardo-icona { width: 44px; height: 44px; font-size: 1.4rem; }
 }
 </style>
 """, unsafe_allow_html=True)
@@ -1892,22 +1936,23 @@ sguardi = [
     },
 ]
 
-# Render: 2 colonne, alterna chiare/scure
-col_s1, col_s2 = st.columns(2, gap="small")
-
-for i, s in enumerate(sguardi):
-    target_col = col_s1 if i % 2 == 0 else col_s2
+# Render: CSS Grid con 8 <details> espandibili (ordine corretto anche su mobile)
+sguardi_html_parts = ['<div class="sguardi-grid">']
+for s in sguardi:
     card_class = "sguardo-card dark" if s.get("dark") else "sguardo-card"
-    
-    card_html = (
-        f'<div class="{card_class}">'
+    sguardi_html_parts.append(
+        f'<details class="{card_class}">'
         f'<div class="sguardo-numero">{s["n"]}</div>'
+        f'<summary>'
         f'<div class="sguardo-header">'
         f'<div class="sguardo-icona">{s["icona"]}</div>'
         f'<div class="sguardo-eyebrow">Sguardo {s["n"]}</div>'
+        f'<div class="sguardo-chevron">▾</div>'
         f'</div>'
         f'<div class="sguardo-titolo">{s["titolo"]}</div>'
         f'<div class="sguardo-sub">«{s["sub"]}»</div>'
+        f'</summary>'
+        f'<div class="sguardo-body">'
         f'<div class="sguardo-divider"></div>'
         f'<div class="sguardo-block">'
         f'<div class="sguardo-label">Focus</div>'
@@ -1918,10 +1963,11 @@ for i, s in enumerate(sguardi):
         f'<div class="sguardo-text">{s["missione"]}</div>'
         f'</div>'
         f'</div>'
+        f'</details>'
     )
-    
-    with target_col:
-        st.markdown(card_html, unsafe_allow_html=True)
+sguardi_html_parts.append('</div>')
+
+st.markdown("".join(sguardi_html_parts), unsafe_allow_html=True)
 
 st.markdown('</div>', unsafe_allow_html=True)
 
