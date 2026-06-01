@@ -2572,19 +2572,182 @@ st.markdown(f"""
     <span class="section-eyebrow">04 · Il viaggio</span>
     <div class="section-title">Programma</div>
     <p class="section-desc">
-        Il programma dettagliato è in costruzione. Sarà aggiornato con tutte le tappe non appena il percorso sarà definito.
+        Una traccia indicativa di come saranno strutturate le giornate a New Orleans.
+        Le escursioni con guida italiana sono già confermate; le giornate libere lasciano spazio all'esplorazione personale e ai progetti dei singoli sguardi.
     </p>
 </div>
 <div class="section-body sec-programma">
-    <div style="background:rgba(255,255,255,0.95);border:2px dashed {BRAND_YELLOW};border-radius:24px;padding:2.5rem 2rem;text-align:center;max-width:580px;margin:0 auto 1rem;">
-        <div style="font-size:2.5rem;margin-bottom:0.6rem;">🗓</div>
-        <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.5rem;font-weight:800;color:{SEC_PROGRAMMA};margin-bottom:0.6rem;">Programma in definizione</div>
-        <div style="font-size:0.97rem;color:#5b6472;line-height:1.75;">
-            Questa sezione verrà aggiornata con tutte le tappe, gli appuntamenti e le attività non appena il percorso sarà definito.
+    <div style="background:{BRAND_YELLOW};color:{BRAND_BLUE};border-radius:14px;padding:0.9rem 1.2rem;margin-bottom:1.6rem;font-size:0.88rem;font-weight:600;display:flex;align-items:center;gap:0.7rem;box-shadow:0 4px 14px rgba(255,222,89,0.35);">
+        <div style="font-size:1.3rem;flex-shrink:0;">⚠️</div>
+        <div>
+            <strong>Programma indicativo.</strong> Le date e gli orari delle escursioni incluse sono fissati; gli altri momenti potranno essere aggiornati e arricchiti man mano che il viaggio prende forma.
         </div>
     </div>
-</div>
 """, unsafe_allow_html=True)
+
+# CSS per le card del programma
+st.markdown("""
+<style>
+.prog-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.3rem 1.4rem 1.2rem;
+    margin-bottom: 0.8rem;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+    display: flex;
+    gap: 1.2rem;
+    align-items: flex-start;
+}
+.prog-card.free {
+    background: rgba(255,255,255,0.6);
+    border: 1px dashed rgba(19,0,137,0.2);
+    box-shadow: none;
+}
+.prog-day {
+    flex-shrink: 0;
+    width: 70px;
+    text-align: center;
+    background: #130089;
+    color: white;
+    border-radius: 12px;
+    padding: 0.55rem 0.3rem 0.5rem;
+}
+.prog-day .day-num {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.7rem;
+    font-weight: 800;
+    line-height: 1;
+    display: block;
+}
+.prog-day .day-month {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: #FFDE59;
+    text-transform: uppercase;
+    margin-top: 0.25rem;
+    display: block;
+}
+.prog-card.free .prog-day {
+    background: rgba(19,0,137,0.08);
+    color: #130089;
+}
+.prog-card.free .prog-day .day-month {
+    color: #130089;
+    opacity: 0.6;
+}
+.prog-content {
+    flex: 1;
+    min-width: 0;
+}
+.prog-time {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #5b6472;
+    margin-bottom: 0.3rem;
+}
+.prog-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #130089;
+    line-height: 1.2;
+    margin-bottom: 0.35rem;
+}
+.prog-desc {
+    font-size: 0.87rem;
+    color: #3a4a5c;
+    line-height: 1.55;
+}
+.prog-badge {
+    display: inline-block;
+    background: #FFDE59;
+    color: #130089;
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    margin-bottom: 0.5rem;
+}
+@media (max-width: 600px) {
+    .prog-card { padding: 1.1rem 1.1rem 1rem; gap: 0.9rem; }
+    .prog-day { width: 58px; padding: 0.45rem 0.2rem; }
+    .prog-day .day-num { font-size: 1.4rem; }
+    .prog-day .day-month { font-size: 0.55rem; }
+    .prog-title { font-size: 1.02rem; }
+    .prog-desc { font-size: 0.82rem; }
+}
+</style>
+""", unsafe_allow_html=True)
+
+# Programma giornaliero
+programma = [
+    {"giorno": "21", "mese": "Set", "tempo": "Lunedì · partenza",
+     "titolo": "Partenza per New Orleans",
+     "desc": "Volo Milano Malpensa → Chicago → New Orleans. Arrivo previsto in serata, trasferimento privato dall'aeroporto all'hotel.",
+     "incluso": False, "libero": False},
+    
+    {"giorno": "22", "mese": "Set", "tempo": "Martedì · mattino · 4 ore",
+     "titolo": "Visita guidata di New Orleans",
+     "desc": "Escursione di mezza giornata alla scoperta della città del jazz: il Quartiere Francese, le ville coloniali, il grande parco e il lago dove furono realizzati i mezzi anfibi per lo sbarco in Normandia. Accompagnati da guida parlante italiano. Rientro per il pranzo libero, pomeriggio a disposizione.",
+     "incluso": True, "libero": False},
+    
+    {"giorno": "23", "mese": "Set", "tempo": "Mercoledì · giornata libera",
+     "titolo": "Esplorazione personale",
+     "desc": "Giornata libera per immergersi nella città secondo i temi di ogni sguardo: Frenchmen Street, mercati, musei, quartieri.",
+     "incluso": False, "libero": True},
+    
+    {"giorno": "24", "mese": "Set", "tempo": "Giovedì · intera giornata · 8 ore",
+     "titolo": "Piantagioni, paludi e Villa delle 24 Querce",
+     "desc": "Escursione fuori città in pullman GT con guida italiana: le grandi piantagioni di cotone e le ville storiche, le paludi della Louisiana popolate dai coccodrilli, e la celebre Villa delle 24 Querce (Oak Alley).",
+     "incluso": True, "libero": False},
+    
+    {"giorno": "25", "mese": "Set", "tempo": "Venerdì · giornata libera",
+     "titolo": "Tempo libero",
+     "desc": "Giornata da pianificare in autonomia: approfondimenti tematici, incontri sul territorio, lavoro sul materiale raccolto.",
+     "incluso": False, "libero": True},
+    
+    {"giorno": "26", "mese": "Set", "tempo": "Sabato · giornata libera",
+     "titolo": "Tempo libero",
+     "desc": "Giornata da pianificare in autonomia per esplorazioni mirate e attività delle squadre.",
+     "incluso": False, "libero": True},
+    
+    {"giorno": "27", "mese": "Set", "tempo": "Domenica · giornata libera",
+     "titolo": "Tempo libero",
+     "desc": "Ultima giornata piena a New Orleans: tempo per chiusure, ritorni nei luoghi preferiti, raccolta dei materiali finali.",
+     "incluso": False, "libero": True},
+    
+    {"giorno": "28", "mese": "Set", "tempo": "Lunedì · partenza",
+     "titolo": "Rientro in Italia",
+     "desc": "Trasferimento privato in bus dall'hotel all'aeroporto. Volo New Orleans → Chicago → Milano Malpensa (in arrivo il 29 settembre).",
+     "incluso": False, "libero": False},
+]
+
+for p in programma:
+    card_class = "prog-card free" if p["libero"] else "prog-card"
+    badge = '<div class="prog-badge">⚜️ Incluso nel pacchetto</div>' if p["incluso"] else ''
+    
+    card_html = (
+        f'<div class="{card_class}">'
+        f'<div class="prog-day">'
+        f'<span class="day-num">{p["giorno"]}</span>'
+        f'<span class="day-month">{p["mese"]}</span>'
+        f'</div>'
+        f'<div class="prog-content">'
+        f'<div class="prog-time">{p["tempo"]}</div>'
+        f'{badge}'
+        f'<div class="prog-title">{p["titolo"]}</div>'
+        f'<div class="prog-desc">{p["desc"]}</div>'
+        f'</div>'
+        f'</div>'
+    )
+    st.markdown(card_html, unsafe_allow_html=True)
+
+st.markdown('</div>', unsafe_allow_html=True)
 
 # ============================================================================
 # 📂 DOCUMENTI — LAVANDA CHIARA
