@@ -2167,27 +2167,25 @@ for i, b in enumerate(briefing_full):
         if link_parts:
             links_html = '<div class="evento-links">' + "".join(link_parts) + '</div>'
 
-    st.markdown(f"""
-    <div class="brief-step">
-        <div class="brief-marker">
-            <span class="{day_class}">{b["day_num"]}</span>
-            <span class="marker-month">{month_short}</span>
-        </div>
-        <div class="{card_class}">
-            <div class="brief-photo">
-                {badge_html}
-                {photo_block}
-            </div>
-            <div class="brief-content">
-                <div class="brief-time">{b["giorno"]} · {b["ora"]}</div>
-                <div class="brief-name">{b["titolo"]}</div>
-                <div class="brief-role">{b["ruolo"]}</div>
-                <div class="brief-tema">{b["tema"]}</div>
-                {links_html}
-            </div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown(f"""<div class="brief-step">
+<div class="brief-marker">
+<span class="{day_class}">{b["day_num"]}</span>
+<span class="marker-month">{month_short}</span>
+</div>
+<div class="{card_class}">
+<div class="brief-photo">
+{badge_html}
+{photo_block}
+</div>
+<div class="brief-content">
+<div class="brief-time">{b["giorno"]} · {b["ora"]}</div>
+<div class="brief-name">{b["titolo"]}</div>
+<div class="brief-role">{b["ruolo"]}</div>
+<div class="brief-tema">{b["tema"]}</div>
+{links_html}
+</div>
+</div>
+</div>""", unsafe_allow_html=True)
 
 st.markdown('</div>', unsafe_allow_html=True)
 
