@@ -2801,9 +2801,6 @@ documenti = [
     {"icona": "✈️", "titolo": "Prime informazioni sul viaggio",
      "desc": "Dettagli su volo, scalo e sistemazione a New Orleans.",
      "filename": "doc_info_viaggio.pdf"},
-    {"icona": "📱", "titolo": "Contatti e riferimenti",
-     "desc": "Numeri di emergenza, referenti locali, chat di gruppo.",
-     "filename": None},
 ]
 
 for doc in documenti:
