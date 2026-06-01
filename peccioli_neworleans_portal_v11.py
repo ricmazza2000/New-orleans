@@ -1584,7 +1584,7 @@ st.markdown(f"""
                 <span class="stat-icon">🛫</span>
                 <div class="stat-value">~12<span class="stat-value-suffix">h</span></div>
                 <div class="stat-label">Volo</div>
-                <div class="stat-sub">Pisa → Roma → New Orleans</div>
+                <div class="stat-sub">Milano → Chicago → New Orleans</div>
             </div>
             <div class="stat-card">
                 <span class="stat-icon">👥</span>
@@ -2457,9 +2457,6 @@ st.markdown(f"""
 <div class="section-wrap sec-documenti">
     <span class="section-eyebrow">05 · Prima della partenza</span>
     <div class="section-title">Risorse utili</div>
-    <p class="section-desc">
-        Documenti da consultare, compilare e consegnare in vista del viaggio.
-    </p>
 </div>
 <div class="section-body sec-documenti">
     <div style="background:white;border-left:4px solid {BRAND_YELLOW};border-radius:0 12px 12px 0;
@@ -2468,17 +2465,60 @@ st.markdown(f"""
     </div>
 """, unsafe_allow_html=True)
 
+import base64 as _base64
+
+def file_to_b64(filename):
+    """Carica un file dalla cartella del repo e lo restituisce come base64 per il download."""
+    p = BASE_DIR / filename
+    if p.exists():
+        with open(p, "rb") as f:
+            return _base64.b64encode(f.read()).decode("ascii")
+    return None
+
+# Lista documenti. Ogni voce ha:
+#   - icona, titolo, descrizione
+#   - filename: nome del file da caricare nel repo (None se non ancora disponibile)
+#   - mime: tipo MIME del file (necessario per il download)
+# Quando filename esiste nel repo, la card mostra un bottone "Scarica" cliccabile.
+# Quando filename è None o il file non esiste, mostra "In arrivo".
 documenti = [
-    ("🎥", "Registrazioni incontri", "Video integrale degli incontri con gli esperti (Morelli, Gardner, Costa).", False),
-    ("📊", "Slide degli incontri", "Presentazioni mostrate dagli esperti durante le serate propedeutiche.", False),
-    ("✈️", "Informazioni sul volo", "Orari, scalo, indicazioni per l'aeroporto di partenza.", False),
-    ("🏨", "Sistemazione", "Dettagli sull'alloggio a New Orleans.", False),
-    ("📱", "Contatti e riferimenti", "Numeri di emergenza, referenti locali, chat di gruppo.", False),
+    {"icona": "📊", "titolo": "Presentazione dell'incontro introduttivo", 
+     "desc": "Slide del primo incontro di presentazione del progetto.",
+     "filename": "doc_presentazione_introduttivo.pdf", "mime": "application/pdf"},
+    {"icona": "📊", "titolo": "Presentazione di Elia Morelli", 
+     "desc": "Slide dell'incontro con Elia Morelli sulla storia di New Orleans.",
+     "filename": "doc_slide_morelli.pdf", "mime": "application/pdf"},
+    {"icona": "🎧", "titolo": "Registrazione incontro Morelli",
+     "desc": "Audio integrale dell'incontro con Elia Morelli (7 maggio 2026).",
+     "filename": "audio_morelli.mp3", "mime": "audio/mpeg"},
+    {"icona": "🎧", "titolo": "Registrazione incontro Gardner",
+     "desc": "Audio integrale dell'incontro con Anthony Gardner (21 maggio 2026).",
+     "filename": "audio_gardner.mp3", "mime": "audio/mpeg"},
+    {"icona": "✈️", "titolo": "Prime informazioni sul viaggio",
+     "desc": "Dettagli su volo, scalo e sistemazione a New Orleans.",
+     "filename": "doc_info_viaggio.pdf", "mime": "application/pdf"},
+    {"icona": "📱", "titolo": "Contatti e riferimenti",
+     "desc": "Numeri di emergenza, referenti locali, chat di gruppo.",
+     "filename": None, "mime": None},
 ]
 
-for icona, titolo, desc, completato in documenti:
-    colore_stato = BRAND_BLUE if completato else "#9aa3b0"
-    stato_testo = "✅ Disponibile" if completato else "⏳ In arrivo"
+for doc in documenti:
+    icona = doc["icona"]
+    titolo = doc["titolo"]
+    desc = doc["desc"]
+    
+    # Controllo se il file esiste e genero blocco di download
+    file_b64 = file_to_b64(doc["filename"]) if doc["filename"] else None
+    
+    if file_b64:
+        # File presente: mostro bottone "Scarica" cliccabile
+        # Estrae estensione per il nome del file scaricato
+        download_filename = doc["filename"]
+        stato_html = f'<a href="data:{doc["mime"]};base64,{file_b64}" download="{download_filename}" style="display:inline-block;background:{BRAND_BLUE};color:white;text-decoration:none;padding:0.45rem 0.95rem;border-radius:999px;font-size:0.72rem;font-weight:700;letter-spacing:0.04em;">⬇ Scarica</a>'
+    else:
+        # File non ancora caricato
+        stato_html = f'<div style="font-size:0.72rem;font-weight:700;color:#9aa3b0;">⏳ In arrivo</div>'
+    
     st.markdown(f"""
     <div style="background:white;border-radius:14px;padding:0.9rem 1.1rem;margin-bottom:0.6rem;
          display:flex;align-items:center;gap:1rem;
@@ -2489,7 +2529,7 @@ for icona, titolo, desc, completato in documenti:
             <div style="font-size:0.8rem;color:#5b6472;">{desc}</div>
         </div>
         <div style="flex-shrink:0;">
-            <div style="font-size:0.72rem;font-weight:700;color:{colore_stato};">{stato_testo}</div>
+            {stato_html}
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -2632,7 +2672,7 @@ with tab4:
     st.markdown(f"""
     <div style="background:white;border-left:4px solid {BRAND_YELLOW};border-radius:0 12px 12px 0;
          padding:0.8rem 1.2rem;margin-bottom:1.4rem;font-size:0.88rem;color:{BRAND_BLUE};font-weight:500;box-shadow:0 2px 8px rgba(19,0,137,0.05);">
-        ▶️ Quattro video per entrare nell'atmosfera della città — geografia, cibo, musica e vita locale.
+        ▶️ Sei video per entrare nell'atmosfera della città — geografia, cibo, musica, vita locale e camminate immersive.
     </div>
     """, unsafe_allow_html=True)
 
@@ -2649,6 +2689,18 @@ with tab4:
          "link": "https://www.youtube.com/watch?v=76YO8Cs00Kk",
          "thumb": "https://img.youtube.com/vi/76YO8Cs00Kk/hqdefault.jpg",
          "colore": "#e6b800"},
+        {"titolo": "Peaceful French Quarter Walking Tour",
+         "canale": "Walking tour · no music",
+         "desc": "Camminata immersiva nel French Quarter di prima mattina, senza musica. Solo i suoni della città che si sveglia.",
+         "link": "https://www.youtube.com/watch?v=grN4Oacu1fM",
+         "thumb": "https://img.youtube.com/vi/grN4Oacu1fM/hqdefault.jpg",
+         "colore": "#4a3fb8"},
+        {"titolo": "New Orleans — un viaggio nella città",
+         "canale": "Reportage · documentario",
+         "desc": "Uno sguardo sulla città di New Orleans: storie, luoghi e atmosfere.",
+         "link": "https://youtu.be/Y1HJvVVAZpg",
+         "thumb": "https://img.youtube.com/vi/Y1HJvVVAZpg/hqdefault.jpg",
+         "colore": BRAND_YELLOW},
         {"titolo": "Billie Holiday & Louis Armstrong — New Orleans",
          "canale": "Musica · 1947",
          "desc": "Scena musicale dal film 'New Orleans' (1947): due leggende del jazz insieme. L'anima musicale della città in meno di 5 minuti.",
@@ -2708,6 +2760,9 @@ with tab5:
         {"titolo": "Da Costa a Costa — Francesco Costa",
          "desc": "Newsletter e YouTube dell'esperto di America che incontreremo al briefing.",
          "link": "https://www.ilpost.it/costa/", "colore": "#4a3fb8"},
+        {"titolo": "🎙️ Podcast su New Orleans — Spotify",
+         "desc": "Episodio podcast da ascoltare per entrare nell'atmosfera della città prima del viaggio.",
+         "link": "https://open.spotify.com/episode/0bUQRduCBPvvkbqwue4pQ3", "colore": "#1DB954"},
     ]
     for r in risorse:
         st.markdown(f"""
@@ -2850,7 +2905,7 @@ contatti_html = """
         <div class="contatto-card">
             <span class="contatto-icon">🏛</span>
             <div class="contatto-org">Comune di Peccioli</div>
-            <div class="contatto-name">Ufficio di riferimento</div>
+            <div class="contatto-name">Ufficio Staff</div>
             <div class="contatto-row">
                 <span class="contatto-row-icon">✉</span>
                 <a href="mailto:info@comune.peccioli.pi.it">info@comune.peccioli.pi.it</a>
