@@ -1669,122 +1669,290 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # ============================================================================
-# 👁 TEMI — GIALLO CHIARO
+# 👁 TEMI — GIALLO CHIARO — 8 SGUARDI
 # ============================================================================
 st.markdown(f"""
 <span id="temi" class="section-anchor"></span>
 <div class="section-wrap sec-temi">
     <span class="section-eyebrow">01 · Come guardare la città</span>
-    <div class="section-title">Temi del viaggio</div>
+    <div class="section-title">Otto sguardi su New Orleans</div>
+    <div class="section-subtitle">Le chiavi di lettura del viaggio</div>
     <p class="section-desc">
-        Quattro chiavi di lettura per osservare New Orleans durante il viaggio.
-        Non categorie separate, ma prospettive da tenere sempre attive.
+        Non quattro categorie separate, ma otto prospettive da tenere sempre attive durante il viaggio.
+        Ogni sguardo è un modo diverso di osservare la stessa città — la sua storia, le sue voci, il suo ritmo, le sue contraddizioni.
+        Insieme compongono un ritratto plurale di New Orleans, fedele alla complessità del luogo.
     </p>
 </div>
 <div class="section-body sec-temi">
 """, unsafe_allow_html=True)
 
-svg_musica = f"""
-<svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;opacity:0.14;position:absolute;bottom:0;right:0;">
-    <circle cx="160" cy="60" r="50" fill="{BRAND_BLUE}"/>
-    <circle cx="120" cy="90" r="30" fill="{BRAND_BLUE}"/>
-    <path d="M20 60 Q50 30 80 60 Q110 90 140 60" stroke="{BRAND_BLUE}" stroke-width="4" fill="none"/>
-    <path d="M10 75 Q45 40 80 75 Q115 110 150 75" stroke="{BRAND_BLUE}" stroke-width="3" fill="none"/>
-    <path d="M30 45 Q60 20 90 45 Q120 70 150 45" stroke="{BRAND_BLUE}" stroke-width="2" fill="none"/>
-    <circle cx="170" cy="35" r="8" fill="{BRAND_BLUE}"/>
-    <line x1="178" y1="35" x2="178" y2="5" stroke="{BRAND_BLUE}" stroke-width="3"/>
-    <line x1="178" y1="5" x2="195" y2="10" stroke="{BRAND_BLUE}" stroke-width="3"/>
-</svg>"""
-svg_resilienza = f"""
-<svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;opacity:0.14;position:absolute;bottom:0;right:0;">
-    <path d="M0 90 Q25 70 50 90 Q75 110 100 90 Q125 70 150 90 Q175 110 200 90 L200 120 L0 120 Z" fill="{BRAND_BLUE}"/>
-    <path d="M0 75 Q25 55 50 75 Q75 95 100 75 Q125 55 150 75 Q175 95 200 75 L200 120 L0 120 Z" fill="{BRAND_BLUE}" opacity="0.6"/>
-    <polygon points="100,15 115,55 85,55" fill="{BRAND_YELLOW}"/>
-    <rect x="92" y="55" width="16" height="30" fill="{BRAND_YELLOW}"/>
-</svg>"""
-svg_societa = f"""
-<svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;opacity:0.14;position:absolute;bottom:0;right:0;">
-    <circle cx="50" cy="40" r="14" fill="{BRAND_BLUE}"/>
-    <rect x="38" y="54" width="24" height="35" rx="4" fill="{BRAND_BLUE}"/>
-    <circle cx="100" cy="35" r="16" fill="{BRAND_YELLOW}"/>
-    <rect x="86" y="51" width="28" height="40" rx="4" fill="{BRAND_YELLOW}"/>
-    <circle cx="150" cy="40" r="14" fill="{BRAND_BLUE}"/>
-    <rect x="138" y="54" width="24" height="35" rx="4" fill="{BRAND_BLUE}"/>
-    <line x1="64" y1="60" x2="86" y2="58" stroke="{BRAND_BLUE}" stroke-width="2" stroke-dasharray="4"/>
-    <line x1="114" y1="60" x2="138" y2="60" stroke="{BRAND_BLUE}" stroke-width="2" stroke-dasharray="4"/>
-</svg>"""
-svg_storia = f"""
-<svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;opacity:0.14;position:absolute;bottom:0;right:0;">
-    <path d="M60 110 L60 50 Q60 20 90 20 Q120 20 120 50 L120 110" stroke="{BRAND_BLUE}" stroke-width="5" fill="none"/>
-    <line x1="45" y1="65" x2="135" y2="65" stroke="{BRAND_BLUE}" stroke-width="4"/>
-    <line x1="48" y1="65" x2="48" y2="80" stroke="{BRAND_BLUE}" stroke-width="3"/>
-    <line x1="70" y1="65" x2="70" y2="80" stroke="{BRAND_BLUE}" stroke-width="3"/>
-    <line x1="90" y1="65" x2="90" y2="80" stroke="{BRAND_BLUE}" stroke-width="3"/>
-    <line x1="110" y1="65" x2="110" y2="80" stroke="{BRAND_BLUE}" stroke-width="3"/>
-    <line x1="132" y1="65" x2="132" y2="80" stroke="{BRAND_BLUE}" stroke-width="3"/>
-    <line x1="43" y1="80" x2="137" y2="80" stroke="{BRAND_BLUE}" stroke-width="4"/>
-    <circle cx="155" cy="30" r="5" fill="{BRAND_YELLOW}"/>
-    <circle cx="170" cy="50" r="4" fill="{BRAND_YELLOW}"/>
-    <circle cx="160" cy="70" r="6" fill="{BRAND_YELLOW}"/>
-    <circle cx="180" cy="25" r="3" fill="{BRAND_YELLOW}"/>
-</svg>"""
+# CSS specifico per le card "Sguardi"
+st.markdown("""
+<style>
+.sguardo-card {
+    position: relative;
+    background: white;
+    border-radius: 18px;
+    padding: 1.4rem 1.3rem 1.2rem;
+    border: 1px solid rgba(19,0,137,0.1);
+    box-shadow: 0 4px 16px rgba(19,0,137,0.06);
+    overflow: hidden;
+    height: 100%;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.sguardo-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(19,0,137,0.1);
+}
+.sguardo-card.dark {
+    background: linear-gradient(160deg, #130089 0%, #1a0fb8 100%);
+    color: white;
+    border: 1px solid rgba(255,222,89,0.3);
+}
+.sguardo-numero {
+    position: absolute;
+    top: -22px;
+    right: 14px;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 7rem;
+    font-weight: 800;
+    color: #130089;
+    opacity: 0.06;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+}
+.sguardo-card.dark .sguardo-numero {
+    color: #FFDE59;
+    opacity: 0.12;
+}
+.sguardo-icona {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    background: #FFDE59;
+    font-size: 1.6rem;
+    margin-bottom: 0.9rem;
+    box-shadow: 0 4px 10px rgba(255,222,89,0.4);
+}
+.sguardo-card.dark .sguardo-icona {
+    background: #FFDE59;
+}
+.sguardo-eyebrow {
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #130089;
+    opacity: 0.55;
+    margin-bottom: 0.3rem;
+}
+.sguardo-card.dark .sguardo-eyebrow {
+    color: #FFDE59;
+    opacity: 0.85;
+}
+.sguardo-titolo {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #130089;
+    line-height: 1.1;
+    margin-bottom: 0.25rem;
+}
+.sguardo-card.dark .sguardo-titolo {
+    color: white;
+}
+.sguardo-sub {
+    font-family: 'Lobster Two', cursive;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: #130089;
+    opacity: 0.7;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+}
+.sguardo-card.dark .sguardo-sub {
+    color: #FFDE59;
+    opacity: 0.9;
+}
+.sguardo-row {
+    display: flex;
+    gap: 0.65rem;
+    align-items: flex-start;
+    margin-top: 0.7rem;
+    font-size: 0.83rem;
+    line-height: 1.55;
+}
+.sguardo-row-icon {
+    flex-shrink: 0;
+    width: 22px;
+    text-align: center;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    opacity: 0.7;
+}
+.sguardo-row-text strong {
+    color: #130089;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+}
+.sguardo-card.dark .sguardo-row-text strong {
+    color: #FFDE59;
+}
+.sguardo-row-text {
+    flex: 1;
+    color: #3a4a5c;
+}
+.sguardo-card.dark .sguardo-row-text {
+    color: rgba(255,255,255,0.88);
+}
+.sguardo-esperto {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 1rem;
+    padding: 0.6rem 0.8rem;
+    background: rgba(19,0,137,0.05);
+    border-left: 3px solid #FFDE59;
+    border-radius: 0 8px 8px 0;
+    font-size: 0.75rem;
+    line-height: 1.35;
+    color: #130089;
+}
+.sguardo-card.dark .sguardo-esperto {
+    background: rgba(255,255,255,0.08);
+    color: white;
+}
+.sguardo-esperto strong {
+    font-weight: 800;
+}
+@media (max-width: 720px) {
+    .sguardo-numero { font-size: 5rem; top: -14px; }
+    .sguardo-titolo { font-size: 1.3rem; }
+}
+</style>
+""", unsafe_allow_html=True)
 
-temi = [
-    {"titolo": "Musica", "label": "JAZZ", "colore": BRAND_BLUE, "bg": "white",
-     "sottotitolo": "Jazz, blues e il ritmo della città",
-     "domanda": "Perché il jazz è nato proprio qui, e non altrove?",
-     "desc": "New Orleans è la culla del jazz e del blues. La musica non è intrattenimento: è linguaggio sociale, memoria collettiva, forma di resistenza. Dalle second line nei funerali di strada a Frenchmen Street la sera, la città vive attraverso il suono.",
-     "luoghi": "Frenchmen Street · Congo Square · Louis Armstrong Park", "svg": svg_musica},
-    {"titolo": "Resilienza", "label": "KATRINA", "colore": BRAND_BLUE, "bg": BRAND_BLUE_LIGHT,
-     "sottotitolo": "Katrina, ricostruzione e cambiamento climatico",
-     "domanda": "Come si ricostruisce una città dopo che l'acqua se la porta via?",
-     "desc": "Il 2005 ha messo a nudo le fragilità strutturali della città: infrastrutture, disuguaglianze razziali, risposta istituzionale. Vent'anni dopo, la città è ancora in cammino. Il Lower Ninth Ward è il luogo dove questo tema si tocca con mano.",
-     "luoghi": "Lower Ninth Ward · Argini del Mississippi · Lakeview", "svg": svg_resilienza},
-    {"titolo": "Società", "label": "PEOPLE", "colore": BRAND_BLUE, "bg": "white",
-     "sottotitolo": "Diversità culturale, questioni razziali, umanità",
-     "domanda": "Cosa succede quando culture lontanissime vivono nello stesso isolato da tre secoli?",
-     "desc": "New Orleans è una delle città più multiculturali e diseguali degli Stati Uniti. L'eredità della schiavitù, la comunità creola, le contraddizioni tra turismo e vita reale: osservare la città attraverso le persone che la abitano è il modo più onesto di capirla.",
-     "luoghi": "Congo Square · Tremé · Garden District", "svg": svg_societa},
-    {"titolo": "Identità e storia", "label": "NOLA", "colore": BRAND_BLUE, "bg": BRAND_BLUE_LIGHT,
-     "sottotitolo": "Radici coloniali, voodoo, Mardi Gras, French Quarter",
-     "domanda": "Perché New Orleans non somiglia a nessun'altra città americana?",
-     "desc": "Fondata dai francesi, ceduta agli spagnoli, acquistata dagli Stati Uniti. Questa stratificazione di culture — europea, africana, caraibica — ha prodotto un'identità unica: il French Quarter, il voodoo, il Mardi Gras, la cucina creola.",
-     "luoghi": "French Quarter · St. Louis Cemetery · Jackson Square", "svg": svg_storia},
+# Definizione degli 8 sguardi
+sguardi = [
+    {
+        "n": "01", "icona": "🏛️", "titolo": "Sguardo Storico", "sub": "Le radici",
+        "focus": "La stratificazione coloniale, il quartiere francese, l'eredità spagnola e africana.",
+        "missione": "Trovare le tracce del passato che sopravvivono nel presente.",
+        "luoghi": "French Quarter · St. Louis Cemetery · Jackson Square",
+        "esperto": "Elia Morelli",
+        "esperto_desc": "L'incontro con Morelli trasforma la storia accademica in archeologia urbana per i social.",
+        "dark": False,
+    },
+    {
+        "n": "02", "icona": "🌊", "titolo": "Sguardo Politico", "sub": "Il potere e il fiume",
+        "focus": "Il porto di New Orleans, il ruolo del Mississippi nell'economia globale, le relazioni internazionali.",
+        "missione": "Raccontare come una città del Sud parli al mondo intero.",
+        "luoghi": "Port of New Orleans · Mississippi River · Federal Reserve Branch",
+        "esperto": "Anthony Gardner",
+        "esperto_desc": "Con Gardner si documenta New Orleans come hub geopolitico e punto di contatto USA-Europa.",
+        "dark": True,
+    },
+    {
+        "n": "03", "icona": "🤝", "titolo": "Sguardo Sociale", "sub": "Contrasti americani",
+        "focus": "Le contraddizioni della società americana: ricchezza e povertà, gentrificazione, questioni razziali.",
+        "missione": "Osservare le due Americhe che convivono nello stesso isolato.",
+        "luoghi": "Tremé · Garden District · Lower Ninth Ward",
+        "esperto": "Francesco Costa",
+        "esperto_desc": "Costa offre la chiave per leggere gli USA di oggi oltre gli stereotipi, cercando storie reali.",
+        "dark": False,
+    },
+    {
+        "n": "04", "icona": "🎷", "titolo": "Sguardo Sonoro", "sub": "Il ritmo del Delta",
+        "focus": "Jazz, blues, second lines, musicisti di strada di Frenchmen Street.",
+        "missione": "Catturare il rumore della città. Non solo musica, ma interviste a chi la vive come lavoro.",
+        "luoghi": "Frenchmen Street · Congo Square · Preservation Hall",
+        "output": "Playlist «Sguardi Sonori» su Spotify · Reels ritmici",
+        "dark": True,
+    },
+    {
+        "n": "05", "icona": "🏚️", "titolo": "Sguardo Resiliente", "sub": "L'acqua e la ricostruzione",
+        "focus": "L'eredità di Katrina, il cambiamento climatico, l'architettura della sopravvivenza (le case rialzate).",
+        "missione": "Raccontare come una comunità si rialza dopo il disastro.",
+        "luoghi": "Lower Ninth Ward · Argini del Mississippi · Lakeview",
+        "output": "Documentare il rapporto simbiotico e pericoloso tra città e acqua.",
+        "dark": False,
+    },
+    {
+        "n": "06", "icona": "🍲", "titolo": "Sguardo Gastronomico", "sub": "Il melting pot nel piatto",
+        "focus": "Cucina Creole e Cajun, il rito del gumbo e dei beignets, i mercati locali.",
+        "missione": "Spiegare la cultura attraverso il cibo, inteso come fusione di popoli — francesi, africani, caraibici.",
+        "luoghi": "French Market · Café du Monde · Dooky Chase's",
+        "output": "Recensioni antropologiche dei piatti tipici.",
+        "dark": True,
+    },
+    {
+        "n": "07", "icona": "🔮", "titolo": "Sguardo Mistico", "sub": "Spiritualità e tradizioni",
+        "focus": "Il voodoo, i cimiteri monumentali (le «Città dei Morti»), il Mardi Gras, il folklore.",
+        "missione": "Indagare la parte invisibile di New Orleans — quella legata alla magia e ai riti comunitari.",
+        "luoghi": "St. Louis Cemetery · Voodoo Museum · Marie Laveau's Tomb",
+        "output": "Foto d'atmosfera, dettagli artistici e simbolismo.",
+        "dark": False,
+    },
+    {
+        "n": "08", "icona": "👁️", "titolo": "Sguardo Umano", "sub": "Humans of NOLA",
+        "focus": "I volti delle persone, l'accoglienza del Sud, le storie individuali.",
+        "missione": "La squadra più vicina al concetto dell'installazione di Peccioli: incrociare lo sguardo dei locali.",
+        "luoghi": "Ovunque · per strada · nei caffè · nei negozi",
+        "output": "Ritratti fotografici di alta qualità accompagnati da una citazione o una micro-storia.",
+        "dark": True,
+    },
 ]
 
-col_t1, col_t2 = st.columns(2)
-for i, tema in enumerate(temi):
-    with (col_t1 if i % 2 == 0 else col_t2):
-        with st.expander(f"{tema['titolo']} · {tema['sottotitolo']}", expanded=True):
-            st.markdown(f"""
-            <div style="position:relative;background:{tema['bg']};border-radius:16px;
-                 padding:1.2rem 1rem 1rem;
-                 border:1px solid {tema['colore']}22;
-                 overflow:hidden;">
-                {tema['svg']}
-                <div style="position:absolute;top:-10px;right:12px;
-                     font-family:'Playfair Display',Georgia,serif;
-                     font-size:4.5rem;font-weight:800;
-                     color:{tema['colore']};opacity:0.08;
-                     line-height:1;user-select:none;pointer-events:none;">
-                    {tema['label']}
-                </div>
-                <div style="position:relative;z-index:1;">
-                    <div style="font-family:'Lobster Two',cursive;font-style:italic;
-                         font-size:1rem;color:{tema['colore']};
-                         font-weight:700;margin-bottom:0.7rem;line-height:1.4;">
-                        &ldquo;{tema['domanda']}&rdquo;
-                    </div>
-                    <div style="font-size:0.87rem;color:#3a4a5c;line-height:1.65;margin-bottom:0.8rem;">
-                        {tema['desc']}
-                    </div>
-                    <div style="font-size:0.75rem;font-weight:700;color:{tema['colore']};
-                         border-top:1px solid {tema['colore']}30;padding-top:0.6rem;">
-                        &#128205; {tema['luoghi']}
-                    </div>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+# Render: 2 colonne, alterna chiare/scure
+col_s1, col_s2 = st.columns(2, gap="small")
+
+for i, s in enumerate(sguardi):
+    target_col = col_s1 if i % 2 == 0 else col_s2
+    
+    # Costruisco le righe di contenuto
+    rows_html = (
+        f'<div class="sguardo-row"><div class="sguardo-row-icon">🎯</div>'
+        f'<div class="sguardo-row-text"><strong>Focus.</strong> {s["focus"]}</div></div>'
+        f'<div class="sguardo-row"><div class="sguardo-row-icon">🧭</div>'
+        f'<div class="sguardo-row-text"><strong>Missione.</strong> {s["missione"]}</div></div>'
+        f'<div class="sguardo-row"><div class="sguardo-row-icon">📍</div>'
+        f'<div class="sguardo-row-text"><strong>Luoghi.</strong> {s["luoghi"]}</div></div>'
+    )
+    if s.get("output"):
+        rows_html += (
+            f'<div class="sguardo-row"><div class="sguardo-row-icon">✨</div>'
+            f'<div class="sguardo-row-text"><strong>Output creativo.</strong> {s["output"]}</div></div>'
+        )
+    
+    # Blocco esperto se presente
+    esperto_html = ""
+    if s.get("esperto"):
+        esperto_html = (
+            f'<div class="sguardo-esperto">'
+            f'<div style="font-size:1.1rem;">🎓</div>'
+            f'<div><strong>Esperto di riferimento: {s["esperto"]}.</strong> {s["esperto_desc"]}</div>'
+            f'</div>'
+        )
+    
+    card_class = "sguardo-card dark" if s.get("dark") else "sguardo-card"
+    
+    card_html = (
+        f'<div class="{card_class}" style="margin-bottom:1rem;">'
+        f'<div class="sguardo-numero">{s["n"]}</div>'
+        f'<div class="sguardo-icona">{s["icona"]}</div>'
+        f'<div class="sguardo-eyebrow">Sguardo {s["n"]}</div>'
+        f'<div class="sguardo-titolo">{s["titolo"]}</div>'
+        f'<div class="sguardo-sub">«{s["sub"]}»</div>'
+        f'{rows_html}'
+        f'{esperto_html}'
+        f'</div>'
+    )
+    
+    with target_col:
+        st.markdown(card_html, unsafe_allow_html=True)
 
 st.markdown('</div>', unsafe_allow_html=True)
 
@@ -2683,11 +2851,11 @@ with tab4:
          "link": "https://www.youtube.com/watch?v=dC3CD7Ht0ek",
          "thumb": "https://img.youtube.com/vi/dC3CD7Ht0ek/hqdefault.jpg",
          "colore": BRAND_BLUE},
-        {"titolo": "I Ate Everything in New Orleans",
-         "canale": "Food tour · in inglese",
-         "desc": "Tour gastronomico completo tra po' boy, beignet, gumbo, jambalaya. La città attraverso i suoi sapori iconici.",
-         "link": "https://www.youtube.com/watch?v=76YO8Cs00Kk",
-         "thumb": "https://img.youtube.com/vi/76YO8Cs00Kk/hqdefault.jpg",
+        {"titolo": "Following Bienville: The Founding of New Orleans",
+         "canale": "Storia · documentario",
+         "desc": "Sulle tracce di Jean-Baptiste Le Moyne de Bienville, fondatore di New Orleans: come nacque la città francese sul Mississippi.",
+         "link": "https://www.youtube.com/watch?v=no2mKeSJbzk",
+         "thumb": "https://img.youtube.com/vi/no2mKeSJbzk/hqdefault.jpg",
          "colore": "#e6b800"},
         {"titolo": "Peaceful French Quarter Walking Tour",
          "canale": "Walking tour · no music",
@@ -2695,9 +2863,9 @@ with tab4:
          "link": "https://www.youtube.com/watch?v=grN4Oacu1fM",
          "thumb": "https://img.youtube.com/vi/grN4Oacu1fM/hqdefault.jpg",
          "colore": "#4a3fb8"},
-        {"titolo": "New Orleans — un viaggio nella città",
-         "canale": "Reportage · documentario",
-         "desc": "Uno sguardo sulla città di New Orleans: storie, luoghi e atmosfere.",
+        {"titolo": "Storie da New Orleans",
+         "canale": "Reportage video",
+         "desc": "Uno sguardo dentro la città: voci, luoghi e atmosfere di New Orleans raccontate attraverso le immagini.",
          "link": "https://youtu.be/Y1HJvVVAZpg",
          "thumb": "https://img.youtube.com/vi/Y1HJvVVAZpg/hqdefault.jpg",
          "colore": BRAND_YELLOW},
