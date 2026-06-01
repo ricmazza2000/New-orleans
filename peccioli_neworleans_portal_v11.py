@@ -1678,8 +1678,8 @@ st.markdown(f"""
     <div class="section-title">Otto sguardi su New Orleans</div>
     <div class="section-subtitle">Le chiavi di lettura del viaggio</div>
     <p class="section-desc">
-        Non quattro categorie separate, ma otto prospettive da tenere sempre attive durante il viaggio.
-        Ogni sguardo è un modo diverso di osservare la stessa città — la sua storia, le sue voci, il suo ritmo, le sue contraddizioni.
+        Otto prospettive da tenere sempre attive durante il viaggio: non categorie separate, ma lenti diverse sulla stessa città.
+        Ogni sguardo è un modo di osservare la sua storia, le sue voci, il suo ritmo, le sue contraddizioni.
         Insieme compongono un ritratto plurale di New Orleans, fedele alla complessità del luogo.
     </p>
 </div>
