@@ -2572,17 +2572,11 @@ st.markdown(f"""
     <span class="section-eyebrow">04 · Il viaggio</span>
     <div class="section-title">Programma</div>
     <p class="section-desc">
-        Una traccia indicativa di come saranno strutturate le giornate a New Orleans.
-        Le escursioni con guida italiana sono già confermate; le giornate libere lasciano spazio all'esplorazione personale e ai progetti dei singoli sguardi.
+        Le tappe già fissate del viaggio: la partenza, le due escursioni guidate incluse nel pacchetto e il rientro.
+        Le altre giornate verranno definite e aggiunte qui man mano che il programma prende forma.
     </p>
 </div>
 <div class="section-body sec-programma">
-    <div style="background:{BRAND_YELLOW};color:{BRAND_BLUE};border-radius:14px;padding:0.9rem 1.2rem;margin-bottom:1.6rem;font-size:0.88rem;font-weight:600;display:flex;align-items:center;gap:0.7rem;box-shadow:0 4px 14px rgba(255,222,89,0.35);">
-        <div style="font-size:1.3rem;flex-shrink:0;">⚠️</div>
-        <div>
-            <strong>Programma indicativo.</strong> Le date e gli orari delle escursioni incluse sono fissati; gli altri momenti potranno essere aggiornati e arricchiti man mano che il viaggio prende forma.
-        </div>
-    </div>
 """, unsafe_allow_html=True)
 
 # CSS per le card del programma
@@ -2597,11 +2591,6 @@ st.markdown("""
     display: flex;
     gap: 1.2rem;
     align-items: flex-start;
-}
-.prog-card.free {
-    background: rgba(255,255,255,0.6);
-    border: 1px dashed rgba(19,0,137,0.2);
-    box-shadow: none;
 }
 .prog-day {
     flex-shrink: 0;
@@ -2627,14 +2616,6 @@ st.markdown("""
     text-transform: uppercase;
     margin-top: 0.25rem;
     display: block;
-}
-.prog-card.free .prog-day {
-    background: rgba(19,0,137,0.08);
-    color: #130089;
-}
-.prog-card.free .prog-day .day-month {
-    color: #130089;
-    opacity: 0.6;
 }
 .prog-content {
     flex: 1;
@@ -2684,55 +2665,34 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Programma giornaliero
+# Programma giornaliero — solo eventi certi
 programma = [
     {"giorno": "21", "mese": "Set", "tempo": "Lunedì · partenza",
      "titolo": "Partenza per New Orleans",
-     "desc": "Volo Milano Malpensa → Chicago → New Orleans. Arrivo previsto in serata, trasferimento privato dall'aeroporto all'hotel.",
-     "incluso": False, "libero": False},
+     "desc": "Volo Milano Malpensa → Chicago → New Orleans. Partenza alle 15:20 da Milano, arrivo a New Orleans alle 22:21 (ora locale). Trasferimento privato in bus dall'aeroporto all'hotel.",
+     "incluso": False},
     
     {"giorno": "22", "mese": "Set", "tempo": "Martedì · mattino · 4 ore",
      "titolo": "Visita guidata di New Orleans",
      "desc": "Escursione di mezza giornata alla scoperta della città del jazz: il Quartiere Francese, le ville coloniali, il grande parco e il lago dove furono realizzati i mezzi anfibi per lo sbarco in Normandia. Accompagnati da guida parlante italiano. Rientro per il pranzo libero, pomeriggio a disposizione.",
-     "incluso": True, "libero": False},
-    
-    {"giorno": "23", "mese": "Set", "tempo": "Mercoledì · giornata libera",
-     "titolo": "Esplorazione personale",
-     "desc": "Giornata libera per immergersi nella città secondo i temi di ogni sguardo: Frenchmen Street, mercati, musei, quartieri.",
-     "incluso": False, "libero": True},
+     "incluso": True},
     
     {"giorno": "24", "mese": "Set", "tempo": "Giovedì · intera giornata · 8 ore",
      "titolo": "Piantagioni, paludi e Villa delle 24 Querce",
      "desc": "Escursione fuori città in pullman GT con guida italiana: le grandi piantagioni di cotone e le ville storiche, le paludi della Louisiana popolate dai coccodrilli, e la celebre Villa delle 24 Querce (Oak Alley).",
-     "incluso": True, "libero": False},
-    
-    {"giorno": "25", "mese": "Set", "tempo": "Venerdì · giornata libera",
-     "titolo": "Tempo libero",
-     "desc": "Giornata da pianificare in autonomia: approfondimenti tematici, incontri sul territorio, lavoro sul materiale raccolto.",
-     "incluso": False, "libero": True},
-    
-    {"giorno": "26", "mese": "Set", "tempo": "Sabato · giornata libera",
-     "titolo": "Tempo libero",
-     "desc": "Giornata da pianificare in autonomia per esplorazioni mirate e attività delle squadre.",
-     "incluso": False, "libero": True},
-    
-    {"giorno": "27", "mese": "Set", "tempo": "Domenica · giornata libera",
-     "titolo": "Tempo libero",
-     "desc": "Ultima giornata piena a New Orleans: tempo per chiusure, ritorni nei luoghi preferiti, raccolta dei materiali finali.",
-     "incluso": False, "libero": True},
+     "incluso": True},
     
     {"giorno": "28", "mese": "Set", "tempo": "Lunedì · partenza",
      "titolo": "Rientro in Italia",
      "desc": "Trasferimento privato in bus dall'hotel all'aeroporto. Volo New Orleans → Chicago → Milano Malpensa (in arrivo il 29 settembre).",
-     "incluso": False, "libero": False},
+     "incluso": False},
 ]
 
 for p in programma:
-    card_class = "prog-card free" if p["libero"] else "prog-card"
     badge = '<div class="prog-badge">⚜️ Incluso nel pacchetto</div>' if p["incluso"] else ''
     
     card_html = (
-        f'<div class="{card_class}">'
+        f'<div class="prog-card">'
         f'<div class="prog-day">'
         f'<span class="day-num">{p["giorno"]}</span>'
         f'<span class="day-month">{p["mese"]}</span>'
