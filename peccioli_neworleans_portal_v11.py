@@ -2769,7 +2769,7 @@ st.markdown(f"""
          padding:0.8rem 1.2rem;margin-bottom:1.4rem;font-size:0.88rem;color:{BRAND_BLUE};font-weight:500;box-shadow:0 2px 8px rgba(19,0,137,0.05);">
         📋 I documenti saranno caricati progressivamente nelle settimane prima della partenza.
         <div style="font-weight:400;font-size:0.78rem;margin-top:0.4rem;opacity:0.75;">
-            💡 Su <strong>cellulare</strong> i PDF si aprono nel browser: per salvarli, usa il pulsante condivisione del telefono → «Salva in File» (iPhone) o il menu del browser → «Scarica» (Android).
+            💡 I PDF si aprono in un visualizzatore web (sia da computer che da telefono). Per salvare il file, usa il pulsante di download dentro il visualizzatore.
         </div>
     </div>
 """, unsafe_allow_html=True)
@@ -2814,15 +2814,27 @@ for doc in documenti:
     # File disponibile: linko a GitHub raw (download diretto)
     if doc["filename"] and file_exists_locally(doc["filename"]):
         url = GITHUB_RAW_BASE + doc["filename"]
-        # Su mobile l'attributo download è ignorato cross-origin: il PDF si apre nel browser.
-        # Onesto: per i PDF dico "Apri" (sia leggibile in pagina che scaricabile da desktop);
-        # per gli audio "Scarica" perché il browser non li riproduce in tab.
+        # Su mobile l'attributo download è ignorato cross-origin e raw.githubusercontent.com
+        # serve i PDF con Content-Disposition:attachment, che iOS Safari non gestisce bene
+        # (mostra pagina vuota). Soluzione: per i PDF uso Google Docs Viewer come intermediario,
+        # così il PDF si apre come pagina web visualizzabile su qualsiasi dispositivo.
         is_audio = doc["filename"].lower().endswith((".mp3", ".m4a", ".wav"))
-        if is_audio:
-            etichetta = "⬇ Scarica"
-        else:
+        is_pdf = doc["filename"].lower().endswith(".pdf")
+        
+        if is_pdf:
+            # Google Docs Viewer: renderizza il PDF in pagina web
+            from urllib.parse import quote
+            view_url = f"https://docs.google.com/gview?url={quote(url, safe='')}&embedded=false"
             etichetta = "📄 Apri"
-        stato_html = f'<a href="{url}" download="{doc["filename"]}" target="_blank" rel="noopener" style="display:inline-block;background:{BRAND_BLUE};color:white;text-decoration:none;padding:0.45rem 0.95rem;border-radius:999px;font-size:0.72rem;font-weight:700;letter-spacing:0.04em;white-space:nowrap;">{etichetta}</a>'
+            link_url = view_url
+        elif is_audio:
+            etichetta = "⬇ Scarica"
+            link_url = url
+        else:
+            etichetta = "⬇ Scarica"
+            link_url = url
+        
+        stato_html = f'<a href="{link_url}" download="{doc["filename"]}" target="_blank" rel="noopener" style="display:inline-block;background:{BRAND_BLUE};color:white;text-decoration:none;padding:0.45rem 0.95rem;border-radius:999px;font-size:0.72rem;font-weight:700;letter-spacing:0.04em;white-space:nowrap;">{etichetta}</a>'
     else:
         # File non ancora caricato
         stato_html = f'<div style="font-size:0.72rem;font-weight:700;color:#9aa3b0;">⏳ In arrivo</div>'
