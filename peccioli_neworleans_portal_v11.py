@@ -2769,7 +2769,7 @@ st.markdown(f"""
          padding:0.8rem 1.2rem;margin-bottom:1.4rem;font-size:0.88rem;color:{BRAND_BLUE};font-weight:500;box-shadow:0 2px 8px rgba(19,0,137,0.05);">
         📋 I documenti saranno caricati progressivamente nelle settimane prima della partenza.
         <div style="font-weight:400;font-size:0.78rem;margin-top:0.4rem;opacity:0.75;">
-            💡 I PDF si aprono in un visualizzatore web (sia da computer che da telefono). Per salvare il file, usa il pulsante di download dentro il visualizzatore.
+            💡 I PDF si aprono in un visualizzatore web. Le registrazioni si ascoltano direttamente nel portale o si scaricano per ascoltarle offline.
         </div>
     </div>
 """, unsafe_allow_html=True)
@@ -2812,47 +2812,102 @@ for doc in documenti:
     desc = doc["desc"]
     
     # File disponibile: linko a GitHub raw (download diretto)
+from urllib.parse import quote
+
+for doc in documenti:
+    icona = doc["icona"]
+    titolo = doc["titolo"]
+    desc = doc["desc"]
+    
     if doc["filename"] and file_exists_locally(doc["filename"]):
         url = GITHUB_RAW_BASE + doc["filename"]
-        # Su mobile l'attributo download è ignorato cross-origin e raw.githubusercontent.com
-        # serve i PDF con Content-Disposition:attachment, che iOS Safari non gestisce bene
-        # (mostra pagina vuota). Soluzione: per i PDF uso Google Docs Viewer come intermediario,
-        # così il PDF si apre come pagina web visualizzabile su qualsiasi dispositivo.
         is_audio = doc["filename"].lower().endswith((".mp3", ".m4a", ".wav"))
         is_pdf = doc["filename"].lower().endswith(".pdf")
         
         if is_pdf:
-            # Google Docs Viewer: renderizza il PDF in pagina web
-            from urllib.parse import quote
+            # Google Docs Viewer: renderizza il PDF in pagina web (funziona su mobile)
             view_url = f"https://docs.google.com/gview?url={quote(url, safe='')}&embedded=false"
-            etichetta = "📄 Apri"
-            link_url = view_url
+            stato_html = (
+                f'<a href="{view_url}" target="_blank" rel="noopener" '
+                f'style="display:inline-block;background:{BRAND_BLUE};color:white;text-decoration:none;'
+                f'padding:0.45rem 0.95rem;border-radius:999px;font-size:0.72rem;font-weight:700;'
+                f'letter-spacing:0.04em;white-space:nowrap;">📄 Apri</a>'
+            )
         elif is_audio:
-            etichetta = "⬇ Scarica"
-            link_url = url
+            # Audio: due bottoni separati - Ascolta (player espandibile) + Scarica
+            stato_html = (
+                f'<div style="display:flex;gap:0.4rem;align-items:center;">'
+                f'<a href="{url}" download="{doc["filename"]}" '
+                f'style="display:inline-flex;align-items:center;justify-content:center;'
+                f'background:rgba(19,0,137,0.08);color:{BRAND_BLUE};text-decoration:none;'
+                f'width:32px;height:32px;border-radius:50%;font-size:0.85rem;font-weight:700;" '
+                f'title="Scarica il file audio">⬇</a>'
+                f'</div>'
+            )
         else:
-            etichetta = "⬇ Scarica"
-            link_url = url
-        
-        stato_html = f'<a href="{link_url}" download="{doc["filename"]}" target="_blank" rel="noopener" style="display:inline-block;background:{BRAND_BLUE};color:white;text-decoration:none;padding:0.45rem 0.95rem;border-radius:999px;font-size:0.72rem;font-weight:700;letter-spacing:0.04em;white-space:nowrap;">{etichetta}</a>'
+            stato_html = (
+                f'<a href="{url}" download="{doc["filename"]}" target="_blank" rel="noopener" '
+                f'style="display:inline-block;background:{BRAND_BLUE};color:white;text-decoration:none;'
+                f'padding:0.45rem 0.95rem;border-radius:999px;font-size:0.72rem;font-weight:700;'
+                f'letter-spacing:0.04em;white-space:nowrap;">⬇ Scarica</a>'
+            )
     else:
         # File non ancora caricato
+        is_audio = False
+        url = None
         stato_html = f'<div style="font-size:0.72rem;font-weight:700;color:#9aa3b0;">⏳ In arrivo</div>'
     
-    st.markdown(f"""
-    <div style="background:white;border-radius:14px;padding:0.9rem 1.1rem;margin-bottom:0.6rem;
-         display:flex;align-items:center;gap:1rem;
-         border:1px solid rgba(19,0,137,0.08);box-shadow:0 2px 8px rgba(19,0,137,0.05);">
-        <div style="font-size:1.5rem;flex-shrink:0;">{icona}</div>
-        <div style="flex:1;">
-            <div style="font-weight:800;color:{BRAND_BLUE};font-size:0.92rem;margin-bottom:0.1rem;">{titolo}</div>
-            <div style="font-size:0.8rem;color:#5b6472;">{desc}</div>
+    # Render card. Per gli audio uso <details> con player HTML5 nascosto, espandibile
+    if doc["filename"] and file_exists_locally(doc["filename"]) and is_audio:
+        # Card audio: details con player espandibile
+        st.markdown(f"""
+        <details style="background:white;border-radius:14px;margin-bottom:0.6rem;
+             border:1px solid rgba(19,0,137,0.08);box-shadow:0 2px 8px rgba(19,0,137,0.05);overflow:hidden;">
+            <summary style="padding:0.9rem 1.1rem;cursor:pointer;list-style:none;
+                 display:flex;align-items:center;gap:1rem;">
+                <div style="font-size:1.5rem;flex-shrink:0;">{icona}</div>
+                <div style="flex:1;">
+                    <div style="font-weight:800;color:{BRAND_BLUE};font-size:0.92rem;margin-bottom:0.1rem;">{titolo}</div>
+                    <div style="font-size:0.8rem;color:#5b6472;">{desc}</div>
+                </div>
+                <div style="display:flex;gap:0.4rem;align-items:center;flex-shrink:0;">
+                    <span style="display:inline-flex;align-items:center;gap:0.35rem;
+                         background:{BRAND_BLUE};color:white;
+                         padding:0.45rem 0.95rem;border-radius:999px;font-size:0.72rem;font-weight:700;
+                         letter-spacing:0.04em;white-space:nowrap;">
+                        <span style="font-size:0.85rem;">▶</span> Ascolta
+                    </span>
+                </div>
+            </summary>
+            <div style="padding:0 1.1rem 1rem;display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+                <audio controls preload="none" style="flex:1;min-width:220px;height:40px;">
+                    <source src="{url}" type="audio/mpeg">
+                    Il tuo browser non supporta la riproduzione audio.
+                </audio>
+                <a href="{url}" download="{doc["filename"]}" 
+                   style="display:inline-flex;align-items:center;gap:0.35rem;
+                   background:rgba(19,0,137,0.08);color:{BRAND_BLUE};text-decoration:none;
+                   padding:0.5rem 0.95rem;border-radius:999px;font-size:0.72rem;font-weight:700;
+                   letter-spacing:0.04em;white-space:nowrap;">⬇ Scarica file</a>
+            </div>
+        </details>
+        """, unsafe_allow_html=True)
+    else:
+        # Card normale (PDF o "In arrivo")
+        st.markdown(f"""
+        <div style="background:white;border-radius:14px;padding:0.9rem 1.1rem;margin-bottom:0.6rem;
+             display:flex;align-items:center;gap:1rem;
+             border:1px solid rgba(19,0,137,0.08);box-shadow:0 2px 8px rgba(19,0,137,0.05);">
+            <div style="font-size:1.5rem;flex-shrink:0;">{icona}</div>
+            <div style="flex:1;">
+                <div style="font-weight:800;color:{BRAND_BLUE};font-size:0.92rem;margin-bottom:0.1rem;">{titolo}</div>
+                <div style="font-size:0.8rem;color:#5b6472;">{desc}</div>
+            </div>
+            <div style="flex-shrink:0;">
+                {stato_html}
+            </div>
         </div>
-        <div style="flex-shrink:0;">
-            {stato_html}
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
 
 st.markdown('</div>', unsafe_allow_html=True)
 
