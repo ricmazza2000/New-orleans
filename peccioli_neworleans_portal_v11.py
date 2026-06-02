@@ -2768,6 +2768,9 @@ st.markdown(f"""
     <div style="background:white;border-left:4px solid {BRAND_YELLOW};border-radius:0 12px 12px 0;
          padding:0.8rem 1.2rem;margin-bottom:1.4rem;font-size:0.88rem;color:{BRAND_BLUE};font-weight:500;box-shadow:0 2px 8px rgba(19,0,137,0.05);">
         📋 I documenti saranno caricati progressivamente nelle settimane prima della partenza.
+        <div style="font-weight:400;font-size:0.78rem;margin-top:0.4rem;opacity:0.75;">
+            💡 Su <strong>cellulare</strong> i PDF si aprono nel browser: per salvarli, usa il pulsante condivisione del telefono → «Salva in File» (iPhone) o il menu del browser → «Scarica» (Android).
+        </div>
     </div>
 """, unsafe_allow_html=True)
 
@@ -2811,7 +2814,15 @@ for doc in documenti:
     # File disponibile: linko a GitHub raw (download diretto)
     if doc["filename"] and file_exists_locally(doc["filename"]):
         url = GITHUB_RAW_BASE + doc["filename"]
-        stato_html = f'<a href="{url}" download="{doc["filename"]}" target="_blank" rel="noopener" style="display:inline-block;background:{BRAND_BLUE};color:white;text-decoration:none;padding:0.45rem 0.95rem;border-radius:999px;font-size:0.72rem;font-weight:700;letter-spacing:0.04em;">⬇ Scarica</a>'
+        # Su mobile l'attributo download è ignorato cross-origin: il PDF si apre nel browser.
+        # Onesto: per i PDF dico "Apri" (sia leggibile in pagina che scaricabile da desktop);
+        # per gli audio "Scarica" perché il browser non li riproduce in tab.
+        is_audio = doc["filename"].lower().endswith((".mp3", ".m4a", ".wav"))
+        if is_audio:
+            etichetta = "⬇ Scarica"
+        else:
+            etichetta = "📄 Apri"
+        stato_html = f'<a href="{url}" download="{doc["filename"]}" target="_blank" rel="noopener" style="display:inline-block;background:{BRAND_BLUE};color:white;text-decoration:none;padding:0.45rem 0.95rem;border-radius:999px;font-size:0.72rem;font-weight:700;letter-spacing:0.04em;white-space:nowrap;">{etichetta}</a>'
     else:
         # File non ancora caricato
         stato_html = f'<div style="font-size:0.72rem;font-weight:700;color:#9aa3b0;">⏳ In arrivo</div>'
