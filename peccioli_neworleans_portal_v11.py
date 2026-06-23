@@ -668,6 +668,7 @@ COL_MUSICA = "#e6b800"          # oro - Musica
 COL_RESILIENZA = "#4a3fb8"      # viola indaco - Resilienza
 COL_SOCIETA = "#b8860b"         # bronzo - Società
 COL_GASTRONOMIA = "#cc5500"     # arancio scuro - Gastronomia
+COL_TERRITORIO = "#2d6a4f"      # verde scuro - Territorio (fuori città)
 
 # Icone SVG per tema (usate nei marker della mappa)
 # Ogni icona è un path SVG 20x20, viene colorata via CSS
@@ -676,6 +677,7 @@ SVG_MUSICA = '<svg viewBox="0 0 24 24" width="14" height="14" fill="white"><path
 SVG_RESILIENZA = '<svg viewBox="0 0 24 24" width="14" height="14" fill="white"><path d="M2 12c1.5-1.5 3-1.5 4.5 0S9 13.5 10.5 12 13.5 10.5 15 12s3 1.5 4.5 0S22 10.5 22 12s-1.5 1.5-3 0-3-1.5-4.5 0S12 13.5 10.5 12 7.5 10.5 6 12s-3 1.5-4 0z"/><path d="M2 17c1.5-1.5 3-1.5 4.5 0S9 18.5 10.5 17s3-1.5 4.5 0 3 1.5 4.5 0S22 15.5 22 17s-1.5 1.5-3 0-3-1.5-4.5 0S12 18.5 10.5 17s-3-1.5-4.5 0-3 1.5-4 0z"/></svg>'  # onde (acqua/resilienza)
 SVG_SOCIETA = '<svg viewBox="0 0 24 24" width="14" height="14" fill="white"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>'  # 3 persone
 SVG_GASTRONOMIA = '<svg viewBox="0 0 24 24" width="14" height="14" fill="white"><path d="M8.1 13.34l2.83-2.83L3.91 3.5c-1.56 1.56-1.56 4.09 0 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.20-1.10-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47z"/></svg>'  # forchetta+coltello
+SVG_TERRITORIO = '<svg viewBox="0 0 24 24" width="14" height="14" fill="white"><path d="M12 2L7 12h3v8h4v-8h3z"/></svg>'  # albero stilizzato
 
 # Luoghi con coordinate verificate (Google Places, aprile 2026)
 # Foto: thumb Wikimedia Commons 400px (lazy-loaded nel popup, no peso iniziale)
@@ -745,6 +747,15 @@ luoghi_dati = [
      "desc": "Mercato storico dal 1791: stand di cibo creolo, prodotti locali, artigianato. Il luogo dove la città si incontra ogni giorno.",
      "colore": COL_GASTRONOMIA, "tema": "Gastronomia", "icona": SVG_GASTRONOMIA,
      "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/French_Market_New_Orleans_2.jpg/400px-French_Market_New_Orleans_2.jpg"},
+    # TERRITORIO (verde scuro) — fuori città
+    {"nome": "Villa delle 24 Querce (Oak Alley)", "lat": 30.0080, "lon": -90.7405,
+     "desc": "Piantagione di canna da zucchero del 1839, oggi museo sulla schiavitù. Il celebre viale di querce centenarie è una delle immagini più potenti del Sud americano. A 80 km da New Orleans.",
+     "colore": COL_TERRITORIO, "tema": "Territorio", "icona": SVG_TERRITORIO,
+     "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Oak_Alley_Plantation_2014.jpg/400px-Oak_Alley_Plantation_2014.jpg"},
+    {"nome": "Paludi della Louisiana", "lat": 29.7728, "lon": -90.1170,
+     "desc": "Area di Jean Lafitte e Barataria, dove si svolgono i celebri swamp tour in barca tra cipressi, coccodrilli e fauna locale. A 30 km da New Orleans.",
+     "colore": COL_TERRITORIO, "tema": "Territorio", "icona": SVG_TERRITORIO,
+     "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Honey_Island_Swamp.jpg/400px-Honey_Island_Swamp.jpg"},
 ]
 
 # ============================
@@ -2440,7 +2451,7 @@ st.markdown(f"""
     <span class="section-eyebrow">03 · Orientarsi nella città</span>
     <div class="section-title">Mappa di New Orleans</div>
     <p class="section-desc">
-        15 luoghi simbolici organizzati per tema. Esplora la mappa interattiva qui sotto,
+        17 luoghi simbolici organizzati per tema, in città e nei dintorni. Esplora la mappa interattiva qui sotto,
         poi apri le sezioni tematiche per scoprire ogni luogo.
     </p>
 </div>
@@ -2458,6 +2469,7 @@ ordine_temi = [
     ("Resilienza", COL_RESILIENZA, SVG_RESILIENZA, "🏚️", "L'eredità di Katrina e l'architettura della sopravvivenza.", "tema-resilienza"),
     ("Società", COL_SOCIETA, SVG_SOCIETA, "🤝", "I quartieri delle comunità storiche e le tensioni contemporanee.", "tema-societa"),
     ("Gastronomia", COL_GASTRONOMIA, SVG_GASTRONOMIA, "🍲", "Sapori creoli, mercati storici, riti del cibo locale.", "tema-gastronomia"),
+    ("Territorio", COL_TERRITORIO, SVG_TERRITORIO, "🌿", "Piantagioni e paludi: la Louisiana fuori dai confini della città.", "tema-territorio"),
 ]
 
 # Pill colorate cliccabili: ogni pill scrolla alla tendina corrispondente
@@ -2481,7 +2493,7 @@ st.markdown(''.join(pill_html_parts), unsafe_allow_html=True)
 
 @st.fragment
 def mostra_mappa():
-    # Vista centrata sul French Quarter, zoom adatto a coprire tutti i punti chiave
+    # Centro iniziale e zoom (sovrascritti subito da fit_bounds)
     m = folium.Map(
         location=[29.962, -90.060],
         zoom_start=13,
@@ -2575,6 +2587,15 @@ def mostra_mappa():
             popup=folium.Popup(popup_html, max_width=280),
             tooltip=folium.Tooltip(f"<b>{i}.</b> {luogo['nome']}", sticky=True),
         ).add_to(m)
+
+    # Inquadro automaticamente tutti i pin con un piccolo padding
+    lats = [l["lat"] for l in luoghi_dati]
+    lons = [l["lon"] for l in luoghi_dati]
+    if lats and lons:
+        m.fit_bounds(
+            [[min(lats), min(lons)], [max(lats), max(lons)]],
+            padding=(30, 30),
+        )
 
     st_folium(m, width=None, height=520, use_container_width=True, returned_objects=[])
 
