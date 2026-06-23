@@ -1771,12 +1771,23 @@ st.markdown("""
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 48px; height: 48px;
-    border-radius: 13px;
-    background: #FFDE59;
-    font-size: 1.55rem;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: rgba(19,0,137,0.07);
     flex-shrink: 0;
-    box-shadow: 0 4px 12px rgba(255,222,89,0.45);
+}
+.sguardo-icona svg {
+    width: 22px;
+    height: 22px;
+    stroke: #130089;
+    fill: none;
+    stroke-width: 1.7;
+}
+.sguardo-card.dark .sguardo-icona {
+    background: rgba(255,222,89,0.15);
+}
+.sguardo-card.dark .sguardo-icona svg {
+    stroke: #FFDE59;
 }
 .sguardo-eyebrow {
     font-size: 0.6rem;
@@ -1979,7 +1990,8 @@ details[open] .sguardo-chevron {
     .sguardo-titolo { font-size: 1.3rem; }
     .sguardo-card summary { padding: 1.2rem 1.2rem 1rem; }
     .sguardo-body { padding: 0 1.2rem 1.2rem; }
-    .sguardo-icona { width: 44px; height: 44px; font-size: 1.4rem; }
+    .sguardo-icona { width: 40px; height: 40px; }
+    .sguardo-icona svg { width: 20px; height: 20px; }
     .sguardo-chip-luogo { font-size: 0.72rem; padding: 0.3rem 0.6rem 0.3rem 0.35rem; }
     .sguardo-chip-luogo .chip-num { width: 16px; height: 16px; font-size: 0.62rem; }
     .sguardo-link-risorsa { font-size: 0.78rem; padding: 0.5rem 0.7rem; }
@@ -1987,18 +1999,28 @@ details[open] .sguardo-chevron {
 </style>
 """, unsafe_allow_html=True)
 
+# SVG icone monocromatiche custom per gli 8 sguardi (line-art coerente, stroke 1.7)
+SVG_SGUARDO_STORICO = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 21h18 M3 18h18 M6 18V9 M10 18V9 M14 18V9 M18 18V9 M3 9h18 M5 9 L12 4 L19 9" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+SVG_SGUARDO_POLITICO = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M2 7c2-1.5 3.5-1.5 5.5 0s3.5 1.5 5.5 0s3.5-1.5 5.5 0s2 0.75 3.5 0 M2 13c2-1.5 3.5-1.5 5.5 0s3.5 1.5 5.5 0s3.5-1.5 5.5 0s2 0.75 3.5 0 M2 19c2-1.5 3.5-1.5 5.5 0s3.5 1.5 5.5 0s3.5-1.5 5.5 0s2 0.75 3.5 0" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+SVG_SGUARDO_SOCIALE = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="8" r="3"/><path d="M2 20v-1c0-2 2-4 6-4s4 1.5 4 3 M12 18c0-1.5 0-3 4-3s6 2 6 4v1" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+SVG_SGUARDO_SONORO = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 17V5l10-2v3l-10 2 M9 17a2.5 2 0 1 1-5 0 a2.5 2 0 0 1 5 0z M19 15a2.5 2 0 1 1-5 0 a2.5 2 0 0 1 5 0z" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+SVG_SGUARDO_RESILIENTE = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 13l9-7 9 7 M5 12v7h14v-7 M10 19v-4h4v4 M2 21c2-1 3-1 5 0 c2 1 3 1 5 0 c2-1 3-1 5 0 c1 0.5 3 0.5 5 0" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+SVG_SGUARDO_GASTRONOMICO = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 11h18 M5 11c0 4 2 8 7 8s7-4 7-8 M14 11V3 M11 3h6" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+SVG_SGUARDO_MISTICO = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 13A9 9 0 1 1 11 3 a7 7 0 0 0 10 10z" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+SVG_SGUARDO_UMANO = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="3"/></svg>'
+
 # Definizione degli 8 sguardi — versione hub (con link a mappa e risorse)
 # Ogni sguardo ha:
-#   - n, icona, titolo, sub, focus, missione, dark (come prima)
+#   - n, icona (SVG), titolo, sub, focus, missione, dark
 #   - luoghi: lista di numeri 1-14 dei luoghi della mappa correlati
 #   - risorse: lista di (etichetta, anchor_destinazione) per i link a audio/video/pdf
 sguardi = [
     {
-        "n": "01", "icona": "🏛️", "titolo": "Sguardo Storico", "sub": "Le radici",
+        "n": "01", "icona": SVG_SGUARDO_STORICO, "titolo": "Sguardo Storico", "sub": "Le radici",
         "focus": "La stratificazione coloniale, il quartiere francese, l'eredità spagnola e africana.",
         "missione": "Trovare le tracce del passato che sopravvivono nel presente.",
         "dark": False,
-        "luoghi": [1, 2, 3, 4],  # French Quarter, Jackson Square, St. Louis Cemetery, Garden District
+        "luoghi": [1, 2, 3, 4],
         "risorse": [
             ("🎧 Incontro con Elia Morelli", "documenti"),
             ("📺 New Orleans Map, Explained", "approfondimenti"),
@@ -2006,22 +2028,22 @@ sguardi = [
         ],
     },
     {
-        "n": "02", "icona": "🌊", "titolo": "Sguardo Politico", "sub": "Il potere e il fiume",
+        "n": "02", "icona": SVG_SGUARDO_POLITICO, "titolo": "Sguardo Politico", "sub": "Il potere e il fiume",
         "focus": "Il porto di New Orleans, il ruolo del Mississippi nell'economia globale, le relazioni internazionali.",
         "missione": "Raccontare come una città del Sud parli al mondo intero.",
         "dark": True,
-        "luoghi": [1, 5],  # French Quarter, Caesars Superdome
+        "luoghi": [1, 5],
         "risorse": [
             ("🎧 Incontro con Anthony Gardner (Console USA)", "documenti"),
             ("📺 The Founding of New Orleans", "approfondimenti"),
         ],
     },
     {
-        "n": "03", "icona": "🤝", "titolo": "Sguardo Sociale", "sub": "Contrasti americani",
+        "n": "03", "icona": SVG_SGUARDO_SOCIALE, "titolo": "Sguardo Sociale", "sub": "Contrasti americani",
         "focus": "Le contraddizioni della società americana: ricchezza e povertà, gentrificazione, questioni razziali.",
         "missione": "Osservare le due Americhe che convivono nello stesso isolato.",
         "dark": False,
-        "luoghi": [4, 5, 10],  # Garden District, Caesars Superdome, Frenchmen Street
+        "luoghi": [4, 5, 10],
         "risorse": [
             ("🎧 Incontro con Francesco Costa", "documenti"),
             ("📺 La schiavitù senza filtri: 12 Anni Schiavo", "approfondimenti"),
@@ -2029,52 +2051,52 @@ sguardi = [
         ],
     },
     {
-        "n": "04", "icona": "🎷", "titolo": "Sguardo Sonoro", "sub": "Il ritmo del Delta",
+        "n": "04", "icona": SVG_SGUARDO_SONORO, "titolo": "Sguardo Sonoro", "sub": "Il ritmo del Delta",
         "focus": "Jazz, blues, second lines, musicisti di strada di Frenchmen Street.",
         "missione": "Catturare il rumore della città. Non solo musica, ma chi la vive come lavoro.",
         "dark": True,
-        "luoghi": [6, 7, 8, 9, 10],  # Congo Square, Armstrong Park, Preservation Hall, Snug Harbor, Frenchmen St.
+        "luoghi": [6, 7, 8, 9, 10],
         "risorse": [
             ("📺 Billie Holiday & Louis Armstrong", "approfondimenti"),
         ],
     },
     {
-        "n": "05", "icona": "🏚️", "titolo": "Sguardo Resiliente", "sub": "L'acqua e la ricostruzione",
+        "n": "05", "icona": SVG_SGUARDO_RESILIENTE, "titolo": "Sguardo Resiliente", "sub": "L'acqua e la ricostruzione",
         "focus": "L'eredità di Katrina, il cambiamento climatico, l'architettura della sopravvivenza.",
         "missione": "Raccontare come una comunità si rialza dopo il disastro.",
         "dark": False,
-        "luoghi": [5, 14],  # Caesars Superdome (rifugio Katrina), Paludi della Louisiana
+        "luoghi": [5, 14],
         "risorse": [
             ("🎧 Incontro con Anthony Gardner", "documenti"),
             ("🎙️ Podcast su New Orleans", "approfondimenti"),
         ],
     },
     {
-        "n": "06", "icona": "🍲", "titolo": "Sguardo Gastronomico", "sub": "Il melting pot nel piatto",
+        "n": "06", "icona": SVG_SGUARDO_GASTRONOMICO, "titolo": "Sguardo Gastronomico", "sub": "Il melting pot nel piatto",
         "focus": "Cucina Creole e Cajun, il rito del gumbo e dei beignets, i mercati locali.",
         "missione": "Spiegare la cultura attraverso il cibo, come fusione di popoli.",
         "dark": True,
-        "luoghi": [11, 12],  # Café du Monde, French Market
+        "luoghi": [11, 12],
         "risorse": [
             ("📺 How to Experience NOLA Like a Local", "approfondimenti"),
         ],
     },
     {
-        "n": "07", "icona": "🔮", "titolo": "Sguardo Mistico", "sub": "Spiritualità e tradizioni",
+        "n": "07", "icona": SVG_SGUARDO_MISTICO, "titolo": "Sguardo Mistico", "sub": "Spiritualità e tradizioni",
         "focus": "Il voodoo, i cimiteri monumentali, il Mardi Gras, il folklore.",
         "missione": "Indagare la parte invisibile di New Orleans — magia e riti comunitari.",
         "dark": False,
-        "luoghi": [2, 3],  # Jackson Square (cattedrale), St. Louis Cemetery (Marie Laveau)
+        "luoghi": [2, 3],
         "risorse": [
             ("📺 Peaceful French Quarter Walking Tour", "approfondimenti"),
         ],
     },
     {
-        "n": "08", "icona": "👁️", "titolo": "Sguardo Umano", "sub": "Humans of NOLA",
+        "n": "08", "icona": SVG_SGUARDO_UMANO, "titolo": "Sguardo Umano", "sub": "Humans of NOLA",
         "focus": "I volti delle persone, l'accoglienza del Sud, le storie individuali.",
         "missione": "La squadra più vicina all'installazione di Peccioli: incrociare lo sguardo dei locali.",
         "dark": True,
-        "luoghi": [10, 11, 12],  # Frenchmen Street, Café du Monde, French Market
+        "luoghi": [10, 11, 12],
         "risorse": [
             ("📺 How to Experience NOLA Like a Local", "approfondimenti"),
             ("🎙️ Podcast su New Orleans", "approfondimenti"),
