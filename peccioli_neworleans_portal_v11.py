@@ -698,10 +698,6 @@ luoghi_dati = [
      "colore": COL_IDENTITA, "tema": "Identità e storia", "icona": SVG_IDENTITA,
      "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Buckner_Mansion_New_Orleans.jpg/400px-Buckner_Mansion_New_Orleans.jpg"},
     # MUSICA (oro)
-    {"nome": "Frenchmen Street", "lat": 29.9641512, "lon": -90.0578074,
-     "desc": "La strada più autentica per il jazz dal vivo, lontana dal turismo di Bourbon Street.",
-     "colore": COL_MUSICA, "tema": "Musica", "icona": SVG_MUSICA,
-     "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Frenchmen_Street_at_Night_New_Orleans.jpg/400px-Frenchmen_Street_at_Night_New_Orleans.jpg"},
     {"nome": "Congo Square", "lat": 29.9612773, "lon": -90.0686699,
      "desc": "Luogo simbolico delle radici africane della musica americana: qui si danzava e suonava già nel '700.",
      "colore": COL_MUSICA, "tema": "Musica", "icona": SVG_MUSICA,
@@ -732,6 +728,14 @@ luoghi_dati = [
      "desc": "Quartiere creativo e in gentrificazione: murales, artisti e contraddizioni della New Orleans contemporanea.",
      "colore": COL_SOCIETA, "tema": "Società", "icona": SVG_SOCIETA,
      "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Bywater_Dauphine_Shotgun_Houses.jpg/400px-Bywater_Dauphine_Shotgun_Houses.jpg"},
+    {"nome": "Frenchmen Street", "lat": 29.9641512, "lon": -90.0578074,
+     "desc": "La strada simbolo della vita notturna locale: dove i residenti si ritrovano lontano dal turismo di Bourbon Street, tra bar, gallerie e musica dal vivo.",
+     "colore": COL_SOCIETA, "tema": "Società", "icona": SVG_SOCIETA,
+     "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Frenchmen_Street_at_Night_New_Orleans.jpg/400px-Frenchmen_Street_at_Night_New_Orleans.jpg"},
+    {"nome": "Caesars Superdome", "lat": 29.9509, "lon": -90.0814,
+     "desc": "Lo stadio dei New Orleans Saints (NFL) e simbolo della città: rifugio per oltre 25.000 sfollati durante Katrina nel 2005, poi rinato come emblema della rinascita di New Orleans.",
+     "colore": COL_SOCIETA, "tema": "Società", "icona": SVG_SOCIETA,
+     "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Mercedes-Benz_Superdome.jpg/400px-Mercedes-Benz_Superdome.jpg"},
     # GASTRONOMIA (arancio scuro)
     {"nome": "Café du Monde", "lat": 29.9574, "lon": -90.0617,
      "desc": "Il caffè più iconico di New Orleans, aperto dal 1862. Famoso per i beignets (frittelle zuccherate) e il caffè aromatizzato alla cicoria.",
@@ -2436,7 +2440,7 @@ st.markdown(f"""
     <span class="section-eyebrow">03 · Orientarsi nella città</span>
     <div class="section-title">Mappa di New Orleans</div>
     <p class="section-desc">
-        14 luoghi simbolici organizzati per tema. Esplora la mappa interattiva qui sotto,
+        15 luoghi simbolici organizzati per tema. Esplora la mappa interattiva qui sotto,
         poi apri le sezioni tematiche per scoprire ogni luogo.
     </p>
 </div>
@@ -2477,34 +2481,13 @@ st.markdown(''.join(pill_html_parts), unsafe_allow_html=True)
 
 @st.fragment
 def mostra_mappa():
-    # Vista centrale tra tutti i punti
+    # Vista centrata sul French Quarter, zoom adatto a coprire tutti i punti chiave
     m = folium.Map(
-        location=[29.975, -90.065],
-        zoom_start=12,
+        location=[29.962, -90.060],
+        zoom_start=13,
         tiles="CartoDB positron",
         control_scale=True,
     )
-
-    # Aree semi-trasparenti per tema (cluster visivi)
-    # Disegnate PRIMA dei marker così stanno sotto
-    # Identità: raggruppa French Quarter, Jackson Square, St. Louis Cemetery
-    folium.Circle(
-        location=[29.958, -90.067], radius=650,
-        color=COL_IDENTITA, fill=True, fill_color=COL_IDENTITA,
-        fill_opacity=0.08, opacity=0.25, weight=1,
-    ).add_to(m)
-    # Musica: raggruppa Frenchmen Street + Congo Square + Armstrong Park + Preservation Hall
-    folium.Circle(
-        location=[29.961, -90.063], radius=700,
-        color=COL_MUSICA, fill=True, fill_color=COL_MUSICA,
-        fill_opacity=0.08, opacity=0.25, weight=1,
-    ).add_to(m)
-    # Resilienza: zona Lower Ninth Ward
-    folium.Circle(
-        location=[29.971, -90.017], radius=550,
-        color=COL_RESILIENZA, fill=True, fill_color=COL_RESILIENZA,
-        fill_opacity=0.08, opacity=0.25, weight=1,
-    ).add_to(m)
 
     # Marker custom con icone tematiche SVG
     for i, luogo in enumerate(luoghi_dati, start=1):
@@ -2696,71 +2679,54 @@ st.markdown(f"""
     }}
 }}
 
-/* Mini-card luogo */
+/* Mini-card luogo (versione senza foto, elegante) */
 .luogo-card {{
     display: flex;
-    gap: 0.85rem;
+    gap: 0.95rem;
     align-items: stretch;
     background: #f9f9fb;
     border-radius: 12px;
-    padding: 0.7rem;
+    padding: 0.85rem 1rem 0.85rem 0.85rem;
     position: relative;
-    transition: transform 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-left: 4px solid var(--card-color, {BRAND_BLUE});
 }}
 .luogo-card:hover {{
-    transform: translateX(2px);
+    transform: translateX(3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }}
-.luogo-foto {{
-    flex-shrink: 0;
-    width: 84px;
-    height: 84px;
-    border-radius: 10px;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-color: #e8e8ee;
-    position: relative;
-}}
+/* Numero grande in cerchio colorato */
 .luogo-numero {{
-    position: absolute;
-    top: -6px; left: -6px;
-    width: 24px; height: 24px;
-    background: white;
-    color: {BRAND_BLUE};
+    flex-shrink: 0;
+    width: 44px; height: 44px;
+    background: var(--card-color, {BRAND_BLUE});
+    color: white;
     border-radius: 50%;
     font-family: 'Playfair Display', Georgia, serif;
     font-weight: 800;
-    font-size: 0.78rem;
+    font-size: 1.15rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.18);
-    border: 2px solid var(--card-color, {BRAND_BLUE});
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    align-self: center;
 }}
 .luogo-text {{
     flex: 1;
     min-width: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }}
 .luogo-nome {{
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 0.98rem;
+    font-size: 1rem;
     font-weight: 800;
     color: {BRAND_BLUE};
     line-height: 1.15;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.3rem;
 }}
 .luogo-desc {{
-    font-size: 0.77rem;
+    font-size: 0.78rem;
     color: #3a4a5c;
-    line-height: 1.45;
-    /* Limito a 3 righe con ellipsis per uniformità */
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    line-height: 1.5;
 }}
 </style>
 """, unsafe_allow_html=True)
@@ -2790,16 +2756,11 @@ for tema_nome, col, svg, emoji, desc_tema, anchor_id in ordine_temi:
         f'<div class="luoghi-grid">'
     )
     
-    # Mini-card luoghi nella griglia
+    # Mini-card luoghi nella griglia (senza foto, layout pulito)
     for i, l in luoghi_del_tema:
-        # Foto: usa background-image (più stabile con immagini esterne)
-        foto_url = l.get("foto", "")
-        bg_style = f'background-image:url(\'{foto_url}\');' if foto_url else ''
         tendine_html_parts.append(
             f'<div class="luogo-card" style="--card-color:{col};">'
-            f'<div class="luogo-foto" style="{bg_style}">'
-            f'<div class="luogo-numero" style="color:{col};">{i}</div>'
-            f'</div>'
+            f'<div class="luogo-numero">{i}</div>'
             f'<div class="luogo-text">'
             f'<div class="luogo-nome">{l["nome"]}</div>'
             f'<div class="luogo-desc">{l["desc"]}</div>'
