@@ -2487,10 +2487,28 @@ st.markdown(''.join(pill_html_parts), unsafe_allow_html=True)
 
 @st.fragment
 def mostra_mappa():
-    # Centro iniziale e zoom (sovrascritti subito da fit_bounds)
+    # Leggo eventuale luogo selezionato dai query params (?luogo=N)
+    selected_idx = None
+    try:
+        selected = st.query_params.get("luogo")
+        if selected is not None:
+            idx = int(selected) - 1
+            if 0 <= idx < len(luoghi_dati):
+                selected_idx = idx
+    except (ValueError, TypeError):
+        selected_idx = None
+
+    # Centro e zoom: se c'è un luogo selezionato, lo metto al centro; altrimenti vista d'insieme
+    if selected_idx is not None:
+        centro = [luoghi_dati[selected_idx]["lat"], luoghi_dati[selected_idx]["lon"]]
+        zoom_iniziale = 16
+    else:
+        centro = [29.962, -90.060]
+        zoom_iniziale = 13
+
     m = folium.Map(
-        location=[29.962, -90.060],
-        zoom_start=13,
+        location=centro,
+        zoom_start=zoom_iniziale,
         tiles="CartoDB positron",
         control_scale=True,
     )
@@ -2571,6 +2589,9 @@ def mostra_mappa():
         </div>
         '''
 
+        # Popup auto-aperto se questo è il luogo selezionato
+        is_selected = (selected_idx is not None and (i - 1) == selected_idx)
+
         folium.Marker(
             location=[luogo["lat"], luogo["lon"]],
             icon=folium.DivIcon(
@@ -2578,26 +2599,41 @@ def mostra_mappa():
                 icon_size=(0, 0),
                 icon_anchor=(0, 0),
             ),
-            popup=folium.Popup(popup_html, max_width=280),
+            popup=folium.Popup(popup_html, max_width=280, show=is_selected),
             tooltip=folium.Tooltip(f"<b>{i}.</b> {luogo['nome']}", sticky=True),
         ).add_to(m)
 
-    # Inquadro automaticamente tutti i pin con un piccolo padding
-    lats = [l["lat"] for l in luoghi_dati]
-    lons = [l["lon"] for l in luoghi_dati]
-    if lats and lons:
-        m.fit_bounds(
-            [[min(lats), min(lons)], [max(lats), max(lons)]],
-            padding=(30, 30),
-        )
+    # fit_bounds solo se nessun luogo è selezionato (altrimenti rispetto il centro/zoom imposto)
+    if selected_idx is None:
+        lats = [l["lat"] for l in luoghi_dati]
+        lons = [l["lon"] for l in luoghi_dati]
+        if lats and lons:
+            m.fit_bounds(
+                [[min(lats), min(lons)], [max(lats), max(lons)]],
+                padding=(30, 30),
+            )
 
     st_folium(m, width=None, height=520, use_container_width=True, returned_objects=[])
+
+    # Pulsante reset visibile solo quando c'è un luogo selezionato
+    if selected_idx is not None:
+        nome_selezionato = luoghi_dati[selected_idx]["nome"]
+        st.markdown(
+            f'<div style="text-align:center;margin-top:0.6rem;">'
+            f'<a href="?#mappe" style="display:inline-block;background:{BRAND_YELLOW};color:{BRAND_BLUE};'
+            f'text-decoration:none;padding:0.5rem 1.1rem;border-radius:999px;font-size:0.82rem;'
+            f'font-weight:700;letter-spacing:0.02em;box-shadow:0 3px 10px rgba(255,222,89,0.4);">'
+            f'← Mostra tutti i luoghi <span style="opacity:0.7;font-weight:500;font-size:0.75rem;">'
+            f'(zoom su {nome_selezionato})</span>'
+            f'</a></div>',
+            unsafe_allow_html=True
+        )
 
 mostra_mappa()
 
 st.markdown(f"""
 <div style="margin-top:0.5rem;margin-bottom:1.5rem;font-size:0.82rem;color:rgba(255,255,255,0.8);font-style:italic;">
-    Clicca sui marker per scoprire ciascun luogo. I numeri corrispondono alle schede qui sotto.
+    💡 Clicca sui marker della mappa o sulle schede qui sotto per zoomare sui singoli luoghi.
 </div>
 """, unsafe_allow_html=True)
 
@@ -2694,7 +2730,7 @@ st.markdown(f"""
     }}
 }}
 
-/* Mini-card luogo con foto */
+/* Mini-card luogo con foto — è un link <a> che zoomma sulla mappa */
 .luogo-card {{
     display: flex;
     gap: 0.9rem;
@@ -2705,10 +2741,20 @@ st.markdown(f"""
     position: relative;
     transition: transform 0.2s, box-shadow 0.2s;
     border-left: 4px solid var(--card-color, {BRAND_BLUE});
+    /* Stili da reset per il tag <a> */
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
 }}
 .luogo-card:hover {{
     transform: translateX(3px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}}
+.luogo-card:hover .luogo-nome {{
+    text-decoration: underline;
+    text-decoration-color: var(--card-color, {BRAND_BLUE});
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
 }}
 /* Contenitore foto + numero badge */
 .luogo-foto-box {{
@@ -2789,11 +2835,11 @@ for tema_nome, col, svg, emoji, desc_tema, anchor_id in ordine_temi:
         f'<div class="luoghi-grid">'
     )
     
-    # Mini-card luoghi nella griglia (con foto da GitHub raw)
+    # Mini-card luoghi nella griglia (con foto da GitHub raw, cliccabili → zoom mappa)
     for i, l in luoghi_del_tema:
         foto_url = l.get("foto", "")
         tendine_html_parts.append(
-            f'<div class="luogo-card" style="--card-color:{col};">'
+            f'<a class="luogo-card" href="?luogo={i}#mappe" style="--card-color:{col};">'
             f'<div class="luogo-foto-box">'
             f'<img class="luogo-foto" src="{foto_url}" alt="{l["nome"]}" loading="lazy" onerror="this.style.background=\'{col}20\';">'
             f'<div class="luogo-numero">{i}</div>'
@@ -2802,7 +2848,7 @@ for tema_nome, col, svg, emoji, desc_tema, anchor_id in ordine_temi:
             f'<div class="luogo-nome">{l["nome"]}</div>'
             f'<div class="luogo-desc">{l["desc"]}</div>'
             f'</div>'
-            f'</div>'
+            f'</a>'
         )
     
     tendine_html_parts.append('</div></details>')
