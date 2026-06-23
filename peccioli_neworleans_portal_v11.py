@@ -2590,9 +2590,91 @@ def mostra_mappa():
             padding=(30, 30),
         )
 
+    # Script iniettato DENTRO la mappa Folium che ascolta postMessage dalla pagina principale
+    # e apre il popup del marker corrispondente al luogo cliccato sotto.
+    script_listener = """
+    <script>
+    (function() {
+        function setupListener() {
+            // Trovo l'istanza della mappa Leaflet (Folium la espone come window.map_<hash>)
+            let mapInstance = null;
+            for (let key in window) {
+                if (key.startsWith('map_') && window[key] && window[key]._container) {
+                    mapInstance = window[key];
+                    break;
+                }
+            }
+            if (!mapInstance) {
+                setTimeout(setupListener, 150);  // riprovo finché la mappa non è pronta
+                return;
+            }
+            // Raccolgo tutti i marker, nell'ordine in cui sono stati aggiunti alla mappa
+            const markers = [];
+            mapInstance.eachLayer(function(layer) {
+                if (layer instanceof L.Marker) {
+                    markers.push(layer);
+                }
+            });
+            // Ascolto i messaggi dalla pagina principale
+            window.addEventListener('message', function(event) {
+                const data = event.data;
+                if (data && data.action === 'peccioli_open_marker') {
+                    const idx = data.index;
+                    if (idx >= 0 && idx < markers.length) {
+                        const marker = markers[idx];
+                        // Sposto la mappa sul marker (senza zoomare), poi apro il popup
+                        mapInstance.panTo(marker.getLatLng(), {animate: true, duration: 0.5});
+                        setTimeout(function() { marker.openPopup(); }, 550);
+                    }
+                }
+            });
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setupListener);
+        } else {
+            setupListener();
+        }
+    })();
+    </script>
+    """
+    m.get_root().html.add_child(folium.Element(script_listener))
+
     st_folium(m, width=None, height=520, use_container_width=True, returned_objects=[])
 
 mostra_mappa()
+
+# Script installato sulla pagina principale: definisce la funzione clickLuogoPeccioli()
+# che le mini-card useranno per scrollare alla mappa e aprire il popup del marker.
+components.html("""
+<script>
+(function() {
+    const parent = window.parent;
+    if (parent._peccioliMappaInstalled) return;
+    parent._peccioliMappaInstalled = true;
+
+    parent.clickLuogoPeccioli = function(indice) {
+        const doc = parent.document;
+        // 1. Smooth scroll alla sezione mappa
+        const target = doc.getElementById('mappe');
+        if (target) {
+            target.scrollIntoView({behavior: 'smooth', block: 'start'});
+        }
+        // 2. Dopo lo scroll, manda postMessage a tutti gli iframe (per trovare quello della mappa)
+        setTimeout(function() {
+            const iframes = doc.querySelectorAll('iframe');
+            iframes.forEach(function(iframe) {
+                try {
+                    iframe.contentWindow.postMessage({
+                        action: 'peccioli_open_marker',
+                        index: indice - 1
+                    }, '*');
+                } catch (e) { /* ignora errori cross-origin */ }
+            });
+        }, 650);
+    };
+})();
+</script>
+""", height=0)
 
 st.markdown(f"""
 <div style="margin-top:0.5rem;margin-bottom:1.5rem;font-size:0.82rem;color:rgba(255,255,255,0.8);font-style:italic;">
@@ -2798,11 +2880,11 @@ for tema_nome, col, svg, emoji, desc_tema, anchor_id in ordine_temi:
         f'<div class="luoghi-grid">'
     )
     
-    # Mini-card luoghi nella griglia (cliccabili → scroll alla mappa)
+    # Mini-card luoghi nella griglia (cliccabili → scroll alla mappa + apre popup del marker)
     for i, l in luoghi_del_tema:
         foto_url = l.get("foto", "")
         tendine_html_parts.append(
-            f'<a class="luogo-card" href="#mappe" style="--card-color:{col};">'
+            f'<a class="luogo-card" href="javascript:void(0)" onclick="clickLuogoPeccioli({i})" style="--card-color:{col};">'
             f'<div class="luogo-foto-box">'
             f'<img class="luogo-foto" src="{foto_url}" alt="{l["nome"]}" loading="lazy" onerror="this.style.background=\'{col}20\';">'
             f'<div class="luogo-numero">{i}</div>'
