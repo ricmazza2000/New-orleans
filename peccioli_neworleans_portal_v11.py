@@ -667,6 +667,7 @@ COL_IDENTITA = BRAND_BLUE       # blu brand - Identità e storia
 COL_MUSICA = "#e6b800"          # oro - Musica
 COL_RESILIENZA = "#4a3fb8"      # viola indaco - Resilienza
 COL_SOCIETA = "#b8860b"         # bronzo - Società
+COL_GASTRONOMIA = "#cc5500"     # arancio scuro - Gastronomia
 
 # Icone SVG per tema (usate nei marker della mappa)
 # Ogni icona è un path SVG 20x20, viene colorata via CSS
@@ -674,6 +675,7 @@ SVG_IDENTITA = '<svg viewBox="0 0 24 24" width="14" height="14" fill="white"><pa
 SVG_MUSICA = '<svg viewBox="0 0 24 24" width="14" height="14" fill="white"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>'  # nota musicale
 SVG_RESILIENZA = '<svg viewBox="0 0 24 24" width="14" height="14" fill="white"><path d="M2 12c1.5-1.5 3-1.5 4.5 0S9 13.5 10.5 12 13.5 10.5 15 12s3 1.5 4.5 0S22 10.5 22 12s-1.5 1.5-3 0-3-1.5-4.5 0S12 13.5 10.5 12 7.5 10.5 6 12s-3 1.5-4 0z"/><path d="M2 17c1.5-1.5 3-1.5 4.5 0S9 18.5 10.5 17s3-1.5 4.5 0 3 1.5 4.5 0S22 15.5 22 17s-1.5 1.5-3 0-3-1.5-4.5 0S12 18.5 10.5 17s-3-1.5-4.5 0-3 1.5-4 0z"/></svg>'  # onde (acqua/resilienza)
 SVG_SOCIETA = '<svg viewBox="0 0 24 24" width="14" height="14" fill="white"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>'  # 3 persone
+SVG_GASTRONOMIA = '<svg viewBox="0 0 24 24" width="14" height="14" fill="white"><path d="M8.1 13.34l2.83-2.83L3.91 3.5c-1.56 1.56-1.56 4.09 0 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.20-1.10-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47z"/></svg>'  # forchetta+coltello
 
 # Luoghi con coordinate verificate (Google Places, aprile 2026)
 # Foto: thumb Wikimedia Commons 400px (lazy-loaded nel popup, no peso iniziale)
@@ -712,32 +714,33 @@ luoghi_dati = [
      "desc": "La sala concerti storica nel French Quarter, tempio vivente del jazz tradizionale di New Orleans.",
      "colore": COL_MUSICA, "tema": "Musica", "icona": SVG_MUSICA,
      "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Preservation_Hall_New_Orleans.jpg/400px-Preservation_Hall_New_Orleans.jpg"},
+    {"nome": "Snug Harbor Jazz Bistro", "lat": 29.9643, "lon": -90.0570,
+     "desc": "Locale storico di Frenchmen Street con jazz dal vivo e cucina creola, attivo da oltre 40 anni. ⭐ Consigliato dal Comune di New Orleans.",
+     "colore": COL_MUSICA, "tema": "Musica", "icona": SVG_MUSICA,
+     "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Frenchmen_Street_at_Night_New_Orleans.jpg/400px-Frenchmen_Street_at_Night_New_Orleans.jpg"},
     # RESILIENZA (viola indaco)
     {"nome": "Lower Ninth Ward", "lat": 29.9682712, "lon": -90.0139908,
      "desc": "Il quartiere più colpito da Katrina nel 2005. Simbolo della resilienza e della lentezza della ricostruzione.",
      "colore": COL_RESILIENZA, "tema": "Resilienza", "icona": SVG_RESILIENZA,
      "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/FEMA_-_18742_-_Photograph_by_Marvin_Nauman_taken_on_10-28-2005_in_Louisiana.jpg/400px-FEMA_-_18742_-_Photograph_by_Marvin_Nauman_taken_on_10-28-2005_in_Louisiana.jpg"},
-    {"nome": "Lake Pontchartrain", "lat": 30.020, "lon": -90.100,
-     "desc": "Il lago ai cui argini fallirono le dighe durante Katrina, causando l'inondazione della città.",
-     "colore": COL_RESILIENZA, "tema": "Resilienza", "icona": SVG_RESILIENZA,
-     "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Lake_Pontchartrain_Causeway_Bridge_2006.jpg/400px-Lake_Pontchartrain_Causeway_Bridge_2006.jpg"},
-    {"nome": "Make It Right Houses", "lat": 29.9736938, "lon": -90.019238,
-     "desc": "Le case colorate costruite da Brad Pitt dopo Katrina per i residenti del Lower Ninth Ward.",
-     "colore": COL_RESILIENZA, "tema": "Resilienza", "icona": SVG_RESILIENZA,
-     "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Make_It_Right_homes_in_Lower_9th_Ward.jpg/400px-Make_It_Right_homes_in_Lower_9th_Ward.jpg"},
     # SOCIETÀ (bronzo)
     {"nome": "Tremé", "lat": 29.9690775, "lon": -90.0732223,
      "desc": "Il quartiere afroamericano più antico degli USA, culla della cultura creola e della comunità nera.",
      "colore": COL_SOCIETA, "tema": "Società", "icona": SVG_SOCIETA,
      "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Treme_Brass_Band_at_Jazz_Fest_2010.jpg/400px-Treme_Brass_Band_at_Jazz_Fest_2010.jpg"},
-    {"nome": "Warehouse District", "lat": 29.9467923, "lon": -90.0753832,
-     "desc": "Zona di musei e gallerie che mostra la trasformazione urbana e le nuove tensioni sociali della città.",
-     "colore": COL_SOCIETA, "tema": "Società", "icona": SVG_SOCIETA,
-     "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Julia_Street_NOLA_CAC.jpg/400px-Julia_Street_NOLA_CAC.jpg"},
     {"nome": "Bywater", "lat": 29.9633867, "lon": -90.0403757,
      "desc": "Quartiere creativo e in gentrificazione: murales, artisti e contraddizioni della New Orleans contemporanea.",
      "colore": COL_SOCIETA, "tema": "Società", "icona": SVG_SOCIETA,
      "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Bywater_Dauphine_Shotgun_Houses.jpg/400px-Bywater_Dauphine_Shotgun_Houses.jpg"},
+    # GASTRONOMIA (arancio scuro)
+    {"nome": "Café du Monde", "lat": 29.9574, "lon": -90.0617,
+     "desc": "Il caffè più iconico di New Orleans, aperto dal 1862. Famoso per i beignets (frittelle zuccherate) e il caffè aromatizzato alla cicoria.",
+     "colore": COL_GASTRONOMIA, "tema": "Gastronomia", "icona": SVG_GASTRONOMIA,
+     "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Cafe_Du_Monde_Beignets.jpg/400px-Cafe_Du_Monde_Beignets.jpg"},
+    {"nome": "French Market", "lat": 29.9596, "lon": -90.0612,
+     "desc": "Mercato storico dal 1791: stand di cibo creolo, prodotti locali, artigianato. Il luogo dove la città si incontra ogni giorno.",
+     "colore": COL_GASTRONOMIA, "tema": "Gastronomia", "icona": SVG_GASTRONOMIA,
+     "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/French_Market_New_Orleans_2.jpg/400px-French_Market_New_Orleans_2.jpg"},
 ]
 
 # ============================
@@ -2433,33 +2436,48 @@ st.markdown(f"""
     <span class="section-eyebrow">03 · Orientarsi nella città</span>
     <div class="section-title">Mappa di New Orleans</div>
     <p class="section-desc">
-        14 luoghi simbolici organizzati per tema. Esplora la mappa interattiva qui sotto
-        o scorri le schede per conoscerli uno a uno.
+        14 luoghi simbolici organizzati per tema. Esplora la mappa interattiva qui sotto,
+        poi apri le sezioni tematiche per scoprire ogni luogo.
     </p>
 </div>
 <div class="section-body sec-mappa">
 """, unsafe_allow_html=True)
 
-st.markdown(f"""
-<div style="display:flex;flex-wrap:wrap;gap:0.6rem;margin-bottom:1.2rem;">
-    <div style="display:flex;align-items:center;gap:0.4rem;background:white;padding:0.35rem 0.8rem;border-radius:999px;font-size:0.82rem;font-weight:600;color:{BRAND_BLUE};">
-        <div style="width:12px;height:12px;border-radius:50%;background:{BRAND_BLUE};flex-shrink:0;"></div> Identità e storia
-    </div>
-    <div style="display:flex;align-items:center;gap:0.4rem;background:white;padding:0.35rem 0.8rem;border-radius:999px;font-size:0.82rem;font-weight:600;color:{BRAND_BLUE};">
-        <div style="width:12px;height:12px;border-radius:50%;background:#e6b800;flex-shrink:0;"></div> Musica
-    </div>
-    <div style="display:flex;align-items:center;gap:0.4rem;background:white;padding:0.35rem 0.8rem;border-radius:999px;font-size:0.82rem;font-weight:600;color:{BRAND_BLUE};">
-        <div style="width:12px;height:12px;border-radius:50%;background:#4a3fb8;flex-shrink:0;"></div> Resilienza
-    </div>
-    <div style="display:flex;align-items:center;gap:0.4rem;background:white;padding:0.35rem 0.8rem;border-radius:999px;font-size:0.82rem;font-weight:600;color:{BRAND_BLUE};">
-        <div style="width:12px;height:12px;border-radius:50%;background:#b8860b;flex-shrink:0;"></div> Società
-    </div>
-</div>
-""", unsafe_allow_html=True)
+## Conta luoghi per tema (per i contatori nelle pill e nelle tendine)
+from collections import Counter
+conteggio_temi = Counter(l["tema"] for l in luoghi_dati)
+
+# Ordine fisso delle categorie (mantengo ordine logico)
+ordine_temi = [
+    ("Identità e storia", COL_IDENTITA, SVG_IDENTITA, "🏛️", "Le radici storiche, l'architettura, i quartieri simbolici.", "tema-identita"),
+    ("Musica", COL_MUSICA, SVG_MUSICA, "🎷", "Jazz, blues, second lines: il cuore sonoro della città.", "tema-musica"),
+    ("Resilienza", COL_RESILIENZA, SVG_RESILIENZA, "🏚️", "L'eredità di Katrina e l'architettura della sopravvivenza.", "tema-resilienza"),
+    ("Società", COL_SOCIETA, SVG_SOCIETA, "🤝", "I quartieri delle comunità storiche e le tensioni contemporanee.", "tema-societa"),
+    ("Gastronomia", COL_GASTRONOMIA, SVG_GASTRONOMIA, "🍲", "Sapori creoli, mercati storici, riti del cibo locale.", "tema-gastronomia"),
+]
+
+# Pill colorate cliccabili: ogni pill scrolla alla tendina corrispondente
+pill_html_parts = ['<div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.3rem;">']
+for tema_nome, col, svg, emoji, _desc, anchor_id in ordine_temi:
+    count = conteggio_temi.get(tema_nome, 0)
+    pill_html_parts.append(
+        f'<a href="#{anchor_id}" style="display:inline-flex;align-items:center;gap:0.45rem;'
+        f'background:white;padding:0.4rem 0.85rem;border-radius:999px;'
+        f'font-size:0.8rem;font-weight:700;color:{BRAND_BLUE};text-decoration:none;'
+        f'border:2px solid {col}20;transition:all 0.2s;box-shadow:0 2px 6px rgba(19,0,137,0.08);" '
+        f'onmouseover="this.style.borderColor=\'{col}\';this.style.transform=\'translateY(-1px)\';" '
+        f'onmouseout="this.style.borderColor=\'{col}20\';this.style.transform=\'none\';">'
+        f'<span style="font-size:0.95rem;">{emoji}</span> {tema_nome}'
+        f'<span style="background:{col};color:white;border-radius:999px;padding:0.05rem 0.45rem;'
+        f'font-size:0.65rem;font-weight:800;margin-left:0.15rem;">{count}</span>'
+        f'</a>'
+    )
+pill_html_parts.append('</div>')
+st.markdown(''.join(pill_html_parts), unsafe_allow_html=True)
 
 @st.fragment
 def mostra_mappa():
-    # Vista centrale tra tutti i punti - zoom ampio per vedere anche Lake Pontchartrain
+    # Vista centrale tra tutti i punti
     m = folium.Map(
         location=[29.975, -90.065],
         zoom_start=12,
@@ -2481,7 +2499,7 @@ def mostra_mappa():
         color=COL_MUSICA, fill=True, fill_color=COL_MUSICA,
         fill_opacity=0.08, opacity=0.25, weight=1,
     ).add_to(m)
-    # Resilienza: Lower Ninth + Make It Right
+    # Resilienza: zona Lower Ninth Ward
     folium.Circle(
         location=[29.971, -90.017], radius=550,
         color=COL_RESILIENZA, fill=True, fill_color=COL_RESILIENZA,
@@ -2580,32 +2598,218 @@ def mostra_mappa():
 mostra_mappa()
 
 st.markdown(f"""
-<div style="margin-top:0.5rem;margin-bottom:1.2rem;font-size:0.82rem;color:rgba(255,255,255,0.8);font-style:italic;">
+<div style="margin-top:0.5rem;margin-bottom:1.5rem;font-size:0.82rem;color:rgba(255,255,255,0.8);font-style:italic;">
     Clicca sui marker per scoprire ciascun luogo. I numeri corrispondono alle schede qui sotto.
 </div>
 """, unsafe_allow_html=True)
 
-# Cards dei luoghi con numerazione corrispondente
-col_m1, col_m2 = st.columns(2)
-for i, luogo in enumerate(luoghi_dati, start=1):
-    with (col_m1 if (i - 1) % 2 == 0 else col_m2):
-        st.markdown(f"""
-        <div class="legend-card" style="border-left:4px solid {luogo['colore']};margin-bottom:0.6rem;position:relative;">
-            <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.3rem;">
-                <div style="
-                    flex-shrink:0;
-                    width:28px;height:28px;
-                    background:{luogo['colore']};
-                    color:white;
-                    border-radius:50%;
-                    display:flex;align-items:center;justify-content:center;
-                    font-family:'Playfair Display',Georgia,serif;font-weight:800;font-size:0.85rem;
-                ">{i}</div>
-                <div style="font-family:'Playfair Display',Georgia,serif;font-size:0.98rem;font-weight:800;color:{BRAND_BLUE};line-height:1.2;">{luogo['nome']}</div>
-            </div>
-            <div style="font-size:0.72rem;font-weight:700;color:{luogo['colore']};margin-bottom:0.35rem;letter-spacing:0.05em;text-transform:uppercase;">{luogo['tema']}</div>
-            <div class="note">{luogo['desc']}</div>
-        </div>""", unsafe_allow_html=True)
+# CSS per le tendine tematiche e le mini-card luogo
+st.markdown(f"""
+<style>
+/* Tendine tematiche */
+.tema-bloc {{
+    background: white;
+    border-radius: 16px;
+    margin-bottom: 0.7rem;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.07);
+    scroll-margin-top: 90px;
+}}
+.tema-bloc summary {{
+    cursor: pointer;
+    list-style: none;
+    padding: 1rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    user-select: none;
+}}
+.tema-bloc summary::-webkit-details-marker {{ display: none; }}
+.tema-bloc summary::marker {{ content: ''; }}
+.tema-icona-box {{
+    width: 46px; height: 46px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.55rem;
+    flex-shrink: 0;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.18);
+}}
+.tema-titolo {{
+    flex: 1;
+    min-width: 0;
+}}
+.tema-nome {{
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: {BRAND_BLUE};
+    line-height: 1.1;
+    margin-bottom: 0.15rem;
+}}
+.tema-sub {{
+    font-size: 0.78rem;
+    color: #5b6472;
+    line-height: 1.35;
+}}
+.tema-conteggio {{
+    background: rgba(19,0,137,0.07);
+    color: {BRAND_BLUE};
+    font-weight: 800;
+    font-size: 0.72rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+    flex-shrink: 0;
+    letter-spacing: 0.04em;
+}}
+.tema-chevron {{
+    flex-shrink: 0;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: rgba(19,0,137,0.06);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    color: {BRAND_BLUE};
+    transition: transform 0.3s ease;
+    font-weight: 800;
+}}
+.tema-bloc[open] .tema-chevron {{
+    transform: rotate(180deg);
+}}
+.tema-bloc[open] summary {{
+    border-bottom: 1px solid rgba(19,0,137,0.07);
+}}
+
+/* Container card luoghi dentro tendine */
+.luoghi-grid {{
+    padding: 1rem 1.2rem 1.3rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+}}
+@media (min-width: 720px) {{
+    .luoghi-grid {{
+        grid-template-columns: repeat(2, 1fr);
+    }}
+}}
+
+/* Mini-card luogo */
+.luogo-card {{
+    display: flex;
+    gap: 0.85rem;
+    align-items: stretch;
+    background: #f9f9fb;
+    border-radius: 12px;
+    padding: 0.7rem;
+    position: relative;
+    transition: transform 0.2s;
+}}
+.luogo-card:hover {{
+    transform: translateX(2px);
+}}
+.luogo-foto {{
+    flex-shrink: 0;
+    width: 84px;
+    height: 84px;
+    border-radius: 10px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #e8e8ee;
+    position: relative;
+}}
+.luogo-numero {{
+    position: absolute;
+    top: -6px; left: -6px;
+    width: 24px; height: 24px;
+    background: white;
+    color: {BRAND_BLUE};
+    border-radius: 50%;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 800;
+    font-size: 0.78rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.18);
+    border: 2px solid var(--card-color, {BRAND_BLUE});
+}}
+.luogo-text {{
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}}
+.luogo-nome {{
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 0.98rem;
+    font-weight: 800;
+    color: {BRAND_BLUE};
+    line-height: 1.15;
+    margin-bottom: 0.25rem;
+}}
+.luogo-desc {{
+    font-size: 0.77rem;
+    color: #3a4a5c;
+    line-height: 1.45;
+    /* Limito a 3 righe con ellipsis per uniformità */
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}}
+</style>
+""", unsafe_allow_html=True)
+
+# Render: una tendina per ciascun tema, contenente le mini-card dei luoghi
+# I numeri corrispondono all'ordine globale nella luoghi_dati (e quindi sulla mappa)
+luoghi_numerati = list(enumerate(luoghi_dati, start=1))
+
+tendine_html_parts = []
+for tema_nome, col, svg, emoji, desc_tema, anchor_id in ordine_temi:
+    luoghi_del_tema = [(i, l) for i, l in luoghi_numerati if l["tema"] == tema_nome]
+    if not luoghi_del_tema:
+        continue
+    
+    # Apertura tendina + summary
+    tendine_html_parts.append(
+        f'<details class="tema-bloc" id="{anchor_id}">'
+        f'<summary>'
+        f'<div class="tema-icona-box" style="background:{col};">{emoji}</div>'
+        f'<div class="tema-titolo">'
+        f'<div class="tema-nome">{tema_nome}</div>'
+        f'<div class="tema-sub">{desc_tema}</div>'
+        f'</div>'
+        f'<div class="tema-conteggio">{len(luoghi_del_tema)} luoghi</div>'
+        f'<div class="tema-chevron">▾</div>'
+        f'</summary>'
+        f'<div class="luoghi-grid">'
+    )
+    
+    # Mini-card luoghi nella griglia
+    for i, l in luoghi_del_tema:
+        # Foto: usa background-image (più stabile con immagini esterne)
+        foto_url = l.get("foto", "")
+        bg_style = f'background-image:url(\'{foto_url}\');' if foto_url else ''
+        tendine_html_parts.append(
+            f'<div class="luogo-card" style="--card-color:{col};">'
+            f'<div class="luogo-foto" style="{bg_style}">'
+            f'<div class="luogo-numero" style="color:{col};">{i}</div>'
+            f'</div>'
+            f'<div class="luogo-text">'
+            f'<div class="luogo-nome">{l["nome"]}</div>'
+            f'<div class="luogo-desc">{l["desc"]}</div>'
+            f'</div>'
+            f'</div>'
+        )
+    
+    tendine_html_parts.append('</div></details>')
+
+st.markdown(''.join(tendine_html_parts), unsafe_allow_html=True)
 
 st.markdown('</div>', unsafe_allow_html=True)
 
@@ -2801,6 +3005,9 @@ documenti = [
     {"icona": "🎧", "titolo": "Registrazione incontro Gardner",
      "desc": "Audio integrale dell'incontro con Anthony Gardner (21 maggio 2026).",
      "filename": "audio_gardner.mp3"},
+    {"icona": "🎧", "titolo": "Registrazione incontro Costa",
+     "desc": "Audio integrale dell'incontro con Francesco Costa (18 giugno 2026).",
+     "filename": "audio_costa.mp3"},
     {"icona": "✈️", "titolo": "Prime informazioni sul viaggio",
      "desc": "Dettagli su volo, scalo e sistemazione a New Orleans.",
      "filename": "doc_info_viaggio.pdf"},
