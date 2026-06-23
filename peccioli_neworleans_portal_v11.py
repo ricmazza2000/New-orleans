@@ -681,81 +681,69 @@ SVG_TERRITORIO = '<svg viewBox="0 0 24 24" width="14" height="14" fill="white"><
 
 # Luoghi con coordinate verificate (Google Places, aprile 2026)
 # Foto: thumb Wikimedia Commons 400px (lazy-loaded nel popup, no peso iniziale)
+GITHUB_RAW_FOTO = "https://raw.githubusercontent.com/ricmazza2000/New-orleans/main/"
+
 luoghi_dati = [
-    # IDENTITÀ E STORIA (blu brand)
+    # LE RADICI DELLA CITTÀ (blu brand)
     {"nome": "French Quarter", "lat": 29.9584426, "lon": -90.0644107,
      "desc": "Il quartiere più iconico, tra architettura storica, balconi in ferro battuto e stratificazioni culturali.",
-     "colore": COL_IDENTITA, "tema": "Identità e storia", "icona": SVG_IDENTITA,
-     "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/French_Quarter03_New_Orleans.JPG/400px-French_Quarter03_New_Orleans.JPG"},
+     "colore": COL_IDENTITA, "tema": "Storia e simboli", "icona": SVG_IDENTITA,
+     "foto": GITHUB_RAW_FOTO + "foto_french_quarter.jpg"},
     {"nome": "Jackson Square", "lat": 29.9574024, "lon": -90.0629495,
      "desc": "Piazza centrale e simbolica: la Cattedrale di San Luigi, artisti di strada e identità storica.",
-     "colore": COL_IDENTITA, "tema": "Identità e storia", "icona": SVG_IDENTITA,
-     "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Jackson_Square%2C_New_Orleans.jpg/400px-Jackson_Square%2C_New_Orleans.jpg"},
+     "colore": COL_IDENTITA, "tema": "Storia e simboli", "icona": SVG_IDENTITA,
+     "foto": GITHUB_RAW_FOTO + "foto_jackson_square.jpg"},
     {"nome": "St. Louis Cemetery", "lat": 29.9598326, "lon": -90.0707266,
      "desc": "Il cimitero più antico di New Orleans, con le tombe sopraelevate e la leggenda di Marie Laveau.",
-     "colore": COL_IDENTITA, "tema": "Identità e storia", "icona": SVG_IDENTITA,
-     "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/St_Louis_Cemetery_1_New_Orleans_1_Dec_2017.jpg/400px-St_Louis_Cemetery_1_New_Orleans_1_Dec_2017.jpg"},
+     "colore": COL_IDENTITA, "tema": "Storia e simboli", "icona": SVG_IDENTITA,
+     "foto": GITHUB_RAW_FOTO + "foto_st_louis_cemetery.jpg"},
     {"nome": "Garden District", "lat": 29.9292146, "lon": -90.0828533,
      "desc": "Quartiere delle grandi ville antebellum, simbolo della storia americana del Sud.",
-     "colore": COL_IDENTITA, "tema": "Identità e storia", "icona": SVG_IDENTITA,
-     "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Buckner_Mansion_New_Orleans.jpg/400px-Buckner_Mansion_New_Orleans.jpg"},
-    # MUSICA (oro)
-    {"nome": "Congo Square", "lat": 29.9612773, "lon": -90.0686699,
-     "desc": "Luogo simbolico delle radici africane della musica americana: qui si danzava e suonava già nel '700.",
-     "colore": COL_MUSICA, "tema": "Musica", "icona": SVG_MUSICA,
-     "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/CongoSquareSign.jpg/400px-CongoSquareSign.jpg"},
-    {"nome": "Louis Armstrong Park", "lat": 29.9627574, "lon": -90.0677536,
-     "desc": "Il parco dedicato al più celebre musicista di New Orleans, nel cuore del quartiere Tremé.",
-     "colore": COL_MUSICA, "tema": "Musica", "icona": SVG_MUSICA,
-     "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Louis_Armstrong_Park_Entrance_Nov_2011.jpg/400px-Louis_Armstrong_Park_Entrance_Nov_2011.jpg"},
-    {"nome": "Preservation Hall", "lat": 29.9582893, "lon": -90.0653897,
-     "desc": "La sala concerti storica nel French Quarter, tempio vivente del jazz tradizionale di New Orleans.",
-     "colore": COL_MUSICA, "tema": "Musica", "icona": SVG_MUSICA,
-     "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Preservation_Hall_New_Orleans.jpg/400px-Preservation_Hall_New_Orleans.jpg"},
-    {"nome": "Snug Harbor Jazz Bistro", "lat": 29.9643, "lon": -90.0570,
-     "desc": "Locale storico di Frenchmen Street con jazz dal vivo e cucina creola, attivo da oltre 40 anni. ⭐ Consigliato dal Comune di New Orleans.",
-     "colore": COL_MUSICA, "tema": "Musica", "icona": SVG_MUSICA,
-     "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Frenchmen_Street_at_Night_New_Orleans.jpg/400px-Frenchmen_Street_at_Night_New_Orleans.jpg"},
-    # RESILIENZA (viola indaco)
-    {"nome": "Lower Ninth Ward", "lat": 29.9682712, "lon": -90.0139908,
-     "desc": "Il quartiere più colpito da Katrina nel 2005. Simbolo della resilienza e della lentezza della ricostruzione.",
-     "colore": COL_RESILIENZA, "tema": "Resilienza", "icona": SVG_RESILIENZA,
-     "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/FEMA_-_18742_-_Photograph_by_Marvin_Nauman_taken_on_10-28-2005_in_Louisiana.jpg/400px-FEMA_-_18742_-_Photograph_by_Marvin_Nauman_taken_on_10-28-2005_in_Louisiana.jpg"},
-    # SOCIETÀ (bronzo)
-    {"nome": "Tremé", "lat": 29.9690775, "lon": -90.0732223,
-     "desc": "Il quartiere afroamericano più antico degli USA, culla della cultura creola e della comunità nera.",
-     "colore": COL_SOCIETA, "tema": "Società", "icona": SVG_SOCIETA,
-     "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Treme_Brass_Band_at_Jazz_Fest_2010.jpg/400px-Treme_Brass_Band_at_Jazz_Fest_2010.jpg"},
-    {"nome": "Bywater", "lat": 29.9633867, "lon": -90.0403757,
-     "desc": "Quartiere creativo e in gentrificazione: murales, artisti e contraddizioni della New Orleans contemporanea.",
-     "colore": COL_SOCIETA, "tema": "Società", "icona": SVG_SOCIETA,
-     "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Bywater_Dauphine_Shotgun_Houses.jpg/400px-Bywater_Dauphine_Shotgun_Houses.jpg"},
-    {"nome": "Frenchmen Street", "lat": 29.9641512, "lon": -90.0578074,
-     "desc": "La strada simbolo della vita notturna locale: dove i residenti si ritrovano lontano dal turismo di Bourbon Street, tra bar, gallerie e musica dal vivo.",
-     "colore": COL_SOCIETA, "tema": "Società", "icona": SVG_SOCIETA,
-     "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Frenchmen_Street_at_Night_New_Orleans.jpg/400px-Frenchmen_Street_at_Night_New_Orleans.jpg"},
+     "colore": COL_IDENTITA, "tema": "Storia e simboli", "icona": SVG_IDENTITA,
+     "foto": GITHUB_RAW_FOTO + "foto_garden_district.jpg"},
     {"nome": "Caesars Superdome", "lat": 29.9509, "lon": -90.0814,
      "desc": "Lo stadio dei New Orleans Saints (NFL) e simbolo della città: rifugio per oltre 25.000 sfollati durante Katrina nel 2005, poi rinato come emblema della rinascita di New Orleans.",
-     "colore": COL_SOCIETA, "tema": "Società", "icona": SVG_SOCIETA,
-     "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Mercedes-Benz_Superdome.jpg/400px-Mercedes-Benz_Superdome.jpg"},
-    # GASTRONOMIA (arancio scuro)
+     "colore": COL_IDENTITA, "tema": "Storia e simboli", "icona": SVG_IDENTITA,
+     "foto": GITHUB_RAW_FOTO + "foto_superdome.jpg"},
+    # IL RITMO DEL DELTA (oro)
+    {"nome": "Congo Square", "lat": 29.9612773, "lon": -90.0686699,
+     "desc": "Luogo simbolico delle radici africane della musica americana: qui si danzava e suonava già nel '700.",
+     "colore": COL_MUSICA, "tema": "Musica e jazz", "icona": SVG_MUSICA,
+     "foto": GITHUB_RAW_FOTO + "foto_congo_square.jpg"},
+    {"nome": "Louis Armstrong Park", "lat": 29.9627574, "lon": -90.0677536,
+     "desc": "Il parco dedicato al più celebre musicista di New Orleans, nel cuore del quartiere Tremé.",
+     "colore": COL_MUSICA, "tema": "Musica e jazz", "icona": SVG_MUSICA,
+     "foto": GITHUB_RAW_FOTO + "foto_louis_armstrong_park.jpg"},
+    {"nome": "Preservation Hall", "lat": 29.9582893, "lon": -90.0653897,
+     "desc": "La sala concerti storica nel French Quarter, tempio vivente del jazz tradizionale di New Orleans.",
+     "colore": COL_MUSICA, "tema": "Musica e jazz", "icona": SVG_MUSICA,
+     "foto": GITHUB_RAW_FOTO + "foto_preservation_hall.jpg"},
+    {"nome": "Snug Harbor Jazz Bistro", "lat": 29.9643, "lon": -90.0570,
+     "desc": "Locale storico di Frenchmen Street con jazz dal vivo e cucina creola, attivo da oltre 40 anni. ⭐ Consigliato dal Comune di New Orleans.",
+     "colore": COL_MUSICA, "tema": "Musica e jazz", "icona": SVG_MUSICA,
+     "foto": GITHUB_RAW_FOTO + "foto_snug_harbor.jpg"},
+    {"nome": "Frenchmen Street", "lat": 29.9641512, "lon": -90.0578074,
+     "desc": "La strada simbolo della vita notturna locale: dove i residenti si ritrovano lontano dal turismo di Bourbon Street, tra bar, gallerie e musica jazz dal vivo.",
+     "colore": COL_MUSICA, "tema": "Musica e jazz", "icona": SVG_MUSICA,
+     "foto": GITHUB_RAW_FOTO + "foto_frenchmen_street.jpg"},
+    # IL MELTING POT NEL PIATTO (arancio scuro)
     {"nome": "Café du Monde", "lat": 29.9574, "lon": -90.0617,
      "desc": "Il caffè più iconico di New Orleans, aperto dal 1862. Famoso per i beignets (frittelle zuccherate) e il caffè aromatizzato alla cicoria.",
-     "colore": COL_GASTRONOMIA, "tema": "Gastronomia", "icona": SVG_GASTRONOMIA,
-     "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Cafe_Du_Monde_Beignets.jpg/400px-Cafe_Du_Monde_Beignets.jpg"},
+     "colore": COL_GASTRONOMIA, "tema": "Cibo creolo", "icona": SVG_GASTRONOMIA,
+     "foto": GITHUB_RAW_FOTO + "foto_cafe_du_monde.jpg"},
     {"nome": "French Market", "lat": 29.9596, "lon": -90.0612,
      "desc": "Mercato storico dal 1791: stand di cibo creolo, prodotti locali, artigianato. Il luogo dove la città si incontra ogni giorno.",
-     "colore": COL_GASTRONOMIA, "tema": "Gastronomia", "icona": SVG_GASTRONOMIA,
-     "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/French_Market_New_Orleans_2.jpg/400px-French_Market_New_Orleans_2.jpg"},
-    # TERRITORIO (verde scuro) — fuori città
+     "colore": COL_GASTRONOMIA, "tema": "Cibo creolo", "icona": SVG_GASTRONOMIA,
+     "foto": GITHUB_RAW_FOTO + "foto_french_market.jpg"},
+    # OLTRE LA CITTÀ (verde scuro)
     {"nome": "Villa delle 24 Querce (Oak Alley)", "lat": 30.0080, "lon": -90.7405,
      "desc": "Piantagione di canna da zucchero del 1839, oggi museo sulla schiavitù. Il celebre viale di querce centenarie è una delle immagini più potenti del Sud americano. A 80 km da New Orleans.",
-     "colore": COL_TERRITORIO, "tema": "Territorio", "icona": SVG_TERRITORIO,
-     "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Oak_Alley_Plantation_2014.jpg/400px-Oak_Alley_Plantation_2014.jpg"},
+     "colore": COL_TERRITORIO, "tema": "Fuori città", "icona": SVG_TERRITORIO,
+     "foto": GITHUB_RAW_FOTO + "foto_oak_alley.jpg"},
     {"nome": "Paludi della Louisiana", "lat": 29.7728, "lon": -90.1170,
      "desc": "Area di Jean Lafitte e Barataria, dove si svolgono i celebri swamp tour in barca tra cipressi, coccodrilli e fauna locale. A 30 km da New Orleans.",
-     "colore": COL_TERRITORIO, "tema": "Territorio", "icona": SVG_TERRITORIO,
-     "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Honey_Island_Swamp.jpg/400px-Honey_Island_Swamp.jpg"},
+     "colore": COL_TERRITORIO, "tema": "Fuori città", "icona": SVG_TERRITORIO,
+     "foto": GITHUB_RAW_FOTO + "foto_paludi.jpg"},
 ]
 
 # ============================
@@ -2451,8 +2439,8 @@ st.markdown(f"""
     <span class="section-eyebrow">03 · Orientarsi nella città</span>
     <div class="section-title">Mappa di New Orleans</div>
     <p class="section-desc">
-        17 luoghi simbolici organizzati per tema, in città e nei dintorni. Esplora la mappa interattiva qui sotto,
-        poi apri le sezioni tematiche per scoprire ogni luogo.
+        14 luoghi simbolici organizzati in 4 sezioni tematiche: dai posti iconici della città alle escursioni fuori porta.
+        Esplora la mappa interattiva qui sotto, poi apri le sezioni per scoprire ogni luogo.
     </p>
 </div>
 <div class="section-body sec-mappa">
@@ -2464,12 +2452,18 @@ conteggio_temi = Counter(l["tema"] for l in luoghi_dati)
 
 # Ordine fisso delle categorie (mantengo ordine logico)
 ordine_temi = [
-    ("Identità e storia", COL_IDENTITA, SVG_IDENTITA, "🏛️", "Le radici storiche, l'architettura, i quartieri simbolici.", "tema-identita"),
-    ("Musica", COL_MUSICA, SVG_MUSICA, "🎷", "Jazz, blues, second lines: il cuore sonoro della città.", "tema-musica"),
-    ("Resilienza", COL_RESILIENZA, SVG_RESILIENZA, "🏚️", "L'eredità di Katrina e l'architettura della sopravvivenza.", "tema-resilienza"),
-    ("Società", COL_SOCIETA, SVG_SOCIETA, "🤝", "I quartieri delle comunità storiche e le tensioni contemporanee.", "tema-societa"),
-    ("Gastronomia", COL_GASTRONOMIA, SVG_GASTRONOMIA, "🍲", "Sapori creoli, mercati storici, riti del cibo locale.", "tema-gastronomia"),
-    ("Territorio", COL_TERRITORIO, SVG_TERRITORIO, "🌿", "Piantagioni e paludi: la Louisiana fuori dai confini della città.", "tema-territorio"),
+    ("Storia e simboli", COL_IDENTITA, SVG_IDENTITA, "🏛️",
+     "Il quartiere coloniale, le piazze storiche, i cimiteri, lo stadio.",
+     "tema-storia"),
+    ("Musica e jazz", COL_MUSICA, SVG_MUSICA, "🎷",
+     "I luoghi dove la musica è nata e dove si suona ogni notte.",
+     "tema-musica"),
+    ("Cibo creolo", COL_GASTRONOMIA, SVG_GASTRONOMIA, "🍲",
+     "Mercati storici e caffè iconici della cucina locale.",
+     "tema-cibo"),
+    ("Fuori città", COL_TERRITORIO, SVG_TERRITORIO, "🌿",
+     "Le due escursioni del viaggio: piantagioni e paludi della Louisiana.",
+     "tema-fuori"),
 ]
 
 # Pill colorate cliccabili: ogni pill scrolla alla tendina corrispondente
@@ -2700,14 +2694,14 @@ st.markdown(f"""
     }}
 }}
 
-/* Mini-card luogo (versione senza foto, elegante) */
+/* Mini-card luogo con foto */
 .luogo-card {{
     display: flex;
-    gap: 0.95rem;
+    gap: 0.9rem;
     align-items: stretch;
     background: #f9f9fb;
     border-radius: 12px;
-    padding: 0.85rem 1rem 0.85rem 0.85rem;
+    padding: 0.7rem;
     position: relative;
     transition: transform 0.2s, box-shadow 0.2s;
     border-left: 4px solid var(--card-color, {BRAND_BLUE});
@@ -2716,36 +2710,54 @@ st.markdown(f"""
     transform: translateX(3px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }}
-/* Numero grande in cerchio colorato */
-.luogo-numero {{
+/* Contenitore foto + numero badge */
+.luogo-foto-box {{
+    position: relative;
     flex-shrink: 0;
-    width: 44px; height: 44px;
-    background: var(--card-color, {BRAND_BLUE});
-    color: white;
+    width: 86px;
+    height: 86px;
+}}
+.luogo-foto {{
+    width: 86px;
+    height: 86px;
+    border-radius: 10px;
+    object-fit: cover;
+    background-color: #e8e8ee;
+    display: block;
+}}
+.luogo-numero {{
+    position: absolute;
+    top: -6px; left: -6px;
+    width: 26px; height: 26px;
+    background: white;
+    color: var(--card-color, {BRAND_BLUE});
+    border: 2px solid var(--card-color, {BRAND_BLUE});
     border-radius: 50%;
     font-family: 'Playfair Display', Georgia, serif;
     font-weight: 800;
-    font-size: 1.15rem;
+    font-size: 0.78rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-    align-self: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.18);
 }}
 .luogo-text {{
     flex: 1;
     min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }}
 .luogo-nome {{
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 1rem;
+    font-size: 0.98rem;
     font-weight: 800;
     color: {BRAND_BLUE};
     line-height: 1.15;
     margin-bottom: 0.3rem;
 }}
 .luogo-desc {{
-    font-size: 0.78rem;
+    font-size: 0.77rem;
     color: #3a4a5c;
     line-height: 1.5;
 }}
@@ -2777,11 +2789,15 @@ for tema_nome, col, svg, emoji, desc_tema, anchor_id in ordine_temi:
         f'<div class="luoghi-grid">'
     )
     
-    # Mini-card luoghi nella griglia (senza foto, layout pulito)
+    # Mini-card luoghi nella griglia (con foto da GitHub raw)
     for i, l in luoghi_del_tema:
+        foto_url = l.get("foto", "")
         tendine_html_parts.append(
             f'<div class="luogo-card" style="--card-color:{col};">'
+            f'<div class="luogo-foto-box">'
+            f'<img class="luogo-foto" src="{foto_url}" alt="{l["nome"]}" loading="lazy" onerror="this.style.background=\'{col}20\';">'
             f'<div class="luogo-numero">{i}</div>'
+            f'</div>'
             f'<div class="luogo-text">'
             f'<div class="luogo-nome">{l["nome"]}</div>'
             f'<div class="luogo-desc">{l["desc"]}</div>'
