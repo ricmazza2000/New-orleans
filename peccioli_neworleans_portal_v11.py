@@ -1880,72 +1880,257 @@ details[open] .sguardo-chevron {
     color: rgba(255,255,255,0.92);
 }
 
+/* Chip cliccabili "Esplora sulla mappa" */
+.sguardo-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+.sguardo-chip-luogo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(19,0,137,0.06);
+    color: #130089;
+    text-decoration: none;
+    padding: 0.35rem 0.7rem 0.35rem 0.4rem;
+    border-radius: 999px;
+    font-size: 0.76rem;
+    font-weight: 600;
+    line-height: 1;
+    transition: background 0.2s, transform 0.2s;
+    border: 1px solid rgba(19,0,137,0.1);
+    cursor: pointer;
+}
+.sguardo-chip-luogo:hover {
+    background: rgba(19,0,137,0.12);
+    transform: translateY(-1px);
+}
+.sguardo-chip-luogo .chip-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px; height: 18px;
+    background: #FFDE59;
+    color: #130089;
+    border-radius: 50%;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 800;
+    font-size: 0.68rem;
+}
+.sguardo-card.dark .sguardo-chip-luogo {
+    background: rgba(255,222,89,0.12);
+    color: #FFDE59;
+    border: 1px solid rgba(255,222,89,0.25);
+}
+.sguardo-card.dark .sguardo-chip-luogo:hover {
+    background: rgba(255,222,89,0.22);
+}
+.sguardo-card.dark .sguardo-chip-luogo .chip-num {
+    background: #FFDE59;
+    color: #130089;
+}
+
+/* Link "Approfondimenti" */
+.sguardo-risorse {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+.sguardo-link-risorsa {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(19,0,137,0.04);
+    color: #130089;
+    text-decoration: none;
+    padding: 0.55rem 0.85rem;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    border-left: 3px solid #FFDE59;
+    transition: background 0.2s, transform 0.2s;
+}
+.sguardo-link-risorsa:hover {
+    background: rgba(19,0,137,0.1);
+    transform: translateX(2px);
+}
+.sguardo-link-risorsa .link-arrow {
+    font-size: 1.1rem;
+    font-weight: 800;
+    opacity: 0.5;
+    transition: opacity 0.2s, transform 0.2s;
+}
+.sguardo-link-risorsa:hover .link-arrow {
+    opacity: 1;
+    transform: translateX(2px);
+}
+.sguardo-card.dark .sguardo-link-risorsa {
+    background: rgba(255,255,255,0.08);
+    color: white;
+    border-left: 3px solid #FFDE59;
+}
+.sguardo-card.dark .sguardo-link-risorsa:hover {
+    background: rgba(255,255,255,0.15);
+}
+
 @media (max-width: 720px) {
     .sguardo-numero { font-size: 6rem; top: -14px; }
     .sguardo-titolo { font-size: 1.3rem; }
     .sguardo-card summary { padding: 1.2rem 1.2rem 1rem; }
     .sguardo-body { padding: 0 1.2rem 1.2rem; }
     .sguardo-icona { width: 44px; height: 44px; font-size: 1.4rem; }
+    .sguardo-chip-luogo { font-size: 0.72rem; padding: 0.3rem 0.6rem 0.3rem 0.35rem; }
+    .sguardo-chip-luogo .chip-num { width: 16px; height: 16px; font-size: 0.62rem; }
+    .sguardo-link-risorsa { font-size: 0.78rem; padding: 0.5rem 0.7rem; }
 }
 </style>
 """, unsafe_allow_html=True)
 
-# Definizione degli 8 sguardi — versione snella
+# Definizione degli 8 sguardi — versione hub (con link a mappa e risorse)
+# Ogni sguardo ha:
+#   - n, icona, titolo, sub, focus, missione, dark (come prima)
+#   - luoghi: lista di numeri 1-14 dei luoghi della mappa correlati
+#   - risorse: lista di (etichetta, anchor_destinazione) per i link a audio/video/pdf
 sguardi = [
     {
         "n": "01", "icona": "🏛️", "titolo": "Sguardo Storico", "sub": "Le radici",
         "focus": "La stratificazione coloniale, il quartiere francese, l'eredità spagnola e africana.",
         "missione": "Trovare le tracce del passato che sopravvivono nel presente.",
         "dark": False,
+        "luoghi": [1, 2, 3, 4],  # French Quarter, Jackson Square, St. Louis Cemetery, Garden District
+        "risorse": [
+            ("🎧 Incontro con Elia Morelli", "documenti"),
+            ("📺 New Orleans Map, Explained", "approfondimenti"),
+            ("📺 The Founding of New Orleans", "approfondimenti"),
+        ],
     },
     {
         "n": "02", "icona": "🌊", "titolo": "Sguardo Politico", "sub": "Il potere e il fiume",
         "focus": "Il porto di New Orleans, il ruolo del Mississippi nell'economia globale, le relazioni internazionali.",
         "missione": "Raccontare come una città del Sud parli al mondo intero.",
         "dark": True,
+        "luoghi": [1, 5],  # French Quarter, Caesars Superdome
+        "risorse": [
+            ("🎧 Incontro con Anthony Gardner (Console USA)", "documenti"),
+            ("📺 The Founding of New Orleans", "approfondimenti"),
+        ],
     },
     {
         "n": "03", "icona": "🤝", "titolo": "Sguardo Sociale", "sub": "Contrasti americani",
         "focus": "Le contraddizioni della società americana: ricchezza e povertà, gentrificazione, questioni razziali.",
         "missione": "Osservare le due Americhe che convivono nello stesso isolato.",
         "dark": False,
+        "luoghi": [4, 5, 10],  # Garden District, Caesars Superdome, Frenchmen Street
+        "risorse": [
+            ("🎧 Incontro con Francesco Costa", "documenti"),
+            ("📺 La schiavitù senza filtri: 12 Anni Schiavo", "approfondimenti"),
+            ("🎙️ Podcast su New Orleans", "approfondimenti"),
+        ],
     },
     {
         "n": "04", "icona": "🎷", "titolo": "Sguardo Sonoro", "sub": "Il ritmo del Delta",
         "focus": "Jazz, blues, second lines, musicisti di strada di Frenchmen Street.",
         "missione": "Catturare il rumore della città. Non solo musica, ma chi la vive come lavoro.",
         "dark": True,
+        "luoghi": [6, 7, 8, 9, 10],  # Congo Square, Armstrong Park, Preservation Hall, Snug Harbor, Frenchmen St.
+        "risorse": [
+            ("📺 Billie Holiday & Louis Armstrong", "approfondimenti"),
+        ],
     },
     {
         "n": "05", "icona": "🏚️", "titolo": "Sguardo Resiliente", "sub": "L'acqua e la ricostruzione",
         "focus": "L'eredità di Katrina, il cambiamento climatico, l'architettura della sopravvivenza.",
         "missione": "Raccontare come una comunità si rialza dopo il disastro.",
         "dark": False,
+        "luoghi": [5, 14],  # Caesars Superdome (rifugio Katrina), Paludi della Louisiana
+        "risorse": [
+            ("🎧 Incontro con Anthony Gardner", "documenti"),
+            ("🎙️ Podcast su New Orleans", "approfondimenti"),
+        ],
     },
     {
         "n": "06", "icona": "🍲", "titolo": "Sguardo Gastronomico", "sub": "Il melting pot nel piatto",
         "focus": "Cucina Creole e Cajun, il rito del gumbo e dei beignets, i mercati locali.",
         "missione": "Spiegare la cultura attraverso il cibo, come fusione di popoli.",
         "dark": True,
+        "luoghi": [11, 12],  # Café du Monde, French Market
+        "risorse": [
+            ("📺 How to Experience NOLA Like a Local", "approfondimenti"),
+        ],
     },
     {
         "n": "07", "icona": "🔮", "titolo": "Sguardo Mistico", "sub": "Spiritualità e tradizioni",
         "focus": "Il voodoo, i cimiteri monumentali, il Mardi Gras, il folklore.",
         "missione": "Indagare la parte invisibile di New Orleans — magia e riti comunitari.",
         "dark": False,
+        "luoghi": [2, 3],  # Jackson Square (cattedrale), St. Louis Cemetery (Marie Laveau)
+        "risorse": [
+            ("📺 Peaceful French Quarter Walking Tour", "approfondimenti"),
+        ],
     },
     {
         "n": "08", "icona": "👁️", "titolo": "Sguardo Umano", "sub": "Humans of NOLA",
         "focus": "I volti delle persone, l'accoglienza del Sud, le storie individuali.",
         "missione": "La squadra più vicina all'installazione di Peccioli: incrociare lo sguardo dei locali.",
         "dark": True,
+        "luoghi": [10, 11, 12],  # Frenchmen Street, Café du Monde, French Market
+        "risorse": [
+            ("📺 How to Experience NOLA Like a Local", "approfondimenti"),
+            ("🎙️ Podcast su New Orleans", "approfondimenti"),
+        ],
     },
 ]
+
+# Mapping numero luogo → nome breve (per i chip cliccabili)
+luoghi_nomi_brevi = {
+    i + 1: l["nome"] for i, l in enumerate(luoghi_dati)
+}
 
 # Render: CSS Grid con 8 <details> espandibili (ordine corretto anche su mobile)
 sguardi_html_parts = ['<div class="sguardi-grid">']
 for s in sguardi:
     card_class = "sguardo-card dark" if s.get("dark") else "sguardo-card"
+    
+    # Sezione "Esplora sulla mappa" — chip cliccabili con i luoghi correlati
+    luoghi_html = ""
+    if s.get("luoghi"):
+        chips = []
+        for n_luogo in s["luoghi"]:
+            nome_breve = luoghi_nomi_brevi.get(n_luogo, "?")
+            # Tronco i nomi lunghi
+            if len(nome_breve) > 28:
+                nome_breve = nome_breve[:26] + "…"
+            chips.append(
+                f'<a class="sguardo-chip-luogo" href="javascript:void(0)" '
+                f'onclick="clickLuogoPeccioli({n_luogo})">'
+                f'<span class="chip-num">{n_luogo}</span> {nome_breve}'
+                f'</a>'
+            )
+        luoghi_html = (
+            f'<div class="sguardo-block">'
+            f'<div class="sguardo-label">📍 Esplora sulla mappa</div>'
+            f'<div class="sguardo-chips">{"".join(chips)}</div>'
+            f'</div>'
+        )
+    
+    # Sezione "Approfondimenti" — link agli audio/video
+    risorse_html = ""
+    if s.get("risorse"):
+        risorse_links = []
+        for etichetta, anchor in s["risorse"]:
+            risorse_links.append(
+                f'<a class="sguardo-link-risorsa" href="#{anchor}">'
+                f'{etichetta} <span class="link-arrow">›</span>'
+                f'</a>'
+            )
+        risorse_html = (
+            f'<div class="sguardo-block">'
+            f'<div class="sguardo-label">🎧 Approfondimenti</div>'
+            f'<div class="sguardo-risorse">{"".join(risorse_links)}</div>'
+            f'</div>'
+        )
+    
     sguardi_html_parts.append(
         f'<details class="{card_class}">'
         f'<div class="sguardo-numero">{s["n"]}</div>'
@@ -1968,6 +2153,8 @@ for s in sguardi:
         f'<div class="sguardo-label">Missione</div>'
         f'<div class="sguardo-text">{s["missione"]}</div>'
         f'</div>'
+        f'{luoghi_html}'
+        f'{risorse_html}'
         f'</div>'
         f'</details>'
     )
