@@ -702,7 +702,7 @@ luoghi_dati = [
      "colore": COL_IDENTITA, "tema": "Storia e simboli", "icona": SVG_IDENTITA,
      "foto": GITHUB_RAW_FOTO + "foto_garden_district.jpg"},
     {"nome": "Caesars Superdome", "lat": 29.9509, "lon": -90.0814,
-     "desc": "Lo stadio dei New Orleans Saints (NFL) e simbolo della città: rifugio per oltre 25.000 sfollati durante Katrina nel 2005, poi rinato come emblema della rinascita di New Orleans.",
+     "desc": "Lo stadio dei New Orleans Saints (NFL) e simbolo della città: rifugio per oltre 25.000 sfollati durante Katrina nel 2005, poi rinato come emblema della rinascita di New Orleans. Il 27 settembre 2026 assisteremo alla partita casalinga dei Saints contro i Las Vegas Raiders.",
      "colore": COL_IDENTITA, "tema": "Storia e simboli", "icona": SVG_IDENTITA,
      "foto": GITHUB_RAW_FOTO + "foto_superdome.jpg"},
     # IL RITMO DEL DELTA (oro)
@@ -2040,8 +2040,8 @@ sguardi = [
     },
     {
         "n": "03", "icona": SVG_SGUARDO_SOCIALE, "titolo": "Sguardo Sociale", "sub": "Contrasti americani",
-        "focus": "Le contraddizioni della società americana: ricchezza e povertà, gentrificazione, questioni razziali.",
-        "missione": "Osservare le due Americhe che convivono nello stesso isolato.",
+        "focus": "Le contraddizioni della società americana: ricchezza e povertà, gentrificazione, questioni razziali. Il 27 settembre, la partita NFL al Superdome sarà occasione di immersione totale nella cultura di massa americana.",
+        "missione": "Osservare le due Americhe che convivono nello stesso isolato — e nello stesso stadio.",
         "dark": False,
         "luoghi": [4, 5, 10],
         "risorse": [
@@ -2062,7 +2062,7 @@ sguardi = [
     },
     {
         "n": "05", "icona": SVG_SGUARDO_RESILIENTE, "titolo": "Sguardo Resiliente", "sub": "L'acqua e la ricostruzione",
-        "focus": "L'eredità di Katrina, il cambiamento climatico, l'architettura della sopravvivenza.",
+        "focus": "L'eredità di Katrina, il cambiamento climatico, l'architettura della sopravvivenza. Il Caesars Superdome — rifugio per 25.000 persone durante l'uragano — è oggi simbolo di rinascita: la partita del 27 settembre sarà l'occasione per vivere quel luogo dall'interno.",
         "missione": "Raccontare come una comunità si rialza dopo il disastro.",
         "dark": False,
         "luoghi": [5, 14],
