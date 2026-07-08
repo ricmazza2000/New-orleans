@@ -3037,7 +3037,7 @@ st.markdown(f"""
     <span class="section-eyebrow">04 · Il viaggio</span>
     <div class="section-title">Programma</div>
     <p class="section-desc">
-        Le tappe già fissate del viaggio: la partenza, le due escursioni guidate incluse nel pacchetto e il rientro.
+        Le tappe già fissate del viaggio: la partenza, le due escursioni guidate incluse nel pacchetto, la partita NFL dei New Orleans Saints e il rientro.
         Le altre giornate verranno definite e aggiunte qui man mano che il programma prende forma.
     </p>
 </div>
@@ -3134,17 +3134,22 @@ st.markdown("""
 programma = [
     {"giorno": "21", "mese": "Set", "tempo": "Lunedì · partenza",
      "titolo": "Partenza per New Orleans",
-     "desc": "Volo Milano Malpensa → Chicago → New Orleans. Partenza alle 15:20 da Milano, arrivo a New Orleans alle 22:21 (ora locale). Trasferimento privato in bus dall'aeroporto all'hotel.",
+     "desc": "Volo Milano Malpensa → Chicago → New Orleans. Partenza alle 15:20 da Milano, arrivo a New Orleans previsto per le 22:20 (ora locale). Trasferimento privato in bus dall'aeroporto all'hotel, check-in e cena con dinner box.",
      "incluso": False},
     
     {"giorno": "22", "mese": "Set", "tempo": "Martedì · mattino · 4 ore",
      "titolo": "Visita guidata di New Orleans",
-     "desc": "Escursione di mezza giornata alla scoperta della città del jazz: il Quartiere Francese, le ville coloniali, il grande parco e il lago dove furono realizzati i mezzi anfibi per lo sbarco in Normandia. Accompagnati da guida parlante italiano. Rientro per il pranzo libero, pomeriggio a disposizione.",
+     "desc": "Mattina — escursione di mezza giornata alla scoperta della città del jazz: il Quartiere Francese, le ville coloniali, il grande parco e il lago dove furono realizzati i mezzi anfibi per lo sbarco in Normandia. Accompagnati da guida parlante italiano. Pranzo libero e pomeriggio a disposizione. Cena inclusa nel pacchetto.",
      "incluso": True},
     
     {"giorno": "24", "mese": "Set", "tempo": "Giovedì · intera giornata · 8 ore",
      "titolo": "Piantagioni, paludi e Villa delle 24 Querce",
-     "desc": "Escursione fuori città in pullman GT con guida italiana: le grandi piantagioni di cotone e le ville storiche, le paludi della Louisiana popolate dai coccodrilli, e la celebre Villa delle 24 Querce (Oak Alley).",
+     "desc": "Escursione fuori città in pullman GT con guida italiana: le grandi piantagioni di cotone e le ville storiche, le paludi della Louisiana popolate dai coccodrilli, e la celebre Villa delle 24 Querce (Oak Alley). Pranzo libero durante l'escursione. Cena inclusa nel pacchetto.",
+     "incluso": True},
+    
+    {"giorno": "27", "mese": "Set", "tempo": "Domenica · pomeriggio",
+     "titolo": "NFL: New Orleans Saints vs Las Vegas Raiders",
+     "desc": "Mattina libera. Nel pomeriggio, esperienza al Caesars Superdome per la partita in casa dei New Orleans Saints contro i Las Vegas Raiders (National Football League). Pranzo incluso nel biglietto partita, cena tutti insieme inclusa nel pacchetto.",
      "incluso": True},
     
     {"giorno": "28", "mese": "Set", "tempo": "Lunedì · partenza",
