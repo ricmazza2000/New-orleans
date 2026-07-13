@@ -3037,7 +3037,7 @@ st.markdown(f"""
     <span class="section-eyebrow">04 · Il viaggio</span>
     <div class="section-title">Programma</div>
     <p class="section-desc">
-        Le tappe già fissate del viaggio: la partenza, le due escursioni guidate incluse nel pacchetto, la partita NFL dei New Orleans Saints e il rientro.
+        Le giornate del viaggio, con le attività previste e quelle libere per l'esplorazione autonoma. Il programma è in continuo aggiornamento — nuove tappe possono aggiungersi man mano.
         Le altre giornate verranno definite e aggiunte qui man mano che il programma prende forma.
     </p>
 </div>
@@ -3134,33 +3134,34 @@ st.markdown("""
 programma = [
     {"giorno": "21", "mese": "Set", "tempo": "Lunedì · partenza",
      "titolo": "Partenza per New Orleans",
-     "desc": "Volo Milano Malpensa → Chicago → New Orleans. Partenza alle 15:20 da Milano, arrivo a New Orleans previsto per le 22:20 (ora locale). Trasferimento privato in bus dall'aeroporto all'hotel, check-in e cena con dinner box.",
-     "incluso": False},
+     "desc": "Volo Milano Malpensa → Chicago → New Orleans. Partenza alle 15:20 da Milano, arrivo a New Orleans previsto per le 22:20 (ora locale). Trasferimento privato in bus dall'aeroporto all'hotel, check-in e cena con dinner box."},
     
     {"giorno": "22", "mese": "Set", "tempo": "Martedì · mattino · 4 ore",
      "titolo": "Visita guidata di New Orleans",
-     "desc": "Mattina — escursione di mezza giornata alla scoperta della città del jazz: il Quartiere Francese, le ville coloniali, il grande parco e il lago dove furono realizzati i mezzi anfibi per lo sbarco in Normandia. Accompagnati da guida parlante italiano. Pranzo libero e pomeriggio a disposizione. Cena inclusa nel pacchetto.",
-     "incluso": True},
+     "desc": "Mattina — escursione di mezza giornata alla scoperta della città del jazz: il Quartiere Francese, le ville coloniali, il grande parco e il lago dove furono realizzati i mezzi anfibi per lo sbarco in Normandia. Accompagnati da guida parlante italiano. Pranzo libero e pomeriggio a disposizione. Cena inclusa nel pacchetto."},
     
     {"giorno": "24", "mese": "Set", "tempo": "Giovedì · intera giornata · 8 ore",
      "titolo": "Piantagioni, paludi e Villa delle 24 Querce",
-     "desc": "Escursione fuori città in pullman GT con guida italiana: le grandi piantagioni di cotone e le ville storiche, le paludi della Louisiana popolate dai coccodrilli, e la celebre Villa delle 24 Querce (Oak Alley). Pranzo libero durante l'escursione. Cena inclusa nel pacchetto.",
-     "incluso": True},
+     "desc": "Escursione fuori città in pullman GT con guida italiana: le grandi piantagioni di cotone e le ville storiche, le paludi della Louisiana popolate dai coccodrilli, e la celebre Villa delle 24 Querce (Oak Alley). Pranzo libero durante l'escursione. Cena inclusa nel pacchetto."},
+    
+    {"giorno": "25", "mese": "Set", "tempo": "Venerdì · mattino",
+     "titolo": "Visita al museo del jazz",
+     "desc": "Mattina — visita al museo del jazz per approfondire le radici e l'evoluzione del sound di New Orleans. Pranzo, pomeriggio e cena liberi."},
+    
+    {"giorno": "26", "mese": "Set", "tempo": "Sabato · pomeriggio",
+     "titolo": "Crociera sul Mississippi",
+     "desc": "Pomeriggio — mini crociera in battello a vapore lungo il fiume Mississippi, uno dei simboli più iconici del Sud americano. Mattina, pranzo e cena liberi."},
     
     {"giorno": "27", "mese": "Set", "tempo": "Domenica · pomeriggio",
      "titolo": "NFL: New Orleans Saints vs Las Vegas Raiders",
-     "desc": "Mattina libera. Nel pomeriggio, esperienza al Caesars Superdome per la partita in casa dei New Orleans Saints contro i Las Vegas Raiders (National Football League). Pranzo incluso nel biglietto partita, cena tutti insieme inclusa nel pacchetto.",
-     "incluso": True},
+     "desc": "Mattina libera. Nel pomeriggio, esperienza al Caesars Superdome per la partita in casa dei New Orleans Saints contro i Las Vegas Raiders (National Football League). Pranzo incluso nel biglietto partita, cena tutti insieme inclusa nel pacchetto."},
     
     {"giorno": "28", "mese": "Set", "tempo": "Lunedì · partenza",
      "titolo": "Rientro in Italia",
-     "desc": "Trasferimento privato in bus dall'hotel all'aeroporto. Volo New Orleans → Chicago → Milano Malpensa (in arrivo il 29 settembre).",
-     "incluso": False},
+     "desc": "Trasferimento privato in bus dall'hotel all'aeroporto. Volo New Orleans → Chicago → Milano Malpensa (in arrivo il 29 settembre)."},
 ]
 
 for p in programma:
-    badge = '<div class="prog-badge">⚜️ Incluso nel pacchetto</div>' if p["incluso"] else ''
-    
     card_html = (
         f'<div class="prog-card">'
         f'<div class="prog-day">'
@@ -3169,7 +3170,6 @@ for p in programma:
         f'</div>'
         f'<div class="prog-content">'
         f'<div class="prog-time">{p["tempo"]}</div>'
-        f'{badge}'
         f'<div class="prog-title">{p["titolo"]}</div>'
         f'<div class="prog-desc">{p["desc"]}</div>'
         f'</div>'
@@ -3738,5 +3738,58 @@ contatti_html = """
 </div>
 """
 st.markdown(contatti_html, unsafe_allow_html=True)
+
+# Bottone Instagram — @pecciolieyes
+instagram_block = """
+<style>
+.social-link-block {
+    text-align: center;
+    margin: 2rem auto 1.4rem;
+}
+.social-eyebrow {
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #130089;
+    opacity: 0.5;
+    margin-bottom: 0.75rem;
+}
+.instagram-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%);
+    color: white !important;
+    padding: 0.7rem 1.4rem 0.7rem 1.1rem;
+    border-radius: 999px;
+    text-decoration: none !important;
+    font-weight: 700;
+    font-size: 0.9rem;
+    box-shadow: 0 6px 16px rgba(253, 29, 29, 0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.instagram-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(253, 29, 29, 0.45);
+}
+.instagram-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: white;
+    flex-shrink: 0;
+}
+</style>
+<div class="social-link-block">
+    <div class="social-eyebrow">Seguici anche su</div>
+    <a class="instagram-btn" href="https://www.instagram.com/pecciolieyes/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+        </svg>
+        <span>@pecciolieyes</span>
+    </a>
+</div>
+"""
+st.markdown(instagram_block, unsafe_allow_html=True)
 
 st.markdown(f"<div class='footer-box'>Peccioli Eyes on New Orleans · 2026</div>", unsafe_allow_html=True)
