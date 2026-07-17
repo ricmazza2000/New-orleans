@@ -3037,7 +3037,7 @@ st.markdown(f"""
     <span class="section-eyebrow">04 · Il viaggio</span>
     <div class="section-title">Programma</div>
     <p class="section-desc">
-        Le giornate del viaggio, con le attività previste e quelle libere per l'esplorazione autonoma. Il programma è in continuo aggiornamento — nuove tappe possono aggiungersi man mano.
+        Le giornate del viaggio, dalla partenza al rientro. Ogni giornata è ora definita con le attività previste e i momenti liberi per l'esplorazione autonoma.
         Le altre giornate verranno definite e aggiunte qui man mano che il programma prende forma.
     </p>
 </div>
@@ -3139,6 +3139,10 @@ programma = [
     {"giorno": "22", "mese": "Set", "tempo": "Martedì · mattino · 4 ore",
      "titolo": "Visita guidata di New Orleans",
      "desc": "Mattina — escursione di mezza giornata alla scoperta della città del jazz: il Quartiere Francese, le ville coloniali, il grande parco e il lago dove furono realizzati i mezzi anfibi per lo sbarco in Normandia. Accompagnati da guida parlante italiano. Pranzo libero e pomeriggio a disposizione. Cena inclusa nel pacchetto."},
+    
+    {"giorno": "23", "mese": "Set", "tempo": "Mercoledì · giornata piena",
+     "titolo": "Dillard University e benvenuto ufficiale a Gallier Hall",
+     "desc": "Mattina — visita alla Dillard University, storica università afroamericana di New Orleans. Pomeriggio, dalle ore 15 al Gallier Hall, benvenuto ufficiale da parte della Città di New Orleans, accompagnato da una speciale performance di Adonis Rose con la New Orleans Jazz Orchestra. Pranzo e cena liberi."},
     
     {"giorno": "24", "mese": "Set", "tempo": "Giovedì · intera giornata · 8 ore",
      "titolo": "Piantagioni, paludi e Villa delle 24 Querce",
