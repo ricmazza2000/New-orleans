@@ -480,6 +480,33 @@ section[data-testid="stSidebar"] {{ display: none !important; }}
     max-width: 640px;
 }}
 
+/* ── COMPATTAMENTO MOBILE: sezioni e titoli più stretti su schermi piccoli ── */
+@media (max-width: 640px) {{
+    .section-wrap {{
+        padding: 1.9rem 1rem 1.5rem;
+    }}
+    .section-body {{
+        padding: 0 1rem 1.8rem;
+    }}
+    .section-eyebrow {{
+        font-size: 0.62rem;
+        letter-spacing: 0.16em;
+        margin-bottom: 0.3rem;
+    }}
+    .section-title {{
+        font-size: clamp(1.4rem, 6vw, 1.75rem);
+        margin-bottom: 0.4rem;
+    }}
+    .section-subtitle {{
+        font-size: 1rem;
+        margin-bottom: 0.6rem;
+    }}
+    .section-desc {{
+        font-size: 0.85rem;
+        line-height: 1.55;
+    }}
+}}
+
 /* HERO HOME */
 .hero-full {{
     position: relative; overflow: hidden;
@@ -603,7 +630,31 @@ section[data-testid="stSidebar"] {{ display: none !important; }}
     margin: 0.6rem 0 0;
 }}
 @media (max-width: 640px) {{
-    .home-strip {{ grid-template-columns: 1fr; gap: 0.5rem; }}
+    .home-strip {{
+        grid-template-columns: 1fr 1fr;
+        gap: 0.45rem;
+    }}
+    /* La card Notizie ha più contenuto, la faccio prendere due colonne */
+    .home-strip > *:nth-child(2) {{
+        grid-column: span 2;
+    }}
+    .strip-card {{
+        padding: 0.55rem 0.7rem;
+    }}
+    .strip-title {{ font-size: 0.8rem; }}
+    .strip-sub {{ font-size: 0.66rem; }}
+    .strip-label {{ font-size: 0.55rem; }}
+    .home-news-links {{
+        margin-top: 0.2rem;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.35rem 0.7rem;
+    }}
+    .home-news-links a {{
+        font-size: 0.68rem;
+        border-bottom: none;
+        padding: 0;
+    }}
 }}
 .strip-card {{
     background: white;
@@ -1790,16 +1841,6 @@ st.markdown(f"""
     background: {BRAND_BLUE} !important;
     color: white !important;
 }}
-@media (max-width: 640px) {{
-    .info-viaggio-cta-secondary {{
-        margin-left: 0;
-        margin-top: 0.5rem;
-    }}
-    .info-viaggio-cta {{
-        display: flex;
-        justify-content: center;
-    }}
-}}
 .info-viaggio-facts {{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -1840,9 +1881,59 @@ st.markdown(f"""
     line-height: 1.25;
 }}
 @media (max-width: 640px) {{
-    .info-viaggio-title {{ font-size: 1.5rem; }}
-    .info-viaggio-facts {{ grid-template-columns: 1fr; }}
-    .info-viaggio-box::before {{ font-size: 8rem; top: -10px; right: -30px; }}
+    .info-viaggio-box {{
+        padding: 1.15rem 1.1rem 1.1rem;
+        border-radius: 18px;
+        margin: 1rem 0 1.4rem;
+    }}
+    .info-viaggio-eyebrow {{
+        font-size: 0.6rem;
+        margin-bottom: 0.35rem;
+    }}
+    .info-viaggio-title {{
+        font-size: 1.4rem;
+        margin-bottom: 0.25rem;
+    }}
+    .info-viaggio-sub {{
+        font-size: 0.78rem;
+        margin-bottom: 0.85rem;
+        line-height: 1.4;
+    }}
+    .info-viaggio-cta {{
+        padding: 0.65rem 1rem;
+        font-size: 0.82rem;
+        width: 100%;
+        justify-content: center;
+    }}
+    .info-viaggio-cta-secondary {{
+        margin-left: 0;
+        margin-top: 0.4rem;
+    }}
+    .info-viaggio-facts {{
+        grid-template-columns: 1fr 1fr;
+        gap: 0.4rem;
+        margin-top: 1rem;
+    }}
+    .info-viaggio-fact {{
+        padding: 0.55rem 0.6rem;
+        gap: 0.4rem;
+    }}
+    .info-viaggio-fact-icon {{
+        font-size: 1rem;
+    }}
+    .info-viaggio-fact-label {{
+        font-size: 0.55rem;
+        letter-spacing: 0.1em;
+    }}
+    .info-viaggio-fact-value {{
+        font-size: 0.72rem;
+        line-height: 1.2;
+    }}
+    .info-viaggio-box::before {{
+        font-size: 8rem;
+        top: -10px;
+        right: -30px;
+    }}
 }}
 </style>
 
