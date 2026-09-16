@@ -2040,8 +2040,8 @@ sguardi = [
     },
     {
         "n": "03", "icona": SVG_SGUARDO_SOCIALE, "titolo": "Sguardo Sociale", "sub": "Contrasti americani",
-        "focus": "Le contraddizioni della società americana: ricchezza e povertà, gentrificazione, questioni razziali. Il 27 settembre, la partita NFL al Superdome sarà occasione di immersione totale nella cultura di massa americana.",
-        "missione": "Osservare le due Americhe che convivono nello stesso isolato — e nello stesso stadio.",
+        "focus": "Le contraddizioni della società americana: ricchezza e povertà, gentrificazione, questioni razziali. La visita alla Dillard University (23 sett), storica università afroamericana, e la partita NFL al Superdome (27 sett) saranno i due momenti di immersione più intensi.",
+        "missione": "Osservare le due Americhe che convivono nello stesso isolato — nello stesso campus, nello stesso stadio.",
         "dark": False,
         "luoghi": [4, 5, 10],
         "risorse": [
@@ -3134,7 +3134,7 @@ st.markdown("""
 programma = [
     {"giorno": "21", "mese": "Set", "tempo": "Lunedì · partenza",
      "titolo": "Partenza per New Orleans",
-     "desc": "Volo Milano Malpensa → Chicago → New Orleans. Partenza alle 15:20 da Milano, arrivo a New Orleans previsto per le 22:20 (ora locale). Trasferimento privato in bus dall'aeroporto all'hotel, check-in e cena con dinner box."},
+     "desc": "Volo Milano Malpensa → Chicago → New Orleans. Partenza alle 15:20 da Milano, arrivo a New Orleans previsto per le 23:53 (ora locale). Trasferimento privato in bus dall'aeroporto all'hotel, check-in e cena con dinner box."},
     
     {"giorno": "22", "mese": "Set", "tempo": "Martedì · mattino · 4 ore",
      "titolo": "Visita guidata di New Orleans",
