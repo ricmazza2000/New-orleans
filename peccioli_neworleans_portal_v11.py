@@ -583,6 +583,17 @@ section[data-testid="stSidebar"] {{ display: none !important; }}
     text-align: center; color: {BRAND_BLUE};
     font-size: 1rem; margin: 0.5rem 0 1.2rem; font-weight: 500;
 }}
+/* Fix salti carosello: aspect-ratio fisso 16/10 con object-fit cover.
+   Evita che ogni cambio foto sposti tutto il contenuto sottostante. */
+[data-testid="stImage"] img,
+[data-testid="stImage"] > div > img,
+.stImage img {{
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    width: 100%;
+    height: auto;
+    max-height: 480px;
+}}
 
 /* HOME STRIP */
 .home-strip {{
@@ -757,19 +768,20 @@ luoghi_dati = [
 st.markdown(f"""
 <style>
 /* Bottone hamburger - mobile: solo icona, desktop: pillola con testo */
+/* Posizionato DENTRO la topbar sticky, quindi non copre il contenuto sottostante */
 .hamburger-btn {{
     display: none;
     position: fixed;
-    top: 52px;
+    top: 8px;
     right: 12px;
-    width: 42px;
-    height: 42px;
+    width: 38px;
+    height: 38px;
     background: {BRAND_YELLOW};
     border: 2px solid {BRAND_BLUE};
-    border-radius: 12px;
+    border-radius: 10px;
     cursor: pointer;
     z-index: 2147483647;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
     padding: 0;
     transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
     font-family: 'Inter', sans-serif;
@@ -1081,20 +1093,31 @@ components.html("""
         btn.innerHTML = '&uarr;';
         parentDoc.body.appendChild(btn);
 
+        // Streamlit fa lo scroll DENTRO section[data-testid="stMain"], non su window.
+        // Devo ascoltare il scroll giusto altrimenti scrollY resta sempre 0.
+        const scroller = parentDoc.querySelector('section[data-testid="stMain"]') || parentWin;
+        const getScrollTop = () => scroller === parentWin ? parentWin.scrollY : scroller.scrollTop;
+
         function onScroll() {
-            if (parentWin.scrollY > 400) {
+            if (getScrollTop() > 400) {
                 btn.classList.add('visible');
             } else {
                 btn.classList.remove('visible');
             }
         }
 
+        scroller.addEventListener('scroll', onScroll, { passive: true });
+        // Fallback: ascolto anche window per sicurezza (alcuni browser scrollano il window comunque)
         parentWin.addEventListener('scroll', onScroll, { passive: true });
         onScroll();
 
         btn.addEventListener('click', (e) => {
             e.preventDefault();
-            parentWin.scrollTo({ top: 0, behavior: 'smooth' });
+            if (scroller === parentWin) {
+                parentWin.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                scroller.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         });
     }
 
@@ -1194,7 +1217,8 @@ else:
 if prossimo_b64:
     prossimo_foto = f'<img class="cd-meeting-photo" src="data:{prossimo_mime};base64,{prossimo_b64}" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid {BRAND_YELLOW};flex-shrink:0;">'
 else:
-    prossimo_foto = f'<div class="cd-meeting-photo" style="width:44px;height:44px;border-radius:50%;background:{BRAND_YELLOW};flex-shrink:0;"></div>'
+    # Cerchio giallo con icona aereo (fallback quando non c'è foto — es. Partenza)
+    prossimo_foto = f'<div class="cd-meeting-photo" style="width:44px;height:44px;border-radius:50%;background:{BRAND_YELLOW};flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.3rem;line-height:1;">✈️</div>'
 
 countdown_html = ("""
 <style>
@@ -1390,24 +1414,26 @@ def galleria():
         st.session_state.selected_home_image = 0
     idx = min(st.session_state.selected_home_image, len(valid_items) - 1)
     selected = valid_items[idx]
-    col_prev, col_img, col_next = st.columns([1, 14, 1])
+    # Immagine full-width (con aspect-ratio 16/10 gestito via CSS per evitare salti)
+    st.image(selected["path"], use_container_width=True)
+    st.markdown(f'<div class="gallery-caption"><strong>{selected["title"]}</strong> — {selected["desc"]}</div>', unsafe_allow_html=True)
+    # Frecce affiancate SOTTO l'immagine (funzionano anche su mobile)
+    col_prev, col_dots, col_next = st.columns([1, 2, 1])
     with col_prev:
-        if st.button("←", key="prev_img"):
+        if st.button("← Precedente", key="prev_img", use_container_width=True):
             st.session_state.selected_home_image = (idx - 1) % len(valid_items)
             st.rerun(scope="fragment")
-    with col_img:
-        st.image(selected["path"], use_container_width=True)
+    with col_dots:
+        dots_html = '<div style="display:flex;justify-content:center;align-items:center;gap:6px;height:100%;padding-top:0.55rem;">'
+        for i in range(len(valid_items)):
+            color = BRAND_YELLOW if i == idx else "rgba(19,0,137,0.2)"
+            dots_html += f'<div style="width:8px;height:8px;border-radius:50%;background:{color};"></div>'
+        dots_html += '</div>'
+        st.markdown(dots_html, unsafe_allow_html=True)
     with col_next:
-        if st.button("→", key="next_img"):
+        if st.button("Successiva →", key="next_img", use_container_width=True):
             st.session_state.selected_home_image = (idx + 1) % len(valid_items)
             st.rerun(scope="fragment")
-    st.markdown(f'<div class="gallery-caption"><strong>{selected["title"]}</strong> — {selected["desc"]}</div>', unsafe_allow_html=True)
-    dots_html = '<div style="display:flex;justify-content:center;gap:6px;margin-bottom:0.4rem;">'
-    for i in range(len(valid_items)):
-        color = BRAND_YELLOW if i == idx else "rgba(19,0,137,0.2)"
-        dots_html += f'<div style="width:7px;height:7px;border-radius:50%;background:{color};"></div>'
-    dots_html += '</div>'
-    st.markdown(dots_html, unsafe_allow_html=True)
 
 if valid_items:
     galleria()
@@ -1665,12 +1691,203 @@ st.markdown(f"""
             <a href="https://thelensnola.org" target="_blank" rel="noopener">The Lens NOLA</a>
         </div>
     </div>
-    <a href="https://open.spotify.com/playlist/0iMiZcvIy26MqHQln5kkrI" target="_blank" rel="noopener" class="strip-card" style="border-left-color:#1DB954;">
+    <a href="https://open.spotify.com/playlist/0iMiZcvIy26MqHQln5kkrI" target="_blank" rel="noopener" class="strip-card" style="border-left-color:{BRAND_YELLOW};">
         <div class="strip-label">🎧 Playlist</div>
         <div class="strip-title">NOLA Sound</div>
         <div class="strip-sub">Jazz, blues, bounce</div>
     </a>
 </div>
+</div>
+""", unsafe_allow_html=True)
+
+# ============================================================================
+# ✈️ INFO DI VIAGGIO — SEZIONE IN EVIDENZA
+# Con la partenza vicina, il Foglio Notizie diventa il documento più importante.
+# Va in cima, prima delle sezioni tematiche.
+# ============================================================================
+from urllib.parse import quote as _quote
+_pdf_info_url = GITHUB_RAW_FOTO + "doc_info_viaggio.pdf"
+_pdf_viewer_url = f"https://docs.google.com/gview?url={_quote(_pdf_info_url, safe='')}&embedded=false"
+
+st.markdown(f"""
+<style>
+.info-viaggio-box {{
+    background: linear-gradient(135deg, {BRAND_YELLOW} 0%, #FFE988 100%);
+    border-radius: 22px;
+    padding: 1.6rem 1.5rem 1.4rem;
+    margin: 1.4rem 0 2rem;
+    position: relative;
+    box-shadow: 0 8px 26px rgba(255,222,89,0.4);
+    overflow: hidden;
+}}
+.info-viaggio-box::before {{
+    content: '✈';
+    position: absolute;
+    top: -30px; right: -20px;
+    font-size: 12rem;
+    color: {BRAND_BLUE};
+    opacity: 0.05;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+    transform: rotate(-15deg);
+}}
+.info-viaggio-eyebrow {{
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: {BRAND_BLUE};
+    opacity: 0.75;
+    margin-bottom: 0.5rem;
+    position: relative;
+}}
+.info-viaggio-title {{
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: {BRAND_BLUE};
+    line-height: 1.05;
+    margin-bottom: 0.35rem;
+    position: relative;
+}}
+.info-viaggio-sub {{
+    font-size: 0.9rem;
+    color: {BRAND_BLUE};
+    opacity: 0.85;
+    line-height: 1.5;
+    margin-bottom: 1.1rem;
+    position: relative;
+    max-width: 620px;
+}}
+.info-viaggio-cta {{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: {BRAND_BLUE};
+    color: white !important;
+    text-decoration: none !important;
+    padding: 0.85rem 1.4rem;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    box-shadow: 0 5px 16px rgba(19,0,137,0.35);
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+}}
+.info-viaggio-cta:hover {{
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(19,0,137,0.5);
+}}
+.info-viaggio-cta-secondary {{
+    background: white !important;
+    color: {BRAND_BLUE} !important;
+    margin-left: 0.55rem;
+    box-shadow: 0 3px 10px rgba(19,0,137,0.15);
+    border: 1.5px solid {BRAND_BLUE};
+}}
+.info-viaggio-cta-secondary:hover {{
+    background: {BRAND_BLUE} !important;
+    color: white !important;
+}}
+@media (max-width: 640px) {{
+    .info-viaggio-cta-secondary {{
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }}
+    .info-viaggio-cta {{
+        display: flex;
+        justify-content: center;
+    }}
+}}
+.info-viaggio-facts {{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.6rem;
+    margin-top: 1.3rem;
+    position: relative;
+}}
+.info-viaggio-fact {{
+    background: rgba(255,255,255,0.55);
+    border-radius: 12px;
+    padding: 0.7rem 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+}}
+.info-viaggio-fact-icon {{
+    font-size: 1.15rem;
+    flex-shrink: 0;
+}}
+.info-viaggio-fact-text {{
+    flex: 1;
+    min-width: 0;
+}}
+.info-viaggio-fact-label {{
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: {BRAND_BLUE};
+    opacity: 0.65;
+    line-height: 1;
+    margin-bottom: 0.2rem;
+}}
+.info-viaggio-fact-value {{
+    font-size: 0.8rem;
+    color: {BRAND_BLUE};
+    font-weight: 600;
+    line-height: 1.25;
+}}
+@media (max-width: 640px) {{
+    .info-viaggio-title {{ font-size: 1.5rem; }}
+    .info-viaggio-facts {{ grid-template-columns: 1fr; }}
+    .info-viaggio-box::before {{ font-size: 8rem; top: -10px; right: -30px; }}
+}}
+</style>
+
+<div class="info-viaggio-box">
+    <div class="info-viaggio-eyebrow">📋 In vista della partenza</div>
+    <div class="info-viaggio-title">Foglio Notizie</div>
+    <div class="info-viaggio-sub">
+        Le informazioni pratiche del viaggio: voli, hotel, contatti dell'accompagnatore, documenti, valuta, clima, sicurezza. Da leggere assolutamente prima di partire.
+    </div>
+    <a class="info-viaggio-cta" href="{_pdf_viewer_url}" target="_blank" rel="noopener">
+        📄 Apri il Foglio Notizie completo
+    </a>
+    <a class="info-viaggio-cta info-viaggio-cta-secondary" href="#programma">
+        🗓 Vedi il programma giorno per giorno
+    </a>
+    <div class="info-viaggio-facts">
+        <div class="info-viaggio-fact">
+            <div class="info-viaggio-fact-icon">🚌</div>
+            <div class="info-viaggio-fact-text">
+                <div class="info-viaggio-fact-label">Ritrovo bus</div>
+                <div class="info-viaggio-fact-value">21 set · ore 6:00<br>Incubatore d'Impresa</div>
+            </div>
+        </div>
+        <div class="info-viaggio-fact">
+            <div class="info-viaggio-fact-icon">🏨</div>
+            <div class="info-viaggio-fact-text">
+                <div class="info-viaggio-fact-label">Hotel</div>
+                <div class="info-viaggio-fact-value">Hampton Inn & Suites<br>1300 Canal St, NOLA</div>
+            </div>
+        </div>
+        <div class="info-viaggio-fact">
+            <div class="info-viaggio-fact-icon">📞</div>
+            <div class="info-viaggio-fact-text">
+                <div class="info-viaggio-fact-label">Accompagnatore</div>
+                <div class="info-viaggio-fact-value">Simone Turini<br>+39 347 5244576</div>
+            </div>
+        </div>
+        <div class="info-viaggio-fact">
+            <div class="info-viaggio-fact-icon">🆘</div>
+            <div class="info-viaggio-fact-text">
+                <div class="info-viaggio-fact-label">Emergenze USA</div>
+                <div class="info-viaggio-fact-value">911<br>Consolato: 504-300-8099</div>
+            </div>
+        </div>
+    </div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -2695,10 +2912,12 @@ st.markdown(''.join(pill_html_parts), unsafe_allow_html=True)
 
 @st.fragment
 def mostra_mappa():
+    # Centro sul French Quarter, zoom 13: la città è ben leggibile.
+    # I due luoghi fuori città (Oak Alley 80km e Paludi 30km) sono raggiungibili con zoom-out.
     m = folium.Map(
-        location=[29.962, -90.060],
+        location=[29.9584, -90.0644],
         zoom_start=13,
-        tiles="CartoDB positron",
+        tiles="OpenStreetMap",
         control_scale=True,
     )
 
@@ -2789,14 +3008,8 @@ def mostra_mappa():
             tooltip=folium.Tooltip(f"<b>{i}.</b> {luogo['nome']}", sticky=True),
         ).add_to(m)
 
-    # Inquadro automaticamente tutti i pin con un piccolo padding
-    lats = [l["lat"] for l in luoghi_dati]
-    lons = [l["lon"] for l in luoghi_dati]
-    if lats and lons:
-        m.fit_bounds(
-            [[min(lats), min(lons)], [max(lats), max(lons)]],
-            padding=(30, 30),
-        )
+    # Nessun fit_bounds: la mappa parte centrata sul French Quarter con zoom 13.
+    # Se l'utente vuole vedere i luoghi fuori città (Oak Alley, Paludi) può zoomare fuori.
 
     st_folium(m, width=None, height=520, use_container_width=True, returned_objects=[])
 
@@ -3568,7 +3781,7 @@ with tab5:
          "link": "https://www.ilpost.it/costa/", "colore": "#4a3fb8"},
         {"titolo": "🎙️ Podcast su New Orleans — Spotify",
          "desc": "Episodio podcast da ascoltare per entrare nell'atmosfera della città prima del viaggio.",
-         "link": "https://open.spotify.com/episode/0bUQRduCBPvvkbqwue4pQ3", "colore": "#1DB954"},
+         "link": "https://open.spotify.com/episode/0bUQRduCBPvvkbqwue4pQ3", "colore": BRAND_YELLOW},
     ]
     for r in risorse:
         st.markdown(f"""
