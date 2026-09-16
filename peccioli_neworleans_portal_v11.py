@@ -3907,7 +3907,7 @@ with tab_libri:
     st.markdown(f"""
     <div style="background:{BRAND_BLUE_LIGHT};border-left:4px solid {BRAND_YELLOW};border-radius:0 12px 12px 0;
          padding:0.75rem 1.1rem;margin-bottom:1.2rem;font-size:0.85rem;color:{BRAND_BLUE};line-height:1.5;">
-        <strong>&#128218; Da leggere</strong> &mdash; sei titoli per approfondire New Orleans nella letteratura.
+        <strong>&#128218; Da leggere</strong> &mdash; cinque titoli per approfondire New Orleans nella letteratura.
     </div>
     """, unsafe_allow_html=True)
     
@@ -3932,10 +3932,6 @@ with tab_libri:
          "desc": "La storia vera di un siriano-americano rimasto a New Orleans durante Katrina. Su resilienza, razzismo e fallimento istituzionale.",
          "link": "https://it.wikipedia.org/wiki/Zeitoun_(libro)", "cta": "Approfondisci",
          "cover": "https://covers.openlibrary.org/b/isbn/9780307389947-M.jpg", "fallback_char": "Z"},
-        {"titolo": "Blues Highway", "meta": "Rob Siebert · Reportage narrativo",
-         "desc": "Viaggio da Chicago a New Orleans sulle tracce delle origini della musica americana: blues, jazz, gospel.",
-         "link": "https://marcosymarcos.com/libri/gli-alianti/blues-highway/", "cta": "Approfondisci",
-         "cover": None, "fallback_char": "B"},
     ]
     
     cards_html = '<div class="risorse-grid">' + "".join([card_risorsa(**l) for l in libri]) + '</div>'
@@ -3956,25 +3952,32 @@ with tab_film:
     film = [
         {"titolo": "Un tram che si chiama Desiderio", "meta": "1951 · Elia Kazan · 4 Oscar",
          "desc": "Con Marlon Brando e Vivien Leigh. Classico assoluto girato nella New Orleans reale.",
-         "link": "https://www.imdb.com/title/tt0044081/", "cta": "IMDb", "cover": None, "fallback_char": "T"},
+         "link": "https://www.imdb.com/title/tt0044081/", "cta": "IMDb",
+         "cover": "https://raw.githubusercontent.com/ricmazza2000/New-orleans/main/locandina_un_tram_desiderio.jpg", "fallback_char": "T"},
         {"titolo": "12 anni schiavo", "meta": "2013 · Steve McQueen · Oscar Miglior Film",
          "desc": "Girato in Louisiana, racconta la schiavitù nelle piantagioni vicino a New Orleans. Duro ma essenziale.",
-         "link": "https://www.imdb.com/title/tt2024544/", "cta": "IMDb", "cover": None, "fallback_char": "12"},
+         "link": "https://www.imdb.com/title/tt2024544/", "cta": "IMDb",
+         "cover": "https://raw.githubusercontent.com/ricmazza2000/New-orleans/main/locandina_12_anni_schiavo.jpg", "fallback_char": "12"},
         {"titolo": "Intervista col vampiro", "meta": "1994 · Neil Jordan",
          "desc": "Tom Cruise, Brad Pitt, Kirsten Dunst. Cattura l'atmosfera gotica e decadente della Louisiana.",
-         "link": "https://www.imdb.com/title/tt0110632/", "cta": "IMDb", "cover": None, "fallback_char": "I"},
+         "link": "https://www.imdb.com/title/tt0110632/", "cta": "IMDb",
+         "cover": "https://raw.githubusercontent.com/ricmazza2000/New-orleans/main/locandina_intervista_vampiro.jpg", "fallback_char": "I"},
         {"titolo": "Il curioso caso di Benjamin Button", "meta": "2008 · David Fincher · 3 Oscar",
          "desc": "New Orleans dal dopoguerra a Katrina come sfondo per una storia sull'identità e la memoria.",
-         "link": "https://www.imdb.com/title/tt0421715/", "cta": "IMDb", "cover": None, "fallback_char": "B"},
+         "link": "https://www.imdb.com/title/tt0421715/", "cta": "IMDb",
+         "cover": "https://raw.githubusercontent.com/ricmazza2000/New-orleans/main/locandina_benjamin_button.jpg", "fallback_char": "B"},
         {"titolo": "Re della terra selvaggia", "meta": "2012 · Benh Zeitlin · 4 nom. Oscar",
          "desc": "Nei bayou della Louisiana post-Katrina, la piccola Hushpuppy affronta l'apocalisse.",
-         "link": "https://www.imdb.com/title/tt2125435/", "cta": "IMDb", "cover": None, "fallback_char": "R"},
+         "link": "https://www.imdb.com/title/tt2125435/", "cta": "IMDb",
+         "cover": "https://raw.githubusercontent.com/ricmazza2000/New-orleans/main/locandina_re_terra_selvaggia.jpg", "fallback_char": "R"},
         {"titolo": "La principessa e il ranocchio", "meta": "2009 · Disney",
          "desc": "Ultima grande Disney disegnata a mano. Ambientata a New Orleans anni '20, con il jazz di Randy Newman.",
-         "link": "https://www.imdb.com/title/tt0780521/", "cta": "IMDb", "cover": None, "fallback_char": "P"},
+         "link": "https://www.imdb.com/title/tt0780521/", "cta": "IMDb",
+         "cover": "https://raw.githubusercontent.com/ricmazza2000/New-orleans/main/locandina_principessa_ranocchio.jpg", "fallback_char": "P"},
         {"titolo": "Treme", "meta": "2010–2013 · HBO · Emmy Award",
          "desc": "La serie più importante su New Orleans dopo Katrina. Da vedere assolutamente.",
-         "link": "https://www.imdb.com/title/tt1279972/", "cta": "IMDb", "cover": None, "fallback_char": "T"},
+         "link": "https://www.imdb.com/title/tt1279972/", "cta": "IMDb",
+         "cover": "https://raw.githubusercontent.com/ricmazza2000/New-orleans/main/locandina_treme.jpg", "fallback_char": "T"},
     ]
     
     cards_html = '<div class="risorse-grid">' + "".join([card_risorsa(**f) for f in film]) + '</div>'
@@ -3995,13 +3998,16 @@ with tab_docs:
     docs = [
         {"titolo": "Katrina: Come Hell and High Water", "meta": "Netflix · 2025 · Spike Lee",
          "desc": "Tre episodi, vent'anni dopo: i sopravvissuti raccontano la catastrofe e i fallimenti istituzionali.",
-         "link": "https://www.netflix.com/title/81676595", "cta": "Netflix", "cover": None, "fallback_char": "K"},
+         "link": "https://www.netflix.com/title/81676595", "cta": "Netflix",
+         "cover": "https://raw.githubusercontent.com/ricmazza2000/New-orleans/main/locandina_katrina_hell_water.jpg", "fallback_char": "K"},
         {"titolo": "Hurricane Katrina: Race Against Time", "meta": "National Geographic · 2025 · Critics Choice",
          "desc": "Cinque episodi. Ricostruzione minuto per minuto con footage inedito.",
-         "link": "https://www.imdb.com/title/tt37458027/", "cta": "IMDb", "cover": None, "fallback_char": "H"},
+         "link": "https://www.imdb.com/title/tt37458027/", "cta": "IMDb",
+         "cover": "https://raw.githubusercontent.com/ricmazza2000/New-orleans/main/locandina_hurricane_katrina_race.jpg", "fallback_char": "H"},
         {"titolo": "When the Levees Broke", "meta": "HBO · 2006 · Spike Lee · 4 atti",
          "desc": "Il documentario che ha raccontato al mondo la devastazione di Katrina. Pietra miliare.",
-         "link": "https://www.imdb.com/title/tt0783105/", "cta": "IMDb", "cover": None, "fallback_char": "W"},
+         "link": "https://www.imdb.com/title/tt0783105/", "cta": "IMDb",
+         "cover": "https://raw.githubusercontent.com/ricmazza2000/New-orleans/main/locandina_when_levees_broke.jpg", "fallback_char": "W"},
     ]
     
     cards_html = '<div class="risorse-grid">' + "".join([card_risorsa(**d) for d in docs]) + '</div>'
