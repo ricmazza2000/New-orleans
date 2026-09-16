@@ -3931,7 +3931,7 @@ with tab_libri:
         {"titolo": "Zeitoun", "meta": "2009 · Dave Eggers · Non fiction",
          "desc": "La storia vera di un siriano-americano rimasto a New Orleans durante Katrina. Su resilienza, razzismo e fallimento istituzionale.",
          "link": "https://it.wikipedia.org/wiki/Zeitoun_(libro)", "cta": "Approfondisci",
-         "cover": "https://covers.openlibrary.org/b/isbn/9780307389947-M.jpg", "fallback_char": "Z"},
+         "cover": "https://raw.githubusercontent.com/ricmazza2000/New-orleans/main/locandina_zeitoun.jpeg", "fallback_char": "Z"},
     ]
     
     cards_html = '<div class="risorse-grid">' + "".join([card_risorsa(**l) for l in libri]) + '</div>'
