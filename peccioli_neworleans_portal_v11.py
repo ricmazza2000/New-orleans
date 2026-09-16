@@ -3561,249 +3561,482 @@ for doc in documenti:
 st.markdown('</div>', unsafe_allow_html=True)
 
 # ============================================================================
-# 📚 ALTRO — GIALLO CHIARO
+# 📚 ALTRO — GIALLO CHIARO — Sezione unificata con card standardizzata
 # ============================================================================
 st.markdown(f"""
 <span id="approfondimenti" class="section-anchor"></span>
 <div class="section-wrap sec-altro">
-    <span class="section-eyebrow">06 · Per prepararsi</span>
-    <div class="section-title">Altro da esplorare</div>
+    <span class="section-eyebrow">06 · Da guardare, leggere, ascoltare</span>
+    <div class="section-title">In viaggio e al ritorno</div>
     <p class="section-desc">
-        Libri, film, documentari e risorse online per arrivare a New Orleans con uno sguardo già allenato.
+        Video da guardare in aereo, libri e film da esplorare al ritorno per approfondire i temi del viaggio.
     </p>
 </div>
 <div class="section-body sec-altro">
 """, unsafe_allow_html=True)
 
-tab1, tab2, tab3, tab4, tab5 = st.tabs(["📚 Libri", "🎬 Film e TV", "🎞 Documentari", "▶️ YouTube", "🌐 Risorse"])
+# CSS unificato: una sola grammatica per tutte le card di questa sezione
+st.markdown(f"""
+<style>
+/* === Card risorsa unificata (usata per libri, film, documentari, video, link) === */
+.risorsa-card {{
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    gap: 1rem;
+    background: white;
+    border: 1px solid rgba(19,0,137,0.08);
+    border-radius: 14px;
+    padding: 1rem;
+    margin-bottom: 0.85rem;
+    text-decoration: none !important;
+    color: inherit !important;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    align-items: stretch;
+}}
+.risorsa-card:hover {{
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(19,0,137,0.12);
+}}
+.rc-visual {{
+    position: relative;
+    aspect-ratio: 2/3;
+    border-radius: 8px;
+    overflow: hidden;
+    background: {BRAND_BLUE};
+}}
+.rc-cover {{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}}
+.rc-fallback {{
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, {BRAND_BLUE} 0%, #1a2f6c 100%);
+    color: {BRAND_YELLOW};
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.4rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+}}
+.rc-body {{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+}}
+.rc-meta {{
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: {BRAND_BLUE};
+    opacity: 0.6;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+    line-height: 1.2;
+}}
+.rc-title {{
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.02rem;
+    font-weight: 800;
+    color: {BRAND_BLUE};
+    line-height: 1.15;
+    margin-bottom: 0.25rem;
+}}
+.rc-author {{
+    font-size: 0.75rem;
+    color: #7a8698;
+    margin-bottom: 0.4rem;
+    font-weight: 500;
+}}
+.rc-desc {{
+    font-size: 0.8rem;
+    color: #3a4a5c;
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}}
+.rc-cta {{
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: {BRAND_BLUE};
+    margin-top: auto;
+    letter-spacing: 0.02em;
+}}
 
-with tab1:
-    col_l1, col_l2 = st.columns(2)
-    libri = [
-        {"titolo": "Una banda di idioti", "autore": "John Kennedy Toole", "anno": "1980 · Pulitzer",
-         "desc": "Capolavoro ambientato nella New Orleans degli anni '60. Satira geniale e irresistibile — il modo più divertente per entrare nell'anima della città.",
-         "link": "https://it.wikipedia.org/wiki/Una_banda_di_idioti", "colore": BRAND_YELLOW},
-        {"titolo": "Intervista col vampiro", "autore": "Anne Rice", "anno": "1976 · Gothic horror",
-         "desc": "Il romanzo d'esordio di Anne Rice, nata a New Orleans. Louis, vampiro bicentenario, racconta la sua vita tra piantagioni della Louisiana e il French Quarter. 8+ milioni di copie vendute, ha inaugurato le Vampire Chronicles.",
-         "link": "https://it.wikipedia.org/wiki/Intervista_col_vampiro_(romanzo)", "colore": "#4a3fb8"},
-        {"titolo": "Blues Highway", "autore": "Rob Siebert", "anno": "Reportage narrativo",
-         "desc": "Viaggio da Chicago a New Orleans sulle tracce delle origini della musica americana: blues, jazz, gospel. Per capire il legame tra musica e territorio.",
-         "link": "https://marcosymarcos.com/libri/gli-alianti/blues-highway/", "colore": BRAND_BLUE},
-        {"titolo": "The Moviegoer", "autore": "Walker Percy", "anno": "1961 · National Book Award",
-         "desc": "Romanzo ambientato a New Orleans, vincitore del National Book Award. Racconta l'alienazione e la ricerca di senso di un giovane creolo nella città del Mardi Gras.",
-         "link": "https://it.wikipedia.org/wiki/Walker_Percy", "colore": BRAND_BLUE},
-        {"titolo": "L'ora delle streghe", "autore": "Anne Rice", "anno": "1990 · Gothic supernatural",
-         "desc": "Saga della famiglia Mayfair, streghe del Garden District di New Orleans. Ambientato nella villa vittoriana dove Anne Rice visse davvero per 15 anni. Bestseller da milioni di copie, serie TV AMC dal 2023.",
-         "link": "https://it.wikipedia.org/wiki/L%27ora_delle_streghe_(romanzo)", "colore": "#e6b800"},
-        {"titolo": "Zeitoun", "autore": "Dave Eggers", "anno": "2009 · Non fiction",
-         "desc": "La storia vera di un siriano-americano rimasto a New Orleans durante Katrina. Un racconto potente su resilienza, razzismo e fallimento istituzionale dopo la catastrofe.",
-         "link": "https://it.wikipedia.org/wiki/Zeitoun_(libro)", "colore": BRAND_YELLOW},
-    ]
-    for i, libro in enumerate(libri):
-        with (col_l1 if i % 2 == 0 else col_l2):
-            st.markdown(f"""
-            <div style="background:white;border-radius:20px;padding:1.2rem 1.3rem;
-                 border-top:4px solid {libro['colore']};
-                 box-shadow:0 4px 16px rgba(19,0,137,0.06);margin-bottom:1rem;">
-                <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
-                     color:{BRAND_BLUE};margin-bottom:0.3rem;opacity:0.7;">{libro['anno']}</div>
-                <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.05rem;font-weight:800;
-                     color:{BRAND_BLUE};line-height:1.2;margin-bottom:0.15rem;">{libro['titolo']}</div>
-                <div style="font-size:0.8rem;color:#9aa3b0;margin-bottom:0.6rem;">{libro['autore']}</div>
-                <div style="font-size:0.88rem;color:#3a4a5c;line-height:1.6;margin-bottom:0.8rem;">{libro['desc']}</div>
-                <a href="{libro['link']}" target="_blank" rel="noopener"
-                   style="font-size:0.78rem;font-weight:700;color:{BRAND_BLUE};text-decoration:none;">
-                    Approfondisci →
-                </a>
-            </div>
-            """, unsafe_allow_html=True)
+/* === Card VIDEO (16:9 sopra, testo sotto) === */
+.risorsa-card-video {{
+    display: block;
+    padding: 0;
+    overflow: hidden;
+    background: white;
+    border: 1px solid rgba(19,0,137,0.08);
+    border-radius: 14px;
+    margin-bottom: 0.85rem;
+    text-decoration: none !important;
+    color: inherit !important;
+    transition: transform 0.2s, box-shadow 0.2s;
+}}
+.risorsa-card-video:hover {{
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(19,0,137,0.12);
+}}
+.rcv-visual {{
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    background: #000;
+}}
+.rcv-visual img {{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}}
+.rcv-play {{
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: rgba(255, 0, 0, 0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+    transition: transform 0.2s, background 0.2s;
+}}
+.risorsa-card-video:hover .rcv-play {{
+    transform: translate(-50%, -50%) scale(1.08);
+    background: rgba(255, 0, 0, 1);
+}}
+.rcv-play::after {{
+    content: '';
+    width: 0; height: 0;
+    border-left: 18px solid white;
+    border-top: 11px solid transparent;
+    border-bottom: 11px solid transparent;
+    margin-left: 4px;
+}}
+.rcv-body {{
+    padding: 0.9rem 1.1rem 1rem;
+}}
+.rcv-meta {{
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: {BRAND_BLUE};
+    opacity: 0.6;
+    margin-bottom: 0.3rem;
+}}
+.rcv-title {{
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1rem;
+    font-weight: 800;
+    color: {BRAND_BLUE};
+    line-height: 1.2;
+    margin-bottom: 0.35rem;
+}}
+.rcv-desc {{
+    font-size: 0.78rem;
+    color: #3a4a5c;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}}
 
-with tab2:
-    film = [
-        {"titolo": "Un tram che si chiama Desiderio", "anno": "1951 · Elia Kazan",
-         "desc": "Con Marlon Brando e Vivien Leigh. Classico assoluto girato nella New Orleans reale. 4 Oscar vinti.",
-         "link": "https://www.imdb.com/title/tt0044081/", "colore": BRAND_YELLOW},
-        {"titolo": "12 anni schiavo", "anno": "2013 · Steve McQueen",
-         "desc": "Oscar come miglior film. Girato in Louisiana, racconta la schiavitù nelle piantagioni vicino a New Orleans. Duro ma essenziale per capire le radici del Sud americano.",
-         "link": "https://www.imdb.com/title/tt2024544/", "colore": BRAND_BLUE},
-        {"titolo": "Intervista col vampiro", "anno": "1994 · Neil Jordan",
-         "desc": "Tom Cruise, Brad Pitt, Kirsten Dunst. Cattura l'atmosfera gotica e decadente della Louisiana.",
-         "link": "https://www.imdb.com/title/tt0110632/", "colore": "#4a3fb8"},
-        {"titolo": "Il curioso caso di Benjamin Button", "anno": "2008 · David Fincher",
-         "desc": "New Orleans dal dopoguerra a Katrina come sfondo per una storia sull'identità e la memoria. 3 Oscar vinti.",
-         "link": "https://www.imdb.com/title/tt0421715/", "colore": "#e6b800"},
-        {"titolo": "Re della terra selvaggia", "anno": "2012 · Benh Zeitlin",
-         "desc": "Nei bayou della Louisiana post-Katrina, la piccola Hushpuppy affronta l'apocalisse. 4 nomination Oscar. Favola poetica sulla resilienza della Louisiana.",
-         "link": "https://www.imdb.com/title/tt2125435/", "colore": BRAND_YELLOW},
-        {"titolo": "La principessa e il ranocchio", "anno": "2009 · Disney",
-         "desc": "Ultima grande Disney disegnata a mano. Ambientata totalmente a New Orleans anni '20, con il jazz di Randy Newman. La prima principessa afroamericana Disney.",
-         "link": "https://www.imdb.com/title/tt0780521/", "colore": BRAND_BLUE},
-        {"titolo": "Treme", "anno": "2010–2013 · HBO",
-         "desc": "La serie più importante su New Orleans dopo Katrina. Emmy Award. Da vedere assolutamente.",
-         "link": "https://www.imdb.com/title/tt1279972/", "colore": "#4a3fb8"},
-    ]
-    for f in film:
-        st.markdown(f"""
-        <div style="background:white;border-radius:18px;padding:1rem 1.2rem;margin-bottom:0.7rem;
-             display:flex;align-items:center;gap:1rem;
-             border-left:4px solid {f['colore']};
-             box-shadow:0 3px 12px rgba(19,0,137,0.05);">
-            <div style="flex:1;">
-                <div style="font-size:0.7rem;color:{BRAND_BLUE};font-weight:700;text-transform:uppercase;letter-spacing:0.08em;opacity:0.7;">{f['anno']}</div>
-                <div style="font-family:'Playfair Display',Georgia,serif;font-size:1rem;font-weight:800;color:{BRAND_BLUE};">{f['titolo']}</div>
-                <div style="font-size:0.85rem;color:#5b6472;margin-top:0.2rem;">{f['desc']}</div>
-            </div>
-            <a href="{f['link']}" target="_blank" rel="noopener"
-               style="flex-shrink:0;background:{BRAND_BLUE};color:white;padding:0.35rem 0.8rem;
-                      border-radius:999px;font-size:0.75rem;font-weight:600;text-decoration:none;white-space:nowrap;">
-                IMDb →
-            </a>
-        </div>
-        """, unsafe_allow_html=True)
+/* === Griglie === */
+.risorse-grid, .video-grid {{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.85rem;
+}}
+@media (max-width: 720px) {{
+    .risorse-grid, .video-grid {{
+        grid-template-columns: 1fr;
+    }}
+    .risorsa-card {{
+        grid-template-columns: 72px 1fr;
+        gap: 0.75rem;
+        padding: 0.8rem;
+    }}
+    .rc-title {{ font-size: 0.95rem; }}
+    .rc-desc {{ font-size: 0.76rem; }}
+    .rcv-title {{ font-size: 0.92rem; }}
+}}
 
-with tab3:
-    docs = [
-        {"titolo": "Katrina: Come Hell and High Water", "anno": "Netflix · 2025 · Spike Lee",
-         "desc": "Tre episodi, vent'anni dopo: i sopravvissuti raccontano la catastrofe e i fallimenti istituzionali.",
-         "link": "https://www.netflix.com/title/81676595", "label": "Netflix →", "colore": BRAND_BLUE},
-        {"titolo": "Hurricane Katrina: Race Against Time", "anno": "National Geographic · 2025",
-         "desc": "Cinque episodi. Critics Choice Award 2025. Ricostruzione minuto per minuto con footage inedito.",
-         "link": "https://www.imdb.com/title/tt37458027/", "label": "IMDb →", "colore": "#4a3fb8"},
-        {"titolo": "When the Levees Broke", "anno": "HBO · 2006 · Spike Lee",
-         "desc": "Quattro atti, il documentario che ha raccontato al mondo la devastazione di Katrina. Pietra miliare.",
-         "link": "https://www.imdb.com/title/tt0783105/", "label": "IMDb →", "colore": "#e6b800"},
-    ]
-    for d in docs:
-        st.markdown(f"""
-        <div style="background:white;border-radius:20px;padding:1.3rem 1.4rem;margin-bottom:0.8rem;
-             border-top:4px solid {d['colore']};box-shadow:0 4px 16px rgba(19,0,137,0.06);">
-            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;">
-                <div>
-                    <div style="font-size:0.7rem;color:{BRAND_BLUE};font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.3rem;opacity:0.7;">{d['anno']}</div>
-                    <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:800;color:{BRAND_BLUE};margin-bottom:0.4rem;">{d['titolo']}</div>
-                    <div style="font-size:0.88rem;color:#5b6472;line-height:1.6;">{d['desc']}</div>
-                </div>
-                <a href="{d['link']}" target="_blank" rel="noopener"
-                   style="flex-shrink:0;background:{d['colore']};color:{BRAND_BLUE};padding:0.4rem 0.9rem;
-                          border-radius:999px;font-size:0.78rem;font-weight:700;text-decoration:none;white-space:nowrap;align-self:center;">
-                    {d['label']}
-                </a>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+/* === Tab pill nel brand === */
+div.stTabs [data-baseweb="tab-list"] {{
+    gap: 0.4rem;
+    border-bottom: none !important;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+}}
+div.stTabs [data-baseweb="tab"] {{
+    background: white;
+    border: 1px solid rgba(19,0,137,0.18) !important;
+    border-radius: 999px;
+    padding: 0.45rem 1rem !important;
+    font-weight: 700;
+    font-size: 0.82rem;
+    color: {BRAND_BLUE};
+    height: auto !important;
+    transition: background 0.2s, color 0.2s;
+}}
+div.stTabs [data-baseweb="tab"]:hover {{
+    background: {BRAND_BLUE_LIGHT};
+}}
+div.stTabs [aria-selected="true"] {{
+    background: {BRAND_BLUE} !important;
+    color: white !important;
+    border-color: transparent !important;
+}}
+div.stTabs [data-baseweb="tab-highlight"],
+div.stTabs [data-baseweb="tab-border"] {{
+    display: none !important;
+}}
+</style>
+""", unsafe_allow_html=True)
 
-with tab4:
+
+def card_risorsa(titolo, meta, desc, link, cta, cover=None, fallback_char=None):
+    """Card unificata per libri, film, documentari e link (visual verticale 2:3 + testo)."""
+    char = (fallback_char or titolo[0]).upper()
+    if cover:
+        # Immagine con fallback tipografico se non carica
+        visual_html = (
+            '<img class="rc-cover" src="' + cover + '" alt="' + titolo + '" loading="lazy" '
+            + 'onerror="this.style.display=' + "'none'" + ';this.nextElementSibling.style.display=' + "'flex'" + ';">'
+            + '<div class="rc-fallback" style="display:none;">' + char + '</div>'
+        )
+    else:
+        visual_html = '<div class="rc-fallback">' + char + '</div>'
+    
+    return (
+        '<a class="risorsa-card" href="' + link + '" target="_blank" rel="noopener">'
+        + '<div class="rc-visual">' + visual_html + '</div>'
+        + '<div class="rc-body">'
+        + '<div class="rc-meta">' + meta + '</div>'
+        + '<div class="rc-title">' + titolo + '</div>'
+        + '<p class="rc-desc">' + desc + '</p>'
+        + '<span class="rc-cta">' + cta + ' &rarr;</span>'
+        + '</div>'
+        + '</a>'
+    )
+
+
+def card_video(titolo, canale, desc, link, vid):
+    """Card video YouTube (thumbnail 16:9 sopra + testo sotto)."""
+    # maxresdefault è 16:9 (1280x720). Fallback su hqdefault (4:3, 480x360) se manca.
+    thumb_max = "https://img.youtube.com/vi/" + vid + "/maxresdefault.jpg"
+    thumb_fb = "https://img.youtube.com/vi/" + vid + "/hqdefault.jpg"
+    return (
+        '<a class="risorsa-card-video" href="' + link + '" target="_blank" rel="noopener">'
+        + '<div class="rcv-visual">'
+        + '<img src="' + thumb_max + '" alt="' + titolo + '" loading="lazy" '
+        + "onerror=\"this.src='" + thumb_fb + "';\">"
+        + '<div class="rcv-play"></div>'
+        + '</div>'
+        + '<div class="rcv-body">'
+        + '<div class="rcv-meta">' + canale + '</div>'
+        + '<div class="rcv-title">' + titolo + '</div>'
+        + '<div class="rcv-desc">' + desc + '</div>'
+        + '</div>'
+        + '</a>'
+    )
+
+
+# I 5 tab riordinati: prima YouTube (video da guardare in aereo), poi libri/film/documentari, in fondo le risorse online
+tab_video, tab_libri, tab_film, tab_docs, tab_risorse = st.tabs([
+    "Video", "Libri", "Film e TV", "Documentari", "Risorse online"
+])
+
+# =========================
+# TAB VIDEO YouTube — primo
+# =========================
+with tab_video:
     st.markdown(f"""
-    <div style="background:white;border-left:4px solid {BRAND_YELLOW};border-radius:0 12px 12px 0;
-         padding:0.8rem 1.2rem;margin-bottom:1.4rem;font-size:0.88rem;color:{BRAND_BLUE};font-weight:500;box-shadow:0 2px 8px rgba(19,0,137,0.05);">
-        ▶️ Sei video per entrare nell'atmosfera della città — geografia, cibo, musica, vita locale e camminate immersive.
+    <div style="background:{BRAND_BLUE_LIGHT};border-left:4px solid {BRAND_YELLOW};border-radius:0 12px 12px 0;
+         padding:0.75rem 1.1rem;margin-bottom:1.2rem;font-size:0.85rem;color:{BRAND_BLUE};line-height:1.5;">
+        <strong>&#9654; Da guardare in aereo</strong> &mdash; sei video brevi per entrare nell'atmosfera della citt&agrave;.
     </div>
     """, unsafe_allow_html=True)
-
+    
     youtube_videos = [
-        {"titolo": "New Orleans Map, Explained",
-         "canale": "Geography Now style · in inglese",
-         "desc": "Guida visuale alla geografia di New Orleans: quartieri, fiume, lago, argini. Per orientarsi prima di partire.",
-         "link": "https://www.youtube.com/watch?v=dC3CD7Ht0ek",
-         "thumb": "https://img.youtube.com/vi/dC3CD7Ht0ek/hqdefault.jpg",
-         "colore": BRAND_BLUE},
-        {"titolo": "Following Bienville: The Founding of New Orleans",
-         "canale": "Storia · documentario",
-         "desc": "Sulle tracce di Jean-Baptiste Le Moyne de Bienville, fondatore di New Orleans: come nacque la città francese sul Mississippi.",
-         "link": "https://www.youtube.com/watch?v=no2mKeSJbzk",
-         "thumb": "https://img.youtube.com/vi/no2mKeSJbzk/hqdefault.jpg",
-         "colore": "#e6b800"},
-        {"titolo": "Peaceful French Quarter Walking Tour",
-         "canale": "Walking tour · no music",
-         "desc": "Camminata immersiva nel French Quarter di prima mattina, senza musica. Solo i suoni della città che si sveglia.",
-         "link": "https://www.youtube.com/watch?v=grN4Oacu1fM",
-         "thumb": "https://img.youtube.com/vi/grN4Oacu1fM/hqdefault.jpg",
-         "colore": "#4a3fb8"},
-        {"titolo": "La schiavitù senza filtri: 12 Anni Schiavo",
-         "canale": "Analisi · cinema e storia",
-         "desc": "Analisi del film di Steve McQueen sulla tratta degli schiavi: l'eredità più dolorosa della Louisiana raccontata attraverso il cinema.",
-         "link": "https://www.youtube.com/watch?v=Y1HJvVVAZpg&t=206s",
-         "thumb": "https://img.youtube.com/vi/Y1HJvVVAZpg/hqdefault.jpg",
-         "colore": BRAND_YELLOW},
-        {"titolo": "Billie Holiday & Louis Armstrong — New Orleans",
-         "canale": "Musica · 1947",
-         "desc": "Scena musicale dal film 'New Orleans' (1947): due leggende del jazz insieme. L'anima musicale della città in meno di 5 minuti.",
-         "link": "https://www.youtube.com/watch?v=m4jU8IQK5b0",
-         "thumb": "https://img.youtube.com/vi/m4jU8IQK5b0/hqdefault.jpg",
-         "colore": "#4a3fb8"},
-        {"titolo": "How to Experience New Orleans Like a Local",
-         "canale": "Condé Nast Traveler · in inglese",
-         "desc": "Internet vs Expert: due viaggiatori a confronto su come vivere davvero New Orleans, lontano dai cliché turistici.",
-         "link": "https://www.youtube.com/watch?v=CiXF3IMwac4",
-         "thumb": "https://img.youtube.com/vi/CiXF3IMwac4/hqdefault.jpg",
-         "colore": BRAND_YELLOW},
+        {"titolo": "New Orleans Map, Explained", "canale": "Geografia · in inglese",
+         "desc": "Guida visuale a quartieri, fiume, lago, argini. Per orientarsi prima di arrivare.",
+         "link": "https://www.youtube.com/watch?v=dC3CD7Ht0ek", "vid": "dC3CD7Ht0ek"},
+        {"titolo": "Following Bienville: The Founding of New Orleans", "canale": "Storia · documentario",
+         "desc": "Sulle tracce del fondatore: come nacque la città francese sul Mississippi.",
+         "link": "https://www.youtube.com/watch?v=no2mKeSJbzk", "vid": "no2mKeSJbzk"},
+        {"titolo": "Peaceful French Quarter Walking Tour", "canale": "Camminata immersiva",
+         "desc": "Camminata di prima mattina nel French Quarter, senza musica. Solo i suoni della città.",
+         "link": "https://www.youtube.com/watch?v=grN4Oacu1fM", "vid": "grN4Oacu1fM"},
+        {"titolo": "La schiavitù senza filtri: 12 Anni Schiavo", "canale": "Analisi cinema e storia",
+         "desc": "Analisi del film di Steve McQueen: l'eredità più dolorosa della Louisiana.",
+         "link": "https://www.youtube.com/watch?v=Y1HJvVVAZpg&t=206s", "vid": "Y1HJvVVAZpg"},
+        {"titolo": "Billie Holiday & Louis Armstrong — New Orleans", "canale": "Musica · 1947",
+         "desc": "Scena musicale dal film 'New Orleans' (1947): due leggende del jazz insieme.",
+         "link": "https://www.youtube.com/watch?v=m4jU8IQK5b0", "vid": "m4jU8IQK5b0"},
+        {"titolo": "How to Experience New Orleans Like a Local", "canale": "Condé Nast Traveler",
+         "desc": "Come vivere davvero New Orleans, lontano dai cliché turistici.",
+         "link": "https://www.youtube.com/watch?v=CiXF3IMwac4", "vid": "CiXF3IMwac4"},
     ]
+    
+    cards_html = '<div class="video-grid">' + "".join([card_video(**v) for v in youtube_videos]) + '</div>'
+    st.markdown(cards_html, unsafe_allow_html=True)
 
-    col_y1, col_y2 = st.columns(2)
-    for i, v in enumerate(youtube_videos):
-        with (col_y1 if i % 2 == 0 else col_y2):
-            st.markdown(f"""
-            <a href="{v['link']}" target="_blank" rel="noopener" style="text-decoration:none;">
-                <div style="background:white;border-radius:18px;overflow:hidden;margin-bottom:1rem;
-                     box-shadow:0 4px 16px rgba(19,0,137,0.08);
-                     border-top:4px solid {v['colore']};">
-                    <div style="position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:#000;">
-                        <img src="{v['thumb']}" alt="{v['titolo']}"
-                             style="width:100%;height:100%;object-fit:cover;display:block;">
-                        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-                             width:56px;height:56px;border-radius:50%;
-                             background:rgba(255,0,0,0.9);
-                             display:flex;align-items:center;justify-content:center;
-                             box-shadow:0 3px 12px rgba(0,0,0,0.4);">
-                            <div style="width:0;height:0;
-                                 border-left:18px solid white;
-                                 border-top:11px solid transparent;
-                                 border-bottom:11px solid transparent;
-                                 margin-left:4px;"></div>
-                        </div>
-                    </div>
-                    <div style="padding:1rem 1.2rem 1.1rem;">
-                        <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
-                             color:{v['colore']};margin-bottom:0.3rem;">{v['canale']}</div>
-                        <div style="font-family:'Playfair Display',Georgia,serif;font-size:1rem;font-weight:800;
-                             color:{BRAND_BLUE};line-height:1.25;margin-bottom:0.45rem;">{v['titolo']}</div>
-                        <div style="font-size:0.83rem;color:#3a4a5c;line-height:1.55;">{v['desc']}</div>
-                    </div>
-                </div>
-            </a>
-            """, unsafe_allow_html=True)
 
-with tab5:
+# =========================
+# TAB LIBRI — con copertine Open Library
+# =========================
+with tab_libri:
+    st.markdown(f"""
+    <div style="background:{BRAND_BLUE_LIGHT};border-left:4px solid {BRAND_YELLOW};border-radius:0 12px 12px 0;
+         padding:0.75rem 1.1rem;margin-bottom:1.2rem;font-size:0.85rem;color:{BRAND_BLUE};line-height:1.5;">
+        <strong>&#128218; Da leggere</strong> &mdash; sei titoli per approfondire New Orleans nella letteratura.
+    </div>
+    """, unsafe_allow_html=True)
+    
+    libri = [
+        {"titolo": "Una banda di idioti", "meta": "1980 · Pulitzer · John Kennedy Toole",
+         "desc": "Capolavoro ambientato nella New Orleans anni '60. Satira geniale — il modo più divertente per entrare nell'anima della città.",
+         "link": "https://it.wikipedia.org/wiki/Una_banda_di_idioti", "cta": "Approfondisci",
+         "cover": "https://covers.openlibrary.org/b/isbn/9780802130204-M.jpg", "fallback_char": "U"},
+        {"titolo": "Intervista col vampiro", "meta": "1976 · Anne Rice",
+         "desc": "Il romanzo d'esordio di Anne Rice, nata a New Orleans. Louis, vampiro bicentenario, tra piantagioni e French Quarter.",
+         "link": "https://it.wikipedia.org/wiki/Intervista_col_vampiro_(romanzo)", "cta": "Approfondisci",
+         "cover": "https://covers.openlibrary.org/b/isbn/9780345337665-M.jpg", "fallback_char": "I"},
+        {"titolo": "The Moviegoer", "meta": "1961 · National Book Award · Walker Percy",
+         "desc": "Vincitore del National Book Award. L'alienazione e la ricerca di senso di un giovane creolo nella città del Mardi Gras.",
+         "link": "https://it.wikipedia.org/wiki/Walker_Percy", "cta": "Approfondisci",
+         "cover": "https://covers.openlibrary.org/b/isbn/9780375701962-M.jpg", "fallback_char": "M"},
+        {"titolo": "L'ora delle streghe", "meta": "1990 · Anne Rice",
+         "desc": "Saga delle streghe Mayfair del Garden District, nella villa vittoriana dove Anne Rice visse davvero per 15 anni.",
+         "link": "https://it.wikipedia.org/wiki/L%27ora_delle_streghe_(romanzo)", "cta": "Approfondisci",
+         "cover": "https://covers.openlibrary.org/b/isbn/9780345384461-M.jpg", "fallback_char": "O"},
+        {"titolo": "Zeitoun", "meta": "2009 · Dave Eggers · Non fiction",
+         "desc": "La storia vera di un siriano-americano rimasto a New Orleans durante Katrina. Su resilienza, razzismo e fallimento istituzionale.",
+         "link": "https://it.wikipedia.org/wiki/Zeitoun_(libro)", "cta": "Approfondisci",
+         "cover": "https://covers.openlibrary.org/b/isbn/9780307389947-M.jpg", "fallback_char": "Z"},
+        {"titolo": "Blues Highway", "meta": "Rob Siebert · Reportage narrativo",
+         "desc": "Viaggio da Chicago a New Orleans sulle tracce delle origini della musica americana: blues, jazz, gospel.",
+         "link": "https://marcosymarcos.com/libri/gli-alianti/blues-highway/", "cta": "Approfondisci",
+         "cover": None, "fallback_char": "B"},
+    ]
+    
+    cards_html = '<div class="risorse-grid">' + "".join([card_risorsa(**l) for l in libri]) + '</div>'
+    st.markdown(cards_html, unsafe_allow_html=True)
+
+
+# =========================
+# TAB FILM E TV
+# =========================
+with tab_film:
+    st.markdown(f"""
+    <div style="background:{BRAND_BLUE_LIGHT};border-left:4px solid {BRAND_YELLOW};border-radius:0 12px 12px 0;
+         padding:0.75rem 1.1rem;margin-bottom:1.2rem;font-size:0.85rem;color:{BRAND_BLUE};line-height:1.5;">
+        <strong>&#127916; Da vedere</strong> &mdash; sette tra film e serie che raccontano New Orleans.
+    </div>
+    """, unsafe_allow_html=True)
+    
+    film = [
+        {"titolo": "Un tram che si chiama Desiderio", "meta": "1951 · Elia Kazan · 4 Oscar",
+         "desc": "Con Marlon Brando e Vivien Leigh. Classico assoluto girato nella New Orleans reale.",
+         "link": "https://www.imdb.com/title/tt0044081/", "cta": "IMDb", "cover": None, "fallback_char": "T"},
+        {"titolo": "12 anni schiavo", "meta": "2013 · Steve McQueen · Oscar Miglior Film",
+         "desc": "Girato in Louisiana, racconta la schiavitù nelle piantagioni vicino a New Orleans. Duro ma essenziale.",
+         "link": "https://www.imdb.com/title/tt2024544/", "cta": "IMDb", "cover": None, "fallback_char": "12"},
+        {"titolo": "Intervista col vampiro", "meta": "1994 · Neil Jordan",
+         "desc": "Tom Cruise, Brad Pitt, Kirsten Dunst. Cattura l'atmosfera gotica e decadente della Louisiana.",
+         "link": "https://www.imdb.com/title/tt0110632/", "cta": "IMDb", "cover": None, "fallback_char": "I"},
+        {"titolo": "Il curioso caso di Benjamin Button", "meta": "2008 · David Fincher · 3 Oscar",
+         "desc": "New Orleans dal dopoguerra a Katrina come sfondo per una storia sull'identità e la memoria.",
+         "link": "https://www.imdb.com/title/tt0421715/", "cta": "IMDb", "cover": None, "fallback_char": "B"},
+        {"titolo": "Re della terra selvaggia", "meta": "2012 · Benh Zeitlin · 4 nom. Oscar",
+         "desc": "Nei bayou della Louisiana post-Katrina, la piccola Hushpuppy affronta l'apocalisse.",
+         "link": "https://www.imdb.com/title/tt2125435/", "cta": "IMDb", "cover": None, "fallback_char": "R"},
+        {"titolo": "La principessa e il ranocchio", "meta": "2009 · Disney",
+         "desc": "Ultima grande Disney disegnata a mano. Ambientata a New Orleans anni '20, con il jazz di Randy Newman.",
+         "link": "https://www.imdb.com/title/tt0780521/", "cta": "IMDb", "cover": None, "fallback_char": "P"},
+        {"titolo": "Treme", "meta": "2010–2013 · HBO · Emmy Award",
+         "desc": "La serie più importante su New Orleans dopo Katrina. Da vedere assolutamente.",
+         "link": "https://www.imdb.com/title/tt1279972/", "cta": "IMDb", "cover": None, "fallback_char": "T"},
+    ]
+    
+    cards_html = '<div class="risorse-grid">' + "".join([card_risorsa(**f) for f in film]) + '</div>'
+    st.markdown(cards_html, unsafe_allow_html=True)
+
+
+# =========================
+# TAB DOCUMENTARI
+# =========================
+with tab_docs:
+    st.markdown(f"""
+    <div style="background:{BRAND_BLUE_LIGHT};border-left:4px solid {BRAND_YELLOW};border-radius:0 12px 12px 0;
+         padding:0.75rem 1.1rem;margin-bottom:1.2rem;font-size:0.85rem;color:{BRAND_BLUE};line-height:1.5;">
+        <strong>&#127902; Da capire</strong> &mdash; tre documentari su Katrina e sulla ricostruzione della citt&agrave;.
+    </div>
+    """, unsafe_allow_html=True)
+    
+    docs = [
+        {"titolo": "Katrina: Come Hell and High Water", "meta": "Netflix · 2025 · Spike Lee",
+         "desc": "Tre episodi, vent'anni dopo: i sopravvissuti raccontano la catastrofe e i fallimenti istituzionali.",
+         "link": "https://www.netflix.com/title/81676595", "cta": "Netflix", "cover": None, "fallback_char": "K"},
+        {"titolo": "Hurricane Katrina: Race Against Time", "meta": "National Geographic · 2025 · Critics Choice",
+         "desc": "Cinque episodi. Ricostruzione minuto per minuto con footage inedito.",
+         "link": "https://www.imdb.com/title/tt37458027/", "cta": "IMDb", "cover": None, "fallback_char": "H"},
+        {"titolo": "When the Levees Broke", "meta": "HBO · 2006 · Spike Lee · 4 atti",
+         "desc": "Il documentario che ha raccontato al mondo la devastazione di Katrina. Pietra miliare.",
+         "link": "https://www.imdb.com/title/tt0783105/", "cta": "IMDb", "cover": None, "fallback_char": "W"},
+    ]
+    
+    cards_html = '<div class="risorse-grid">' + "".join([card_risorsa(**d) for d in docs]) + '</div>'
+    st.markdown(cards_html, unsafe_allow_html=True)
+
+
+# =========================
+# TAB RISORSE ONLINE
+# =========================
+with tab_risorse:
+    st.markdown(f"""
+    <div style="background:{BRAND_BLUE_LIGHT};border-left:4px solid {BRAND_YELLOW};border-radius:0 12px 12px 0;
+         padding:0.75rem 1.1rem;margin-bottom:1.2rem;font-size:0.85rem;color:{BRAND_BLUE};line-height:1.5;">
+        <strong>&#127760; Da consultare</strong> &mdash; link per orientarsi tra attualit&agrave;, storia e cultura.
+    </div>
+    """, unsafe_allow_html=True)
+    
     risorse = [
-        {"titolo": "New Orleans — Wikipedia italiana",
+        {"titolo": "New Orleans — Wikipedia italiana", "meta": "Enciclopedia",
          "desc": "Panoramica su storia, cultura, musica e geografia. Ottimo punto di partenza.",
-         "link": "https://it.wikipedia.org/wiki/New_Orleans", "colore": BRAND_BLUE},
-        {"titolo": "The Times-Picayune · NOLA.com",
+         "link": "https://it.wikipedia.org/wiki/New_Orleans", "cta": "Apri", "cover": None, "fallback_char": "W"},
+        {"titolo": "The Times-Picayune · NOLA.com", "meta": "Attualità · Quotidiano locale",
          "desc": "Il principale quotidiano di New Orleans per seguire l'attualità della città.",
-         "link": "https://www.nola.com", "colore": BRAND_YELLOW},
-        {"titolo": "Da Costa a Costa — Francesco Costa",
-         "desc": "Newsletter e YouTube dell'esperto di America che incontreremo al briefing.",
-         "link": "https://www.ilpost.it/costa/", "colore": "#4a3fb8"},
-        {"titolo": "🎙️ Podcast su New Orleans — Spotify",
-         "desc": "Episodio podcast da ascoltare per entrare nell'atmosfera della città prima del viaggio.",
-         "link": "https://open.spotify.com/episode/0bUQRduCBPvvkbqwue4pQ3", "colore": BRAND_YELLOW},
+         "link": "https://www.nola.com", "cta": "Apri", "cover": None, "fallback_char": "N"},
+        {"titolo": "Da Costa a Costa — Francesco Costa", "meta": "Newsletter · YouTube",
+         "desc": "Newsletter e YouTube dell'esperto di America che ha incontrato il gruppo al briefing.",
+         "link": "https://www.ilpost.it/costa/", "cta": "Apri", "cover": None, "fallback_char": "C"},
+        {"titolo": "Podcast su New Orleans — Spotify", "meta": "Audio · Spotify",
+         "desc": "Episodio podcast per entrare nell'atmosfera della città prima del viaggio.",
+         "link": "https://open.spotify.com/episode/0bUQRduCBPvvkbqwue4pQ3", "cta": "Ascolta", "cover": None, "fallback_char": "P"},
     ]
-    for r in risorse:
-        st.markdown(f"""
-        <a href="{r['link']}" target="_blank" rel="noopener" style="text-decoration:none;">
-            <div style="background:white;border-radius:18px;padding:1.1rem 1.3rem;margin-bottom:0.7rem;
-                 display:flex;align-items:center;gap:1rem;
-                 border:1px solid rgba(19,0,137,0.1);
-                 box-shadow:0 3px 12px rgba(19,0,137,0.05);">
-                <div style="width:6px;height:40px;border-radius:3px;background:{r['colore']};flex-shrink:0;"></div>
-                <div>
-                    <div style="font-size:0.95rem;font-weight:800;color:{BRAND_BLUE};">{r['titolo']}</div>
-                    <div style="font-size:0.82rem;color:#5b6472;margin-top:0.15rem;">{r['desc']}</div>
-                </div>
-                <div style="margin-left:auto;color:{BRAND_BLUE};font-size:1.1rem;flex-shrink:0;">→</div>
-            </div>
-        </a>
-        """, unsafe_allow_html=True)
+    
+    cards_html = '<div class="risorse-grid">' + "".join([card_risorsa(**r) for r in risorse]) + '</div>'
+    st.markdown(cards_html, unsafe_allow_html=True)
+
 
 st.markdown('</div>', unsafe_allow_html=True)
 
