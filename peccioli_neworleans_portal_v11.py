@@ -480,8 +480,93 @@ section[data-testid="stSidebar"] {{ display: none !important; }}
     max-width: 640px;
 }}
 
+/* ── PATTERN mobile-collapse: <details> che agisce come accordion su MOBILE
+   e come normale contenitore su DESKTOP (nessuna funzionalità collassabile).
+   Uso: <details class="mobile-collapse"><summary class="mobile-collapse-summary">...</summary>...</details> ── */
+.mobile-collapse {{
+    display: block;
+    margin: 0.6rem 0;
+}}
+.mobile-collapse-summary {{
+    display: none;  /* nascondo il summary su desktop */
+}}
+.mobile-collapse[open] > .mobile-collapse-summary,
+.mobile-collapse > *:not(.mobile-collapse-summary) {{
+    display: block;  /* su desktop il contenuto è sempre visibile */
+}}
+
+@media (max-width: 640px) {{
+    .mobile-collapse {{
+        background: white;
+        border: 1px solid rgba(19,0,137,0.12);
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(19,0,137,0.05);
+        margin: 0.7rem 0;
+    }}
+    .mobile-collapse-summary {{
+        display: flex !important;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.85rem 1rem;
+        cursor: pointer;
+        list-style: none;
+        user-select: none;
+    }}
+    .mobile-collapse-summary::-webkit-details-marker {{ display: none; }}
+    .mobile-collapse-summary::marker {{ content: ''; }}
+    .mcs-icon {{
+        font-size: 1.15rem;
+        flex-shrink: 0;
+    }}
+    .mcs-label {{
+        font-family: 'Playfair Display', Georgia, serif;
+        font-weight: 800;
+        font-size: 0.98rem;
+        color: {BRAND_BLUE};
+        line-height: 1.1;
+    }}
+    .mcs-hint {{
+        font-size: 0.72rem;
+        color: #7a8698;
+        font-weight: 500;
+        flex: 1;
+        margin-left: 0.35rem;
+        line-height: 1.15;
+    }}
+    .mcs-chevron {{
+        flex-shrink: 0;
+        width: 24px; height: 24px;
+        border-radius: 50%;
+        background: rgba(19,0,137,0.06);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        color: {BRAND_BLUE};
+        font-weight: 800;
+        transition: transform 0.3s ease;
+    }}
+    .mobile-collapse[open] .mcs-chevron {{
+        transform: rotate(180deg);
+    }}
+    /* Contenuto interno con padding solo se il details è aperto */
+    .mobile-collapse[open] > *:not(.mobile-collapse-summary) {{
+        padding: 0 1rem 1rem;
+    }}
+    /* Su mobile chiudo di default: nascondo tutto tranne il summary */
+    .mobile-collapse:not([open]) > *:not(.mobile-collapse-summary) {{
+        display: none;
+    }}
+}}
+
 /* ── COMPATTAMENTO MOBILE: sezioni e titoli più stretti su schermi piccoli ── */
 @media (max-width: 640px) {{
+    /* Nascondo elementi non essenziali su mobile per dare risalto al Foglio Notizie */
+    .st-key-intro_peccioli_desktop,
+    .st-key-galleria_nola {{
+        display: none !important;
+    }}
     .section-wrap {{
         padding: 1.9rem 1rem 1.5rem;
     }}
@@ -539,9 +624,22 @@ section[data-testid="stSidebar"] {{ display: none !important; }}
         margin-top: -120px;
         margin-left: -1rem;
         margin-right: -1rem;
-        padding-top: 8rem;
-        padding-bottom: 2rem;
-        min-height: 65vh;
+        padding-top: 6.5rem;
+        padding-bottom: 1.6rem;
+        min-height: 42vh;
+    }}
+    .hero-title-main {{
+        font-size: 2.1rem;
+        letter-spacing: 0.01em;
+    }}
+    .hero-title-script {{
+        font-size: 1.4rem;
+        margin-top: 0.2rem;
+    }}
+    .hero-year {{
+        font-size: 0.68rem;
+        padding: 0.35rem 0.85rem;
+        margin-top: 0.9rem;
     }}
 }}
 /* Freccia animata scroll giu */
@@ -1381,6 +1479,237 @@ setTimeout(resizeIframe, 500);
 """)
 components.html(countdown_html, height=220, scrolling=False)
 
+
+# ============================================================================
+# ✈️ INFO DI VIAGGIO — SEZIONE IN EVIDENZA
+# Con la partenza vicina, il Foglio Notizie diventa il documento più importante.
+# Va in cima, prima delle sezioni tematiche.
+# ============================================================================
+from urllib.parse import quote as _quote
+_pdf_info_url = GITHUB_RAW_FOTO + "doc_info_viaggio.pdf"
+_pdf_viewer_url = f"https://docs.google.com/gview?url={_quote(_pdf_info_url, safe='')}&embedded=false"
+
+st.markdown(f"""
+<style>
+.info-viaggio-box {{
+    background: linear-gradient(135deg, {BRAND_YELLOW} 0%, #FFE988 100%);
+    border-radius: 22px;
+    padding: 1.6rem 1.5rem 1.4rem;
+    margin: 1.4rem 0 2rem;
+    position: relative;
+    box-shadow: 0 8px 26px rgba(255,222,89,0.4);
+    overflow: hidden;
+}}
+.info-viaggio-box::before {{
+    content: '✈';
+    position: absolute;
+    top: -30px; right: -20px;
+    font-size: 12rem;
+    color: {BRAND_BLUE};
+    opacity: 0.05;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+    transform: rotate(-15deg);
+}}
+.info-viaggio-eyebrow {{
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: {BRAND_BLUE};
+    opacity: 0.75;
+    margin-bottom: 0.5rem;
+    position: relative;
+}}
+.info-viaggio-title {{
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: {BRAND_BLUE};
+    line-height: 1.05;
+    margin-bottom: 0.35rem;
+    position: relative;
+}}
+.info-viaggio-sub {{
+    font-size: 0.9rem;
+    color: {BRAND_BLUE};
+    opacity: 0.85;
+    line-height: 1.5;
+    margin-bottom: 1.1rem;
+    position: relative;
+    max-width: 620px;
+}}
+.info-viaggio-cta {{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: {BRAND_BLUE};
+    color: white !important;
+    text-decoration: none !important;
+    padding: 0.85rem 1.4rem;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    box-shadow: 0 5px 16px rgba(19,0,137,0.35);
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+}}
+.info-viaggio-cta:hover {{
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(19,0,137,0.5);
+}}
+.info-viaggio-cta-secondary {{
+    background: white !important;
+    color: {BRAND_BLUE} !important;
+    margin-left: 0.55rem;
+    box-shadow: 0 3px 10px rgba(19,0,137,0.15);
+    border: 1.5px solid {BRAND_BLUE};
+}}
+.info-viaggio-cta-secondary:hover {{
+    background: {BRAND_BLUE} !important;
+    color: white !important;
+}}
+.info-viaggio-facts {{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.6rem;
+    margin-top: 1.3rem;
+    position: relative;
+}}
+.info-viaggio-fact {{
+    background: rgba(255,255,255,0.55);
+    border-radius: 12px;
+    padding: 0.7rem 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+}}
+.info-viaggio-fact-icon {{
+    font-size: 1.15rem;
+    flex-shrink: 0;
+}}
+.info-viaggio-fact-text {{
+    flex: 1;
+    min-width: 0;
+}}
+.info-viaggio-fact-label {{
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: {BRAND_BLUE};
+    opacity: 0.65;
+    line-height: 1;
+    margin-bottom: 0.2rem;
+}}
+.info-viaggio-fact-value {{
+    font-size: 0.8rem;
+    color: {BRAND_BLUE};
+    font-weight: 600;
+    line-height: 1.25;
+}}
+@media (max-width: 640px) {{
+    .info-viaggio-box {{
+        padding: 1.15rem 1.1rem 1.1rem;
+        border-radius: 18px;
+        margin: 1rem 0 1.4rem;
+    }}
+    .info-viaggio-eyebrow {{
+        font-size: 0.6rem;
+        margin-bottom: 0.35rem;
+    }}
+    .info-viaggio-title {{
+        font-size: 1.4rem;
+        margin-bottom: 0.25rem;
+    }}
+    .info-viaggio-sub {{
+        font-size: 0.78rem;
+        margin-bottom: 0.85rem;
+        line-height: 1.4;
+    }}
+    .info-viaggio-cta {{
+        padding: 0.65rem 1rem;
+        font-size: 0.82rem;
+        width: 100%;
+        justify-content: center;
+    }}
+    .info-viaggio-cta-secondary {{
+        margin-left: 0;
+        margin-top: 0.4rem;
+    }}
+    .info-viaggio-facts {{
+        grid-template-columns: 1fr 1fr;
+        gap: 0.4rem;
+        margin-top: 1rem;
+    }}
+    .info-viaggio-fact {{
+        padding: 0.55rem 0.6rem;
+        gap: 0.4rem;
+    }}
+    .info-viaggio-fact-icon {{
+        font-size: 1rem;
+    }}
+    .info-viaggio-fact-label {{
+        font-size: 0.55rem;
+        letter-spacing: 0.1em;
+    }}
+    .info-viaggio-fact-value {{
+        font-size: 0.72rem;
+        line-height: 1.2;
+    }}
+    .info-viaggio-box::before {{
+        font-size: 8rem;
+        top: -10px;
+        right: -30px;
+    }}
+}}
+</style>
+
+<div class="info-viaggio-box">
+    <div class="info-viaggio-eyebrow">📋 In vista della partenza</div>
+    <div class="info-viaggio-title">Foglio Notizie</div>
+    <div class="info-viaggio-sub">
+        Le informazioni pratiche del viaggio: voli, hotel, contatti dell'accompagnatore, documenti, valuta, clima, sicurezza. Da leggere assolutamente prima di partire.
+    </div>
+    <a class="info-viaggio-cta" href="{_pdf_viewer_url}" target="_blank" rel="noopener">
+        📄 Apri il Foglio Notizie completo
+    </a>
+    <a class="info-viaggio-cta info-viaggio-cta-secondary" href="#programma">
+        🗓 Vedi il programma giorno per giorno
+    </a>
+    <div class="info-viaggio-facts">
+        <div class="info-viaggio-fact">
+            <div class="info-viaggio-fact-icon">🚌</div>
+            <div class="info-viaggio-fact-text">
+                <div class="info-viaggio-fact-label">Ritrovo bus</div>
+                <div class="info-viaggio-fact-value">21 set · ore 6:00<br>Incubatore d'Impresa</div>
+            </div>
+        </div>
+        <div class="info-viaggio-fact">
+            <div class="info-viaggio-fact-icon">🏨</div>
+            <div class="info-viaggio-fact-text">
+                <div class="info-viaggio-fact-label">Hotel</div>
+                <div class="info-viaggio-fact-value">Hampton Inn & Suites<br>1300 Canal St, NOLA</div>
+            </div>
+        </div>
+        <div class="info-viaggio-fact">
+            <div class="info-viaggio-fact-icon">📞</div>
+            <div class="info-viaggio-fact-text">
+                <div class="info-viaggio-fact-label">Accompagnatore</div>
+                <div class="info-viaggio-fact-value">Simone Turini<br>+39 347 5244576</div>
+            </div>
+        </div>
+        <div class="info-viaggio-fact">
+            <div class="info-viaggio-fact-icon">🆘</div>
+            <div class="info-viaggio-fact-text">
+                <div class="info-viaggio-fact-label">Emergenze USA</div>
+                <div class="info-viaggio-fact-value">911<br>Consolato: 504-300-8099</div>
+            </div>
+        </div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
 # Dialog "L'opera che ci ispira" (popup quando si clicca sul bottone sotto)
 @st.dialog(" ", width="large")
 def mostra_opera_ispira():
@@ -1431,63 +1760,68 @@ if st.session_state.show_opera:
     mostra_opera_ispira()
     st.session_state.show_opera = False
 
-st.markdown(f"""
-<div style="background:{BRAND_BLUE_LIGHT};border-radius:18px;padding:1.1rem 1.3rem;margin:1rem 0 0.6rem;border-left:4px solid {BRAND_YELLOW};">
-    <p style="font-size:0.98rem;color:{BRAND_BLUE};line-height:1.65;margin:0;font-style:italic;">
-        <strong style="font-style:normal;">Peccioli Eyes</strong> è uno sguardo che parte dal nostro piccolo territorio e si apre al mondo, mettendo al centro i giovani, la cultura e l'esperienza.
-    </p>
-</div>
-""", unsafe_allow_html=True)
-
-# Bottone trigger del popup opera (discreto, vicino alla descrizione)
-col_btn_left, col_btn_center, col_btn_right = st.columns([1, 2, 1])
-with col_btn_center:
-    if st.button("👁  Da dove viene il nome \"Peccioli Eyes\"?", key="btn_opera_ispira", use_container_width=True):
-        st.session_state.show_opera = True
-        st.rerun()
-
-st.markdown(f"""
-<div style="display:flex;align-items:center;gap:1rem;margin:1.5rem 0 0.8rem;">
-    <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(19,0,137,0.2));"></div>
-    <div style="text-align:center;">
-        <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:{BRAND_BLUE};margin-bottom:0.15rem;opacity:0.7;">New Orleans vista da vicino</div>
-        <div style="font-family:'Lobster Two',cursive;font-style:italic;font-size:1.3rem;font-weight:700;color:{BRAND_BLUE};line-height:1;">Sguardi sulla città</div>
+# Contenitore "solo desktop" per il riquadro intro + bottone opera
+# Su mobile viene nascosto via CSS (.st-key-intro_peccioli_desktop) — su desktop resta.
+with st.container(key="intro_peccioli_desktop"):
+    st.markdown(f"""
+    <div style="background:{BRAND_BLUE_LIGHT};border-radius:18px;padding:1.1rem 1.3rem;margin:1rem 0 0.6rem;border-left:4px solid {BRAND_YELLOW};">
+        <p style="font-size:0.98rem;color:{BRAND_BLUE};line-height:1.65;margin:0;font-style:italic;">
+            <strong style="font-style:normal;">Peccioli Eyes</strong> è uno sguardo che parte dal nostro piccolo territorio e si apre al mondo, mettendo al centro i giovani, la cultura e l'esperienza.
+        </p>
     </div>
-    <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(19,0,137,0.2),transparent);"></div>
-</div>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
+    
+    # Bottone trigger del popup opera (discreto, vicino alla descrizione)
+    col_btn_left, col_btn_center, col_btn_right = st.columns([1, 2, 1])
+    with col_btn_center:
+        if st.button("👁  Da dove viene il nome \"Peccioli Eyes\"?", key="btn_opera_ispira", use_container_width=True):
+            st.session_state.show_opera = True
+            st.rerun()
 
-valid_items = [item for item in gallery_items if item["path"]]
-
-@st.fragment
-def galleria():
-    if "selected_home_image" not in st.session_state:
-        st.session_state.selected_home_image = 0
-    idx = min(st.session_state.selected_home_image, len(valid_items) - 1)
-    selected = valid_items[idx]
-    # Immagine full-width (con aspect-ratio 16/10 gestito via CSS per evitare salti)
-    st.image(selected["path"], use_container_width=True)
-    st.markdown(f'<div class="gallery-caption"><strong>{selected["title"]}</strong> — {selected["desc"]}</div>', unsafe_allow_html=True)
-    # Frecce affiancate SOTTO l'immagine (funzionano anche su mobile)
-    col_prev, col_dots, col_next = st.columns([1, 2, 1])
-    with col_prev:
-        if st.button("← Precedente", key="prev_img", use_container_width=True):
-            st.session_state.selected_home_image = (idx - 1) % len(valid_items)
-            st.rerun(scope="fragment")
-    with col_dots:
-        dots_html = '<div style="display:flex;justify-content:center;align-items:center;gap:6px;height:100%;padding-top:0.55rem;">'
-        for i in range(len(valid_items)):
-            color = BRAND_YELLOW if i == idx else "rgba(19,0,137,0.2)"
-            dots_html += f'<div style="width:8px;height:8px;border-radius:50%;background:{color};"></div>'
-        dots_html += '</div>'
-        st.markdown(dots_html, unsafe_allow_html=True)
-    with col_next:
-        if st.button("Successiva →", key="next_img", use_container_width=True):
-            st.session_state.selected_home_image = (idx + 1) % len(valid_items)
-            st.rerun(scope="fragment")
-
-if valid_items:
-    galleria()
+# Contenitore galleria "sguardi sulla città" — collassato su mobile via CSS (.st-key-galleria_nola)
+with st.container(key="galleria_nola"):
+    st.markdown(f"""
+    <div style="display:flex;align-items:center;gap:1rem;margin:1.5rem 0 0.8rem;">
+        <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(19,0,137,0.2));"></div>
+        <div style="text-align:center;">
+            <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:{BRAND_BLUE};margin-bottom:0.15rem;opacity:0.7;">New Orleans vista da vicino</div>
+            <div style="font-family:'Lobster Two',cursive;font-style:italic;font-size:1.3rem;font-weight:700;color:{BRAND_BLUE};line-height:1;">Sguardi sulla città</div>
+        </div>
+        <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(19,0,137,0.2),transparent);"></div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    valid_items = [item for item in gallery_items if item["path"]]
+    
+    @st.fragment
+    def galleria():
+        if "selected_home_image" not in st.session_state:
+            st.session_state.selected_home_image = 0
+        idx = min(st.session_state.selected_home_image, len(valid_items) - 1)
+        selected = valid_items[idx]
+        # Immagine full-width (con aspect-ratio 16/10 gestito via CSS per evitare salti)
+        st.image(selected["path"], use_container_width=True)
+        st.markdown(f'<div class="gallery-caption"><strong>{selected["title"]}</strong> — {selected["desc"]}</div>', unsafe_allow_html=True)
+        # Frecce affiancate SOTTO l'immagine (funzionano anche su mobile)
+        col_prev, col_dots, col_next = st.columns([1, 2, 1])
+        with col_prev:
+            if st.button("← Precedente", key="prev_img", use_container_width=True):
+                st.session_state.selected_home_image = (idx - 1) % len(valid_items)
+                st.rerun(scope="fragment")
+        with col_dots:
+            dots_html = '<div style="display:flex;justify-content:center;align-items:center;gap:6px;height:100%;padding-top:0.55rem;">'
+            for i in range(len(valid_items)):
+                color = BRAND_YELLOW if i == idx else "rgba(19,0,137,0.2)"
+                dots_html += f'<div style="width:8px;height:8px;border-radius:50%;background:{color};"></div>'
+            dots_html += '</div>'
+            st.markdown(dots_html, unsafe_allow_html=True)
+        with col_next:
+            if st.button("Successiva →", key="next_img", use_container_width=True):
+                st.session_state.selected_home_image = (idx + 1) % len(valid_items)
+                st.rerun(scope="fragment")
+    
+    if valid_items:
+        galleria()
 
 # ============================================================================
 # 📊 STATISTICHE DEL VIAGGIO (collassabili)
@@ -1727,6 +2061,13 @@ components.html("""
 """, height=0)
 
 st.markdown(f"""
+<details class="mobile-collapse" id="home-strip-collapse">
+<summary class="mobile-collapse-summary">
+    <span class="mcs-icon">🌎</span>
+    <span class="mcs-label">Città in diretta</span>
+    <span class="mcs-hint">Live · Notizie · Playlist</span>
+    <span class="mcs-chevron">▾</span>
+</summary>
 <div class="home-strip">
     <a href="https://www.earthcam.com/usa/louisiana/neworleans/bourbonstreet/" target="_blank" rel="noopener" class="strip-card">
         <div class="strip-label">📹 Live</div>
@@ -1748,239 +2089,10 @@ st.markdown(f"""
         <div class="strip-sub">Jazz, blues, bounce</div>
     </a>
 </div>
+</details>
 </div>
 """, unsafe_allow_html=True)
 
-# ============================================================================
-# ✈️ INFO DI VIAGGIO — SEZIONE IN EVIDENZA
-# Con la partenza vicina, il Foglio Notizie diventa il documento più importante.
-# Va in cima, prima delle sezioni tematiche.
-# ============================================================================
-from urllib.parse import quote as _quote
-_pdf_info_url = GITHUB_RAW_FOTO + "doc_info_viaggio.pdf"
-_pdf_viewer_url = f"https://docs.google.com/gview?url={_quote(_pdf_info_url, safe='')}&embedded=false"
-
-st.markdown(f"""
-<style>
-.info-viaggio-box {{
-    background: linear-gradient(135deg, {BRAND_YELLOW} 0%, #FFE988 100%);
-    border-radius: 22px;
-    padding: 1.6rem 1.5rem 1.4rem;
-    margin: 1.4rem 0 2rem;
-    position: relative;
-    box-shadow: 0 8px 26px rgba(255,222,89,0.4);
-    overflow: hidden;
-}}
-.info-viaggio-box::before {{
-    content: '✈';
-    position: absolute;
-    top: -30px; right: -20px;
-    font-size: 12rem;
-    color: {BRAND_BLUE};
-    opacity: 0.05;
-    line-height: 1;
-    pointer-events: none;
-    user-select: none;
-    transform: rotate(-15deg);
-}}
-.info-viaggio-eyebrow {{
-    font-size: 0.68rem;
-    font-weight: 800;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: {BRAND_BLUE};
-    opacity: 0.75;
-    margin-bottom: 0.5rem;
-    position: relative;
-}}
-.info-viaggio-title {{
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: 1.9rem;
-    font-weight: 800;
-    color: {BRAND_BLUE};
-    line-height: 1.05;
-    margin-bottom: 0.35rem;
-    position: relative;
-}}
-.info-viaggio-sub {{
-    font-size: 0.9rem;
-    color: {BRAND_BLUE};
-    opacity: 0.85;
-    line-height: 1.5;
-    margin-bottom: 1.1rem;
-    position: relative;
-    max-width: 620px;
-}}
-.info-viaggio-cta {{
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: {BRAND_BLUE};
-    color: white !important;
-    text-decoration: none !important;
-    padding: 0.85rem 1.4rem;
-    border-radius: 999px;
-    font-weight: 700;
-    font-size: 0.95rem;
-    box-shadow: 0 5px 16px rgba(19,0,137,0.35);
-    transition: transform 0.2s, box-shadow 0.2s;
-    position: relative;
-}}
-.info-viaggio-cta:hover {{
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(19,0,137,0.5);
-}}
-.info-viaggio-cta-secondary {{
-    background: white !important;
-    color: {BRAND_BLUE} !important;
-    margin-left: 0.55rem;
-    box-shadow: 0 3px 10px rgba(19,0,137,0.15);
-    border: 1.5px solid {BRAND_BLUE};
-}}
-.info-viaggio-cta-secondary:hover {{
-    background: {BRAND_BLUE} !important;
-    color: white !important;
-}}
-.info-viaggio-facts {{
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 0.6rem;
-    margin-top: 1.3rem;
-    position: relative;
-}}
-.info-viaggio-fact {{
-    background: rgba(255,255,255,0.55);
-    border-radius: 12px;
-    padding: 0.7rem 0.85rem;
-    display: flex;
-    align-items: center;
-    gap: 0.55rem;
-}}
-.info-viaggio-fact-icon {{
-    font-size: 1.15rem;
-    flex-shrink: 0;
-}}
-.info-viaggio-fact-text {{
-    flex: 1;
-    min-width: 0;
-}}
-.info-viaggio-fact-label {{
-    font-size: 0.6rem;
-    font-weight: 800;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: {BRAND_BLUE};
-    opacity: 0.65;
-    line-height: 1;
-    margin-bottom: 0.2rem;
-}}
-.info-viaggio-fact-value {{
-    font-size: 0.8rem;
-    color: {BRAND_BLUE};
-    font-weight: 600;
-    line-height: 1.25;
-}}
-@media (max-width: 640px) {{
-    .info-viaggio-box {{
-        padding: 1.15rem 1.1rem 1.1rem;
-        border-radius: 18px;
-        margin: 1rem 0 1.4rem;
-    }}
-    .info-viaggio-eyebrow {{
-        font-size: 0.6rem;
-        margin-bottom: 0.35rem;
-    }}
-    .info-viaggio-title {{
-        font-size: 1.4rem;
-        margin-bottom: 0.25rem;
-    }}
-    .info-viaggio-sub {{
-        font-size: 0.78rem;
-        margin-bottom: 0.85rem;
-        line-height: 1.4;
-    }}
-    .info-viaggio-cta {{
-        padding: 0.65rem 1rem;
-        font-size: 0.82rem;
-        width: 100%;
-        justify-content: center;
-    }}
-    .info-viaggio-cta-secondary {{
-        margin-left: 0;
-        margin-top: 0.4rem;
-    }}
-    .info-viaggio-facts {{
-        grid-template-columns: 1fr 1fr;
-        gap: 0.4rem;
-        margin-top: 1rem;
-    }}
-    .info-viaggio-fact {{
-        padding: 0.55rem 0.6rem;
-        gap: 0.4rem;
-    }}
-    .info-viaggio-fact-icon {{
-        font-size: 1rem;
-    }}
-    .info-viaggio-fact-label {{
-        font-size: 0.55rem;
-        letter-spacing: 0.1em;
-    }}
-    .info-viaggio-fact-value {{
-        font-size: 0.72rem;
-        line-height: 1.2;
-    }}
-    .info-viaggio-box::before {{
-        font-size: 8rem;
-        top: -10px;
-        right: -30px;
-    }}
-}}
-</style>
-
-<div class="info-viaggio-box">
-    <div class="info-viaggio-eyebrow">📋 In vista della partenza</div>
-    <div class="info-viaggio-title">Foglio Notizie</div>
-    <div class="info-viaggio-sub">
-        Le informazioni pratiche del viaggio: voli, hotel, contatti dell'accompagnatore, documenti, valuta, clima, sicurezza. Da leggere assolutamente prima di partire.
-    </div>
-    <a class="info-viaggio-cta" href="{_pdf_viewer_url}" target="_blank" rel="noopener">
-        📄 Apri il Foglio Notizie completo
-    </a>
-    <a class="info-viaggio-cta info-viaggio-cta-secondary" href="#programma">
-        🗓 Vedi il programma giorno per giorno
-    </a>
-    <div class="info-viaggio-facts">
-        <div class="info-viaggio-fact">
-            <div class="info-viaggio-fact-icon">🚌</div>
-            <div class="info-viaggio-fact-text">
-                <div class="info-viaggio-fact-label">Ritrovo bus</div>
-                <div class="info-viaggio-fact-value">21 set · ore 6:00<br>Incubatore d'Impresa</div>
-            </div>
-        </div>
-        <div class="info-viaggio-fact">
-            <div class="info-viaggio-fact-icon">🏨</div>
-            <div class="info-viaggio-fact-text">
-                <div class="info-viaggio-fact-label">Hotel</div>
-                <div class="info-viaggio-fact-value">Hampton Inn & Suites<br>1300 Canal St, NOLA</div>
-            </div>
-        </div>
-        <div class="info-viaggio-fact">
-            <div class="info-viaggio-fact-icon">📞</div>
-            <div class="info-viaggio-fact-text">
-                <div class="info-viaggio-fact-label">Accompagnatore</div>
-                <div class="info-viaggio-fact-value">Simone Turini<br>+39 347 5244576</div>
-            </div>
-        </div>
-        <div class="info-viaggio-fact">
-            <div class="info-viaggio-fact-icon">🆘</div>
-            <div class="info-viaggio-fact-text">
-                <div class="info-viaggio-fact-label">Emergenze USA</div>
-                <div class="info-viaggio-fact-value">911<br>Consolato: 504-300-8099</div>
-            </div>
-        </div>
-    </div>
-</div>
-""", unsafe_allow_html=True)
 
 # ============================================================================
 # 👁 TEMI — GIALLO CHIARO — 8 SGUARDI
@@ -2294,15 +2406,70 @@ details[open] .sguardo-chevron {
 }
 
 @media (max-width: 720px) {
-    .sguardo-numero { font-size: 6rem; top: -14px; }
-    .sguardo-titolo { font-size: 1.3rem; }
-    .sguardo-card summary { padding: 1.2rem 1.2rem 1rem; }
-    .sguardo-body { padding: 0 1.2rem 1.2rem; }
-    .sguardo-icona { width: 40px; height: 40px; }
-    .sguardo-icona svg { width: 20px; height: 20px; }
-    .sguardo-chip-luogo { font-size: 0.72rem; padding: 0.3rem 0.6rem 0.3rem 0.35rem; }
-    .sguardo-chip-luogo .chip-num { width: 16px; height: 16px; font-size: 0.62rem; }
-    .sguardo-link-risorsa { font-size: 0.78rem; padding: 0.5rem 0.7rem; }
+    /* Compattamento aggressivo header card sguardi su mobile */
+    .sguardo-numero {
+        font-size: 3.5rem;
+        top: -8px;
+        right: 4px;
+        opacity: 0.045;
+    }
+    .sguardo-card summary {
+        padding: 0.85rem 0.95rem 0.75rem;
+    }
+    .sguardo-body {
+        padding: 0 0.95rem 1rem;
+    }
+    .sguardo-header {
+        gap: 0.55rem;
+        margin-bottom: 0.55rem;
+    }
+    .sguardo-icona {
+        width: 34px;
+        height: 34px;
+    }
+    .sguardo-icona svg {
+        width: 17px;
+        height: 17px;
+    }
+    .sguardo-eyebrow {
+        font-size: 0.55rem;
+        letter-spacing: 0.18em;
+    }
+    .sguardo-titolo {
+        font-size: 1.1rem;
+        line-height: 1.1;
+        margin-bottom: 0.15rem;
+    }
+    .sguardo-sub {
+        font-size: 0.82rem;
+        line-height: 1.2;
+    }
+    .sguardo-chevron {
+        width: 22px;
+        height: 22px;
+        font-size: 0.7rem;
+    }
+    .sguardi-grid {
+        gap: 0.55rem;
+    }
+    /* Contenuto interno più compatto */
+    .sguardo-divider {
+        margin-bottom: 0.75rem;
+    }
+    .sguardo-block {
+        margin-bottom: 0.8rem;
+    }
+    .sguardo-label {
+        font-size: 0.55rem;
+        margin-bottom: 0.2rem;
+    }
+    .sguardo-text {
+        font-size: 0.82rem;
+        line-height: 1.45;
+    }
+    .sguardo-chip-luogo { font-size: 0.7rem; padding: 0.28rem 0.55rem 0.28rem 0.32rem; }
+    .sguardo-chip-luogo .chip-num { width: 15px; height: 15px; font-size: 0.6rem; }
+    .sguardo-link-risorsa { font-size: 0.75rem; padding: 0.42rem 0.65rem; }
 }
 </style>
 """, unsafe_allow_html=True)
