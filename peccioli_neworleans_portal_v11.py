@@ -1762,6 +1762,121 @@ if st.session_state.show_opera:
     mostra_opera_ispira()
     st.session_state.show_opera = False
 
+# ============================================================================
+# 📺 RIMANDO ALLA SEZIONE ALTRO — Da guardare in aereo / al ritorno
+# ============================================================================
+st.markdown(f"""
+<style>
+.altro-hint-box {{
+    background: linear-gradient(135deg, {BRAND_BLUE_LIGHT} 0%, #ffffff 100%);
+    border: 1px solid rgba(19,0,137,0.12);
+    border-radius: 20px;
+    padding: 1.4rem 1.4rem 1.2rem;
+    margin: 1.4rem 0 1.6rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 18px rgba(19,0,137,0.06);
+}}
+.altro-hint-box::before {{
+    content: '▶';
+    position: absolute;
+    top: -20px; right: -15px;
+    font-size: 9rem;
+    color: {BRAND_BLUE};
+    opacity: 0.04;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+    transform: rotate(-8deg);
+}}
+.altro-hint-eyebrow {{
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: {BRAND_BLUE};
+    opacity: 0.7;
+    margin-bottom: 0.3rem;
+}}
+.altro-hint-title {{
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: {BRAND_BLUE};
+    line-height: 1.1;
+    margin-bottom: 0.4rem;
+}}
+.altro-hint-desc {{
+    font-size: 0.88rem;
+    color: #3a4a5c;
+    line-height: 1.55;
+    margin-bottom: 1rem;
+    max-width: 500px;
+}}
+.altro-hint-stats {{
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}}
+.altro-hint-pill {{
+    background: white;
+    border: 1px solid rgba(19,0,137,0.15);
+    border-radius: 999px;
+    padding: 0.35rem 0.85rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: {BRAND_BLUE};
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}}
+.altro-hint-pill-icon {{
+    font-size: 0.85rem;
+    opacity: 0.85;
+}}
+.altro-hint-cta {{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: {BRAND_BLUE};
+    color: white !important;
+    padding: 0.7rem 1.3rem;
+    border-radius: 999px;
+    text-decoration: none !important;
+    font-weight: 700;
+    font-size: 0.88rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 12px rgba(19,0,137,0.2);
+}}
+.altro-hint-cta:hover {{
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(19,0,137,0.3);
+}}
+@media (max-width: 640px) {{
+    .altro-hint-box {{ padding: 1.1rem 1.1rem 1rem; margin: 1rem 0 1.3rem; }}
+    .altro-hint-title {{ font-size: 1.15rem; }}
+    .altro-hint-desc {{ font-size: 0.82rem; }}
+    .altro-hint-cta {{ font-size: 0.82rem; padding: 0.6rem 1.15rem; width: 100%; justify-content: center; }}
+}}
+</style>
+
+<div class="altro-hint-box">
+    <div class="altro-hint-eyebrow">06 · Da guardare, leggere, ascoltare</div>
+    <div class="altro-hint-title">In viaggio e al ritorno</div>
+    <div class="altro-hint-desc">
+        Video brevi per accorciare il volo, libri, film e documentari per approfondire al ritorno i temi del viaggio.
+    </div>
+    <div class="altro-hint-stats">
+        <span class="altro-hint-pill"><span class="altro-hint-pill-icon">▶</span> 6 video</span>
+        <span class="altro-hint-pill"><span class="altro-hint-pill-icon">📚</span> 5 libri</span>
+        <span class="altro-hint-pill"><span class="altro-hint-pill-icon">🎬</span> 7 film</span>
+        <span class="altro-hint-pill"><span class="altro-hint-pill-icon">🎞</span> 3 documentari</span>
+    </div>
+    <a href="#approfondimenti" class="altro-hint-cta">Esplora tutto →</a>
+</div>
+""", unsafe_allow_html=True)
+
 # Contenitore galleria "sguardi sulla città" — collassato su mobile via CSS (.st-key-galleria_nola)
 with st.container(key="galleria_nola"):
     st.markdown(f"""
@@ -3768,13 +3883,27 @@ st.markdown(f"""
     .risorse-grid, .video-grid {{
         grid-template-columns: 1fr;
     }}
+    /* Su mobile: layout verticale con immagine grande sopra e testo sotto */
     .risorsa-card {{
-        grid-template-columns: 72px 1fr;
-        gap: 0.75rem;
-        padding: 0.8rem;
+        grid-template-columns: 1fr;
+        gap: 0.9rem;
+        padding: 0.9rem;
     }}
-    .rc-title {{ font-size: 0.95rem; }}
-    .rc-desc {{ font-size: 0.76rem; }}
+    .rc-visual {{
+        max-width: 160px;
+        margin: 0 auto;
+    }}
+    .rc-body {{
+        text-align: center;
+    }}
+    .rc-desc {{
+        text-align: left;
+    }}
+    .rc-cta {{
+        margin-top: 0.3rem;
+    }}
+    .rc-title {{ font-size: 1.05rem; }}
+    .rc-desc {{ font-size: 0.82rem; }}
     .rcv-title {{ font-size: 0.92rem; }}
 }}
 
