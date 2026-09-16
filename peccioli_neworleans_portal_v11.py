@@ -480,90 +480,72 @@ section[data-testid="stSidebar"] {{ display: none !important; }}
     max-width: 640px;
 }}
 
-/* ── PATTERN mobile-collapse: <details> che agisce come accordion su MOBILE
-   e come normale contenitore su DESKTOP (nessuna funzionalità collassabile).
+/* ── PATTERN mobile-collapse: <details> che agisce come cartella espandibile
+   su TUTTE le versioni (desktop + mobile). Chiuso di default.
    Uso: <details class="mobile-collapse"><summary class="mobile-collapse-summary">...</summary>...</details> ── */
 .mobile-collapse {{
     display: block;
-    margin: 0.6rem 0;
+    margin: 0.7rem 0;
+    background: white;
+    border: 1px solid rgba(19,0,137,0.12);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(19,0,137,0.05);
 }}
 .mobile-collapse-summary {{
-    display: none;  /* nascondo il summary su desktop */
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.85rem 1rem;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
 }}
-.mobile-collapse[open] > .mobile-collapse-summary,
-.mobile-collapse > *:not(.mobile-collapse-summary) {{
-    display: block;  /* su desktop il contenuto è sempre visibile */
+.mobile-collapse-summary::-webkit-details-marker {{ display: none; }}
+.mobile-collapse-summary::marker {{ content: ''; }}
+.mcs-icon {{
+    font-size: 1.15rem;
+    flex-shrink: 0;
 }}
-
-@media (max-width: 640px) {{
-    .mobile-collapse {{
-        background: white;
-        border: 1px solid rgba(19,0,137,0.12);
-        border-radius: 14px;
-        overflow: hidden;
-        box-shadow: 0 2px 8px rgba(19,0,137,0.05);
-        margin: 0.7rem 0;
-    }}
-    .mobile-collapse-summary {{
-        display: flex !important;
-        align-items: center;
-        gap: 0.6rem;
-        padding: 0.85rem 1rem;
-        cursor: pointer;
-        list-style: none;
-        user-select: none;
-    }}
-    .mobile-collapse-summary::-webkit-details-marker {{ display: none; }}
-    .mobile-collapse-summary::marker {{ content: ''; }}
-    .mcs-icon {{
-        font-size: 1.15rem;
-        flex-shrink: 0;
-    }}
-    .mcs-label {{
-        font-family: 'Playfair Display', Georgia, serif;
-        font-weight: 800;
-        font-size: 0.98rem;
-        color: {BRAND_BLUE};
-        line-height: 1.1;
-    }}
-    .mcs-hint {{
-        font-size: 0.72rem;
-        color: #7a8698;
-        font-weight: 500;
-        flex: 1;
-        margin-left: 0.35rem;
-        line-height: 1.15;
-    }}
-    .mcs-chevron {{
-        flex-shrink: 0;
-        width: 24px; height: 24px;
-        border-radius: 50%;
-        background: rgba(19,0,137,0.06);
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.75rem;
-        color: {BRAND_BLUE};
-        font-weight: 800;
-        transition: transform 0.3s ease;
-    }}
-    .mobile-collapse[open] .mcs-chevron {{
-        transform: rotate(180deg);
-    }}
-    /* Contenuto interno con padding solo se il details è aperto */
-    .mobile-collapse[open] > *:not(.mobile-collapse-summary) {{
-        padding: 0 1rem 1rem;
-    }}
-    /* Su mobile chiudo di default: nascondo tutto tranne il summary */
-    .mobile-collapse:not([open]) > *:not(.mobile-collapse-summary) {{
-        display: none;
-    }}
+.mcs-label {{
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 800;
+    font-size: 0.98rem;
+    color: {BRAND_BLUE};
+    line-height: 1.1;
+}}
+.mcs-hint {{
+    font-size: 0.72rem;
+    color: #7a8698;
+    font-weight: 500;
+    flex: 1;
+    margin-left: 0.35rem;
+    line-height: 1.15;
+}}
+.mcs-chevron {{
+    flex-shrink: 0;
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: rgba(19,0,137,0.06);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    color: {BRAND_BLUE};
+    font-weight: 800;
+    transition: transform 0.3s ease;
+}}
+.mobile-collapse[open] .mcs-chevron {{
+    transform: rotate(180deg);
+}}
+/* Contenuto interno con padding solo quando aperto */
+.mobile-collapse[open] > *:not(.mobile-collapse-summary) {{
+    padding: 0 1rem 1rem;
 }}
 
 /* ── COMPATTAMENTO MOBILE: sezioni e titoli più stretti su schermi piccoli ── */
 @media (max-width: 640px) {{
-    /* Nascondo elementi non essenziali su mobile per dare risalto al Foglio Notizie */
-    .st-key-intro_peccioli_desktop,
+    /* Nascondo la galleria su mobile per dare risalto al Foglio Notizie */
     .st-key-galleria_nola {{
         display: none !important;
     }}
@@ -1479,6 +1461,26 @@ setTimeout(resizeIframe, 500);
 """)
 components.html(countdown_html, height=220, scrolling=False)
 
+# ============================================================================
+# RIQUADRO COMPATTO "Perché Peccioli Eyes" — sopra il Foglio Notizie
+# Descrizione italica a sinistra + bottone a destra in una sola riga (desktop).
+# Su mobile Streamlit impila naturalmente le due colonne.
+# ============================================================================
+with st.container(key="peccioli_intro_compatto"):
+    col_intro_text, col_intro_btn = st.columns([3, 1], vertical_alignment="center")
+    with col_intro_text:
+        st.markdown(f"""
+        <div style="background:{BRAND_BLUE_LIGHT};border-radius:14px;padding:0.75rem 1.05rem;border-left:3px solid {BRAND_YELLOW};">
+            <p style="font-size:0.85rem;color:{BRAND_BLUE};line-height:1.5;margin:0;font-style:italic;">
+                <strong style="font-style:normal;">Peccioli Eyes</strong> è uno sguardo che parte dal nostro piccolo territorio e si apre al mondo, mettendo al centro i giovani, la cultura e l'esperienza.
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+    with col_intro_btn:
+        if st.button("👁 Da dove viene?", key="btn_opera_ispira", use_container_width=True):
+            st.session_state.show_opera = True
+            st.rerun()
+
 
 # ============================================================================
 # ✈️ INFO DI VIAGGIO — SEZIONE IN EVIDENZA
@@ -1759,24 +1761,6 @@ if "show_opera" not in st.session_state:
 if st.session_state.show_opera:
     mostra_opera_ispira()
     st.session_state.show_opera = False
-
-# Contenitore "solo desktop" per il riquadro intro + bottone opera
-# Su mobile viene nascosto via CSS (.st-key-intro_peccioli_desktop) — su desktop resta.
-with st.container(key="intro_peccioli_desktop"):
-    st.markdown(f"""
-    <div style="background:{BRAND_BLUE_LIGHT};border-radius:18px;padding:1.1rem 1.3rem;margin:1rem 0 0.6rem;border-left:4px solid {BRAND_YELLOW};">
-        <p style="font-size:0.98rem;color:{BRAND_BLUE};line-height:1.65;margin:0;font-style:italic;">
-            <strong style="font-style:normal;">Peccioli Eyes</strong> è uno sguardo che parte dal nostro piccolo territorio e si apre al mondo, mettendo al centro i giovani, la cultura e l'esperienza.
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Bottone trigger del popup opera (discreto, vicino alla descrizione)
-    col_btn_left, col_btn_center, col_btn_right = st.columns([1, 2, 1])
-    with col_btn_center:
-        if st.button("👁  Da dove viene il nome \"Peccioli Eyes\"?", key="btn_opera_ispira", use_container_width=True):
-            st.session_state.show_opera = True
-            st.rerun()
 
 # Contenitore galleria "sguardi sulla città" — collassato su mobile via CSS (.st-key-galleria_nola)
 with st.container(key="galleria_nola"):
